@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>nmake /NOLOGO</NMakeBuildCommandLine>
-    <OutDir>$(SolutionDir)..\</OutDir>
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
     <TargetName>toolbox</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -123,6 +123,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib />
+    <PostBuildEvent>
+      <Command>copy /d /y "$(ProjectDir)include\*" "$(OutDir)include"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
