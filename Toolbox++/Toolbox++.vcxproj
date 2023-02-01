@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\calc.hpp" />
+    <ClInclude Include="include\matrix.hpp" />
+    <ClInclude Include="include\vector2.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\matrix.cpp" />
+    <ClCompile Include="src\vector2.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -151,13 +160,6 @@
       <Command>copy /d /y "$(ProjectDir)include\*" "$(OutDir)include"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\vector2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\calc.hpp" />
-    <ClInclude Include="include\vector2.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
