@@ -9,6 +9,8 @@ using namespace calc;
 
 int main()
 {
+    /*
+#pragma region Point2
     PRINT("Point2 :\n");
 
     Vector2 A(0.f, 0.f);
@@ -35,7 +37,11 @@ int main()
     PRINT(H);
     PRINT(I);
     PRINT(J);
+#pragma endregion
+    */
 
+    /*
+#pragma region Vector2
     PRINT("\nVector2 :\n");
 
     Vector2 a(2.f, 5.f);
@@ -84,6 +90,10 @@ int main()
 
     Vector2 K = A + ab;
     PRINT(K);
+#pragma endregion
+    */
+
+
 
     return 0;
 }
