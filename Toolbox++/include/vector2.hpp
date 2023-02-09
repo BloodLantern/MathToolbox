@@ -24,6 +24,7 @@ namespace calc
 		Vector2(const float xy);
 		Vector2(const float x, const float y);
 		Vector2(const Vector2& other);
+		constexpr Vector2(const std::initializer_list<float>& values);
 		/// @brief Constructs a Vector2 from 'p1' to 'p2'
 		Vector2(const Vector2& p1, const Vector2& p2);
 		~Vector2() {}

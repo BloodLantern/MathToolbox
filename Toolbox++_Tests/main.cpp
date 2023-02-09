@@ -2,6 +2,7 @@
 #include <numbers>
 
 #include "vector2.hpp"
+#include "matrix.hpp"
 
 #define PRINT(o) (std::cout << (o) << std::endl)
 
@@ -93,7 +94,9 @@ int main()
 #pragma endregion
     */
 
-
+    Matrix mat = {
+        { 1 }
+    };
 
     return 0;
 }

@@ -15,7 +15,7 @@ namespace calc
         Matrix(const size_t rows, const size_t cols, const float defaultValue = 0.f);
         Matrix(const Vector2 size, const float defaultValue = 0.f)
             : Matrix((size_t) size.x, (size_t) size.y, defaultValue) {}
-        Matrix(std::initializer_list<std::initializer_list<float>>);
+        constexpr Matrix(std::initializer_list<std::vector<float>>);
         Matrix(const Matrix& matrix);
 
         bool IsDiagonal() const;
@@ -23,9 +23,9 @@ namespace calc
         bool IsNull() const;
         bool IsSymmetric() const;
         bool IsAntisymmetric() const;
-        float GetTrace() const;
+        float Trace() const;
         Matrix SubMatrix(const size_t rowIndex, const size_t colIndex, const size_t rows, const size_t cols) const;
-        float GetDeterminant() const;
+        float Determinant() const;
 
         const std::vector<float>& operator[](const size_t row) const { return mData[row]; }
         std::vector<float>& operator[](const size_t row) { return mData[row]; }
@@ -43,6 +43,8 @@ namespace calc
     };
 
     Matrix Transpose(const Matrix& matrix);
+    Matrix Augmented(const Matrix& m1, const Matrix& m2);
+    Matrix GaussJordan(const Matrix& matrix);
 
     Matrix operator-(const Matrix& matrix);
     Matrix operator+(const Matrix& m1, const Matrix& m2);

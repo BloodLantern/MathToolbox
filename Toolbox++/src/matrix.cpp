@@ -7,10 +7,14 @@ namespace calc
     Matrix Matrix::Identity(const size_t rows, const size_t cols)
     {
         Matrix result(rows, cols);
-        for (size_t i = 0; i < rows; i++)
-            for (size_t j = 0; j < cols; j++)
-                if (i == j)
-                    result[i][j] = 1;
+        if (rows == cols)
+            for (size_t i = 0; i < rows; i++)
+                result[i][i] = 1;
+        else
+            for (size_t i = 0; i < rows; i++)
+                for (size_t j = 0; j < cols; j++)
+                    if (i == j)
+                        result[i][j] = 1;
         return result;
     }
 
@@ -32,9 +36,10 @@ namespace calc
         }
     }
 
-    Matrix::Matrix(std::initializer_list<std::initializer_list<float>> data)
+    Matrix::Matrix(std::initializer_list<std::vector<float>> data)
         : mData(data), mRows(mData.size()), mCols(mData[0].size())
     {
+        mIsSquare = mRows == mCols;
     }
 
     Matrix::Matrix(const Matrix &matrix)
@@ -110,7 +115,7 @@ namespace calc
         return true;
     }
 
-    float Matrix::GetTrace() const
+    float Matrix::Trace() const
     {
         float result = 0.f;
         for (size_t i = 0; i < mRows; i++)
@@ -133,12 +138,21 @@ namespace calc
         return result;
     }
 
-    float Matrix::GetDeterminant() const
+    float Matrix::Determinant() const
     {
-        float result = 0.f;
-        for (size_t i = 0; i < mRows; i++)
-            result += SubMatrix(i, 1, mRows - 1, mCols - 1).GetDeterminant();
-        return result;
+        assert(!mIsSquare && "Cannot calculate the determinant of a non-square matrix");
+
+        if (mRows == 2 && mCols == 2)
+        {
+            return mData[0][0] * mData[1][1] - mData[0][1] * mData[1][0];
+        }
+        else
+        {
+            float result = 0.f;
+            for (size_t i = 0; i < mRows; i++)
+                result += SubMatrix(i, 1, mRows - 1, mCols - 1).Determinant();
+            return result;
+        }
     }
 
     Matrix Transpose(const Matrix& matrix)
@@ -148,6 +162,35 @@ namespace calc
         for (size_t i = 0; i < rows; i++)
             for (size_t j = 0; j < cols; j++)
                 result[j][i] = matrix[i][j];
+        return result;
+    }
+
+    Matrix Augmented(const Matrix& m1, const Matrix& m2)
+    {
+        assert(m1.GetRows() == m2.GetRows() && "Cannot augment matrices of different sizes");
+        const size_t m1Rows = m1.GetRows(), m1Cols = m1.GetCols(),
+            m2Cols = m2.GetCols(),
+            resultCols = m1Cols + m2Cols;
+        Matrix result(m1Rows, resultCols);
+
+        for (size_t i = 0; i < m1Rows; i++)
+        {
+            for (size_t j = 0; j < m1Cols; j++)
+                result[i][j] = m1[i][j];
+            for (size_t j = m1Cols; j < resultCols; j++)
+                result[i][j] = m2[i][j];
+        }
+
+        return result;
+    }
+
+    Matrix GaussJordan(const Matrix &matrix)
+    {
+        const size_t rows = matrix.GetRows(), cols = matrix.GetCols();
+        Matrix result(rows, cols), identity = Matrix::Identity(rows, cols);
+
+        // TODO: Gauss jordan
+
         return result;
     }
 

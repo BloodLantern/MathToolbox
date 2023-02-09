@@ -1,5 +1,7 @@
 #include "vector2.hpp"
 
+#include <cassert>
+
 namespace calc
 {
 #pragma region defines
@@ -33,7 +35,14 @@ namespace calc
     {
 	}
 
-	Vector2::Vector2(const Vector2& p1, const Vector2& p2)
+    Vector2::Vector2(const std::initializer_list<float> &values)
+    {
+		assert(values.size() == 2 && "Cannot initialize Vector2 from initializer list with size != 2");
+		x = values.begin()[0];
+		y = values.begin()[1];
+    }
+
+    Vector2::Vector2(const Vector2& p1, const Vector2& p2)
 		: x(p2.x - p1.x), y(p2.y - p1.y)
 	{
 	}
