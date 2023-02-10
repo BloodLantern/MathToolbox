@@ -95,8 +95,18 @@ int main()
     */
 
     Matrix mat = {
-        { 1 }
+        { 1, -1, 2 },
+        { 3, 2, 1 },
+        { 2, -3, -2 }
+    },
+        noir = {
+        { 5 },
+        { 10 },
+        { -10 }
     };
+
+    Matrix result = GaussJordan(mat, noir);
+    PRINT(result);
 
     return 0;
 }

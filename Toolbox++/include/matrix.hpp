@@ -15,8 +15,11 @@ namespace calc
         Matrix(const size_t rows, const size_t cols, const float defaultValue = 0.f);
         Matrix(const Vector2 size, const float defaultValue = 0.f)
             : Matrix((size_t) size.x, (size_t) size.y, defaultValue) {}
-        constexpr Matrix(std::initializer_list<std::vector<float>>);
         Matrix(const Matrix& matrix);
+        constexpr Matrix(const std::initializer_list<std::vector<float>> data)
+            : mData(data), mRows(data.size()), mCols(data.begin()[0].size()) { mIsSquare = mRows == mCols; }
+
+        
 
         bool IsDiagonal() const;
         bool IsIdentity() const;
@@ -44,11 +47,15 @@ namespace calc
 
     Matrix Transpose(const Matrix& matrix);
     Matrix Augmented(const Matrix& m1, const Matrix& m2);
+    Matrix GaussJordan(const Matrix& m1, const Matrix& m2);
     Matrix GaussJordan(const Matrix& matrix);
+    Matrix Inverse(const Matrix& matrix);
 
     Matrix operator-(const Matrix& matrix);
     Matrix operator+(const Matrix& m1, const Matrix& m2);
     Matrix operator-(const Matrix& m1, const Matrix& m2);
     Matrix operator*(const Matrix& m, const float scalar);
     Matrix operator*(const Matrix& m1, const Matrix& m2);
+
+	std::ostream& operator<<(std::ostream& out, const Matrix& m);
 }

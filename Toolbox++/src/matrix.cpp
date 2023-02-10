@@ -36,12 +36,6 @@ namespace calc
         }
     }
 
-    Matrix::Matrix(std::initializer_list<std::vector<float>> data)
-        : mData(data), mRows(mData.size()), mCols(mData[0].size())
-    {
-        mIsSquare = mRows == mCols;
-    }
-
     Matrix::Matrix(const Matrix &matrix)
         : mRows(matrix.mRows), mCols(matrix.mCols), mIsSquare(matrix.mIsSquare)
     {
@@ -177,8 +171,65 @@ namespace calc
         {
             for (size_t j = 0; j < m1Cols; j++)
                 result[i][j] = m1[i][j];
-            for (size_t j = m1Cols; j < resultCols; j++)
-                result[i][j] = m2[i][j];
+            for (size_t j = 0; j < m2Cols; j++)
+                result[i][m1Cols + j] = m2[i][j];
+        }
+
+        return result;
+    }
+
+    Matrix GaussJordan(const Matrix &m1, const Matrix &m2)
+    {
+        const size_t rows = m1.GetRows(),
+            m1Cols = m1.GetCols(), m2Cols = m2.GetCols(),
+            resultCols = m1Cols + m2Cols;
+        Matrix result = Augmented(m1, m2);
+        
+        // Last pivot rank
+        size_t r = 0;
+        // j is the current column
+        for (size_t j = 0; j < resultCols; j++)
+        {
+            // Max value row index
+            size_t k = 0;
+            {
+                float maxValue = 0;
+                for (size_t i = 0; i < rows; i++)
+                {
+                    float value = std::abs(result[i][j]);
+                    if (value == 1)
+                    {
+                        k = i;
+                        break;
+                    }
+
+                    if (value > maxValue)
+                    {
+                        maxValue = value;
+                        k = i;
+                    }
+                }
+            }
+
+            float value = result[k][j];
+            if (value != 0)
+            {
+                // r is the next pivot row index
+                r++;
+                // Normalize the pivot's row
+                for (size_t i = 0; i < rows; i++)
+                    result[i][j] /= value;
+                
+                if (k != r)
+                    // Swap k and r rows
+                    for (size_t i = 0; i < resultCols; i++)
+                        std::swap(result[k][i], result[r][i]);
+
+                for (size_t i = 0; i < rows; i++)
+                    if (i != r)
+                        for (size_t col = 0; col < resultCols; col++)
+                            result[i][col] -= result[r][col] * result[i][j];
+            }
         }
 
         return result;
@@ -186,12 +237,13 @@ namespace calc
 
     Matrix GaussJordan(const Matrix &matrix)
     {
-        const size_t rows = matrix.GetRows(), cols = matrix.GetCols();
-        Matrix result(rows, cols), identity = Matrix::Identity(rows, cols);
+        return GaussJordan(matrix, Matrix::Identity(matrix.GetRows(), matrix.GetCols()));
+    }
 
-        // TODO: Gauss jordan
-
-        return result;
+    Matrix Inverse(const Matrix &matrix)
+    {
+        // Get the non-identity half of the resulting matrix
+        return GaussJordan(matrix).SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols() * 2);
     }
 
     Matrix operator-(const Matrix& matrix)
@@ -246,5 +298,23 @@ namespace calc
             for (size_t j = 0; j < size.y; j++)
                 result[i][j] = m1[i][j] * m2[i][j];
         return result;
+    }
+    std::ostream &operator<<(std::ostream &out, const Matrix &m)
+    {
+        out << "{ ";
+        for (size_t i = 0; i < m.GetRows(); i++)
+        {
+            out << "{ ";
+            for (size_t j = 0; j < m.GetCols(); j++)
+            {
+                out << m[i][j];
+                if (j != m.GetCols())
+                    out << ", ";
+                else
+                    out << " ";
+            }
+            out << "}";
+        }
+        return out << "}";
     }
 }
