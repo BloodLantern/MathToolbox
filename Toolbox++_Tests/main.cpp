@@ -6,8 +6,6 @@
 
 #define PRINT(o) (std::cout << (o) << std::endl)
 
-using namespace calc;
-
 int main()
 {
     /*
@@ -94,28 +92,14 @@ int main()
 #pragma endregion
     */
 
-    Matrix m = {
-        { 5, 1, 8, 5 },
-        { 0, 3, 1, 7 },
-        { 5, 2, 6, 4 },
-        { 1, 3, 2, 5 }
-    };
-
     Matrix mat = {
         { 1, -1, 2 },
         { 3, 2, 1 },
         { 2, -3, -2 }
-    }/*,
-        mat2 = {
-        { 5 },
-        { 10 },
-        { -10 }
-    }*/;
+    };
 
     //Matrix result = GaussJordan(mat/*, mat2*/);
-    PRINT(m.Determinant());
-
-    while (true);
+    PRINT(mat.Determinant());
 
     return 0;
 }

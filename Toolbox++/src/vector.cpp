@@ -46,23 +46,23 @@ Vector::Vector(const Vector& p1, const Vector& p2)
 #pragma endregion
 
 #pragma region functions
-float Vector::GetNorm() const
+float Vector::Norm() const
 {
     return sqrt(x * x + y * y);
 }
 
-float Vector::GetSquaredNorm() const
+float Vector::SquaredNorm() const
 {
     return x * x + y * y;
 }
 
 Vector Vector::Normalize() const
 {
-    float norm = GetNorm();
+    float norm = Norm();
     return Vector(x / norm, y / norm);
 }
 
-Vector Vector::GetNormal() const
+Vector Vector::Normal() const
 {
     return Vector(y, -x).Normalize();
 }
@@ -84,7 +84,7 @@ float Angle(const Vector a, const Vector b)
 {
     float dotProduct = DotProduct(a, b);
     float angle = acosf(
-        dotProduct / (a.GetNorm() * b.GetNorm())
+        dotProduct / (a.Norm() * b.Norm())
     );
 
     if (Determinant(a, b) < 0)

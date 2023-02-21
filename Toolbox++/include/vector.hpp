@@ -21,15 +21,15 @@ public:
     ~Vector() {}
 
     /// @brief Returns the length of the vector.
-    float GetNorm() const;
+    float Norm() const;
     /// @brief Returns the squared length of the vector.
-    float GetSquaredNorm() const;
+    float SquaredNorm() const;
     /// @brief Normalizes the vector.
     /// @return A vector with the same direction but a length of one.
     Vector Normalize() const;
     /// @brief Returns the normal vector to this one.
     /// @return A vector with the same length but a normal direction.
-    Vector GetNormal() const;
+    Vector Normal() const;
     /// @brief Returns the angle between the beginning and the end of this vector.
     /// @return An angle in radians.
     float Angle() const;
