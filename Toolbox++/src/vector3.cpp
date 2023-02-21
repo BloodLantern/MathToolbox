@@ -27,6 +27,21 @@ Vector3 Vector3::Normalize() const
 	return Vector3(x / norm, y / norm, z / norm);
 }
 
+Vector3 Vector3::Rotate(const float angle, const Vector3 center, const Vector3 axis) const
+{
+    return Vector3();
+}
+
+Vector3 Vector3::Rotate(const Vector3 axis, const float cos, const float sin) const
+{
+    return Vector3();
+}
+
+Vector3 Vector3::Rotate(const Vector3 center, const Vector3 axis, const float cos, const float sin) const
+{
+    return Vector3();
+}
+
 float Vector3::Angle(const Vector3& a, const Vector3& b)
 {
 	float dotProduct = DotProduct(a, b);
@@ -46,15 +61,6 @@ float Vector3::DotProduct(const Vector3& a, const Vector3& b)
 Vector3 Vector3::CrossProduct(const Vector3& a, const Vector3& b)
 {
 	return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
-}
-
-float Vector3::Determinant(const Vector3& a, const Vector3& b)
-{
-	return Vector3(
-		a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x
-	);
 }
 #pragma endregion
 

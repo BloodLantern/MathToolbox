@@ -27,46 +27,46 @@ public:
 	~Vector2() {}
 
 	/// @brief Returns the length of the vector.
-	float Norm() const;
+	[[nodiscard]] float Norm() const;
 	/// @brief Returns the squared length of the vector.
-	float SquaredNorm() const;
+	[[nodiscard]] float SquaredNorm() const;
 	/// @brief Normalizes the vector.
 	/// @return A vector with the same direction but a length of one.
-	Vector2 Normalize() const;
+	[[nodiscard]] Vector2 Normalize() const;
 	/// @brief Returns the normal vector to this one.
 	/// @return A vector with the same length but a normal direction.
-	Vector2 Normal() const;
+	[[nodiscard]] Vector2 Normal() const;
 	/// @brief Returns the angle between the beginning and the end of this vector.
 	/// @return An angle in radians.
-	float Angle() const;
+	[[nodiscard]] float Angle() const;
 	/// @brief Rotates the vector by the specified angle.
 	/// @param angle The angle in radians.
-	Vector2 Rotate(const float angle) const;
+	[[nodiscard]] Vector2 Rotate(const float angle) const;
 	/// @brief Rotates the vector by the specified angle around a center.
 	/// @param angle The angle in radians.
-	Vector2 Rotate(const float angle, const Vector2 center) const;
-	Vector2 Rotate(const float cos, const float sin) const;
-	Vector2 Rotate(const Vector2 center, const float cos, const float sin) const;
+	[[nodiscard]] Vector2 Rotate(const float angle, const Vector2 center) const;
+	[[nodiscard]] Vector2 Rotate(const float cos, const float sin) const;
+	[[nodiscard]] Vector2 Rotate(const Vector2 center, const float cos, const float sin) const;
 
 	/// @brief Returns the angle between 'a' and 'b'.
-	static float Angle(const Vector2 a, const Vector2 b);
+	[[nodiscard]] static float Angle(const Vector2 a, const Vector2 b);
 	/// @brief Returns a · b.
-	static float DotProduct(const Vector2 a, const Vector2 b);
+	[[nodiscard]] static float DotProduct(const Vector2 a, const Vector2 b);
 	/// @brief Returns a x b.
-	static float CrossProduct(const Vector2 a, const Vector2 b);
+	[[nodiscard]] static float CrossProduct(const Vector2 a, const Vector2 b);
 	/// @brief Returns the determinant of 'a' and 'b'.
-	static float Determinant(const Vector2 a, const Vector2 b);
+	[[nodiscard]] static float Determinant(const Vector2 a, const Vector2 b);
 
-	friend auto operator<=>(const Vector2& a, const Vector2& b) = default;
+	[[nodiscard]] friend auto operator<=>(const Vector2& a, const Vector2& b) = default;
 };
 
-Vector2 operator+(const Vector2 a, const Vector2 b);
-Vector2 operator-(const Vector2 a, const Vector2 b);
-Vector2 operator-(const Vector2 a);
-Vector2 operator*(const Vector2 a, const Vector2 b);
-Vector2 operator*(const Vector2 v, const float factor);
-Vector2 operator/(const Vector2 a, const Vector2 b);
-Vector2 operator/(const Vector2 v, const float factor);
+[[nodiscard]] Vector2 operator+(const Vector2 a, const Vector2 b);
+[[nodiscard]] Vector2 operator-(const Vector2 a, const Vector2 b);
+[[nodiscard]] Vector2 operator-(const Vector2 a);
+[[nodiscard]] Vector2 operator*(const Vector2 a, const Vector2 b);
+[[nodiscard]] Vector2 operator*(const Vector2 v, const float factor);
+[[nodiscard]] Vector2 operator/(const Vector2 a, const Vector2 b);
+[[nodiscard]] Vector2 operator/(const Vector2 v, const float factor);
 
 Vector2& operator+=(Vector2& a, const Vector2 b);
 Vector2& operator+=(Vector2& v, const float factor);

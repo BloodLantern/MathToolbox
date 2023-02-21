@@ -28,32 +28,35 @@ public:
 	~Vector3() {}
 
 	/// @brief Returns the length of the vector.
-	float Norm() const;
+	[[nodiscard]] float Norm() const;
 	/// @brief Returns the squared length of the vector.
-	float SquaredNorm() const;
+	[[nodiscard]] float SquaredNorm() const;
 	/// @brief Normalizes the vector.
 	/// @return A vector with the same direction but a length of one.
-	Vector3 Normalize() const;
+	[[nodiscard]] Vector3 Normalize() const;
+	/// @brief Rotates the vector by the specified angle around a center.
+	/// @param angle The angle in radians.
+	[[nodiscard]] Vector3 Rotate(const float angle, const Vector3 center, const Vector3 axis) const;
+	[[nodiscard]] Vector3 Rotate(const Vector3 axis, const float cos, const float sin) const;
+	[[nodiscard]] Vector3 Rotate(const Vector3 center, const Vector3 axis, const float cos, const float sin) const;
 
 	/// @brief Returns the angle between 'a' and 'b'.
-	static float Angle(const Vector3& a, const Vector3& b);
+	[[nodiscard]] static float Angle(const Vector3& a, const Vector3& b);
 	/// @brief Returns a · b.
-	static float DotProduct(const Vector3& a, const Vector3& b);
+	[[nodiscard]] static float DotProduct(const Vector3& a, const Vector3& b);
 	/// @brief Returns a x b.
-	static Vector3 CrossProduct(const Vector3& a, const Vector3& b);
-	/// @brief Returns the determinant of 'a' and 'b'.
-	static float Determinant(const Vector3& a, const Vector3& b);
+	[[nodiscard]] static Vector3 CrossProduct(const Vector3& a, const Vector3& b);
 
-	friend auto operator<=>(const Vector3& a, const Vector3& b) = default;
+	[[nodiscard]] friend auto operator<=>(const Vector3& a, const Vector3& b) = default;
 };
 
-Vector3 operator+(const Vector3& a, const Vector3& b);
-Vector3 operator-(const Vector3& a, const Vector3& b);
-Vector3 operator-(const Vector3& a);
-Vector3 operator*(const Vector3& a, const Vector3& b);
-Vector3 operator*(const Vector3& v, const float factor);
-Vector3 operator/(const Vector3& a, const Vector3& b);
-Vector3 operator/(const Vector3& v, const float factor);
+[[nodiscard]] Vector3 operator+(const Vector3& a, const Vector3& b);
+[[nodiscard]] Vector3 operator-(const Vector3& a, const Vector3& b);
+[[nodiscard]] Vector3 operator-(const Vector3& a);
+[[nodiscard]] Vector3 operator*(const Vector3& a, const Vector3& b);
+[[nodiscard]] Vector3 operator*(const Vector3& v, const float factor);
+[[nodiscard]] Vector3 operator/(const Vector3& a, const Vector3& b);
+[[nodiscard]] Vector3 operator/(const Vector3& v, const float factor);
 
 Vector3& operator+=(Vector3& a, const Vector3& b);
 Vector3& operator+=(Vector3& v, const float factor);
