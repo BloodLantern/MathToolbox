@@ -1,6 +1,7 @@
 #include "matrix.hpp"
 
 #include <cassert>
+#include <iostream>
 
 namespace calc
 {
@@ -123,18 +124,17 @@ namespace calc
         assert(rowIndex < mRows && colIndex < mCols && "Cannot submatrix out of bounds");
         assert(rows > 0 && cols > 0 && "Cannot submatrix of size 0");
 
-        const size_t rowCount = rowIndex + rows, colCount = colIndex + cols;
-        Matrix result(rowCount, colCount);
+        Matrix result(rows, cols);
 
-        for (size_t i = 0; i < rowCount; i++)
-            for (size_t j = 0; j < colCount; j++)
+        for (size_t i = 0; i < rows; i++)
+            for (size_t j = 0; j < cols; j++)
                 result[i][j] = mData[(rowIndex + i) % mRows][(colIndex + j) % mCols];
         return result;
     }
 
     float Matrix::Determinant() const
     {
-        assert(!mIsSquare && "Cannot calculate the determinant of a non-square matrix");
+        assert(mIsSquare && "Cannot calculate the determinant of a non-square matrix");
 
         if (mRows == 2 && mCols == 2)
         {
@@ -180,21 +180,24 @@ namespace calc
 
     Matrix GaussJordan(const Matrix &m1, const Matrix &m2)
     {
-        const size_t rows = m1.GetRows(),
-            m1Cols = m1.GetCols(), m2Cols = m2.GetCols(),
-            resultCols = m1Cols + m2Cols;
+        const size_t rows = m1.GetRows(), resultCols = m1.GetCols() + m2.GetCols();
         Matrix result = Augmented(m1, m2);
+        std::cout << "m1: " << m1 << std::endl;
+        std::cout << "m2: " << m2 << std::endl;
         
         // Last pivot rank
-        size_t r = 0;
+        size_t r = (size_t) -1;
         // j is the current column
         for (size_t j = 0; j < resultCols; j++)
         {
+            std::cout << "j = " << j << std::endl;
+            std::cout << "r = " << r << std::endl;
+            std::cout << "result1: " << result << std::endl;
             // Max value row index
             size_t k = 0;
             {
                 float maxValue = 0;
-                for (size_t i = 0; i < rows; i++)
+                for (size_t i = r + 1; i < rows; i++)
                 {
                     float value = std::abs(result[i][j]);
                     if (value == 1)
@@ -217,19 +220,25 @@ namespace calc
                 // r is the next pivot row index
                 r++;
                 // Normalize the pivot's row
-                for (size_t i = 0; i < rows; i++)
-                    result[i][j] /= value;
-                
+                for (size_t i = 0; i < resultCols; i++)
+                    result[k][i] /= value;
+                std::cout << "result2: " << result << std::endl;
+
                 if (k != r)
                     // Swap k and r rows
                     for (size_t i = 0; i < resultCols; i++)
                         std::swap(result[k][i], result[r][i]);
+                std::cout << "result3: " << result << std::endl;
 
                 for (size_t i = 0; i < rows; i++)
                     if (i != r)
                         for (size_t col = 0; col < resultCols; col++)
                             result[i][col] -= result[r][col] * result[i][j];
+                std::cout << "result4: " << result << std::endl;
             }
+
+            if (r == rows - 1)
+                break;
         }
 
         return result;
@@ -269,14 +278,7 @@ namespace calc
 
     Matrix operator-(const Matrix &m1, const Matrix &m2)
     {
-        const Vector2& size = m1.GetSize();
-        assert(size == m2.GetSize() && "Cannot substract matrices of different sizes");
-
-        Matrix result(size);
-        for (size_t i = 0; i < size.x; i++)
-            for (size_t j = 0; j < size.y; j++)
-                result[i][j] = m1[i][j] - m2[i][j];
-        return result;
+        return m1 + (-m2);
     }
 
     Matrix operator*(const Matrix &m, const float scalar)
@@ -304,17 +306,19 @@ namespace calc
         out << "{ ";
         for (size_t i = 0; i < m.GetRows(); i++)
         {
-            out << "{ ";
+            out << "\n  { ";
             for (size_t j = 0; j < m.GetCols(); j++)
             {
-                out << m[i][j];
-                if (j != m.GetCols())
+                char buffer[10];
+                sprintf_s(buffer, sizeof(buffer), "%6.3f", m[i][j]);
+                out << buffer;
+                if (j != m.GetCols() - 1)
                     out << ", ";
                 else
                     out << " ";
             }
             out << "}";
         }
-        return out << "}";
+        return out << "\n}";
     }
 }

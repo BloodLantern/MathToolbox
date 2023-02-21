@@ -12,14 +12,12 @@ namespace calc
 
         /// @brief Creates a 1x1 null matrix
         Matrix() : Matrix(1, 1) {};
-        Matrix(const size_t rows, const size_t cols, const float defaultValue = 0.f);
+        Matrix(const size_t rows, const size_t cols = 1, const float defaultValue = 0.f);
         Matrix(const Vector2 size, const float defaultValue = 0.f)
             : Matrix((size_t) size.x, (size_t) size.y, defaultValue) {}
         Matrix(const Matrix& matrix);
         constexpr Matrix(const std::initializer_list<std::vector<float>> data)
             : mData(data), mRows(data.size()), mCols(data.begin()[0].size()) { mIsSquare = mRows == mCols; }
-
-        
 
         bool IsDiagonal() const;
         bool IsIdentity() const;
@@ -45,11 +43,11 @@ namespace calc
         bool mIsSquare;
     };
 
-    Matrix Transpose(const Matrix& matrix);
-    Matrix Augmented(const Matrix& m1, const Matrix& m2);
-    Matrix GaussJordan(const Matrix& m1, const Matrix& m2);
-    Matrix GaussJordan(const Matrix& matrix);
-    Matrix Inverse(const Matrix& matrix);
+    extern Matrix Transpose(const Matrix& matrix);
+    extern Matrix Augmented(const Matrix& m1, const Matrix& m2);
+    extern Matrix GaussJordan(const Matrix& m1, const Matrix& m2);
+    extern Matrix GaussJordan(const Matrix& matrix);
+    extern Matrix Inverse(const Matrix& matrix);
 
     Matrix operator-(const Matrix& matrix);
     Matrix operator+(const Matrix& m1, const Matrix& m2);
