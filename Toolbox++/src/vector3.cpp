@@ -27,30 +27,29 @@ Vector3 Vector3::Normalize() const
 	return Vector3(x / norm, y / norm, z / norm);
 }
 
-Vector3 Vector3::Rotate(const float angle, const Vector3 center, const Vector3 axis) const
+Vector3 Vector3::Rotate(const float angle, const Vector3 &axis) const
+{
+    return Matrix::RotationMatrix3D(angle, axis) * (*this);
+}
+
+Vector3 Vector3::Rotate(const float, const Vector3&, const Vector3&) const
 {
     return Vector3();
 }
 
-Vector3 Vector3::Rotate(const Vector3 axis, const float cos, const float sin) const
+Vector3 Vector3::Rotate(const Vector3&, const float, const float) const
 {
     return Vector3();
 }
 
-Vector3 Vector3::Rotate(const Vector3 center, const Vector3 axis, const float cos, const float sin) const
+Vector3 Vector3::Rotate(const Vector3&, const Vector3&, const float, const float) const
 {
     return Vector3();
 }
 
 float Vector3::Angle(const Vector3& a, const Vector3& b)
 {
-	float dotProduct = DotProduct(a, b);
-	float angle = std::acos(dotProduct / (a.Norm() * b.Norm()));
-
-	if (Determinant(a, b) < 0)
-		angle = -angle;
-
-	return angle;
+	return std::acos(DotProduct(a, b) / (a.Norm() * b.Norm()));
 }
 
 float Vector3::DotProduct(const Vector3& a, const Vector3& b)
@@ -65,6 +64,22 @@ Vector3 Vector3::CrossProduct(const Vector3& a, const Vector3& b)
 #pragma endregion
 
 #pragma region operators
+
+float Vector3::operator[](const size_t i) const
+{
+	assert(i >= 0 && i < 3 && "Vector 3 subscript out of range");
+
+	return *(&x + i);
+}
+
+float& Vector3::operator[](const size_t i)
+{
+	assert(i >= 0 && i < 3 && "Vector 3 subscript out of range");
+
+	return *(&x + i);
+}
+
+
 Vector3 operator+(const Vector3& a, const Vector3& b)
 {
 	return Vector3(a.x + b.x, a.y + b.y);

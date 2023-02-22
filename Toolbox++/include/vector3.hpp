@@ -36,9 +36,10 @@ public:
 	[[nodiscard]] Vector3 Normalize() const;
 	/// @brief Rotates the vector by the specified angle around a center.
 	/// @param angle The angle in radians.
-	[[nodiscard]] Vector3 Rotate(const float angle, const Vector3 center, const Vector3 axis) const;
-	[[nodiscard]] Vector3 Rotate(const Vector3 axis, const float cos, const float sin) const;
-	[[nodiscard]] Vector3 Rotate(const Vector3 center, const Vector3 axis, const float cos, const float sin) const;
+	[[nodiscard]] Vector3 Rotate(const float angle, const Vector3& axis) const;
+	[[nodiscard]] Vector3 Rotate(const float angle, const Vector3& center, const Vector3& axis) const;
+	[[nodiscard]] Vector3 Rotate(const Vector3& axis, const float cos, const float sin) const;
+	[[nodiscard]] Vector3 Rotate(const Vector3& center, const Vector3& axis, const float cos, const float sin) const;
 
 	/// @brief Returns the angle between 'a' and 'b'.
 	[[nodiscard]] static float Angle(const Vector3& a, const Vector3& b);
@@ -46,6 +47,10 @@ public:
 	[[nodiscard]] static float DotProduct(const Vector3& a, const Vector3& b);
 	/// @brief Returns a x b.
 	[[nodiscard]] static Vector3 CrossProduct(const Vector3& a, const Vector3& b);
+
+	[[nodiscard]] float  operator[](const size_t i) const;
+	[[nodiscard]] float& operator[](const size_t i);
+    //operator Vector3();
 
 	[[nodiscard]] friend auto operator<=>(const Vector3& a, const Vector3& b) = default;
 };
