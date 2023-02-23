@@ -12,7 +12,7 @@ Vector3::Vector3(const Vector3& p1, const Vector3& p2)
 #pragma region functions
 float Vector3::Norm() const
 {
-	return sqrt(x * x + y * y + z * z);
+	return sqrt(SquaredNorm());
 }
 
 float Vector3::SquaredNorm() const
@@ -23,28 +23,30 @@ float Vector3::SquaredNorm() const
 Vector3 Vector3::Normalize() const
 {
 	float norm = Norm();
-	assert(norm != 0.f && "[Vector3::Normalize]: Length of vector is zero!");
+	assert(norm != 0.f && "Cannot normalize a zero vector");
+    __assume(norm != 0.f);
+
 	return Vector3(x / norm, y / norm, z / norm);
 }
 
 Vector3 Vector3::Rotate(const float angle, const Vector3 &axis) const
 {
-    return Matrix::RotationMatrix3D(angle, axis) * (*this);
+    return (Vector3) (Matrix::RotationMatrix3D(angle, axis) * (*this));
 }
 
-Vector3 Vector3::Rotate(const float, const Vector3&, const Vector3&) const
+Vector3 Vector3::Rotate(const float angle, const Vector3& axis, const Vector3& center) const
 {
-    return Vector3();
+    return (*this - center).Rotate(angle, axis);
 }
 
-Vector3 Vector3::Rotate(const Vector3&, const float, const float) const
+Vector3 Vector3::Rotate(const float cos, const float sin, const Vector3& axis) const
 {
-    return Vector3();
+    return (Vector3) (Matrix::RotationMatrix3D(cos, sin, axis) * (*this));
 }
 
-Vector3 Vector3::Rotate(const Vector3&, const Vector3&, const float, const float) const
+Vector3 Vector3::Rotate(const float cos, const float sin, const Vector3& axis, const Vector3& center) const
 {
-    return Vector3();
+    return (*this - center).Rotate(cos, sin, axis);
 }
 
 float Vector3::Angle(const Vector3& a, const Vector3& b)
@@ -67,18 +69,32 @@ Vector3 Vector3::CrossProduct(const Vector3& a, const Vector3& b)
 
 float Vector3::operator[](const size_t i) const
 {
-	assert(i >= 0 && i < 3 && "Vector 3 subscript out of range");
+	assert(i >= 0 && i < 3 && "Vector3 subscript out of range");
+    __assume(i >= 0 && i < 3);
 
 	return *(&x + i);
 }
 
 float& Vector3::operator[](const size_t i)
 {
-	assert(i >= 0 && i < 3 && "Vector 3 subscript out of range");
+	assert(i >= 0 && i < 3 && "Vector3 subscript out of range");
+    __assume(i >= 0 && i < 3);
 
 	return *(&x + i);
 }
 
+Vector3::operator Vector2() const
+{
+	return Vector2(x, y);
+}
+
+Vector3::operator Matrix() const
+{
+	Matrix result(3);
+	for (size_t i = 0; i < 3; i++)
+		result[i] = operator[](i);
+	return result;
+}
 
 Vector3 operator+(const Vector3& a, const Vector3& b)
 {
@@ -173,6 +189,13 @@ Vector3& operator/=(Vector3& v, const float factor)
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v)
 {
-	return out << "{ " << v.x << " ; " << v.y << " }";
+	char buffer[10];
+	out << "[ ";
+	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
+	out << buffer << ", ";
+	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);
+	out << buffer << ", ";
+	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.z);
+	return out << buffer << " ]";
 }
 #pragma endregion

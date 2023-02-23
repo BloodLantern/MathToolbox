@@ -1,5 +1,7 @@
 #include "vector2.hpp"
 
+#include "matrix.hpp"
+
 #define SQ(var) ((var) * (var))
 
 Vector2::Vector2(const Vector2 p1, const Vector2 p2)
@@ -10,7 +12,7 @@ Vector2::Vector2(const Vector2 p1, const Vector2 p2)
 #pragma region functions
 float Vector2::Norm() const
 {
-	return sqrt(x * x + y * y);
+	return sqrt(SquaredNorm());
 }
 
 float Vector2::SquaredNorm() const
@@ -21,7 +23,9 @@ float Vector2::SquaredNorm() const
 Vector2 Vector2::Normalize() const
 {
 	float norm = Norm();
-	assert(norm != 0.f && "[Vector2::Normalize]: Length of vector is zero!");
+	assert(norm != 0.f && "Cannot normalize a zero vector");
+    __assume(norm != 0.f);
+
 	return Vector2(x / norm, y / norm);
 }
 
@@ -89,6 +93,36 @@ float Vector2::Determinant(const Vector2 a, const Vector2 b)
 #pragma endregion
 
 #pragma region operators
+float Vector2::operator[](const size_t i) const
+{
+	assert(i >= 0 && i < 2 && "Vector2 subscript out of range");
+    __assume(i >= 0 && i < 2);
+
+    return *(&x + i);
+}
+
+float &Vector2::operator[](const size_t i)
+{
+    
+	assert(i >= 0 && i < 2 && "Vector2 subscript out of range");
+    __assume(i >= 0 && i < 2);
+
+    return *(&x + i);
+}
+
+Vector2::operator Vector3() const
+{
+	return Vector3(x, y, 0);
+}
+
+Vector2::operator Matrix() const
+{
+	Matrix result(2);
+	for (size_t i = 0; i < 2; i++)
+		result[i] = operator[](i);
+	return result;
+}
+
 Vector2 operator+(const Vector2 a, const Vector2 b)
 {
 	return Vector2(a.x + b.x, a.y + b.y);
@@ -182,6 +216,11 @@ Vector2& operator/=(Vector2& v, const float factor)
 
 std::ostream& operator<<(std::ostream& out, const Vector2 v)
 {
-	return out << "{ " << v.x << " ; " << v.y << " }";
+	char buffer[10];
+	out << "[ ";
+	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
+	out << buffer << ", ";
+	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);
+	return out << buffer << " ]";
 }
 #pragma endregion

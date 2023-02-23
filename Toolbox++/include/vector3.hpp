@@ -4,7 +4,10 @@
 #include <compare>
 #include <cassert>
 
-/// @brief The Vector3 class represents either a two-dimensional vector or a point.
+class Vector2;
+class Matrix;
+
+/// @brief The Vector3 class represents either a three-dimensional vector or a point.
 class Vector3
 {
 public:
@@ -25,43 +28,72 @@ public:
 	}
 	/// @brief Constructs a Vector3 from point 'p1' to point 'p2'
 	Vector3(const Vector3& p1, const Vector3& p2);
-	~Vector3() {}
 
 	/// @brief Returns the length of the vector.
-	[[nodiscard]] float Norm() const;
+	[[nodiscard]]
+	float Norm() const;
 	/// @brief Returns the squared length of the vector.
-	[[nodiscard]] float SquaredNorm() const;
+	[[nodiscard]]
+	float SquaredNorm() const;
 	/// @brief Normalizes the vector.
 	/// @return A vector with the same direction but a length of one.
-	[[nodiscard]] Vector3 Normalize() const;
-	/// @brief Rotates the vector by the specified angle around a center.
+	[[nodiscard]]
+	Vector3 Normalize() const;
+	/// @brief Rotates the vector by the specified angle around an axis.
 	/// @param angle The angle in radians.
-	[[nodiscard]] Vector3 Rotate(const float angle, const Vector3& axis) const;
-	[[nodiscard]] Vector3 Rotate(const float angle, const Vector3& center, const Vector3& axis) const;
-	[[nodiscard]] Vector3 Rotate(const Vector3& axis, const float cos, const float sin) const;
-	[[nodiscard]] Vector3 Rotate(const Vector3& center, const Vector3& axis, const float cos, const float sin) const;
+	[[nodiscard]]
+	Vector3 Rotate(const float angle, const Vector3& axis) const;
+	/// @brief Rotates the vector by the specified angle around a center and an axis.
+	/// @param angle The angle in radians.
+	[[nodiscard]]
+	Vector3 Rotate(const float angle, const Vector3& center, const Vector3& axis) const;
+	/// @brief Rotates the vector by the specified cosine and sine around an axis.
+	/// @param cos The cosine of the angle in radians.
+	/// @param sin The sine of the angle in radians.
+	[[nodiscard]]
+	Vector3 Rotate(const float cos, const float sin, const Vector3& axis) const;
+	/// @brief Rotates the vector by the specified cosine and sine around a center and an axis.
+	/// @param cos The cosine of the angle in radians.
+	/// @param sin The sine of the angle in radians.
+	[[nodiscard]]
+	Vector3 Rotate(const float cos, const float sin, const Vector3& axis, const Vector3& center) const;
 
 	/// @brief Returns the angle between 'a' and 'b'.
-	[[nodiscard]] static float Angle(const Vector3& a, const Vector3& b);
+	[[nodiscard]]
+	static float Angle(const Vector3& a, const Vector3& b);
 	/// @brief Returns a · b.
-	[[nodiscard]] static float DotProduct(const Vector3& a, const Vector3& b);
+	[[nodiscard]]
+	static float DotProduct(const Vector3& a, const Vector3& b);
 	/// @brief Returns a x b.
-	[[nodiscard]] static Vector3 CrossProduct(const Vector3& a, const Vector3& b);
+	[[nodiscard]]
+	static Vector3 CrossProduct(const Vector3& a, const Vector3& b);
 
-	[[nodiscard]] float  operator[](const size_t i) const;
-	[[nodiscard]] float& operator[](const size_t i);
-    //operator Vector3();
+	[[nodiscard]]
+	float  operator[](const size_t i) const;
+	[[nodiscard]]
+	float& operator[](const size_t i);
+    explicit operator Vector2() const;
+    operator Matrix() const;
 
-	[[nodiscard]] friend auto operator<=>(const Vector3& a, const Vector3& b) = default;
+    // Automatically generates all comparison operators
+	[[nodiscard]]
+	friend auto operator<=>(const Vector3& a, const Vector3& b) = default;
 };
 
-[[nodiscard]] Vector3 operator+(const Vector3& a, const Vector3& b);
-[[nodiscard]] Vector3 operator-(const Vector3& a, const Vector3& b);
-[[nodiscard]] Vector3 operator-(const Vector3& a);
-[[nodiscard]] Vector3 operator*(const Vector3& a, const Vector3& b);
-[[nodiscard]] Vector3 operator*(const Vector3& v, const float factor);
-[[nodiscard]] Vector3 operator/(const Vector3& a, const Vector3& b);
-[[nodiscard]] Vector3 operator/(const Vector3& v, const float factor);
+[[nodiscard]]
+Vector3 operator+(const Vector3& a, const Vector3& b);
+[[nodiscard]]
+Vector3 operator-(const Vector3& a, const Vector3& b);
+[[nodiscard]]
+Vector3 operator-(const Vector3& a);
+[[nodiscard]]
+Vector3 operator*(const Vector3& a, const Vector3& b);
+[[nodiscard]]
+Vector3 operator*(const Vector3& v, const float factor);
+[[nodiscard]]
+Vector3 operator/(const Vector3& a, const Vector3& b);
+[[nodiscard]]
+Vector3 operator/(const Vector3& v, const float factor);
 
 Vector3& operator+=(Vector3& a, const Vector3& b);
 Vector3& operator+=(Vector3& v, const float factor);

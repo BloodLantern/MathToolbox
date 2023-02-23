@@ -4,13 +4,16 @@
 #include <cassert>
 #include <iostream>
 
+#define SQ(var) ((var) * (var))
+
+#pragma region constructors
 Matrix Matrix::Identity(const size_t rows, const size_t cols)
 {
     Matrix result(rows, cols);
-    if (rows == cols)
+    if (rows == cols) [[likely]]
         for (size_t i = 0; i < rows; i++)
             result[i][i] = 1;
-    else
+    else [[unlikely]]
         for (size_t i = 0; i < rows; i++)
             for (size_t j = 0; j < cols; j++)
                 if (i == j)
@@ -18,15 +21,21 @@ Matrix Matrix::Identity(const size_t rows, const size_t cols)
     return result;
 }
 
+Matrix Matrix::Identity(const Vector2 size)
+{
+    return Matrix::Identity((size_t) size.x, (size_t) size.y);
+}
+
 Matrix::Matrix(const size_t rows, const size_t cols, const float defaultValue)
     : mRows(rows), mCols(cols), mIsSquare(mRows == mCols)
 {
     assert(mRows > 0 && mCols > 0 && "Invalid matrix size");
+    __assume(mRows > 0 && mCols > 0);
 
     mData.resize(mRows);
     for (size_t i = 0; i < mRows; i++)
     {
-        mData[i].resize(mCols);
+        mData[i] = Vector(mCols);
         for (size_t j = 0; j < mCols; j++)
         {
             mData[i][j] = defaultValue;
@@ -40,14 +49,16 @@ Matrix::Matrix(const Matrix &matrix)
     mData.resize(mRows);
     for (size_t i = 0; i < mRows; i++)
     {
-        mData[i].resize(mCols);
+        mData[i] = Vector(mCols);
         for (size_t j = 0; j < mCols; j++)
         {
             mData[i][j] = matrix.mData[i][j];
         }
     }
 }
+#pragma endregion
 
+#pragma region functions
 bool Matrix::IsDiagonal() const
 {
     // A matrix can't be diagonal if it isn't a square matrix
@@ -107,11 +118,11 @@ bool Matrix::IsAntisymmetric() const
     return true;
 }
 
-Matrix Matrix::Diagonal() const
+Vector Matrix::Diagonal() const
 {
-    Matrix result(std::min(mRows, mCols));
+    Vector result(std::min(mRows, mCols));
     for (size_t i = 0; i < std::min(mRows, mCols); i++)
-        result[i][0] = mData[i][i];
+        result[i] = mData[i][i];
     return result;
 }
 
@@ -128,6 +139,9 @@ Matrix Matrix::SubMatrix(const size_t rowIndex, const size_t colIndex, const siz
     assert(rowIndex < mRows && colIndex < mCols && "Cannot submatrix out of bounds");
     assert(rows > 0 && cols > 0 && "Cannot submatrix of size 0");
     assert(colIndex + cols >= mCols && "Cannot overflow submatrix columns");
+    __assume(rowIndex < mRows && colIndex < mCols);
+    __assume(rows > 0 && cols > 0);
+    __assume(colIndex + cols >= mCols);
 
     Matrix result(rows, cols);
     size_t overflow = rowIndex + rows - mRows;
@@ -146,6 +160,7 @@ Matrix Matrix::SubMatrix(const size_t rowIndex, const size_t colIndex, const siz
 float Matrix::Determinant() const
 {
     assert(mIsSquare && "Cannot calculate the determinant of a non-square matrix");
+    __assume(mIsSquare && mRows == mCols);
 
     if (mRows == 2 && mCols == 2)
     {
@@ -164,40 +179,24 @@ float Matrix::Determinant() const
     }
 }
 
-Matrix &Matrix::Transpose()
+Matrix &Matrix::Transpose(this Matrix& self)
 {
-    return *this = Matrix::Transpose(*this);
+    return self = Matrix::Transpose(self);
 }
 
-Matrix &Matrix::Augmented(const Matrix &other)
+Matrix &Matrix::Augmented(this Matrix& self, const Matrix &other)
 {
-    return *this = Matrix::Augmented(*this, other);
+    return self = Matrix::Augmented(self, other);
 }
 
-Matrix &Matrix::operator=(const Matrix &matrix)
+Matrix &Matrix::GaussJordan(this Matrix& self)
 {
-    std::memcpy(this, &matrix, sizeof(Matrix));
-    return *this;
+    return self = Matrix::GaussJordan(self);
 }
 
-Matrix::operator Vector2()
+Matrix &Matrix::Inverse(this Matrix& self)
 {
-    assert((mRows == 2 && mCols == 1) || (mRows == 1 && mCols == 2) && "Matrix must be 3x1 or 1x3 for a cast to Vector3");
-
-    if (mRows == 2)
-        return { mData[0][0], mData[0][1] };
-    else
-        return { mData[0][0], mData[1][0] };
-}
-
-Matrix::operator Vector3()
-{
-    assert((mRows == 3 && mCols == 1) || (mRows == 1 && mCols == 3) && "Matrix must be 3x1 or 1x3 for a cast to Vector3");
-
-    if (mRows == 3)
-        return { mData[0][0], mData[0][1], mData[0][2] };
-    else
-        return { mData[0][0], mData[1][0], mData[2][0] };
+    return self = Matrix::Inverse(self);
 }
 
 Matrix Matrix::Transpose(const Matrix& matrix)
@@ -213,6 +212,8 @@ Matrix Matrix::Transpose(const Matrix& matrix)
 Matrix Matrix::Augmented(const Matrix& m1, const Matrix& m2)
 {
     assert(m1.GetRows() == m2.GetRows() && "Cannot augment matrices of different sizes");
+    __assume(m1.GetRows() == m2.GetRows());
+
     const size_t m1Rows = m1.GetRows(), m1Cols = m1.GetCols(),
         m2Cols = m2.GetCols(),
         resultCols = m1Cols + m2Cols;
@@ -300,38 +301,32 @@ Matrix Matrix::Inverse(const Matrix &matrix)
 
 Matrix Matrix::RotationMatrix2D(const float angle)
 {
-    const float c = std::cos(angle);
-    const float s = std::sin(angle);
+    return RotationMatrix2D(std::cos(angle), std::sin(angle));
+}
 
+Matrix Matrix::RotationMatrix2D(const float cos, const float sin)
+{
     return {
-        { c, -s,  0 },
-        { s,  c,  0 },
+        { cos, -sin,  0 },
+        { sin,  cos,  0 },
         { 0,  0,  1 }
     };
 }
 
-Matrix Matrix::RotationMatrix3D(const float angle, const Vector3&)
+Matrix Matrix::RotationMatrix3D(const float angle, const Vector3& axis)
 {
-    const float c = std::cos(angle);
-    const float s = std::sin(angle);
-    // FIXME: Use the rotation axis
-    Matrix result = {
-        { c, -s,  0 },
-        { s,  c,  0 },
-        { 0,  0,  1 }
-    };
-    result *= {
-        { c,  0,  s },
-        { 0,  1,  0 },
-        { -s, 0,  c }
-    };
-    result *= {
-        { c, -s,  0 },
-        { s,  c,  0 },
-        { 0,  0,  1 }
-    };
+    return RotationMatrix3D(std::cos(angle), std::sin(angle), axis);
+}
 
-    return result;
+Matrix Matrix::RotationMatrix3D(const float cos, const float sin, const Vector3 &axis)
+{
+    const float c2 = 1 - cos;
+
+    return {
+        { SQ(axis.x) * c2 + cos, axis.y * axis.x * c2 - axis.z * sin, axis.z * axis.x * c2 + axis.y * sin },
+        { axis.x * axis.y * c2 - axis.z * sin, SQ(axis.y) * c2 + cos, axis.z * axis.y * c2 - axis.x * sin },
+        { axis.x * axis.z * c2 - axis.y * sin, axis.y * axis.z * c2 + axis.x * sin, SQ(axis.z) * c2 + cos }
+    };
 }
 
 Matrix Matrix::ScalingMatrix2D(const Vector2 scale)
@@ -356,6 +351,7 @@ Matrix Matrix::ScalingMatrix3D(const Vector3 &scale)
 Matrix Matrix::TRS(const Vector3& translation, const Matrix& rotation, const Vector3& scale)
 {
     assert(rotation.GetRows() == 3 && rotation.GetCols() == 3 && "Rotation must be a 3x3 matrix");
+    __assume(rotation.GetRows() == 3 && rotation.GetCols() == 3);
 
     Matrix result = Matrix::Identity(4, 4);
 
@@ -364,14 +360,60 @@ Matrix Matrix::TRS(const Vector3& translation, const Matrix& rotation, const Vec
     result[2][3] = translation.z;
 
     for (size_t i = 0; i < 3; i++)
-    {
         for (size_t j = 0; j < 3; j++)
         {
             result[i][j] = rotation[i][j];
             if (i == j)
                 result[i][j] *= scale[i];
         }
-    }
+
+    return result;
+}
+#pragma endregion
+
+#pragma region operators
+Matrix &Matrix::operator=(const Matrix &matrix)
+{
+    std::memcpy(this, &matrix, sizeof(Matrix));
+    return *this;
+}
+
+Matrix::operator Vector2() const
+{
+    assert((mRows == 2 && mCols == 1) || (mRows == 1 && mCols == 2) && "Matrix must be 2x1 or 1x2 for a cast to Vector2");
+    __assume((mRows == 2 && mCols == 1) || (mRows == 1 && mCols == 2));
+
+    if (mRows == 2)
+        return { mData[0][0], mData[1][0] };
+    else
+        return { mData[0][0], mData[0][1] };
+}
+
+Matrix::operator Vector3() const
+{
+    assert((mRows == 3 && mCols == 1) || (mRows == 1 && mCols == 3) && "Matrix must be 3x1 or 1x3 for a cast to Vector3");
+    __assume((mRows == 3 && mCols == 1) || (mRows == 1 && mCols == 3));
+
+    if (mRows == 3)
+        return { mData[0][0], mData[1][0], mData[2][0] };
+    else
+        return { mData[0][0], mData[1][0], mData[2][0] };
+}
+
+Matrix::operator Vector() const
+{
+    assert(mRows == 1 || mCols == 1 && "Matrix must be 3x1 or 1x3 for a cast to Vector3");
+    __assume(mRows == 1 || mCols == 1);
+
+    const bool rows = mCols == 1;
+    if (!rows)
+        return mData[0];
+
+    const size_t vecSize = rows ? mRows : mCols;
+    Vector result(vecSize);
+
+    for (size_t i = 0; i < vecSize; i++)
+        result[i] = mData[i][0];
 
     return result;
 }
@@ -380,8 +422,7 @@ Matrix operator-(const Matrix& matrix)
 {
     Matrix result = matrix;
     for (size_t i = 0; i < matrix.GetRows(); i++)
-        for (size_t j = 0; j < matrix.GetCols(); j++)
-            result[i][j] = -matrix[i][j];
+        result[i] = -matrix[i];
     return result;
 }
 
@@ -389,11 +430,11 @@ Matrix operator+(const Matrix &m1, const Matrix &m2)
 {
     const Vector2& size = m1.GetSize();
     assert(size == m2.GetSize() && "Cannot add matrices of different sizes");
+    __assume(size == m2.GetSize());
 
     Matrix result(size);
     for (size_t i = 0; i < size.x; i++)
-        for (size_t j = 0; j < size.y; j++)
-            result[i][j] = m1[i][j] + m2[i][j];
+        result[i] = m1[i] + m2[i];
     return result;
 }
 
@@ -416,6 +457,8 @@ Matrix operator*(const Matrix &m1, const Matrix &m2)
 {
     const Vector2& size = m1.GetSize();
     assert(size.y == m2.GetRows() && "Cannot multiply matrices of incompatible sizes");
+    __assume(size.y == m2.GetSize());
+
     Matrix result((size_t) size.x, m2.GetCols());
     const Vector2& resultSize = result.GetSize();
 
@@ -451,18 +494,10 @@ std::ostream &operator<<(std::ostream &out, const Matrix &m)
 {
     for (size_t i = 0; i < m.GetRows(); i++)
     {
-        out << "\n[ ";
-        for (size_t j = 0; j < m.GetCols(); j++)
-        {
-            char buffer[10];
-            sprintf_s(buffer, sizeof(buffer), "%6.3f", m[i][j]);
-            out << buffer;
-            if (j != m.GetCols() - 1)
-                out << ", ";
-            else
-                out << " ";
-        }
-        out << "]";
+        out << m[i];
+        if (i != m.GetRows() - 1)
+            out << "\n";
     }
     return out;
 }
+#pragma endregion
