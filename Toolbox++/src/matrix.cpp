@@ -230,15 +230,15 @@ Matrix Matrix::Augmented(const Matrix& m1, const Matrix& m2)
     return result;
 }
 
-Matrix Matrix::GaussJordan(const Matrix &m1, const Matrix &m2)
+Matrix Matrix::GaussJordan(const Matrix &matrix)
 {
-    const size_t rows = m1.GetRows(), resultCols = m1.GetCols() + m2.GetCols();
-    Matrix result = Matrix::Augmented(m1, m2);
+    const size_t rows = matrix.GetRows(), cols = matrix.GetCols();
+    Matrix result = matrix;
     
     // Last pivot rank
     size_t r = (size_t) -1;
     // j is the current column
-    for (size_t j = 0; j < resultCols; j++)
+    for (size_t j = 0; j < cols; j++)
     {
         // Max value row index
         size_t k = 0;
@@ -267,18 +267,18 @@ Matrix Matrix::GaussJordan(const Matrix &m1, const Matrix &m2)
             // r is the next pivot row index
             r++;
             // Normalize the pivot's row
-            for (size_t i = 0; i < resultCols; i++)
-                result[k][i] /= value;
+            result[k] /= value;
 
             if (k != r)
                 // Swap k and r rows
-                for (size_t i = 0; i < resultCols; i++)
+                for (size_t i = 0; i < cols; i++)
                     std::swap(result[k][i], result[r][i]);
 
             for (size_t i = 0; i < rows; i++)
                 if (i != r)
-                    for (size_t col = 0; col < resultCols; col++)
-                        result[i][col] -= result[r][col] * result[i][j];
+                    result[i] /= result[r] * result[i][j];
+                    //for (size_t col = 0; col < cols; col++)
+                        //result[i][col] -= result[r][col] * result[i][j];
         }
 
         if (r == rows - 1)
@@ -288,15 +288,13 @@ Matrix Matrix::GaussJordan(const Matrix &m1, const Matrix &m2)
     return result;
 }
 
-Matrix Matrix::GaussJordan(const Matrix &matrix)
-{
-    return Matrix::GaussJordan(matrix, Matrix::Identity(matrix.GetRows(), matrix.GetCols()));
-}
-
 Matrix Matrix::Inverse(const Matrix &matrix)
 {
+    assert(matrix.IsSquare() && "Matrix must be square to get the inverse");
+    __assume(matrix.IsSquare() && matrix.GetRows() == matrix.GetCols());
+    Matrix m = matrix;
     // Get the non-identity half of the resulting matrix
-    return Matrix::GaussJordan(matrix).SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
+    return Matrix::GaussJordan(m.Augmented(m, Matrix::Identity(matrix.GetRows(), matrix.GetCols()))).SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
 }
 
 Matrix Matrix::RotationMatrix2D(const float angle)

@@ -89,9 +89,6 @@ public:
     static Matrix Augmented(const Matrix& m1, const Matrix& m2);
     /// @brief Computes the Gauss-Jordan pivot.
     [[nodiscard]]
-    static Matrix GaussJordan(const Matrix& m1, const Matrix& m2);
-    /// @brief Computes the Gauss-Jordan pivot using the identity matrix.
-    [[nodiscard]]
     static Matrix GaussJordan(const Matrix& matrix);
     /// @brief Computes the inverse of the given matrix using the Gauss-Jordan pivot.
     [[nodiscard]]
