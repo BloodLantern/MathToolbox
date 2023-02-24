@@ -18,7 +18,7 @@ public:
     /// @brief Copies the content of the given vector to this one.
     Vector(const Vector& vector);
     /// @brief Creates a vector with the data from the given initializer list.
-    Vector(const std::initializer_list<float> data)
+    constexpr Vector(const std::initializer_list<float> data)
         : mData(data), mSize(data.size()) {}
     Vector(const Vector& p1, const Vector& p2);
 

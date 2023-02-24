@@ -245,14 +245,14 @@ Matrix Matrix::GaussJordan(const Matrix &matrix)
             float maxValue = 0;
             for (size_t i = r + 1; i < rows; i++)
             {
-                float value = std::abs(result[i][j]);
-                /*if (value == 1)
+                float value = result[i][j];
+                if (value == 1)
                 {
                     k = i;
                     break;
-                }*/
+                }
 
-                if (value > maxValue)
+                if (std::abs(value) > maxValue)
                 {
                     maxValue = value;
                     k = i;
@@ -289,9 +289,14 @@ Matrix Matrix::Inverse(const Matrix &matrix)
 {
     assert(matrix.IsSquare() && "Matrix must be square to get the inverse");
     __assume(matrix.IsSquare() && matrix.GetRows() == matrix.GetCols());
-    // Get the non-identity half of the resulting matrix
-    return Matrix::GaussJordan(Matrix::Augmented(matrix, Matrix::Identity(matrix.GetRows())))
-        .SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
+
+    if (matrix.Determinant() == 0) [[unlikely]]
+        throw std::invalid_argument("Matrix isn't inversible");
+
+    Matrix gaussJordan = Matrix::GaussJordan(Matrix::Augmented(matrix, Matrix::Identity(matrix.GetRows())));
+    Matrix right = gaussJordan.SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
+
+    return right;
 }
 
 Matrix Matrix::RotationMatrix2D(const float angle)
