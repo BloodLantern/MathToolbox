@@ -18,7 +18,7 @@ public:
     /// @brief Copies the content of the given vector to this one.
     Vector(const Vector& vector);
     /// @brief Creates a vector with the data from the given initializer list.
-    constexpr Vector(const std::initializer_list<float> data)
+    Vector(const std::initializer_list<float> data)
         : mData(data), mSize(data.size()) {}
     Vector(const Vector& p1, const Vector& p2);
 
@@ -50,20 +50,15 @@ public:
 	float  operator[](const size_t i) const;
 	[[nodiscard]]
 	float& operator[](const size_t i);
-    Vector& operator=(const Vector& vector);
     /// @brief Sets the first element of the vector to the given value.
     Vector& operator=(const float value);
     explicit operator Vector2() const;
     explicit operator Vector3() const;
     operator Matrix() const;
 
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Vector& a, const Vector& b) = default;
-
 private:
     std::vector<float> mData;
-    const size_t mSize;
+    size_t mSize;
 };
 
 [[nodiscard]]

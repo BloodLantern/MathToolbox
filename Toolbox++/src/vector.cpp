@@ -88,12 +88,6 @@ float &Vector::operator[](const size_t i)
     return mData[i];
 }
 
-Vector &Vector::operator=(const Vector &vector)
-{
-    std::memcpy(this, &vector, sizeof(Vector));
-    return *this;
-}
-
 Vector &Vector::operator=(const float value)
 {
     mData[0] = value;
@@ -120,7 +114,7 @@ Vector::operator Matrix() const
 {
 	Matrix result(mSize);
 	for (size_t i = 0; i < mSize; i++)
-		result[i] = mData[i];
+		result[i] = mData[0];
 	return result;
 }
 

@@ -7,23 +7,12 @@
 #define SQ(var) ((var) * (var))
 
 #pragma region constructors
-Matrix Matrix::Identity(const size_t rows, const size_t cols)
+Matrix Matrix::Identity(const size_t size)
 {
-    Matrix result(rows, cols);
-    if (rows == cols) [[likely]]
-        for (size_t i = 0; i < rows; i++)
-            result[i][i] = 1;
-    else [[unlikely]]
-        for (size_t i = 0; i < rows; i++)
-            for (size_t j = 0; j < cols; j++)
-                if (i == j)
-                    result[i][j] = 1;
+    Matrix result(size, size);
+    for (size_t i = 0; i < size; i++)
+        result[i][i] = 1;
     return result;
-}
-
-Matrix Matrix::Identity(const Vector2 size)
-{
-    return Matrix::Identity((size_t) size.x, (size_t) size.y);
 }
 
 Matrix::Matrix(const size_t rows, const size_t cols, const float defaultValue)
@@ -44,9 +33,8 @@ Matrix::Matrix(const size_t rows, const size_t cols, const float defaultValue)
 }
 
 Matrix::Matrix(const Matrix &matrix)
-    : mRows(matrix.mRows), mCols(matrix.mCols), mIsSquare(matrix.mIsSquare)
+    : mData(matrix.mRows), mRows(matrix.mRows), mCols(matrix.mCols), mIsSquare(matrix.mIsSquare)
 {
-    mData.resize(mRows);
     for (size_t i = 0; i < mRows; i++)
     {
         mData[i] = Vector(mCols);
@@ -179,24 +167,35 @@ float Matrix::Determinant() const
     }
 }
 
+Matrix &Matrix::Identity(this Matrix &self)
+{
+    assert(self.mIsSquare);
+    __assume(self.mRows == self.mCols && self.mIsSquare);
+
+    for (size_t i = 0; i < self.mRows; i++)
+        for (size_t j = 0; j < self.mCols; j++)
+            self[i][j] = (i == j ? 1.f : 0.f);
+    return self;
+}
+
 Matrix &Matrix::Transpose(this Matrix& self)
 {
-    return self = Matrix::Transpose(self);
+    return self = self.Transpose(self);
 }
 
 Matrix &Matrix::Augmented(this Matrix& self, const Matrix &other)
 {
-    return self = Matrix::Augmented(self, other);
+    return self = self.Augmented(self, other);
 }
 
 Matrix &Matrix::GaussJordan(this Matrix& self)
 {
-    return self = Matrix::GaussJordan(self);
+    return self = self.GaussJordan(self);
 }
 
 Matrix &Matrix::Inverse(this Matrix& self)
 {
-    return self = Matrix::Inverse(self);
+    return self = self.Inverse(self);
 }
 
 Matrix Matrix::Transpose(const Matrix& matrix)
@@ -214,12 +213,12 @@ Matrix Matrix::Augmented(const Matrix& m1, const Matrix& m2)
     assert(m1.GetRows() == m2.GetRows() && "Cannot augment matrices of different sizes");
     __assume(m1.GetRows() == m2.GetRows());
 
-    const size_t m1Rows = m1.GetRows(), m1Cols = m1.GetCols(),
+    const size_t rows = m1.GetRows(), m1Cols = m1.GetCols(),
         m2Cols = m2.GetCols(),
         resultCols = m1Cols + m2Cols;
-    Matrix result(m1Rows, resultCols);
+    Matrix result(rows, resultCols);
 
-    for (size_t i = 0; i < m1Rows; i++)
+    for (size_t i = 0; i < rows; i++)
     {
         for (size_t j = 0; j < m1Cols; j++)
             result[i][j] = m1[i][j];
@@ -247,11 +246,11 @@ Matrix Matrix::GaussJordan(const Matrix &matrix)
             for (size_t i = r + 1; i < rows; i++)
             {
                 float value = std::abs(result[i][j]);
-                if (value == 1)
+                /*if (value == 1)
                 {
                     k = i;
                     break;
-                }
+                }*/
 
                 if (value > maxValue)
                 {
@@ -276,9 +275,7 @@ Matrix Matrix::GaussJordan(const Matrix &matrix)
 
             for (size_t i = 0; i < rows; i++)
                 if (i != r)
-                    result[i] /= result[r] * result[i][j];
-                    //for (size_t col = 0; col < cols; col++)
-                        //result[i][col] -= result[r][col] * result[i][j];
+                    result[i] -= result[r] * result[i][j];
         }
 
         if (r == rows - 1)
@@ -292,9 +289,9 @@ Matrix Matrix::Inverse(const Matrix &matrix)
 {
     assert(matrix.IsSquare() && "Matrix must be square to get the inverse");
     __assume(matrix.IsSquare() && matrix.GetRows() == matrix.GetCols());
-    Matrix m = matrix;
     // Get the non-identity half of the resulting matrix
-    return Matrix::GaussJordan(m.Augmented(m, Matrix::Identity(matrix.GetRows(), matrix.GetCols()))).SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
+    return Matrix::GaussJordan(Matrix::Augmented(matrix, Matrix::Identity(matrix.GetRows())))
+        .SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
 }
 
 Matrix Matrix::RotationMatrix2D(const float angle)
@@ -319,11 +316,12 @@ Matrix Matrix::RotationMatrix3D(const float angle, const Vector3& axis)
 Matrix Matrix::RotationMatrix3D(const float cos, const float sin, const Vector3 &axis)
 {
     const float c2 = 1 - cos;
+    Vector3 v = axis.Normalize();
 
     return {
-        { SQ(axis.x) * c2 + cos, axis.y * axis.x * c2 - axis.z * sin, axis.z * axis.x * c2 + axis.y * sin },
-        { axis.x * axis.y * c2 - axis.z * sin, SQ(axis.y) * c2 + cos, axis.z * axis.y * c2 - axis.x * sin },
-        { axis.x * axis.z * c2 - axis.y * sin, axis.y * axis.z * c2 + axis.x * sin, SQ(axis.z) * c2 + cos }
+        { SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin },
+        { v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin },
+        { v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos }
     };
 }
 
@@ -346,12 +344,17 @@ Matrix Matrix::ScalingMatrix3D(const Vector3 &scale)
     };
 }
 
+Matrix Matrix::TRS(const Vector3 &translation, const float rotationAngle, const Vector3& axis, const Vector3 &scale)
+{
+    return Matrix::TRS(translation, Matrix::RotationMatrix3D(rotationAngle, axis), scale);
+}
+
 Matrix Matrix::TRS(const Vector3& translation, const Matrix& rotation, const Vector3& scale)
 {
     assert(rotation.GetRows() == 3 && rotation.GetCols() == 3 && "Rotation must be a 3x3 matrix");
     __assume(rotation.GetRows() == 3 && rotation.GetCols() == 3);
 
-    Matrix result = Matrix::Identity(4, 4);
+    Matrix result = Matrix::Identity(4);
 
     result[0][3] = translation.x;
     result[1][3] = translation.y;
@@ -370,12 +373,6 @@ Matrix Matrix::TRS(const Vector3& translation, const Matrix& rotation, const Vec
 #pragma endregion
 
 #pragma region operators
-Matrix &Matrix::operator=(const Matrix &matrix)
-{
-    std::memcpy(this, &matrix, sizeof(Matrix));
-    return *this;
-}
-
 Matrix::operator Vector2() const
 {
     assert((mRows == 2 && mCols == 1) || (mRows == 1 && mCols == 2) && "Matrix must be 2x1 or 1x2 for a cast to Vector2");

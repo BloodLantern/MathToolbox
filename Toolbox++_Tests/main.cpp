@@ -11,18 +11,16 @@
 int main()
 {
     Matrix mat = { 
-        { 1, 2, 3 },
-        { 4, 5, 6 },
-        { 7, 8, 9 }
+        { 3, 9, 4 },
+        { 5, 0, 5 },
+        { 4, 6, 7 }
     };
 
     std::cout << std::endl;
     PRINT(mat);
 
-    Vector v = mat.Diagonal();
-
     std::cout << std::endl;
-    PRINT(v);
+    PRINT(mat.Inverse());
 
     return 0;
 }

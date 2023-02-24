@@ -14,11 +14,7 @@ public:
     /// @brief Returns the identity matrix for the given size.
     ///        The identity matrix is a matrix with its diagonal
     ///        set to one and everything else set to zero.
-    static Matrix Identity(const size_t rows, const size_t cols);
-    /// @brief Returns the identity matrix for the given size.
-    ///        The identity matrix is a matrix with its diagonal
-    ///        set to one and everything else set to zero.
-    static Matrix Identity(const Vector2 size);
+    static Matrix Identity(const size_t size);
 
     /// @brief Creates a 1x1 null matrix
     Matrix() : Matrix(1, 1) {};
@@ -28,7 +24,7 @@ public:
     /// @brief Copies the content of the given matrix to this one.
     Matrix(const Matrix& matrix);
     /// @brief Creates a matrix with the data from the given initializer list.
-    constexpr Matrix(const std::initializer_list<Vector> data)
+    Matrix(const std::initializer_list<Vector> data)
         : mData(data), mRows(data.size()), mCols(data.begin()[0].GetSize()), mIsSquare(mRows == mCols) {}
 
     /// @brief Returns whether the matrix has everything except its diagonal set to zero.
@@ -45,7 +41,7 @@ public:
     [[nodiscard]]
     bool IsSymmetric() const;
     /// @brief Returns whether the matrix is symmetric by its diagonal elements
-    ///        by one of the side is the opposite of the other.
+    ///        but one of the sides is the opposite of the other.
     [[nodiscard]]
     bool IsAntisymmetric() const;
     /// @brief Returns the diagonal elements of the matrix. The size of the returned
@@ -61,6 +57,8 @@ public:
     /// @brief Returns the determinant of this matrix.
     [[nodiscard]]
     float Determinant() const;
+    /// @brief Sets this matrix to the identity matrix.
+    Matrix& Identity(this Matrix& self);
     /// @brief Switches the matrix by its diagonal elements.
     Matrix& Transpose(this Matrix& self);
     /// @brief Adds the given matrix to the right of this one.
@@ -118,6 +116,10 @@ public:
     [[nodiscard]]
     static Matrix ScalingMatrix3D(const Vector3& scale);
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix frem the given translation, rotation and scaling.
+	/// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix TRS(const Vector3& translation, const float rotationAngle, const Vector3& axis, const Vector3& scale);
+    /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix frem the given translation, rotation and scaling.
     [[nodiscard]]
     static Matrix TRS(const Vector3& translation, const Matrix& rotation, const Vector3& scale);
 
@@ -125,19 +127,15 @@ public:
     constexpr const Vector& operator[](const size_t row) const { return mData[row]; }
     [[nodiscard]]
     constexpr Vector& operator[](const size_t row) { return mData[row]; }
-    Matrix& operator=(const Matrix& matrix);
     explicit operator Vector2() const;
     explicit operator Vector3() const;
     explicit operator Vector() const;
-    
-    // Automatically generates all comparison operators
-	[[nodiscard]] friend auto operator<=>(const Matrix& a, const Matrix& b) = default;
 
 private:
     std::vector<Vector> mData;
-    const size_t mRows;
-    const size_t mCols;
-    const bool mIsSquare;
+    size_t mRows;
+    size_t mCols;
+    bool mIsSquare;
 };
 
 [[nodiscard]]
