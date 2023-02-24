@@ -104,6 +104,9 @@ public:
 	/// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix RotationMatrix3D(const float angle, const Vector3& axis);
+    /// @brief Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
+    [[nodiscard]]
+    static Matrix RotationMatrix3D(const Vector3& rotation);
     /// @brief Creates a 3D rotation matrix from the given cosine, sine and axis.
 	/// @param cos The cosine of the angle in radians.
 	/// @param sin The sine of the angle in radians.
@@ -115,11 +118,14 @@ public:
     /// @brief Creates a 3D scaling matrix from the given Vector3.
     [[nodiscard]]
     static Matrix ScalingMatrix3D(const Vector3& scale);
-    /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix frem the given translation, rotation and scaling.
-	/// @param angle The angle in radians.
+    /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
+    [[nodiscard]]
+    static Matrix TRS(const Vector3& translation, const Vector3& rotation, const Vector3& scale);
+    /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
+	/// @param rotationAngle The angle in radians.
     [[nodiscard]]
     static Matrix TRS(const Vector3& translation, const float rotationAngle, const Vector3& axis, const Vector3& scale);
-    /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix frem the given translation, rotation and scaling.
+    /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static Matrix TRS(const Vector3& translation, const Matrix& rotation, const Vector3& scale);
 

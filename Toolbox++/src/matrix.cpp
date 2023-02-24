@@ -318,6 +318,13 @@ Matrix Matrix::RotationMatrix3D(const float angle, const Vector3& axis)
     return RotationMatrix3D(std::cos(angle), std::sin(angle), axis);
 }
 
+Matrix Matrix::RotationMatrix3D(const Vector3 &rotation)
+{
+    return Matrix::RotationMatrix3D(rotation.z, Vector3(0, 0, 1))
+         * Matrix::RotationMatrix3D(rotation.y, Vector3(0, 1, 0))
+         * Matrix::RotationMatrix3D(rotation.x, Vector3(1, 0, 0));
+}
+
 Matrix Matrix::RotationMatrix3D(const float cos, const float sin, const Vector3 &axis)
 {
     const float c2 = 1 - cos;
@@ -347,6 +354,11 @@ Matrix Matrix::ScalingMatrix3D(const Vector3 &scale)
         {       0,       0, scale.z,       0 },
         {       0,       0,       0,       1 }
     };
+}
+
+Matrix Matrix::TRS(const Vector3 &translation, const Vector3 &rotation, const Vector3 &scale)
+{
+    return Matrix::TRS(translation, Matrix::RotationMatrix3D(rotation), scale);
 }
 
 Matrix Matrix::TRS(const Vector3 &translation, const float rotationAngle, const Vector3& axis, const Vector3 &scale)
