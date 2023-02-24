@@ -86,7 +86,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NMakeBuildCommandLine>nmake /NOLOGO</NMakeBuildCommandLine>
     <OutDir>$(SolutionDir)..\bin\</OutDir>
-    <TargetName>toolbox</TargetName>
+    <TargetName>toolboxd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\bin\</OutDir>

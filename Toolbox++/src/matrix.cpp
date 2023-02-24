@@ -292,11 +292,13 @@ Matrix Matrix::Inverse(const Matrix &matrix)
 
     if (matrix.Determinant() == 0) [[unlikely]]
         throw std::invalid_argument("Matrix isn't inversible");
+    else [[likely]]
+    {
+        Matrix gaussJordan = Matrix::GaussJordan(Matrix::Augmented(matrix, Matrix::Identity(matrix.GetRows())));
+        Matrix right = gaussJordan.SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
 
-    Matrix gaussJordan = Matrix::GaussJordan(Matrix::Augmented(matrix, Matrix::Identity(matrix.GetRows())));
-    Matrix right = gaussJordan.SubMatrix(0, matrix.GetCols(), matrix.GetRows(), matrix.GetCols());
-
-    return right;
+        return right;
+    }
 }
 
 Matrix Matrix::RotationMatrix2D(const float angle)
@@ -309,7 +311,52 @@ Matrix Matrix::RotationMatrix2D(const float cos, const float sin)
     return {
         { cos, -sin,  0 },
         { sin,  cos,  0 },
-        { 0,  0,  1 }
+        {   0,    0,  1 }
+    };
+}
+
+Matrix Matrix::RotationMatrix3DX(const float angle)
+{
+    return RotationMatrix3DX(std::cos(angle), std::sin(angle));
+}
+
+Matrix Matrix::RotationMatrix3DX(const float cos, const float sin)
+{
+    return {
+        { 1,    0,     0, 0 },
+        { 0,  cos,  -sin, 0 },
+        { 0,  sin,   cos, 0 },
+        { 0,    0,     0, 1 }
+    };
+}
+
+Matrix Matrix::RotationMatrix3DY(const float angle)
+{
+    return RotationMatrix3DY(std::cos(angle), std::sin(angle));
+}
+
+Matrix Matrix::RotationMatrix3DY(const float cos, const float sin)
+{
+    return {
+        {  cos,  0,  sin, 0 },
+        {    0,  1,    0, 0 },
+        { -sin,  0,  cos, 0 },
+        {    0,  0,    0, 1 }
+    };
+}
+
+Matrix Matrix::RotationMatrix3DZ(const float angle)
+{
+    return RotationMatrix3DZ(std::cos(angle), std::sin(angle));
+}
+
+Matrix Matrix::RotationMatrix3DZ(const float cos, const float sin)
+{
+    return {
+        { cos, -sin,  0, 0 },
+        { sin,  cos,  0, 0 },
+        {   0,    0,  1, 0 },
+        {   0,    0,  0, 1 }
     };
 }
 
@@ -320,9 +367,9 @@ Matrix Matrix::RotationMatrix3D(const float angle, const Vector3& axis)
 
 Matrix Matrix::RotationMatrix3D(const Vector3 &rotation)
 {
-    return Matrix::RotationMatrix3D(rotation.z, Vector3(0, 0, 1))
-         * Matrix::RotationMatrix3D(rotation.y, Vector3(0, 1, 0))
-         * Matrix::RotationMatrix3D(rotation.x, Vector3(1, 0, 0));
+    return Matrix::RotationMatrix3DZ(rotation.z)
+         * Matrix::RotationMatrix3DY(rotation.y)
+         * Matrix::RotationMatrix3DX(rotation.x);
 }
 
 Matrix Matrix::RotationMatrix3D(const float cos, const float sin, const Vector3 &axis)
@@ -331,9 +378,10 @@ Matrix Matrix::RotationMatrix3D(const float cos, const float sin, const Vector3 
     Vector3 v = axis.Normalize();
 
     return {
-        { SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin },
-        { v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin },
-        { v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos }
+        { SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin, 0 },
+        { v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin, 0 },
+        { v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos, 0 },
+        { 0, 0, 0, 1 }
     };
 }
 
@@ -368,8 +416,8 @@ Matrix Matrix::TRS(const Vector3 &translation, const float rotationAngle, const 
 
 Matrix Matrix::TRS(const Vector3& translation, const Matrix& rotation, const Vector3& scale)
 {
-    assert(rotation.GetRows() == 3 && rotation.GetCols() == 3 && "Rotation must be a 3x3 matrix");
-    __assume(rotation.GetRows() == 3 && rotation.GetCols() == 3);
+    assert(rotation.GetRows() == 4 && rotation.GetCols() == 4 && "Rotation must be a 3x3 matrix");
+    __assume(rotation.GetRows() == 4 && rotation.GetCols() == 4);
 
     Matrix result = Matrix::Identity(4);
 
@@ -377,15 +425,7 @@ Matrix Matrix::TRS(const Vector3& translation, const Matrix& rotation, const Vec
     result[1][3] = translation.y;
     result[2][3] = translation.z;
 
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++)
-        {
-            result[i][j] = rotation[i][j];
-            if (i == j)
-                result[i][j] *= scale[i];
-        }
-
-    return result;
+    return result = result * rotation * Matrix::ScalingMatrix3D(scale);
 }
 #pragma endregion
 

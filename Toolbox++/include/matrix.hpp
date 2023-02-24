@@ -92,14 +92,41 @@ public:
     [[nodiscard]]
     static Matrix Inverse(const Matrix& matrix);
     /// @brief Creates a 2D rotation matrix from the given angle.
-	/// @param angle The angle in radians.
+    /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix RotationMatrix2D(const float angle);
     /// @brief Creates a 2D rotation matrix from the given cosine and sine.
-	/// @param cos The cosine of the angle in radians.
-	/// @param sin The sine of the angle in radians.
+    /// @param cos The cosine of the angle in radians.
+    /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static Matrix RotationMatrix2D(const float cos, const float sin);
+    /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
+    /// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix RotationMatrix3DX(const float angle);
+    /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
+    /// @param cos The cosine of the angle in radians.
+    /// @param sin The sine of the angle in radians.
+    [[nodiscard]]
+    static Matrix RotationMatrix3DX(const float cos, const float sin);
+    /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
+    /// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix RotationMatrix3DY(const float angle);
+    /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
+    /// @param cos The cosine of the angle in radians.
+    /// @param sin The sine of the angle in radians.
+    [[nodiscard]]
+    static Matrix RotationMatrix3DY(const float cos, const float sin);
+    /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
+    /// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix RotationMatrix3DZ(const float angle);
+    /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
+    /// @param cos The cosine of the angle in radians.
+    /// @param sin The sine of the angle in radians.
+    [[nodiscard]]
+    static Matrix RotationMatrix3DZ(const float cos, const float sin);
     /// @brief Creates a 3D rotation matrix from the given angle and axis.
 	/// @param angle The angle in radians.
     [[nodiscard]]

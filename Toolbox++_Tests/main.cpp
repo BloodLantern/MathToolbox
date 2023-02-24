@@ -7,20 +7,11 @@
 #include "matrix.hpp"
 
 #define PRINT(o) (std::cout << (o) << std::endl)
+#define PI ((float) std::numbers::pi)
 
 int main()
 {
-    Matrix mat = { 
-        { 6, 0, 4 },
-        { 2, 0, 8 },
-        { 3, 0, 9 }
-    };
-
-    std::cout << std::endl;
-    PRINT(mat);
-
-    std::cout << std::endl;
-    PRINT(mat.Inverse());
+    PRINT(Matrix::TRS(Vector3(2, 3, 4), Vector3(PI / 6, PI / 3, PI / 4), Vector3(3, 2, 1)));
 
     return 0;
 }
