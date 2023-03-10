@@ -23,12 +23,14 @@
     <ClInclude Include="include\matrix.hpp" />
     <ClInclude Include="include\vector.hpp" />
     <ClInclude Include="include\vector2.hpp" />
+    <ClInclude Include="include\vector2i.hpp" />
     <ClInclude Include="include\vector3.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\matrix.cpp" />
     <ClCompile Include="src\vector.cpp" />
     <ClCompile Include="src\vector2.cpp" />
+    <ClCompile Include="src\vector2i.cpp" />
     <ClCompile Include="src\vector3.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
