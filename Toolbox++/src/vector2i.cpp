@@ -23,9 +23,10 @@ float Vector2i::SquaredNorm() const
 Vector2 Vector2i::Normalize() const
 {
 	float norm = Norm();
-	assert(norm != 0.f && "Cannot normalize a zero vector");
-    __assume(norm != 0.f);
+	if (norm == 0)
+		return 0;
 
+    __assume(norm != 0.f);
 	return Vector2(x / norm, y / norm);
 }
 

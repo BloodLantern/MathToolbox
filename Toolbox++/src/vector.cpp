@@ -47,6 +47,10 @@ float Vector::SquaredNorm() const
 Vector Vector::Normalize() const
 {
     float norm = Norm();
+	if (norm == 0)
+		return 0;
+
+    __assume(norm != 0.f);
     Vector result(mSize);
     for (size_t i = 0; i < mSize; i++)
         result[i] = mData[i] / norm;
