@@ -12,7 +12,7 @@ Vector2::Vector2(const Vector2 p1, const Vector2 p2)
 #pragma region functions
 float Vector2::Norm() const
 {
-	return sqrt(SquaredNorm());
+	return std::sqrt(SquaredNorm());
 }
 
 float Vector2::SquaredNorm() const
@@ -20,7 +20,7 @@ float Vector2::SquaredNorm() const
 	return x * x + y * y;
 }
 
-Vector2 Vector2::Normalize() const
+Vector2 Vector2::Normalized() const
 {
 	float norm = Norm();
 	if (norm == 0)
@@ -32,7 +32,23 @@ Vector2 Vector2::Normalize() const
 
 Vector2 Vector2::Normal() const
 {
-	return Vector2(y, -x).Normalize();
+	return Vector2(y, -x).Normalized();
+}
+
+float Vector2::Dot(const Vector2 other) const
+{
+	return x * other.x + y * other.y;
+}
+
+float Vector2::Cross(const Vector2 other) const
+{
+	// For a Vector2 this is only the determinant
+	return Determinant(other);
+}
+
+float Vector2::Determinant(const Vector2 other) const
+{
+	return (x * other.y) - (other.x * y);
 }
 
 float Vector2::Angle() const
@@ -67,7 +83,7 @@ Vector2 Vector2::Rotate(const Vector2 center, const float cos, const float sin) 
 
 float Vector2::Angle(const Vector2 a, const Vector2 b)
 {
-	float dotProduct = DotProduct(a, b);
+	float dotProduct = Dot(a, b);
 	float angle = std::acos(dotProduct / (a.Norm() * b.Norm()));
 
 	if (Determinant(a, b) < 0)
@@ -76,20 +92,20 @@ float Vector2::Angle(const Vector2 a, const Vector2 b)
 	return angle;
 }
 
-float Vector2::DotProduct(const Vector2 a, const Vector2 b)
+float Vector2::Dot(const Vector2 a, const Vector2 b)
 {
-	return a.x * b.x + a.y * b.y;
+	return a.Dot(b);
 }
 
-float Vector2::CrossProduct(const Vector2 a, const Vector2 b)
+float Vector2::Cross(const Vector2 a, const Vector2 b)
 {
 	// For a Vector2 this is only the determinant
-	return Determinant(a, b);
+	return a.Cross(b);
 }
 
 float Vector2::Determinant(const Vector2 a, const Vector2 b)
 {
-	return (a.x * b.y) - (b.x * a.y);
+	return a.Determinant(b);
 }
 #pragma endregion
 

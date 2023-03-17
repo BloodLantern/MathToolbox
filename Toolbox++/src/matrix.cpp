@@ -375,7 +375,7 @@ Matrix Matrix::RotationMatrix3D(const Vector3 &rotation)
 Matrix Matrix::RotationMatrix3D(const float cos, const float sin, const Vector3 &axis)
 {
     const float c2 = 1 - cos;
-    Vector3 v = axis.Normalize();
+    Vector3 v = axis.Normalized();
 
     return {
         { SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin, 0 },

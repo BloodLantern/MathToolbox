@@ -44,7 +44,7 @@ float Vector::SquaredNorm() const
     return result;
 }
 
-Vector Vector::Normalize() const
+Vector Vector::Normalized() const
 {
     float norm = Norm();
 	if (norm == 0)
@@ -57,27 +57,37 @@ Vector Vector::Normalize() const
     return result;
 }
 
-float Vector::DotProduct(const Vector& a, const Vector& b)
+float Vector::Dot(const Vector& other) const
 {
-    assert(a.GetSize() == b.GetSize() && "Vectors must have the same size");
-    __assume(a.GetSize() == b.GetSize());
+    assert(mSize == other.GetSize() && "Vectors must have the same size");
+    __assume(mSize == other.GetSize());
 
     float result = 0;
-    for (size_t i = 0; i < a.GetSize(); i++)
-        result += a[i] * b[i];
+    for (size_t i = 0; i < mSize; i++)
+        result += mData[i] * other[i];
     return result;
 }
 
-Vector Vector::CrossProduct(const Vector& a, const Vector& b)
+Vector Vector::Cross(const Vector& other) const
 {
-    const size_t size = a.GetSize();
-    assert(size == b.GetSize() && "Vectors must have the same size");
-    __assume(size == b.GetSize());
+    const size_t size = mSize;
+    assert(size == other.GetSize() && "Vectors must have the same size");
+    __assume(size == other.GetSize());
 
     Vector result(size);
     for (size_t i = 0; i < size; i++)
-        result[i] = a[(i + 1) % size] * b[(i + 2) % size] - a[(i + 2) % size] * b[(i + 1) % size];
+        result[i] = mData[(i + 1) % size] * other[(i + 2) % size] - mData[(i + 2) % size] * other[(i + 1) % size];
     return result;
+}
+
+float Vector::Dot(const Vector& a, const Vector& b)
+{
+    return a.Dot(b);
+}
+
+Vector Vector::Cross(const Vector& a, const Vector& b)
+{
+    return a.Cross(b);
 }
 #pragma endregion
 

@@ -20,7 +20,7 @@ float Vector2i::SquaredNorm() const
 	return (float) (x * x + y * y);
 }
 
-Vector2 Vector2i::Normalize() const
+Vector2 Vector2i::Normalized() const
 {
 	float norm = Norm();
 	if (norm == 0)
@@ -32,7 +32,23 @@ Vector2 Vector2i::Normalize() const
 
 Vector2 Vector2i::Normal() const
 {
-	return Vector2i(y, -x).Normalize();
+	return Vector2i(y, -x).Normalized();
+}
+
+float Vector2i::Dot(const Vector2i other) const
+{
+	return (float)(x * other.x + y * other.y);
+}
+
+float Vector2i::Cross(const Vector2i other) const
+{
+	// For a Vector2i this is only the determinant
+	return Determinant(other);
+}
+
+float Vector2i::Determinant(const Vector2i other) const
+{
+	return (float)((x * other.y) - (other.x * y));
 }
 
 float Vector2i::Angle() const
@@ -67,7 +83,7 @@ Vector2 Vector2i::Rotate(const Vector2i center, const float cos, const float sin
 
 float Vector2i::Angle(const Vector2i a, const Vector2i b)
 {
-	float dotProduct = DotProduct(a, b);
+	float dotProduct = Dot(a, b);
 	float angle = std::acos(dotProduct / (a.Norm() * b.Norm()));
 
 	if (Determinant(a, b) < 0)
@@ -76,20 +92,19 @@ float Vector2i::Angle(const Vector2i a, const Vector2i b)
 	return angle;
 }
 
-float Vector2i::DotProduct(const Vector2i a, const Vector2i b)
+float Vector2i::Dot(const Vector2i a, const Vector2i b)
 {
-	return (float) (a.x * b.x + a.y * b.y);
+	return a.Dot(b);
 }
 
-float Vector2i::CrossProduct(const Vector2i a, const Vector2i b)
+float Vector2i::Cross(const Vector2i a, const Vector2i b)
 {
-	// For a Vector2i this is only the determinant
-	return Determinant(a, b);
+	return a.Cross(b);
 }
 
 float Vector2i::Determinant(const Vector2i a, const Vector2i b)
 {
-	return (float) ((a.x * b.y) - (b.x * a.y));
+	return a.Determinant(b);
 }
 #pragma endregion
 

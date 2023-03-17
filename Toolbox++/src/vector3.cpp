@@ -20,7 +20,7 @@ float Vector3::SquaredNorm() const
 	return x * x + y * y + z * z;
 }
 
-Vector3 Vector3::Normalize() const
+Vector3 Vector3::Normalized() const
 {
 	float norm = Norm();
 	if (norm == 0)
@@ -28,6 +28,16 @@ Vector3 Vector3::Normalize() const
 
     __assume(norm != 0.f);
 	return Vector3(x / norm, y / norm, z / norm);
+}
+
+float Vector3::Dot(const Vector3& other) const
+{
+	return x * other.x + y * other.y + z * other.z;
+}
+
+Vector3 Vector3::Cross(const Vector3& other) const
+{
+	return Vector3(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
 }
 
 Vector3 Vector3::Rotate(const float angle, const Vector3 &axis) const
@@ -52,17 +62,17 @@ Vector3 Vector3::Rotate(const float cos, const float sin, const Vector3& axis, c
 
 float Vector3::Angle(const Vector3& a, const Vector3& b)
 {
-	return std::acos(DotProduct(a, b) / (a.Norm() * b.Norm()));
+	return std::acos(Dot(a, b) / (a.Norm() * b.Norm()));
 }
 
-float Vector3::DotProduct(const Vector3& a, const Vector3& b)
+float Vector3::Dot(const Vector3& a, const Vector3& b)
 {
-	return a.x * b.x + a.y * b.y + a.z * b.z;
+	return a.Dot(b);
 }
 
-Vector3 Vector3::CrossProduct(const Vector3& a, const Vector3& b)
+Vector3 Vector3::Cross(const Vector3& a, const Vector3& b)
 {
-	return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+	return a.Cross(b);
 }
 #pragma endregion
 
