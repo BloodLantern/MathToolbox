@@ -156,14 +156,14 @@ Vector2i operator*(const Vector2i a, const int s)
 	return Vector2i(a.x * s, a.y * s);
 }
 
-Vector2i operator/(const Vector2i a, const Vector2i b)
+Vector2 operator/(const Vector2i a, const Vector2i b)
 {
-	return Vector2i(a.x / b.x, a.y / b.y);
+	return Vector2(a.x / (float) b.x, a.y / (float) b.y);
 }
 
-Vector2i operator/(const Vector2i a, const int s)
+Vector2 operator/(const Vector2i a, const float s)
 {
-	return Vector2i(a.x / s, a.y / s);
+	return Vector2(a.x / s, a.y / s);
 }
 
 Vector2i& operator+=(Vector2i& a, const Vector2i b)
@@ -205,20 +205,6 @@ Vector2i& operator*=(Vector2i& v, const int factor)
 {
 	v.x *= factor;
 	v.y *= factor;
-	return v;
-}
-
-Vector2i &operator/=(Vector2i &a, const Vector2i b)
-{
-	a.x /= b.x;
-	a.y /= b.y;
-	return a;
-}
-
-Vector2i& operator/=(Vector2i& v, const int factor)
-{
-	v.x /= factor;
-	v.y /= factor;
 	return v;
 }
 

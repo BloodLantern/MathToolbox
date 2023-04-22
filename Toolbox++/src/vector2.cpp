@@ -1,6 +1,7 @@
 #include "vector2.hpp"
 
 #include "matrix.hpp"
+#include "vector2i.hpp"
 
 #define SQ(var) ((var) * (var))
 
@@ -125,6 +126,11 @@ float &Vector2::operator[](const size_t i)
     __assume(i >= 0 && i < 2);
 
     return *(&x + i);
+}
+
+Vector2::operator Vector2i() const
+{
+	return Vector2i((int)std::round(x), (int)std::round(y));
 }
 
 Vector2::operator Vector3() const
