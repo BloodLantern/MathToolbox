@@ -12,10 +12,13 @@
 
 int main()
 {
-    PRINT(Matrix::TRS(Vector3(2, 3, 4), Vector3(PI / 6, PI / 3, PI / 4), Vector3(3, 2, 1)));
+    PRINT(Matrix::RotationMatrix3DX(PI / 2));
 
-    Vector2i v(3, 5);
-    Vector2 v2 = v;
+    std::cout << std::endl;
+
+    Vector3 v0 = { 3, 0.5f, 5 };
+    Vector3 v1 = { 1.5f, 56, -6.5f };
+    PRINT(Matrix::TRS(v0, Matrix::RotationMatrix3DX(PI / 2), v1));
 
     return 0;
 }

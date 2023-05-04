@@ -2,6 +2,7 @@
 
 #include "matrix.hpp"
 #include "vector2i.hpp"
+#include "vector3.hpp"
 
 #define SQ(var) ((var) * (var))
 

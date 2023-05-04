@@ -14,7 +14,7 @@ public:
 	float x, y, z;
 
 	constexpr Vector3()	: x(0), y(0), z(0) {}
-	/// @brief Constructs a Vector3 with both its components set to 'xy'.
+	/// @brief Constructs a Vector3 with all its components set to 'xyz'.
 	constexpr Vector3(const float xyz) : x(xyz), y(xyz), z(xyz) {}
 	constexpr Vector3(const float x, const float y, const float z) : x(x), y(y), z(z) {}
 	constexpr Vector3(const std::initializer_list<float>& values)

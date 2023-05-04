@@ -109,7 +109,7 @@ Vector3::operator Matrix() const
 
 Vector3 operator+(const Vector3& a, const Vector3& b)
 {
-	return Vector3(a.x + b.x, a.y + b.y);
+	return Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
 Vector3 operator-(const Vector3& a, const Vector3& b)
@@ -119,33 +119,34 @@ Vector3 operator-(const Vector3& a, const Vector3& b)
 
 Vector3 operator-(const Vector3& a)
 {
-	return Vector3(-a.x, -a.y);
+	return Vector3(-a.x, -a.y, -a.z);
 }
 
 Vector3 operator*(const Vector3& a, const Vector3& b)
 {
-	return Vector3(a.x * b.x, a.y * b.y);
+	return Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
 Vector3 operator*(const Vector3& a, const float s)
 {
-	return Vector3(a.x * s, a.y * s);
+	return Vector3(a.x * s, a.y * s, a.z * s);
 }
 
 Vector3 operator/(const Vector3& a, const Vector3& b)
 {
-	return Vector3(a.x / b.x, a.y / b.y);
+	return Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
 }
 
 Vector3 operator/(const Vector3& a, const float s)
 {
-	return Vector3(a.x / s, a.y / s);
+	return Vector3(a.x / s, a.y / s, a.z / s);
 }
 
 Vector3& operator+=(Vector3& a, const Vector3& b)
 {
 	a.x += b.x;
 	a.y += b.y;
+	a.z += b.z;
 	return a;
 }
 
@@ -153,6 +154,7 @@ Vector3& operator+=(Vector3& v, const float factor)
 {
 	v.x += factor;
 	v.y += factor;
+	v.z += factor;
 	return v;
 }
 
@@ -160,6 +162,7 @@ Vector3 &operator-=(Vector3 &a, const Vector3& b)
 {
 	a.x -= b.x;
 	a.y -= b.y;
+	a.z -= b.z;
 	return a;
 }
 
@@ -167,6 +170,7 @@ Vector3& operator-=(Vector3& v, const float factor)
 {
 	v.x -= factor;
 	v.y -= factor;
+	v.z -= factor;
 	return v;
 }
 
@@ -174,6 +178,7 @@ Vector3& operator*=(Vector3& a, const Vector3& b)
 {
 	a.x *= b.x;
 	a.y *= b.y;
+	a.z *= b.z;
 	return a;
 }
 
@@ -181,6 +186,7 @@ Vector3& operator*=(Vector3& v, const float factor)
 {
 	v.x *= factor;
 	v.y *= factor;
+	v.z *= factor;
 	return v;
 }
 
@@ -188,6 +194,7 @@ Vector3 &operator/=(Vector3 &a, const Vector3& b)
 {
 	a.x /= b.x;
 	a.y /= b.y;
+	a.z /= b.z;
 	return a;
 }
 
@@ -195,6 +202,7 @@ Vector3& operator/=(Vector3& v, const float factor)
 {
 	v.x /= factor;
 	v.y /= factor;
+	v.z /= factor;
 	return v;
 }
 

@@ -1,12 +1,16 @@
 #include "matrix.hpp"
+
+#include "vector2.hpp"
 #include "vector3.hpp"
+#include "matrix2x2.hpp"
+#include "matrix3x3.hpp"
+#include "matrix4x4.hpp"
 
 #include <cassert>
 #include <iostream>
 
 #define SQ(var) ((var) * (var))
 
-#pragma region constructors
 Matrix Matrix::Identity(const size_t size)
 {
     Matrix result(size, size);
@@ -15,6 +19,7 @@ Matrix Matrix::Identity(const size_t size)
     return result;
 }
 
+#pragma region constructors
 Matrix::Matrix(const size_t rows, const size_t cols, const float defaultValue)
     : mRows(rows), mCols(cols), mIsSquare(mRows == mCols)
 {
@@ -425,7 +430,7 @@ Matrix Matrix::TRS(const Vector3& translation, const Matrix& rotation, const Vec
     result[1][3] = translation.y;
     result[2][3] = translation.z;
 
-    return result = result * rotation * Matrix::ScalingMatrix3D(scale);
+    return result * rotation * Matrix::ScalingMatrix3D(scale);
 }
 #pragma endregion
 
@@ -470,6 +475,42 @@ Matrix::operator Vector() const
     return result;
 }
 
+Matrix::operator Matrix2x2() const
+{
+    assert(mRows == 2 && mCols == 2 && "Matrix must be 2x2 for a cast to Matrix2x2");
+    __assume(mRows == 2 && mCols == 2);
+
+    return {
+        { mData[0][0], mData[0][1] },
+        { mData[1][0], mData[1][1] }
+    };
+}
+
+Matrix::operator Matrix3x3() const
+{
+    assert(mRows == 3 && mCols == 3 && "Matrix must be 3x3 for a cast to Matrix3x3");
+    __assume(mRows == 3 && mCols == 3);
+
+    return {
+        { mData[0][0], mData[0][1], mData[0][2] },
+        { mData[1][0], mData[1][1], mData[1][2] },
+        { mData[2][0], mData[2][1], mData[2][2] }
+    };
+}
+
+Matrix::operator Matrix4x4() const
+{
+    assert(mRows == 4 && mCols == 4 && "Matrix must be 4x4 for a cast to Matrix4x4");
+    __assume(mRows == 4 && mCols == 4);
+
+    return {
+        { mData[0][0], mData[0][1], mData[0][2], mData[0][3] },
+        { mData[1][0], mData[1][1], mData[1][2], mData[1][3] },
+        { mData[2][0], mData[2][1], mData[2][2], mData[2][3] },
+        { mData[3][0], mData[3][1], mData[3][2], mData[3][3] }
+    };
+}
+
 Matrix operator-(const Matrix& matrix)
 {
     Matrix result = matrix;
@@ -497,7 +538,7 @@ Matrix operator-(const Matrix &m1, const Matrix &m2)
 
 Matrix operator*(const Matrix &m, const float scalar)
 {
-    const Vector2& size = m.GetSize();
+    const Vector2i& size = m.GetSize();
     Matrix result(size);
     for (size_t i = 0; i < size.x; i++)
         for (size_t j = 0; j < size.y; j++)
@@ -507,12 +548,12 @@ Matrix operator*(const Matrix &m, const float scalar)
 
 Matrix operator*(const Matrix &m1, const Matrix &m2)
 {
-    const Vector2& size = m1.GetSize();
+    const Vector2i& size = m1.GetSize();
     assert(size.y == m2.GetRows() && "Cannot multiply matrices of incompatible sizes");
     __assume(size.y == m2.GetSize());
 
     Matrix result((size_t) size.x, m2.GetCols());
-    const Vector2& resultSize = result.GetSize();
+    const Vector2i& resultSize = result.GetSize();
 
     // size.x == 2, size.y == 4
     for (size_t i = 0; i < resultSize.x; i++)
