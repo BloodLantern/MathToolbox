@@ -119,4 +119,11 @@ Vector2i& operator-=(Vector2i& v, const int factor);
 Vector2i& operator*=(Vector2i& a, const Vector2i b);
 Vector2i& operator*=(Vector2i& v, const int factor);
 
+bool operator==(const Vector2i& v, const int i);
+bool operator!=(const Vector2i& v, const int i);
+bool operator<(const Vector2i& v, const int i);
+bool operator>(const Vector2i& v, const int i);
+bool operator<=(const Vector2i& v, const int i);
+bool operator>=(const Vector2i& v, const int i);
+
 std::ostream& operator<<(std::ostream& out, const Vector2i v);

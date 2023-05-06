@@ -110,4 +110,11 @@ Vector3& operator*=(Vector3& v, const float factor);
 Vector3& operator/=(Vector3& a, const Vector3& b);
 Vector3& operator/=(Vector3& v, const float factor);
 
+bool operator==(const Vector3& v, const float f);
+bool operator!=(const Vector3& v, const float f);
+bool operator<(const Vector3& v, const float f);
+bool operator>(const Vector3& v, const float f);
+bool operator<=(const Vector3& v, const float f);
+bool operator>=(const Vector3& v, const float f);
+
 std::ostream& operator<<(std::ostream& out, const Vector3& v);

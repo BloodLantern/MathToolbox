@@ -206,6 +206,36 @@ Vector3& operator/=(Vector3& v, const float factor)
 	return v;
 }
 
+bool operator==(const Vector3 &v, const float f)
+{
+    return v.x == f && v.y == f && v.z == f;
+}
+
+bool operator!=(const Vector3 &v, const float f)
+{
+    return !(v == f);
+}
+
+bool operator<(const Vector3 &v, const float f)
+{
+    return v.x < f && v.y < f && v.z < f;
+}
+
+bool operator>(const Vector3 &v, const float f)
+{
+    return v.x > f && v.y > f && v.z > f;
+}
+
+bool operator<=(const Vector3 &v, const float f)
+{
+    return v < f || v == f;
+}
+
+bool operator>=(const Vector3 &v, const float f)
+{
+    return v > f || v == f;
+}
+
 std::ostream& operator<<(std::ostream& out, const Vector3& v)
 {
 	char buffer[10];

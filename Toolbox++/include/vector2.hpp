@@ -125,4 +125,11 @@ Vector2& operator*=(Vector2& v, const float factor);
 Vector2& operator/=(Vector2& a, const Vector2 b);
 Vector2& operator/=(Vector2& v, const float factor);
 
+bool operator==(const Vector2& v, const float f);
+bool operator!=(const Vector2& v, const float f);
+bool operator<(const Vector2& v, const float f);
+bool operator>(const Vector2& v, const float f);
+bool operator<=(const Vector2& v, const float f);
+bool operator>=(const Vector2& v, const float f);
+
 std::ostream& operator<<(std::ostream& out, const Vector2 v);

@@ -238,6 +238,36 @@ Vector2& operator/=(Vector2& v, const float factor)
 	return v;
 }
 
+bool operator==(const Vector2 &v, const float f)
+{
+    return v.x == f && v.y == f;
+}
+
+bool operator!=(const Vector2 &v, const float f)
+{
+    return !(v == f);
+}
+
+bool operator<(const Vector2 &v, const float f)
+{
+    return v.x < f && v.y < f;
+}
+
+bool operator>(const Vector2 &v, const float f)
+{
+    return v.x > f && v.y > f;
+}
+
+bool operator<=(const Vector2 &v, const float f)
+{
+    return v < f || v == f;
+}
+
+bool operator>=(const Vector2 &v, const float f)
+{
+    return v > f || v == f;
+}
+
 std::ostream& operator<<(std::ostream& out, const Vector2 v)
 {
 	char buffer[10];
