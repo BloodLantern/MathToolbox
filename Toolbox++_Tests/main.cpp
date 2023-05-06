@@ -6,6 +6,7 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 #include "matrix.hpp"
+#include "calc.hpp"
 
 #define PRINT(o) (std::cout << (o) << std::endl)
 #define PI ((float) std::numbers::pi)
@@ -15,6 +16,7 @@ int main()
     PRINT(Matrix::RotationMatrix3DX(PI / 2));
 
     std::cout << std::endl;
+    std::cout << (int) calc::Sign(-7) << std::endl;
 
     Vector3 v0 = { 3, 0.5f, 5 };
     Vector3 v1 = { 1.5f, 56, -6.5f };
