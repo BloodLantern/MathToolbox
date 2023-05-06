@@ -148,7 +148,7 @@
     </Link>
     <Lib />
     <PostBuildEvent>
-      <Command>copy /d /y "$(ProjectDir)include\*" "$(OutDir)include"</Command>
+      <Command>mkdir "$(ProjectDir)..\bin" &amp; mkdir "$(ProjectDir)..\bin\include" &amp; copy /d /y "$(ProjectDir)include\*" "$(OutDir)include"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -172,7 +172,7 @@
     </Link>
     <Lib />
     <PostBuildEvent>
-      <Command>copy /d /y "$(ProjectDir)include\*" "$(OutDir)include"</Command>
+      <Command>mkdir "$(ProjectDir)..\bin" &amp; mkdir "$(ProjectDir)..\bin\include" &amp; copy /d /y "$(ProjectDir)include\*" "$(OutDir)include"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
