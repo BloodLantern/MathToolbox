@@ -14,6 +14,11 @@ class Vector4
 public:
 	float x, y, z, w;
 
+	consteval static Vector4 UnitX() { return Vector4(1.0f, 0.0f, 0.0f, 0.0f); }
+	consteval static Vector4 UnitY() { return Vector4(0.0f, 1.0f, 0.0f, 0.0f); }
+	consteval static Vector4 UnitZ() { return Vector4(0.0f, 0.0f, 1.0f, 0.0f); }
+	consteval static Vector4 UnitW() { return Vector4(0.0f, 0.0f, 0.0f, 1.0f); }
+
 	constexpr Vector4()	: x(0), y(0), z(0), w(0) {}
 	/// @brief Constructs a Vector4 with all its components set to 'xyzw'.
 	constexpr Vector4(const float xyzw) : x(xyzw), y(xyzw), z(xyzw), w(xyzw) {}

@@ -7,7 +7,7 @@
 #define SQ(var) ((var) * (var))
 
 Vector2::Vector2(const Vector2 p1, const Vector2 p2)
-	: x(p2.x - p1.x), y(p2.y - p1.y)
+    : x(p2.x - p1.x), y(p2.y - p1.y)
 {
 }
 
