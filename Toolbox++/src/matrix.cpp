@@ -459,7 +459,7 @@ Matrix::operator Vector3() const
 
 Matrix::operator Vector() const
 {
-    assert(mRows == 1 || mCols == 1 && "Matrix must be 3x1 or 1x3 for a cast to Vector3");
+    assert(mRows == 1 || mCols == 1 && "Matrix must have exactly 1 row or 1 column for a cast to Vector");
     __assume(mRows == 1 || mCols == 1);
 
     const bool rows = mCols == 1;
@@ -477,8 +477,8 @@ Matrix::operator Vector() const
 
 Matrix::operator Matrix2x2() const
 {
-    assert(mRows == 2 && mCols == 2 && "Matrix must be 2x2 for a cast to Matrix2x2");
-    __assume(mRows == 2 && mCols == 2);
+    assert(mRows >= 2 && mCols >= 2 && "Matrix must be at least 2x2 for a cast to Matrix2x2");
+    __assume(mRows >= 2 && mCols >= 2);
 
     return {
         { mData[0][0], mData[0][1] },
@@ -488,8 +488,8 @@ Matrix::operator Matrix2x2() const
 
 Matrix::operator Matrix3x3() const
 {
-    assert(mRows == 3 && mCols == 3 && "Matrix must be 3x3 for a cast to Matrix3x3");
-    __assume(mRows == 3 && mCols == 3);
+    assert(mRows >= 3 && mCols >= 3 && "Matrix must be at least 3x3 for a cast to Matrix3x3");
+    __assume(mRows >= 3 && mCols >= 3);
 
     return {
         { mData[0][0], mData[0][1], mData[0][2] },
@@ -500,8 +500,8 @@ Matrix::operator Matrix3x3() const
 
 Matrix::operator Matrix4x4() const
 {
-    assert(mRows == 4 && mCols == 4 && "Matrix must be 4x4 for a cast to Matrix4x4");
-    __assume(mRows == 4 && mCols == 4);
+    assert(mRows >= 4 && mCols >= 4 && "Matrix must be at least 4x4 for a cast to Matrix4x4");
+    __assume(mRows >= 4 && mCols >= 4);
 
     return {
         { mData[0][0], mData[0][1], mData[0][2], mData[0][3] },
