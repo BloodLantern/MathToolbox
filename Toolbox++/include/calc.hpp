@@ -3,6 +3,9 @@
 #include <cmath>
 #include <algorithm>
 
+class Vector2;
+class Vector3;
+
 namespace calc
 {
     /// @brief The Earth gravitational constant
@@ -18,4 +21,18 @@ namespace calc
     /// @param target The target value.
     /// @param step The step size.
     extern void Approach(float& value, const float target, const float step);
+
+    /// @brief Lerp between two positions in a 2-dimensional space.
+    /// @param value The current position.
+    /// @param target The target position.
+    /// @param t The time to lerp.
+    /// @return The lerped position.
+    extern Vector2 Lerp(const Vector2& value, const Vector2& target, const float t);
+
+    /// @brief Lerp between two positions in a 3-dimensional space.
+    /// @param value The current position.
+    /// @param target The target position.
+    /// @param t The time to lerp.
+    /// @return The lerped position.
+    extern Vector3 Lerp(const Vector3& value, const Vector3& target, const float t);
 }
