@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-consteval Matrix3x3 Matrix3x3::Identity()
+constexpr Matrix3x3 Matrix3x3::Identity()
 {
     return Matrix3x3(
         1, 0, 0,
