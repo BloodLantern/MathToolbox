@@ -6,6 +6,7 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 #include "matrix.hpp"
+#include "matrix4x4.hpp"
 #include "calc.hpp"
 
 #define PRINT(o) (std::cout << (o) << std::endl)
@@ -13,6 +14,10 @@
 
 int main()
 {
+    Matrix4x4 mat = Matrix4x4::Identity();
+    PRINT(mat);
+    std::cout << std::endl;
+
     PRINT(Matrix::RotationMatrix3DX(PI / 2));
 
     std::cout << std::endl;

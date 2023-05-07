@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-constexpr Matrix2x2 Matrix2x2::Identity()
+Matrix2x2 Matrix2x2::Identity()
 {
     return Matrix2x2(
         1, 0,
