@@ -5,6 +5,7 @@
 #include <cassert>
 
 class Vector2;
+class Vector2i;
 class Matrix;
 
 /// @brief The Vector3 class represents either a three-dimensional vector or a point.
@@ -83,6 +84,7 @@ public:
 	[[nodiscard]]
 	float& operator[](const size_t i);
     explicit operator Vector2() const;
+    explicit operator Vector2i() const;
     operator Matrix() const;
 
     // Automatically generates all comparison operators

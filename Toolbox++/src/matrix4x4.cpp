@@ -360,9 +360,12 @@ Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, 
 
 void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix4x4 &result)
 {
-    Vector3 z = (center - eye).Normalized();
-    Vector3 x = up.Cross(z).Normalized();
-    Vector3 y = z.Cross(x);
+    const Vector3 upNormalized = up.Normalized();
+
+    const Vector3 z = (eye - center).Normalized();
+    const Vector3 x = upNormalized.Cross(z).Normalized();
+    const Vector3 y = z.Cross(x);
+    
     result = Matrix4x4(
         x.x, x.y, x.z, -eye.Dot(x),
         y.x, y.y, y.z, -eye.Dot(y),
@@ -373,6 +376,11 @@ void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vect
 
 void Matrix4x4::ProjectionMatrix(const float fovY, const float aspectRatio, const float zNear, const float zFar, Matrix4x4 &result)
 {
+    assert(aspectRatio > 0 && "Aspect ratio must be positive.");
+    __assume(aspectRatio > 0);
+    assert(zNear < zFar && "Near must be smaller than far.");
+    __assume(zNear < zFar);
+
     const float tanHalfFovY = 1 / std::tan(fovY / 2.0f);
     result = Matrix4x4(
         tanHalfFovY / aspectRatio, 0, 0, 0,

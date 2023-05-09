@@ -99,6 +99,11 @@ Vector3::operator Vector2() const
 	return Vector2(x, y);
 }
 
+Vector3::operator Vector2i() const
+{
+	return Vector2i((int) x, (int) y);
+}
+
 Vector3::operator Matrix() const
 {
 	Matrix result(3);

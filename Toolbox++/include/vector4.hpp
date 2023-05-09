@@ -6,6 +6,7 @@
 
 class Vector2;
 class Vector3;
+class Matrix4x4;
 class Matrix;
 
 /// @brief The Vector4 class represents either a four-dimensional vector or a point.
@@ -78,6 +79,8 @@ Vector4 operator*(const Vector4& a, const Vector4& b);
 [[nodiscard]]
 Vector4 operator*(const Vector4& v, const float factor);
 [[nodiscard]]
+Vector4 operator*(const Vector4& v, const Matrix4x4& m);
+[[nodiscard]]
 Vector4 operator/(const Vector4& a, const Vector4& b);
 [[nodiscard]]
 Vector4 operator/(const Vector4& v, const float factor);
@@ -88,6 +91,7 @@ Vector4& operator-=(Vector4& a, const Vector4& b);
 Vector4& operator-=(Vector4& v, const float factor);
 Vector4& operator*=(Vector4& a, const Vector4& b);
 Vector4& operator*=(Vector4& v, const float factor);
+Vector4& operator*=(Vector4& v, const Matrix4x4& m);
 Vector4& operator/=(Vector4& a, const Vector4& b);
 Vector4& operator/=(Vector4& v, const float factor);
 

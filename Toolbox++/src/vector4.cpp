@@ -1,6 +1,7 @@
 #include "vector4.hpp"
 
 #include "matrix.hpp"
+#include "matrix4x4.hpp"
 #include "vector3.hpp"
 
 #define SQ(var) ((var) * (var))
@@ -103,6 +104,16 @@ Vector4 operator*(const Vector4& a, const float s)
 	return Vector4(a.x * s, a.y * s, a.z * s, a.w * s);
 }
 
+Vector4 operator*(const Vector4 &v, const Matrix4x4 &m)
+{
+	const float x = v.x * m[0].x + v.y * m[0].y + v.z * m[0].z + v.w * m[0].w;
+    const float y = v.x * m[1].x + v.y * m[1].y + v.z * m[1].z + v.w * m[1].w;
+    const float z = v.x * m[2].x + v.y * m[2].y + v.z * m[2].z + v.w * m[2].w;
+    const float w = v.x * m[3].x + v.y * m[3].y + v.z * m[3].z + v.w * m[3].w;
+
+    return Vector4(x, y, z, w);
+}
+
 Vector4 operator/(const Vector4& a, const Vector4& b)
 {
 	return Vector4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
@@ -165,6 +176,11 @@ Vector4& operator*=(Vector4& v, const float factor)
     v.z *= factor;
     v.w *= factor;
 	return v;
+}
+
+Vector4 &operator*=(Vector4 &v, const Matrix4x4 &m)
+{
+    return v = v * m;
 }
 
 Vector4 &operator/=(Vector4 &a, const Vector4& b)
