@@ -358,6 +358,30 @@ Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, 
     return result * rotation * Matrix4x4::ScalingMatrix3D(scale);
 }
 
+void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix4x4 &result)
+{
+    Vector3 z = (center - eye).Normalized();
+    Vector3 x = up.Cross(z).Normalized();
+    Vector3 y = z.Cross(x);
+    result = Matrix4x4(
+        x.x, x.y, x.z, -eye.Dot(x),
+        y.x, y.y, y.z, -eye.Dot(y),
+        z.x, z.y, z.z, -eye.Dot(z),
+        0, 0, 0, 1
+    );
+}
+
+void Matrix4x4::ProjectionMatrix(const float fovY, const float aspectRatio, const float zNear, const float zFar, Matrix4x4 &result)
+{
+    const float tanHalfFovY = 1 / std::tan(fovY / 2.0f);
+    result = Matrix4x4(
+        tanHalfFovY / aspectRatio, 0, 0, 0,
+        0, tanHalfFovY, 0, 0,
+        0, 0, (zFar + zNear) / (zNear - zFar), (2 * zNear * zFar) / (zNear - zFar),
+        0, 0, -1, 0
+    );
+}
+
 constexpr const Vector4 &Matrix4x4::operator[](const size_t row) const
 {
     return (&r0)[row];
