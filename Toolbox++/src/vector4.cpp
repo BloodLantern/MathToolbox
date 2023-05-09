@@ -185,6 +185,36 @@ Vector4& operator/=(Vector4& v, const float factor)
 	return v;
 }
 
+bool operator==(const Vector4 &v, const float f)
+{
+    return v.x == f && v.y == f && v.z == f && v.w == f;
+}
+
+bool operator!=(const Vector4 &v, const float f)
+{
+    return !(v == f);
+}
+
+bool operator<(const Vector4 &v, const float f)
+{
+    return v.x < f && v.y < f && v.z < f && v.w < f;
+}
+
+bool operator>(const Vector4 &v, const float f)
+{
+    return v.x > f && v.y > f && v.z > f && v.w > f;
+}
+
+bool operator<=(const Vector4 &v, const float f)
+{
+    return v < f || v == f;
+}
+
+bool operator>=(const Vector4 &v, const float f)
+{
+    return v > f || v == f;
+}
+
 std::ostream& operator<<(std::ostream& out, const Vector4& v)
 {
 	char buffer[10];

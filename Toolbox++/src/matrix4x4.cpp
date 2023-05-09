@@ -6,7 +6,7 @@
 
 #define SQ(var) ((var) * (var))
 
-consteval Matrix4x4 Matrix4x4::Identity()
+Matrix4x4 Matrix4x4::Identity()
 {
     return Matrix4x4(
         1, 0, 0, 0,

@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-consteval Matrix3x3 Matrix3x3::Identity()
+Matrix3x3 Matrix3x3::Identity()
 {
     return Matrix3x3(
         1, 0, 0,
@@ -180,16 +180,10 @@ Matrix3x3 Matrix3x3::Inverse(const Matrix3x3 &matrix)
 }
 constexpr const Vector3 &Matrix3x3::operator[](const size_t row) const
 {
-    assert(row < 2 && "Cannot access Matrix3x3 row out of bounds");
-    __assume(row < 2);
-
     return (&r0)[row];
 }
 constexpr Vector3 &Matrix3x3::operator[](const size_t row)
 {
-    assert(row < 2 && "Cannot access Matrix3x3 row out of bounds");
-    __assume(row < 2);
-
     return (&r0)[row];
 }
 #pragma endregion

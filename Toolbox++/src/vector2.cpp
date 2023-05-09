@@ -7,7 +7,7 @@
 #define SQ(var) ((var) * (var))
 
 Vector2::Vector2(const Vector2 p1, const Vector2 p2)
-	: x(p2.x - p1.x), y(p2.y - p1.y)
+    : x(p2.x - p1.x), y(p2.y - p1.y)
 {
 }
 
@@ -236,6 +236,36 @@ Vector2& operator/=(Vector2& v, const float factor)
 	v.x /= factor;
 	v.y /= factor;
 	return v;
+}
+
+bool operator==(const Vector2 &v, const float f)
+{
+    return v.x == f && v.y == f;
+}
+
+bool operator!=(const Vector2 &v, const float f)
+{
+    return !(v == f);
+}
+
+bool operator<(const Vector2 &v, const float f)
+{
+    return v.x < f && v.y < f;
+}
+
+bool operator>(const Vector2 &v, const float f)
+{
+    return v.x > f && v.y > f;
+}
+
+bool operator<=(const Vector2 &v, const float f)
+{
+    return v < f || v == f;
+}
+
+bool operator>=(const Vector2 &v, const float f)
+{
+    return v > f || v == f;
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector2 v)

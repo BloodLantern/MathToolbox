@@ -208,6 +208,36 @@ Vector2i& operator*=(Vector2i& v, const int factor)
 	return v;
 }
 
+bool operator==(const Vector2i &v, const int i)
+{
+    return v.x == i && v.y == i;
+}
+
+bool operator!=(const Vector2i &v, const int i)
+{
+    return !(v == i);
+}
+
+bool operator<(const Vector2i &v, const int i)
+{
+    return v.x < i && v.y < i;
+}
+
+bool operator>(const Vector2i &v, const int i)
+{
+    return v.x > i && v.y > i;
+}
+
+bool operator<=(const Vector2i &v, const int i)
+{
+    return v < i || v == i;
+}
+
+bool operator>=(const Vector2i &v, const int i)
+{
+    return v > i || v == i;
+}
+
 std::ostream& operator<<(std::ostream& out, const Vector2i v)
 {
 	char buffer[10];

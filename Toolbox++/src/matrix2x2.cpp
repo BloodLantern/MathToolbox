@@ -5,7 +5,7 @@
 
 #include <cassert>
 
-consteval Matrix2x2 Matrix2x2::Identity()
+Matrix2x2 Matrix2x2::Identity()
 {
     return Matrix2x2(
         1, 0,
@@ -144,16 +144,10 @@ Matrix2x2 Matrix2x2::Inverse(const Matrix2x2 &matrix)
 }
 constexpr const Vector2 &Matrix2x2::operator[](const size_t row) const
 {
-    assert(row < 2 && "Cannot access Matrix2x2 row out of bounds");
-    __assume(row < 2);
-
     return (&r0)[row];
 }
 constexpr Vector2 &Matrix2x2::operator[](const size_t row)
 {
-    assert(row < 2 && "Cannot access Matrix2x2 row out of bounds");
-    __assume(row < 2);
-
     return (&r0)[row];
 }
 #pragma endregion
