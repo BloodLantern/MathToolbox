@@ -5,9 +5,9 @@
 
 #include "vector3.hpp"
 
-class Vector;
-class Matrix;
 class Matrix4x4;
+template<size_t M, size_t N>
+class Matrix;
 
 /// @brief The Matrix3x3 class represents a two-dimensional array mainly used for mathematical operations.
 class Matrix3x3
@@ -59,29 +59,63 @@ public:
     /// @brief Returns the sum of the diagonal elements of the matrix.
     [[nodiscard]]
     float Trace() const;
-    /// @brief Returns a matrix with its data set to the given indices of this one.
-    [[nodiscard]]
-    Matrix3x3 SubMatrix(const size_t rowIndex, const size_t colIndex, const size_t rows, const size_t cols) const;
     /// @brief Returns the determinant of this matrix.
     [[nodiscard]]
     float Determinant() const;
     /// @brief Sets this matrix to the identity matrix.
-    Matrix3x3& LoadIdentity(this Matrix3x3& self);
+    Matrix3x3& LoadIdentity();
     /// @brief Switches the matrix by its diagonal elements.
-    Matrix3x3& Transpose(this Matrix3x3& self);
-    /// @brief Adds the given matrix to the right of this one.
-    Matrix Augmented(this Matrix3x3& self, const Matrix3x3& other);
-    Matrix3x3& Inverse(this Matrix3x3& self);
+    Matrix3x3& Transpose();
+    Matrix3x3& Inverse();
 
     /// @brief Switches the given matrix by its diagonal elements.
     [[nodiscard]]
     static Matrix3x3 Transpose(const Matrix3x3& matrix);
-    /// @brief Adds the 'm2' to the right of 'm1'.
-    [[nodiscard]]
-    static Matrix Augmented(const Matrix3x3& m1, const Matrix3x3& m2);
     /// @brief Computes the inverse of the given matrix using the Gauss-Jordan pivot.
     [[nodiscard]]
     static Matrix3x3 Inverse(const Matrix3x3& matrix);
+    /// @brief Creates a 3D rotation matrix from the given angle and axis.
+	/// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3D(const float angle, const Vector3& axis);
+    /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
+    /// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3DX(const float angle);
+    /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
+    /// @param cos The cosine of the angle in radians.
+    /// @param sin The sine of the angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3DX(const float cos, const float sin);
+    /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
+    /// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3DY(const float angle);
+    /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
+    /// @param cos The cosine of the angle in radians.
+    /// @param sin The sine of the angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3DY(const float cos, const float sin);
+    /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
+    /// @param angle The angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3DZ(const float angle);
+    /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
+    /// @param cos The cosine of the angle in radians.
+    /// @param sin The sine of the angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3DZ(const float cos, const float sin);
+    /// @brief Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3D(const Vector3& rotation);
+    /// @brief Creates a 3D rotation matrix from the given cosine, sine and axis.
+	/// @param cos The cosine of the angle in radians.
+	/// @param sin The sine of the angle in radians.
+    [[nodiscard]]
+    static Matrix3x3 Rotation3D(const float cos, const float sin, const Vector3& axis);
+    /// @brief Creates a 3D scaling matrix from the given Vector3.
+    [[nodiscard]]
+    static Matrix3x3 Scaling3D(const Vector3& scale);
 
     [[nodiscard]]
     constexpr const Vector3& operator[](const size_t row) const;
@@ -89,9 +123,9 @@ public:
     constexpr Vector3& operator[](const size_t row);
     explicit operator Vector2() const;
     explicit operator Vector3() const;
-    explicit operator Vector() const;
+    explicit operator Vector<3>() const;
     operator Matrix4x4() const;
-    operator Matrix() const;
+    operator Matrix<3, 3>() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]

@@ -4,7 +4,11 @@
 #include <compare>
 #include <cassert>
 
-#include "vector2.hpp"
+class Vector2;
+class Vector3;
+template<size_t M>
+class Vector;
+class Matrix2x2;
 
 /// @brief The Vector2i class represents either a two-dimensional vector or a point.
 class Vector2i
@@ -94,6 +98,9 @@ public:
 	[[nodiscard]]
 	int& operator[](const size_t i);
     operator Vector2() const;
+    operator Vector3() const;
+    operator Vector<2>() const;
+    explicit operator Matrix2x2() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]

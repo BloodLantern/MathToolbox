@@ -1,6 +1,7 @@
 #include "vector2i.hpp"
 
 #include "matrix.hpp"
+#include "vector2.hpp"
 
 #define SQ(var) ((var) * (var))
 
@@ -129,6 +130,24 @@ int &Vector2i::operator[](const size_t i)
 Vector2i::operator Vector2() const
 {
 	return Vector2((float) x, (float) y);
+}
+
+Vector2i::operator Vector3() const
+{
+	return Vector3((float) x, (float) y, 0);
+}
+
+Vector2i::operator Vector<2>() const
+{
+	return Vector<2>{ (float) x, (float) y };
+}
+
+Vector2i::operator Matrix2x2() const
+{
+	return Matrix2x2(
+		(float) x, 0,
+		(float) y, 1
+	);
 }
 
 Vector2i operator+(const Vector2i a, const Vector2i b)

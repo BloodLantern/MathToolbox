@@ -58,6 +58,10 @@
         "xlocmes": "cpp",
         "xlocmon": "cpp",
         "xloctime": "cpp",
-        "optional": "cpp"
+        "optional": "cpp",
+        "chrono": "cpp",
+        "forward_list": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp"
     }
 }

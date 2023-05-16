@@ -6,8 +6,9 @@
 
 class Vector2;
 class Vector3;
+template<size_t M>
+class Vector;
 class Matrix4x4;
-class Matrix;
 
 /// @brief The Vector4 class represents either a four-dimensional vector or a point.
 class Vector4
@@ -61,7 +62,8 @@ public:
 	float& operator[](const size_t i);
     explicit operator Vector2() const;
     explicit operator Vector3() const;
-    operator Matrix() const;
+    operator Vector<4>() const;
+    explicit operator Matrix4x4() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]

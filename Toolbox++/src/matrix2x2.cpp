@@ -1,4 +1,5 @@
 #include "matrix2x2.hpp"
+
 #include "matrix.hpp"
 #include "matrix3x3.hpp"
 #include "matrix4x4.hpp"
@@ -19,9 +20,9 @@ bool Matrix2x2::IsDiagonal() const
     return r0.y == 0 && r1.y == 0;
 }
 
-bool Matrix2x2::IsIdentity(this const Matrix2x2& self)
+bool Matrix2x2::IsIdentity() const
 {
-    return self == Matrix2x2::Identity();
+    return IsDiagonal() && r0.x == 1 && r1.x == 1;
 }
 
 bool Matrix2x2::IsNull() const
@@ -94,24 +95,19 @@ float Matrix2x2::Determinant() const
     return r0[0] * r1[1] - r1[0] * r0[1];
 }
 
-Matrix2x2 &Matrix2x2::LoadIdentity(this Matrix2x2 &self)
+Matrix2x2 &Matrix2x2::LoadIdentity()
 {
-    return self = Matrix2x2::Identity();
+    return *this = Matrix2x2::Identity();
 }
 
-Matrix2x2 &Matrix2x2::Transpose(this Matrix2x2& self)
+Matrix2x2 &Matrix2x2::Transpose()
 {
-    return self = self.Transpose(self);
+    return *this = Matrix2x2::Transpose(*this);
 }
 
-Matrix Matrix2x2::Augmented(this Matrix2x2& self, const Matrix2x2 &other)
+Matrix2x2 &Matrix2x2::Inverse()
 {
-    return self.Augmented(self, other);
-}
-
-Matrix2x2 &Matrix2x2::Inverse(this Matrix2x2& self)
-{
-    return self = self.Inverse(self);
+    return *this = Matrix2x2::Inverse(*this);
 }
 
 Matrix2x2 Matrix2x2::Transpose(const Matrix2x2& matrix)
@@ -122,30 +118,45 @@ Matrix2x2 Matrix2x2::Transpose(const Matrix2x2& matrix)
     );
 }
 
-Matrix Matrix2x2::Augmented(const Matrix2x2 &m1, const Matrix2x2 &m2)
-{
-    return {
-        { m1[0].x, m1[1].x, m2[0].x, m2[1].x },
-        { m1[0].y, m1[1].y, m2[0].y, m2[1].y }
-    };
-}
-
 Matrix2x2 Matrix2x2::Inverse(const Matrix2x2 &matrix)
 {
     if (matrix.Determinant() == 0) [[unlikely]]
         throw std::invalid_argument("Matrix2x2 isn't inversible");
     else [[likely]]
     {
-        Matrix gaussJordan = Matrix::GaussJordan(Matrix2x2::Augmented(matrix, Matrix2x2::Identity()));
-        Matrix2x2 right = (Matrix2x2) gaussJordan.SubMatrix(0, 2, 2, 2);
+        Matrix<2, 4> gaussJordan = Matrix<2, 4>::GaussJordan(Matrix<2, 2>::Augmented<2>(matrix, Matrix2x2::Identity()));
+        Matrix2x2 right = (Matrix2x2) gaussJordan.SubMatrix<2, 2>(0, 2);
 
         return right;
     }
 }
+
+Matrix2x2 Matrix2x2::Scaling2D(const Vector2 scale)
+{
+    return Matrix2x2(
+        scale.x,       0,
+              0, scale.y
+    );
+}
+
+Matrix2x2 Matrix2x2::Rotation2D(const float angle)
+{
+    return Matrix2x2::Rotation2D(std::cos(angle), std::sin(angle));
+}
+
+Matrix2x2 Matrix2x2::Rotation2D(const float cos, const float sin)
+{
+    return Matrix2x2(
+        cos, -sin,
+        sin,  cos
+    );
+}
+
 constexpr const Vector2 &Matrix2x2::operator[](const size_t row) const
 {
     return (&r0)[row];
 }
+
 constexpr Vector2 &Matrix2x2::operator[](const size_t row)
 {
     return (&r0)[row];
@@ -156,11 +167,6 @@ constexpr Vector2 &Matrix2x2::operator[](const size_t row)
 Matrix2x2::operator Vector2() const
 {
     return Vector2(r0.x, r1.x);
-}
-
-Matrix2x2::operator Vector() const
-{
-    return { r0.x, r1.x };
 }
 
 Matrix2x2::operator Matrix3x3() const
@@ -180,14 +186,6 @@ Matrix2x2::operator Matrix4x4() const
         0, 0, 1, 0,
         0, 0, 0, 1
     );
-}
-
-Matrix2x2::operator Matrix() const
-{
-    return {
-        { r0.x, r0.y },
-        { r1.x, r1.y }
-    };
 }
 
 Matrix2x2 operator-(const Matrix2x2& matrix)

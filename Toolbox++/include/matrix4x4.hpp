@@ -7,8 +7,6 @@
 
 class Vector2;
 class Vector3;
-class Vector;
-class Matrix;
 
 /// @brief The Matrix4x4 class represents a two-dimensional array mainly used for mathematical operations.
 class Matrix4x4
@@ -69,20 +67,15 @@ public:
     [[nodiscard]]
     float Determinant() const;
     /// @brief Sets this matrix to the identity matrix.
-    Matrix4x4& LoadIdentity(this Matrix4x4& self);
+    Matrix4x4& LoadIdentity();
     /// @brief Switches the matrix by its diagonal elements.
-    Matrix4x4& Transpose(this Matrix4x4& self);
-    /// @brief Adds the given matrix to the right of this one.
-    Matrix Augmented(this Matrix4x4& self, const Matrix4x4& other);
-    Matrix4x4& GaussJordan(this Matrix4x4& self);
-    Matrix4x4& Inverse(this Matrix4x4& self);
+    Matrix4x4& Transpose();
+    Matrix4x4& GaussJordan();
+    Matrix4x4& Inverse();
 
     /// @brief Switches the given matrix by its diagonal elements.
     [[nodiscard]]
     static Matrix4x4 Transpose(const Matrix4x4& matrix);
-    /// @brief Adds the 'm2' to the right of 'm1'.
-    [[nodiscard]]
-    static Matrix Augmented(const Matrix4x4& m1, const Matrix4x4& m2);
     /// @brief Computes the Gauss-Jordan pivot.
     [[nodiscard]]
     static Matrix4x4 GaussJordan(const Matrix4x4& matrix);
@@ -91,49 +84,10 @@ public:
     static Matrix4x4 Inverse(const Matrix4x4& matrix);
     /// @brief Creates a 3D translation matrix from the given angle for each of the x, y, and z axis.
     [[nodiscard]]
-    static Matrix4x4 TranslationMatrix3D(const Vector3& translation);
-    /// @brief Creates a 3D rotation matrix from the given angle and axis.
-	/// @param angle The angle in radians.
+    static Matrix4x4 Translation2D(const Vector2& translation);
+    /// @brief Creates a 3D translation matrix from the given angle for each of the x, y, and z axis.
     [[nodiscard]]
-    static Matrix4x4 RotationMatrix3D(const float angle, const Vector3& axis);
-    /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
-    /// @param angle The angle in radians.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3DX(const float angle);
-    /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
-    /// @param cos The cosine of the angle in radians.
-    /// @param sin The sine of the angle in radians.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3DX(const float cos, const float sin);
-    /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
-    /// @param angle The angle in radians.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3DY(const float angle);
-    /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
-    /// @param cos The cosine of the angle in radians.
-    /// @param sin The sine of the angle in radians.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3DY(const float cos, const float sin);
-    /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
-    /// @param angle The angle in radians.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3DZ(const float angle);
-    /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
-    /// @param cos The cosine of the angle in radians.
-    /// @param sin The sine of the angle in radians.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3DZ(const float cos, const float sin);
-    /// @brief Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3D(const Vector3& rotation);
-    /// @brief Creates a 3D rotation matrix from the given cosine, sine and axis.
-	/// @param cos The cosine of the angle in radians.
-	/// @param sin The sine of the angle in radians.
-    [[nodiscard]]
-    static Matrix4x4 RotationMatrix3D(const float cos, const float sin, const Vector3& axis);
-    /// @brief Creates a 3D scaling matrix from the given Vector3.
-    [[nodiscard]]
-    static Matrix4x4 ScalingMatrix3D(const Vector3& scale);
+    static Matrix4x4 Translation3D(const Vector3& translation);
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static Matrix4x4 TRS(const Vector3& translation, const Vector3& rotation, const Vector3& scale);
@@ -154,8 +108,6 @@ public:
     explicit operator Vector2() const;
     explicit operator Vector3() const;
     explicit operator Vector4() const;
-    explicit operator Vector() const;
-    operator Matrix() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]

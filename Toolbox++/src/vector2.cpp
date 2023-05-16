@@ -139,12 +139,17 @@ Vector2::operator Vector3() const
 	return Vector3(x, y, 0);
 }
 
-Vector2::operator Matrix() const
+Vector2::operator Vector<2>() const
 {
-	Matrix result(2);
-	for (size_t i = 0; i < 2; i++)
-		result[i] = operator[](i);
-	return result;
+	return Vector<2>{ x, y };
+}
+
+Vector2::operator Matrix2x2() const
+{
+	return Matrix2x2(
+		x, 0,
+		y, 1
+	);
 }
 
 Vector2 operator+(const Vector2 a, const Vector2 b)
@@ -170,6 +175,14 @@ Vector2 operator*(const Vector2 a, const Vector2 b)
 Vector2 operator*(const Vector2 a, const float s)
 {
 	return Vector2(a.x * s, a.y * s);
+}
+
+Vector2 operator*(const Vector2 &v, const Matrix2x2 &m)
+{
+	const float x = v.x * m[0].x + v.y * m[0].y;
+    const float y = v.x * m[1].x + v.y * m[1].y;
+
+    return Vector2(x, y);
 }
 
 Vector2 operator/(const Vector2 a, const Vector2 b)

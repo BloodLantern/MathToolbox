@@ -9,23 +9,22 @@
 #include "matrix4x4.hpp"
 #include "calc.hpp"
 
-#define PRINT(o) (std::cout << (o) << std::endl)
+#define PRINT(o) (std::cout << (o) << '\n' << std::endl)
 #define PI ((float) std::numbers::pi)
 
 int main()
 {
-    Matrix4x4 mat = Matrix4x4::Identity();
-    PRINT(mat);
-    std::cout << std::endl;
-
-    PRINT(Matrix::RotationMatrix3DX(PI / 2));
-
-    std::cout << std::endl;
-    std::cout << (int) calc::Sign(-7) << std::endl;
-
-    Vector3 v0 = { 3, 0.5f, 5 };
-    Vector3 v1 = { 1.5f, 56, -6.5f };
-    PRINT(Matrix::TRS(v0, Matrix::RotationMatrix3DX(PI / 2), v1));
+    Matrix<4, 4> m = {
+        { 2, 5, 3, 7 },
+        { 4, 1, 6, 8 },
+        { 1, 2, 3, 4 },
+        { 5, 6, 7, 8 }
+    };
+    PRINT(m);
+    PRINT(m.Determinant());
+    Matrix<4, 4> m2 = m.Inverse();
+    PRINT(m);
+    PRINT(m * m2);
 
     return 0;
 }

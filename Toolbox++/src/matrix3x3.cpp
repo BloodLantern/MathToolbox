@@ -5,6 +5,8 @@
 
 #include <cassert>
 
+#define SQ(var) ((var) * (var))
+
 Matrix3x3 Matrix3x3::Identity()
 {
     return Matrix3x3(
@@ -77,29 +79,6 @@ float Matrix3x3::Trace() const
     return result;
 }
 
-Matrix3x3 Matrix3x3::SubMatrix(const size_t rowIndex, const size_t colIndex, const size_t rows, const size_t cols) const
-{
-    assert(rowIndex < 2 && colIndex < 2 && "Cannot submatrix out of bounds");
-    assert(rows > 0 && cols > 0 && "Cannot submatrix of size 0");
-    assert(colIndex + cols >= 2 && "Cannot overflow submatrix columns");
-    __assume(rowIndex < 2 && colIndex < 2);
-    __assume(rows > 0 && cols > 0);
-    __assume(colIndex + cols >= 2);
-
-    Matrix3x3 result;
-    size_t overflow = rowIndex + rows - 2;
-
-    for (size_t i = 0; i < rows; i++)
-        for (size_t j = 0; j < cols; j++)
-        {
-            if (i < overflow)
-                result[i][j] = (*this)[i][colIndex + j];
-            else
-                result[i][j] = (*this)[rowIndex + i - overflow][colIndex + j];
-        }
-    return result;
-}
-
 float Matrix3x3::Determinant() const
 { 
     float result = 0.f;
@@ -122,24 +101,19 @@ float Matrix3x3::Determinant() const
     return result;
 }
 
-Matrix3x3 &Matrix3x3::LoadIdentity(this Matrix3x3 &self)
+Matrix3x3 &Matrix3x3::LoadIdentity()
 {
-    return self = Matrix3x3::Identity();
+    return *this = Matrix3x3::Identity();
 }
 
-Matrix3x3 &Matrix3x3::Transpose(this Matrix3x3& self)
+Matrix3x3 &Matrix3x3::Transpose()
 {
-    return self = self.Transpose(self);
+    return *this = Matrix3x3::Transpose(*this);
 }
 
-Matrix Matrix3x3::Augmented(this Matrix3x3& self, const Matrix3x3 &other)
+Matrix3x3 &Matrix3x3::Inverse()
 {
-    return self.Augmented(self, other);
-}
-
-Matrix3x3 &Matrix3x3::Inverse(this Matrix3x3& self)
-{
-    return self = self.Inverse(self);
+    return *this = Matrix3x3::Inverse(*this);
 }
 
 Matrix3x3 Matrix3x3::Transpose(const Matrix3x3& matrix)
@@ -151,37 +125,99 @@ Matrix3x3 Matrix3x3::Transpose(const Matrix3x3& matrix)
     };
 }
 
-Matrix Matrix3x3::Augmented(const Matrix3x3 &m1, const Matrix3x3 &m2)
-{
-    Matrix result(2, 4);
-
-    for (size_t i = 0; i < 2; i++)
-    {
-        for (size_t j = 0; j < 2; j++)
-            result[i][j] = m1[i][j];
-        for (size_t j = 0; j < 2; j++)
-            result[i][2 + j] = m2[i][j];
-    }
-
-    return result;
-}
-
 Matrix3x3 Matrix3x3::Inverse(const Matrix3x3 &matrix)
 {
     if (matrix.Determinant() == 0) [[unlikely]]
         throw std::invalid_argument("Matrix3x3 isn't inversible");
     else [[likely]]
     {
-        Matrix gaussJordan = Matrix::GaussJordan(Matrix3x3::Augmented(matrix, Matrix3x3::Identity()));
-        Matrix3x3 right = (Matrix3x3) gaussJordan.SubMatrix(0, 2, 2, 2);
+        Matrix<3, 6> gaussJordan = Matrix<3, 6>::GaussJordan(Matrix<3, 3>::Augmented<3>(matrix, Matrix3x3::Identity()));
+        Matrix3x3 right = (Matrix3x3) gaussJordan.SubMatrix<3, 3>(0, 2);
 
         return right;
     }
 }
+
+Matrix3x3 Matrix3x3::Rotation3D(const float angle, const Vector3 &axis)
+{
+    return Rotation3D(std::cos(angle), std::sin(angle), axis);
+}
+
+Matrix3x3 Matrix3x3::Rotation3DX(const float angle)
+{
+    return Rotation3DX(std::cos(angle), std::sin(angle));
+}
+
+Matrix3x3 Matrix3x3::Rotation3DX(const float cos, const float sin)
+{
+    return Matrix3x3(
+        1,    0,     0,
+        0,  cos,  -sin,
+        0,  sin,   cos
+    );
+}
+
+Matrix3x3 Matrix3x3::Rotation3DY(const float angle)
+{
+    return Rotation3DY(std::cos(angle), std::sin(angle));
+}
+
+Matrix3x3 Matrix3x3::Rotation3DY(const float cos, const float sin)
+{
+    return Matrix3x3(
+         cos,  0,  sin,
+           0,  1,    0,
+        -sin,  0,  cos
+    );
+}
+
+Matrix3x3 Matrix3x3::Rotation3DZ(const float angle)
+{
+    return Rotation3DZ(std::cos(angle), std::sin(angle));
+}
+
+Matrix3x3 Matrix3x3::Rotation3DZ(const float cos, const float sin)
+{
+    return Matrix3x3(
+        cos, -sin,  0,
+        sin,  cos,  0,
+          0,    0,  1
+    );
+}
+
+Matrix3x3 Matrix3x3::Rotation3D(const Vector3 &rotation)
+{
+    return Matrix3x3::Rotation3DZ(rotation.z)
+         * Matrix3x3::Rotation3DY(rotation.y)
+         * Matrix3x3::Rotation3DX(rotation.x);
+}
+
+Matrix3x3 Matrix3x3::Rotation3D(const float cos, const float sin, const Vector3 &axis)
+{
+    const float c2 = 1 - cos;
+    Vector3 v = axis.Normalized();
+
+    return Matrix3x3(
+        SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin,
+        v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin,
+        v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos
+    );
+}
+
+Matrix3x3 Matrix3x3::Scaling3D(const Vector3 &scale)
+{
+    return Matrix3x3(
+        scale.x,       0,       0,
+              0, scale.y,       0,
+              0,       0, scale.z
+    );
+}
+
 constexpr const Vector3 &Matrix3x3::operator[](const size_t row) const
 {
     return (&r0)[row];
 }
+
 constexpr Vector3 &Matrix3x3::operator[](const size_t row)
 {
     return (&r0)[row];
@@ -199,9 +235,9 @@ Matrix3x3::operator Vector3() const
     return Vector3(r0.x, r1.x, r2.x);
 }
 
-Matrix3x3::operator Vector() const
+Matrix3x3::operator Vector<3>() const
 {
-    return { r0.x, r1.x, r2.x };
+    return Vector<3>{ r0.x, r1.x, r2.x };
 }
 
 Matrix3x3::operator Matrix4x4() const
@@ -214,12 +250,10 @@ Matrix3x3::operator Matrix4x4() const
     );
 }
 
-Matrix3x3::operator Matrix() const
+Matrix3x3::operator Matrix<3, 3>() const
 {
-    return {
-        { r0.x, r0.y, r0.z },
-        { r1.x, r1.y, r1.z },
-        { r2.x, r2.y, r2.z }
+    return Matrix<3, 3>{
+        r0, r1, r2
     };
 }
 

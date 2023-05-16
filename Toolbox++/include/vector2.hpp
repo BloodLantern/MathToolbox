@@ -6,7 +6,9 @@
 
 class Vector2i;
 class Vector3;
-class Matrix;
+template<size_t M>
+class Vector;
+class Matrix2x2;
 
 /// @brief The Vector2 class represents either a two-dimensional vector or a point.
 class Vector2
@@ -97,7 +99,8 @@ public:
 	float& operator[](const size_t i);
 	explicit operator Vector2i() const;
     operator Vector3() const;
-	operator Matrix() const;
+	operator Vector<2>() const;
+	explicit operator Matrix2x2() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]
@@ -114,6 +117,8 @@ Vector2 operator-(const Vector2 a);
 Vector2 operator*(const Vector2 a, const Vector2 b);
 [[nodiscard]]
 Vector2 operator*(const Vector2 v, const float factor);
+[[nodiscard]]
+Vector2 operator*(const Vector2& v, const Matrix2x2& m);
 [[nodiscard]]
 Vector2 operator/(const Vector2 a, const Vector2 b);
 [[nodiscard]]

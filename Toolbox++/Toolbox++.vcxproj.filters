@@ -47,16 +47,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\matrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vector2i.cpp">
@@ -75,6 +69,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\calc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\matrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

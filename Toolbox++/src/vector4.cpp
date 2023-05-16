@@ -71,12 +71,19 @@ Vector4::operator Vector3() const
 	return Vector3(x, y, z);
 }
 
-Vector4::operator Matrix() const
+Vector4::operator Vector<4>() const
 {
-	Matrix result(4);
-	for (size_t i = 0; i < 4; i++)
-		result[i] = operator[](i);
-	return result;
+	return Vector<4>{ x, y, z, w };
+}
+
+Vector4::operator Matrix4x4() const
+{
+	return Matrix4x4(
+		x, 0, 0, 0,
+		y, 1, 0, 0,
+		z, 0, 1, 0,
+        w, 0, 0, 1
+	);
 }
 
 Vector4 operator+(const Vector4& a, const Vector4& b)

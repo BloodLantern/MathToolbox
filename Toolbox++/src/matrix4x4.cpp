@@ -129,29 +129,24 @@ float Matrix4x4::Determinant() const
     return result;
 }
 
-Matrix4x4 &Matrix4x4::LoadIdentity(this Matrix4x4 &self)
+Matrix4x4 &Matrix4x4::LoadIdentity()
 {
-    return self = Matrix4x4::Identity();
+    return *this = Matrix4x4::Identity();
 }
 
-Matrix4x4 &Matrix4x4::Transpose(this Matrix4x4& self)
+Matrix4x4 &Matrix4x4::Transpose()
 {
-    return self = self.Transpose(self);
+    return *this = Transpose(*this);
 }
 
-Matrix Matrix4x4::Augmented(this Matrix4x4& self, const Matrix4x4 &other)
+Matrix4x4 &Matrix4x4::GaussJordan()
 {
-    return self.Augmented(self, other);
+    return *this = GaussJordan(*this);
 }
 
-Matrix4x4 &Matrix4x4::GaussJordan(this Matrix4x4& self)
+Matrix4x4 &Matrix4x4::Inverse()
 {
-    return self = self.GaussJordan(self);
-}
-
-Matrix4x4 &Matrix4x4::Inverse(this Matrix4x4& self)
-{
-    return self = self.Inverse(self);
+    return *this = Inverse(*this);
 }
 
 Matrix4x4 Matrix4x4::Transpose(const Matrix4x4& matrix)
@@ -162,21 +157,6 @@ Matrix4x4 Matrix4x4::Transpose(const Matrix4x4& matrix)
         { matrix.r0.z, matrix.r1.z, matrix.r2.z, matrix.r3.z },
         { matrix.r0.w, matrix.r1.w, matrix.r2.w, matrix.r3.w }
     };
-}
-
-Matrix Matrix4x4::Augmented(const Matrix4x4 &m1, const Matrix4x4 &m2)
-{
-    Matrix result(4, 8);
-
-    for (size_t i = 0; i < 4; i++)
-    {
-        for (size_t j = 0; j < 4; j++)
-            result[i][j] = m1[i][j];
-        for (size_t j = 0; j < 4; j++)
-            result[i][4 + j] = m2[i][j];
-    }
-
-    return result;
 }
 
 Matrix4x4 Matrix4x4::GaussJordan(const Matrix4x4 &matrix)
@@ -240,14 +220,24 @@ Matrix4x4 Matrix4x4::Inverse(const Matrix4x4 &matrix)
         throw std::invalid_argument("Matrix4x4 isn't inversible");
     else [[likely]]
     {
-        Matrix gaussJordan = Matrix::GaussJordan(Matrix4x4::Augmented(matrix, Matrix4x4::Identity()));
-        Matrix4x4 right = (Matrix4x4) gaussJordan.SubMatrix(0, 4, 4, 4);
+        Matrix<4, 8> gaussJordan = Matrix<4, 8>::GaussJordan(Matrix<4, 4>::Augmented(Matrix<4, 4>(matrix), Matrix<4, 4>::Identity()));
+        Matrix4x4 right = (Matrix4x4) gaussJordan.SubMatrix<4, 4>(0, 4);
 
         return right;
     }
 }
 
-Matrix4x4 Matrix4x4::TranslationMatrix3D(const Vector3 &translation)
+Matrix4x4 Matrix4x4::Translation2D(const Vector2 &translation)
+{
+    return Matrix4x4(
+        1, 0, 0, translation.x,
+        0, 1, 0, translation.y,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    );
+}
+
+Matrix4x4 Matrix4x4::Translation3D(const Vector3 &translation)
 {
     return Matrix4x4(
         1, 0, 0, translation.x,
@@ -257,94 +247,14 @@ Matrix4x4 Matrix4x4::TranslationMatrix3D(const Vector3 &translation)
     );
 }
 
-Matrix4x4 Matrix4x4::RotationMatrix3D(const float angle, const Vector3 &axis)
-{
-    return RotationMatrix3D(std::cos(angle), std::sin(angle), axis);
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3DX(const float angle)
-{
-    return RotationMatrix3DX(std::cos(angle), std::sin(angle));
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3DX(const float cos, const float sin)
-{
-    return Matrix4x4(
-        1,    0,     0, 0,
-        0,  cos,  -sin, 0,
-        0,  sin,   cos, 0,
-        0,    0,     0, 1
-    );
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3DY(const float angle)
-{
-    return RotationMatrix3DY(std::cos(angle), std::sin(angle));
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3DY(const float cos, const float sin)
-{
-    return Matrix4x4(
-         cos,  0,  sin, 0,
-           0,  1,    0, 0,
-        -sin,  0,  cos, 0,
-           0,  0,    0, 1
-    );
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3DZ(const float angle)
-{
-    return RotationMatrix3DZ(std::cos(angle), std::sin(angle));
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3DZ(const float cos, const float sin)
-{
-    return Matrix4x4(
-        cos, -sin,  0, 0,
-        sin,  cos,  0, 0,
-          0,    0,  1, 0,
-          0,    0,  0, 1
-    );
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3D(const Vector3 &rotation)
-{
-    return Matrix4x4::RotationMatrix3DZ(rotation.z)
-         * Matrix4x4::RotationMatrix3DY(rotation.y)
-         * Matrix4x4::RotationMatrix3DX(rotation.x);
-}
-
-Matrix4x4 Matrix4x4::RotationMatrix3D(const float cos, const float sin, const Vector3 &axis)
-{
-    const float c2 = 1 - cos;
-    Vector3 v = axis.Normalized();
-
-    return Matrix4x4(
-        SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin, 0,
-        v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin, 0,
-        v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos, 0,
-        0, 0, 0, 1
-    );
-}
-
-Matrix4x4 Matrix4x4::ScalingMatrix3D(const Vector3 &scale)
-{
-    return Matrix4x4(
-        scale.x,       0,       0,       0,
-              0, scale.y,       0,       0,
-              0,       0, scale.z,       0,
-              0,       0,       0,       1
-    );
-}
-
 Matrix4x4 Matrix4x4::TRS(const Vector3 &translation, const Vector3 &rotation, const Vector3 &scale)
 {
-    return Matrix4x4::TRS(translation, Matrix4x4::RotationMatrix3D(rotation), scale);
+    return Matrix4x4::TRS(translation, Matrix3x3::Rotation3D(rotation), scale);
 }
 
 Matrix4x4 Matrix4x4::TRS(const Vector3 &translation, const float rotationAngle, const Vector3& axis, const Vector3 &scale)
 {
-    return Matrix4x4::TRS(translation, Matrix4x4::RotationMatrix3D(rotationAngle, axis), scale);
+    return Matrix4x4::TRS(translation, Matrix3x3::Rotation3D(rotationAngle, axis), scale);
 }
 
 Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, const Vector3& scale)
@@ -355,7 +265,7 @@ Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, 
     result[1][3] = translation.y;
     result[2][3] = translation.z;
 
-    return result * rotation * Matrix4x4::ScalingMatrix3D(scale);
+    return result * rotation * Matrix3x3::Scaling3D(scale);
 }
 
 void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix4x4 &result)
@@ -415,21 +325,6 @@ Matrix4x4::operator Vector3() const
 Matrix4x4::operator Vector4() const
 {
     return Vector4(r0.x, r1.x, r2.x, r3.x);
-}
-
-Matrix4x4::operator Vector() const
-{
-    return { r0.x, r1.x, r2.x, r3.x };
-}
-
-Matrix4x4::operator Matrix() const
-{
-    return {
-        { r0.x, r0.y, r0.z, r0.w },
-        { r1.x, r1.y, r1.z, r1.w },
-        { r2.x, r2.y, r2.z, r2.w },
-        { r3.x, r3.y, r3.z, r3.w }
-    };
 }
 
 Matrix4x4 operator-(const Matrix4x4& matrix)
