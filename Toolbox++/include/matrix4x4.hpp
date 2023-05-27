@@ -99,8 +99,8 @@ public:
     [[nodiscard]]
     static Matrix4x4 TRS(const Vector3& translation, const Matrix4x4& rotation, const Vector3& scale);
     static void ViewMatrix(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix4x4& result);
-    static void PerspectiveProjectionMatrix(const float fovY, const float aspectRatio, const float zNear, const float zFar, Matrix4x4& result);
-    static void OrthographicProjectionMatrix(const Vector2& topLeft, const Vector2& bottomRight, const float zNear, const float zFar, Matrix4x4& result);
+    static void PerspectiveProjectionMatrix(const float left, const float right, const float bottom, const float top, const float near, const float far, Matrix4x4& result);
+    static void OrthographicProjectionMatrix(const float left, const float right, const float bottom, const float top, const float near, const float far, Matrix4x4& result);
 
     [[nodiscard]]
     constexpr const Vector4& operator[](const size_t row) const;

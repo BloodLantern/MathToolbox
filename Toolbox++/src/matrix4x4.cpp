@@ -284,31 +284,30 @@ void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vect
     );
 }
 
-void Matrix4x4::PerspectiveProjectionMatrix(const float fovY, const float aspectRatio, const float zNear, const float zFar, Matrix4x4 &result)
+void Matrix4x4::PerspectiveProjectionMatrix(const float l, const float r, const float b, const float t, const float n, const float f, Matrix4x4 &result)
 {
-    assert(aspectRatio > 0 && "Aspect ratio must be positive.");
-    __assume(aspectRatio > 0);
-    assert(zNear < zFar && "Near must be smaller than far.");
-    __assume(zNear < zFar);
+    assert(n < f && "Near must be smaller than far.");
+    __assume(n < f);
 
-    const float tanHalfFovY = 1 / std::tan(fovY / 2.0f);
+    const float n2 = 2 * n;
+
     result = Matrix4x4(
-        tanHalfFovY / aspectRatio, 0, 0, 0,
-        0, tanHalfFovY, 0, 0,
-        0, 0, (zFar + zNear) / (zNear - zFar), (2 * zNear * zFar) / (zNear - zFar),
+        n2 / (r - l), 0, (r + l) / (r - l), 0,
+        0, n2 / (t - b), (t + b) / (t - b), 0,
+        0, 0, -(f + n) / (f - n), -(n2 * f) / (f - n),
         0, 0, -1, 0
     );
 }
 
-void Matrix4x4::OrthographicProjectionMatrix(const Vector2& topLeft, const Vector2& bottomRight, const float zNear, const float zFar, Matrix4x4& result)
+void Matrix4x4::OrthographicProjectionMatrix(const float l, const float r, const float b, const float t, const float n, const float f, Matrix4x4& result)
 {
-    assert(zNear < zFar && "Near must be smaller than far.");
-    __assume(zNear < zFar);
+    assert(n < f && "Near must be smaller than far.");
+    __assume(n < f);
 
     result = Matrix4x4(
-        2 / (bottomRight.x - topLeft.x), 0, 0, -((bottomRight.x + topLeft.x) / (bottomRight.x - topLeft.x)),
-        0, 2 / (topLeft.y - bottomRight.y), 0, -((topLeft.y + bottomRight.y) / (topLeft.y - bottomRight.y)),
-        0, 0, -2 / (zFar - zNear), -((zFar + zNear) / (zFar - zNear)),
+        2 / (r - l), 0, 0, -((r + l) / (r - l)),
+        0, 2 / (t - b), 0, -((t + b) / (t - b)),
+        0, 0, -2 / (f - n), -((f + n) / (f - n)),
         0, 0, 0, 1
     );
 }
