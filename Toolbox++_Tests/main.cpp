@@ -10,7 +10,7 @@
 #include "calc.hpp"
 
 #define PRINT(o) (std::cout << (o) << '\n' << std::endl)
-#define PI ((float) std::numbers::pi)
+#define PI std::numbers::pi_v<float>
 
 int main()
 {

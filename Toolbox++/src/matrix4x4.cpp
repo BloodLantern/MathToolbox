@@ -284,7 +284,7 @@ void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vect
     );
 }
 
-void Matrix4x4::ProjectionMatrix(const float fovY, const float aspectRatio, const float zNear, const float zFar, Matrix4x4 &result)
+void Matrix4x4::PerspectiveProjectionMatrix(const float fovY, const float aspectRatio, const float zNear, const float zFar, Matrix4x4 &result)
 {
     assert(aspectRatio > 0 && "Aspect ratio must be positive.");
     __assume(aspectRatio > 0);
@@ -297,6 +297,19 @@ void Matrix4x4::ProjectionMatrix(const float fovY, const float aspectRatio, cons
         0, tanHalfFovY, 0, 0,
         0, 0, (zFar + zNear) / (zNear - zFar), (2 * zNear * zFar) / (zNear - zFar),
         0, 0, -1, 0
+    );
+}
+
+void Matrix4x4::OrthographicProjectionMatrix(const Vector2& topLeft, const Vector2& bottomRight, const float zNear, const float zFar, Matrix4x4& result)
+{
+    assert(zNear < zFar && "Near must be smaller than far.");
+    __assume(zNear < zFar);
+
+    result = Matrix4x4(
+        2 / (bottomRight.x - topLeft.x), 0, 0, -((bottomRight.x + topLeft.x) / (bottomRight.x - topLeft.x)),
+        0, 2 / (topLeft.y - bottomRight.y), 0, -((topLeft.y + bottomRight.y) / (topLeft.y - bottomRight.y)),
+        0, 0, -2 / (zFar - zNear), -((zFar + zNear) / (zFar - zNear)),
+        0, 0, 0, 1
     );
 }
 
