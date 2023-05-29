@@ -293,9 +293,9 @@ Matrix3x3 operator*(const Matrix3x3 &m1, const Matrix3x3 &m2)
 {
     Matrix3x3 result;
 
-    for (size_t i = 0; i < 2; i++)
-        for (size_t j = 0; j < 2; j++)
-            for (size_t k = 0; k < 2; k++)
+    for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++)
+            for (size_t k = 0; k < 3; k++)
                 result[i][j] += m1[i][k] * m2[k][j];
     return result;
 }
