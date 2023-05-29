@@ -271,18 +271,16 @@ Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, 
 
 void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix4x4 &result)
 {
-    const Vector3 upNormalized = up.Normalized();
-
-    const Vector3 z = (eye - center).Normalized();
-    const Vector3 x = upNormalized.Cross(z).Normalized();
-    const Vector3 y = z.Cross(x);
+    const Vector3 cameraForward = -(eye - center).Normalized();
+    const Vector3 cameraRight = Vector3::Cross(up, cameraForward).Normalized();
+    const Vector3 cameraUp = Vector3::Cross(cameraForward, cameraRight);
     
     result = Matrix4x4(
-        x.x, x.y, x.z, -eye.Dot(x),
-        y.x, y.y, y.z, -eye.Dot(y),
-        z.x, z.y, z.z, -eye.Dot(z),
+        cameraRight.x, cameraRight.y, cameraRight.z, 0,
+        cameraUp.x, cameraUp.y, cameraUp.z, 0,
+        cameraForward.x, cameraForward.y, cameraForward.z, 0,
         0, 0, 0, 1
-    );
+    ) * Matrix4x4::Translation3D(-eye);
 }
 
 void Matrix4x4::PerspectiveProjectionMatrix(const float fov, const float ar, const float near, const float far, Matrix4x4 &result)
