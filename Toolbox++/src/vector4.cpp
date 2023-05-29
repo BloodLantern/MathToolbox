@@ -111,7 +111,7 @@ Vector4 operator*(const Vector4& a, const float s)
 	return Vector4(a.x * s, a.y * s, a.z * s, a.w * s);
 }
 
-Vector4 operator*(const Vector4 &v, const Matrix4x4 &m)
+Vector4 operator*(const Matrix4x4& m, const Vector4& v)
 {
 	const float x = v.x * m[0].x + v.y * m[0].y + v.z * m[0].z + v.w * m[0].w;
     const float y = v.x * m[1].x + v.y * m[1].y + v.z * m[1].z + v.w * m[1].w;
@@ -185,9 +185,9 @@ Vector4& operator*=(Vector4& v, const float factor)
 	return v;
 }
 
-Vector4 &operator*=(Vector4 &v, const Matrix4x4 &m)
+Vector4 &operator*=(const Matrix4x4 &m, Vector4& v)
 {
-    return v = v * m;
+    return v = m * v;
 }
 
 Vector4 &operator/=(Vector4 &a, const Vector4& b)

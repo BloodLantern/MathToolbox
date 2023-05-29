@@ -42,7 +42,7 @@ Vector3 Vector3::Cross(const Vector3& other) const
 
 Vector3 Vector3::Rotate(const float angle, const Vector3 &axis) const
 {
-    return *this * Matrix3x3::Rotation3D(angle, axis);
+    return Matrix3x3::Rotation3D(angle, axis) * *this;
 }
 
 Vector3 Vector3::Rotate(const float angle, const Vector3& axis, const Vector3& center) const
@@ -52,7 +52,7 @@ Vector3 Vector3::Rotate(const float angle, const Vector3& axis, const Vector3& c
 
 Vector3 Vector3::Rotate(const float cos, const float sin, const Vector3& axis) const
 {
-    return *this * Matrix3x3::Rotation3D(cos, sin, axis);
+    return Matrix3x3::Rotation3D(cos, sin, axis) * *this;
 }
 
 Vector3 Vector3::Rotate(const float cos, const float sin, const Vector3& axis, const Vector3& center) const
@@ -104,6 +104,11 @@ Vector3::operator Vector2i() const
 	return Vector2i((int) x, (int) y);
 }
 
+Vector3::operator Vector4() const
+{
+	return Vector4(x, y, z, 1);
+}
+
 Vector3::operator Vector<3>() const
 {
     return Vector<3>{ x, y, z };
@@ -143,7 +148,7 @@ Vector3 operator*(const Vector3& a, const float s)
 	return Vector3(a.x * s, a.y * s, a.z * s);
 }
 
-Vector3 operator*(const Vector3 &v, const Matrix3x3 &m)
+Vector3 operator*(const Matrix3x3& m, const Vector3& v)
 {
 	const float x = v.x * m[0].x + v.y * m[0].y + v.z * m[0].z;
     const float y = v.x * m[1].x + v.y * m[1].y + v.z * m[1].z;
@@ -208,6 +213,11 @@ Vector3& operator*=(Vector3& v, const float factor)
 	v.y *= factor;
 	v.z *= factor;
 	return v;
+}
+
+Vector3& operator*=(const Matrix3x3& m, Vector3& v)
+{
+	return v = m * v;
 }
 
 Vector3 &operator/=(Vector3 &a, const Vector3& b)

@@ -139,6 +139,11 @@ Vector2::operator Vector3() const
 	return Vector3(x, y, 0);
 }
 
+Vector2::operator Vector4() const
+{
+	return Vector4(x, y, 0, 1);
+}
+
 Vector2::operator Vector<2>() const
 {
 	return Vector<2>{ x, y };
@@ -177,7 +182,7 @@ Vector2 operator*(const Vector2 a, const float s)
 	return Vector2(a.x * s, a.y * s);
 }
 
-Vector2 operator*(const Vector2 &v, const Matrix2x2 &m)
+Vector2 operator*(const Matrix2x2& m, const Vector2& v)
 {
 	const float x = v.x * m[0].x + v.y * m[0].y;
     const float y = v.x * m[1].x + v.y * m[1].y;
@@ -235,6 +240,11 @@ Vector2& operator*=(Vector2& v, const float factor)
 	v.x *= factor;
 	v.y *= factor;
 	return v;
+}
+
+Vector2& operator*=(const Matrix2x2& m, Vector2& v)
+{
+	return v = m * v;
 }
 
 Vector2 &operator/=(Vector2 &a, const Vector2 b)

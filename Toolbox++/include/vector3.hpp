@@ -6,6 +6,7 @@
 
 class Vector2;
 class Vector2i;
+class Vector4;
 template<size_t M>
 class Vector;
 class Matrix3x3;
@@ -86,7 +87,8 @@ public:
 	[[nodiscard]]
 	float& operator[](const size_t i);
     explicit operator Vector2() const;
-    explicit operator Vector2i() const;
+	explicit operator Vector2i() const;
+	operator Vector4() const;
     operator Vector<3>() const;
     explicit operator Matrix3x3() const;
 
@@ -106,7 +108,7 @@ Vector3 operator*(const Vector3& a, const Vector3& b);
 [[nodiscard]]
 Vector3 operator*(const Vector3& v, const float factor);
 [[nodiscard]]
-Vector3 operator*(const Vector3& v, const Matrix3x3& m);
+Vector3 operator*(const Matrix3x3& m, const Vector3& v);
 [[nodiscard]]
 Vector3 operator/(const Vector3& a, const Vector3& b);
 [[nodiscard]]
@@ -118,6 +120,7 @@ Vector3& operator-=(Vector3& a, const Vector3& b);
 Vector3& operator-=(Vector3& v, const float factor);
 Vector3& operator*=(Vector3& a, const Vector3& b);
 Vector3& operator*=(Vector3& v, const float factor);
+Vector3& operator*=(const Matrix3x3& m, Vector3& v);
 Vector3& operator/=(Vector3& a, const Vector3& b);
 Vector3& operator/=(Vector3& v, const float factor);
 

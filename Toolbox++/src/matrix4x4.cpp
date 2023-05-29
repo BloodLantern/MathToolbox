@@ -3,6 +3,7 @@
 #include "matrix.hpp"
 
 #include <cassert>
+#include <numbers>
 
 #define SQ(var) ((var) * (var))
 
@@ -284,18 +285,19 @@ void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vect
     );
 }
 
-void Matrix4x4::PerspectiveProjectionMatrix(const float l, const float r, const float b, const float t, const float n, const float f, Matrix4x4 &result)
+void Matrix4x4::PerspectiveProjectionMatrix(const float fov, const float ar, const float near, const float far, Matrix4x4 &result)
 {
-    assert(n < f && "Near must be smaller than far.");
-    __assume(n < f);
+    assert(near < far && "Near must be smaller than far.");
+    __assume(near < far);
 
-    const float n2 = 2 * n;
+    const float range = near - far;
+    const float tanHalfFOV = std::tan(fov / 2 * std::numbers::pi_v<float> / 180);
 
     result = Matrix4x4(
-        n2 / (r - l), 0, (r + l) / (r - l), 0,
-        0, n2 / (t - b), (t + b) / (t - b), 0,
-        0, 0, -(f + n) / (f - n), -(n2 * f) / (f - n),
-        0, 0, -1, 0
+        1 / (tanHalfFOV * ar), 0, 0, 0,
+        0, 1 / tanHalfFOV, 0, 0,
+        0, 0, (-near - far) / range, 2 * far * near / range,
+        0, 0, 1, 0
     );
 }
 

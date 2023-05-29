@@ -6,6 +6,7 @@
 
 class Vector2i;
 class Vector3;
+class Vector4;
 template<size_t M>
 class Vector;
 class Matrix2x2;
@@ -98,7 +99,8 @@ public:
 	[[nodiscard]]
 	float& operator[](const size_t i);
 	explicit operator Vector2i() const;
-    operator Vector3() const;
+	operator Vector3() const;
+	operator Vector4() const;
 	operator Vector<2>() const;
 	explicit operator Matrix2x2() const;
 
@@ -118,7 +120,7 @@ Vector2 operator*(const Vector2 a, const Vector2 b);
 [[nodiscard]]
 Vector2 operator*(const Vector2 v, const float factor);
 [[nodiscard]]
-Vector2 operator*(const Vector2& v, const Matrix2x2& m);
+Vector2 operator*(const Matrix2x2& m, const Vector2& v);
 [[nodiscard]]
 Vector2 operator/(const Vector2 a, const Vector2 b);
 [[nodiscard]]
@@ -130,6 +132,7 @@ Vector2& operator-=(Vector2& a, const Vector2 b);
 Vector2& operator-=(Vector2& v, const float factor);
 Vector2& operator*=(Vector2& a, const Vector2 b);
 Vector2& operator*=(Vector2& v, const float factor);
+Vector2& operator*=(const Matrix2x2& m, Vector2& v);
 Vector2& operator/=(Vector2& a, const Vector2 b);
 Vector2& operator/=(Vector2& v, const float factor);
 
