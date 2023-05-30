@@ -289,7 +289,7 @@ void Matrix4x4::PerspectiveProjectionMatrix(const float fov, const float ar, con
     __assume(near < far);
 
     const float range = near - far;
-    const float tanHalfFOV = std::tan(fov / 2 * std::numbers::pi_v<float> / 180);
+    const float tanHalfFOV = std::tan(fov / 2);
 
     result = Matrix4x4(
         1 / (tanHalfFOV * ar), 0, 0, 0,
