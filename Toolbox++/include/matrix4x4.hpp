@@ -7,6 +7,12 @@
 
 class Vector2;
 class Vector3;
+template<size_t M>
+class Vector;
+class Matrix2x2;
+class Matrix3x3;
+template<size_t M, size_t N>
+class Matrix;
 
 /// @brief The Matrix4x4 class represents a two-dimensional array mainly used for mathematical operations.
 class Matrix4x4
@@ -106,9 +112,11 @@ public:
     constexpr const Vector4& operator[](const size_t row) const;
     [[nodiscard]]
     constexpr Vector4& operator[](const size_t row);
-    explicit operator Vector2() const;
-    explicit operator Vector3() const;
     explicit operator Vector4() const;
+    explicit operator Vector<4>() const;
+    explicit operator Matrix2x2() const;
+    explicit operator Matrix3x3() const;
+    explicit operator Matrix<4, 4>() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]

@@ -5,8 +5,12 @@
 
 #include "vector2.hpp"
 
+template<size_t M>
+class Vector;
 class Matrix3x3;
 class Matrix4x4;
+template<size_t M, size_t N>
+class Matrix;
 
 /// @brief The Matrix2x2 class represents a two-dimensional array mainly used for mathematical operations.
 class Matrix2x2
@@ -93,8 +97,10 @@ public:
     [[nodiscard]]
     constexpr Vector2& operator[](const size_t row);
     explicit operator Vector2() const;
+    explicit operator Vector<2>() const;
     explicit operator Matrix3x3() const;
     explicit operator Matrix4x4() const;
+    explicit operator Matrix<2, 2>() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]

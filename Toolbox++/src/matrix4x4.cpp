@@ -324,19 +324,38 @@ constexpr Vector4 &Matrix4x4::operator[](const size_t row)
 #pragma endregion
 
 #pragma region operators
-Matrix4x4::operator Vector2() const
-{
-    return Vector2(r0.x, r1.x);
-}
-
-Matrix4x4::operator Vector3() const
-{
-    return Vector3(r0.x, r1.x, r2.x);
-}
-
 Matrix4x4::operator Vector4() const
 {
     return Vector4(r0.x, r1.x, r2.x, r3.x);
+}
+
+Matrix4x4::operator Vector<4>() const
+{
+    return Vector<4>{ r0.x, r1.x, r2.x, r3.x };
+}
+
+Matrix4x4::operator Matrix2x2() const
+{
+    return Matrix2x2(
+        r0.x, r0.y,
+        r1.x, r1.y
+    );
+}
+
+Matrix4x4::operator Matrix3x3() const
+{
+    return Matrix3x3(
+        r0.x, r0.y, r0.z,
+        r1.x, r1.y, r1.z,
+        r2.x, r2.y, r2.z
+    );
+}
+
+Matrix4x4::operator Matrix<4>() const
+{
+    return Matrix<4>{
+        r0, r1, r2, r3
+    };
 }
 
 Matrix4x4 operator-(const Matrix4x4& matrix)

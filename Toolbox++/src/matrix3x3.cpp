@@ -225,11 +225,6 @@ constexpr Vector3 &Matrix3x3::operator[](const size_t row)
 #pragma endregion
 
 #pragma region operators
-Matrix3x3::operator Vector2() const
-{
-    return Vector2(r0.x, r1.x);
-}
-
 Matrix3x3::operator Vector3() const
 {
     return Vector3(r0.x, r1.x, r2.x);
@@ -238,6 +233,14 @@ Matrix3x3::operator Vector3() const
 Matrix3x3::operator Vector<3>() const
 {
     return Vector<3>{ r0.x, r1.x, r2.x };
+}
+
+Matrix3x3::operator Matrix2x2() const
+{
+    return Matrix2x2(
+        r0.x, r0.y,
+        r1.x, r1.y
+    );
 }
 
 Matrix3x3::operator Matrix4x4() const
@@ -250,9 +253,9 @@ Matrix3x3::operator Matrix4x4() const
     );
 }
 
-Matrix3x3::operator Matrix<3, 3>() const
+Matrix3x3::operator Matrix<3>() const
 {
-    return Matrix<3, 3>{
+    return Matrix<3>{
         r0, r1, r2
     };
 }

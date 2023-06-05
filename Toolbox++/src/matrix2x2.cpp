@@ -169,6 +169,11 @@ Matrix2x2::operator Vector2() const
     return Vector2(r0.x, r1.x);
 }
 
+Matrix2x2::operator Vector<2>() const
+{
+    return Vector<2>{ r0.x, r1.x };
+}
+
 Matrix2x2::operator Matrix3x3() const
 {
     return Matrix3x3(
@@ -186,6 +191,13 @@ Matrix2x2::operator Matrix4x4() const
         0, 0, 1, 0,
         0, 0, 0, 1
     );
+}
+
+Matrix2x2::operator Matrix<2>() const
+{
+    return Matrix<2>{
+        r0, r1
+    };
 }
 
 Matrix2x2 operator-(const Matrix2x2& matrix)

@@ -5,7 +5,10 @@
 
 #include "vector3.hpp"
 
+template<size_t M>
+class Vector;
 class Matrix4x4;
+class Matrix2x2;
 template<size_t M, size_t N>
 class Matrix;
 
@@ -121,9 +124,9 @@ public:
     constexpr const Vector3& operator[](const size_t row) const;
     [[nodiscard]]
     constexpr Vector3& operator[](const size_t row);
-    explicit operator Vector2() const;
     explicit operator Vector3() const;
     explicit operator Vector<3>() const;
+    operator Matrix2x2() const;
     operator Matrix4x4() const;
     operator Matrix<3, 3>() const;
 
