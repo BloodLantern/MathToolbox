@@ -74,6 +74,12 @@ public:
     /// @brief Switches the given matrix by its diagonal elements.
     [[nodiscard]]
     static Matrix3x3 Transpose(const Matrix3x3& matrix);
+    /// @brief Computes the cofactor of the given matrix with a given row and column.
+    [[nodiscard]]
+    static float Cofactor(const Matrix3x3& matrix, size_t row, size_t column);
+    /// @brief Computes the cofactor matrix of the given matrix.
+    [[nodiscard]]
+    static Matrix3x3 Cofactor(const Matrix3x3& matrix);
     /// @brief Computes the inverse of the given matrix using the Gauss-Jordan pivot.
     [[nodiscard]]
     static Matrix3x3 Inverse(const Matrix3x3& matrix);
@@ -155,3 +161,5 @@ Matrix3x3& operator*=(Matrix3x3& m, const float scalar);
 Matrix3x3& operator*=(Matrix3x3& m1, const Matrix3x3& m2);
 
 std::ostream& operator<<(std::ostream& out, const Matrix3x3& m);
+
+using mat3 = Matrix3x3;

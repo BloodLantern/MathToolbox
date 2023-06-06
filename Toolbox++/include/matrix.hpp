@@ -1,5 +1,6 @@
 #pragma once
 
+#include "calc.hpp"
 #include "vector.hpp"
 #include "vector2.hpp"
 #include "vector2i.hpp"
@@ -16,7 +17,7 @@
 
 /// @brief The Matrix class represents a two-dimensional array mainly used for mathematical operations.
 ///        The easiest way to create a matrix is to use the std::initializer_list constructor which allows
-///        us to do the following for a 3x3 identity matrix: Matrix m = { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } }.
+///        us to do the following for a 3x3 identity matrix: Matrix<3> m = { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } }.
 template<size_t M, size_t N = M>
 class Matrix
 {
@@ -252,8 +253,6 @@ public:
     template<size_t _N>
     Matrix<M, N + _N>& Augmented(const Matrix<M, _N>& other) { return *this = Matrix<M, N>::Augmented(other); }
 
-    Matrix<M, N>& GaussJordan() { return *this = Matrix<M, N>::GaussJordan(*this); }
-
     Matrix<M, N>& Inverse() { return *this = Matrix<M, N>::Inverse(*this); }
 
     /// @brief Returns a Vector2 representing the size of this matrix. This operation
@@ -300,59 +299,36 @@ public:
         return result;
     }
 
-    /// @brief Computes the Gauss-Jordan pivot.
+    /// @brief Computes the cofactor of the given matrix with a given row and column.
     [[nodiscard]]
-    static Matrix<M, N> GaussJordan(const Matrix<M, N>& matrix)
+    static float Cofactor(const Matrix<M, N>& matrix, size_t row, size_t column)
     {
-        Matrix<M, N> result = matrix;
+        Matrix<M - 1, N - 1> result;
         
-        // Last pivot rank
-        size_t r = (size_t) -1;
-        // j is the current column
-        for (size_t j = 0; j < N; j++)
-        {
-            // Max value row index
-            size_t k = 0;
+        for (size_t i = 0, k = 0; i < M; i++)
+            if (i != row)
             {
-                float maxValue = 0;
-                for (size_t i = r + 1; i < M; i++)
-                {
-                    float value = result[i][j];
-                    if (value == 1)
+                for (size_t j = 0, l = 0; j < N; j++)
+                    if (j != column)
                     {
-                        k = i;
-                        break;
+                        result[k][l] = matrix[i][j];
+                        l++;
                     }
-
-                    if (std::abs(value) > maxValue)
-                    {
-                        maxValue = value;
-                        k = i;
-                    }
-                }
+                k++;
             }
 
-            float value = result[k][j];
-            if (value != 0)
-            {
-                // r is the next pivot row index
-                r++;
-                // Normalize the pivot's row
-                result[k] /= value;
+        return result.Determinant();
+    }
 
-                if (k != r)
-                    // Swap k and r rows
-                    for (size_t i = 0; i < N; i++)
-                        std::swap(result[k][i], result[r][i]);
-
-                for (size_t i = 0; i < M; i++)
-                    if (i != r)
-                        result[i] -= result[r] * result[i][j];
-            }
-
-            if (r == M - 1)
-                break;
-        }
+    /// @brief Computes the cofactor matrix of the given matrix.
+    [[nodiscard]]
+    static Matrix<M, N> Cofactor(const Matrix<M, N>& matrix)
+    {
+        Matrix<M, N> result;
+        
+        for (size_t i = 0; i < M; i++)
+            for (size_t j = 0; j < N; j++)
+                result[i][j] = Cofactor(matrix, i, j);
 
         return result;
     }
@@ -364,15 +340,10 @@ public:
         assert(matrix.mIsSquare && "Matrix must be square to get the inverse");
         __assume(M == N);
 
-        if (matrix.Determinant() == 0) [[unlikely]]
+        if (calc::IsZero(matrix.Determinant())) [[unlikely]]
             throw std::invalid_argument("Matrix isn't inversible");
         else [[likely]]
-        {
-            Matrix<M, N * 2> gaussJordan = Matrix<M, N * 2>::GaussJordan(Matrix<M, N>::Augmented(matrix, Matrix<M, N>::Identity()));
-            Matrix<M, N> right = gaussJordan.SubMatrix<M, N>(0, N);
-
-            return right;
-        }
+            return Matrix<M, N>::Cofactor(matrix).Transpose() * (1 / matrix.Determinant());
     }
 #pragma endregion
 

@@ -71,14 +71,10 @@ public:
     Matrix2x2& LoadIdentity();
     /// @brief Switches the matrix by its diagonal elements.
     Matrix2x2& Transpose();
-    Matrix2x2& Inverse();
 
     /// @brief Switches the given matrix by its diagonal elements.
     [[nodiscard]]
     static Matrix2x2 Transpose(const Matrix2x2& matrix);
-    /// @brief Computes the inverse of the given matrix using the Gauss-Jordan pivot.
-    [[nodiscard]]
-    static Matrix2x2 Inverse(const Matrix2x2& matrix);
     /// @brief Creates a 2D scaling matrix from the given Vector2.
     [[nodiscard]]
     static Matrix2x2 Scaling2D(const Vector2 scale);
@@ -127,3 +123,5 @@ Matrix2x2& operator*=(Matrix2x2& m, const float scalar);
 Matrix2x2& operator*=(Matrix2x2& m1, const Matrix2x2& m2);
 
 std::ostream& operator<<(std::ostream& out, const Matrix2x2& m);
+
+using mat2 = Matrix2x2;

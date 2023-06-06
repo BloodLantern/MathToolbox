@@ -144,3 +144,5 @@ bool operator<=(const Vector2& v, const float f);
 bool operator>=(const Vector2& v, const float f);
 
 std::ostream& operator<<(std::ostream& out, const Vector2 v);
+
+using vec2 = Vector2;

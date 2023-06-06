@@ -105,30 +105,12 @@ Matrix2x2 &Matrix2x2::Transpose()
     return *this = Matrix2x2::Transpose(*this);
 }
 
-Matrix2x2 &Matrix2x2::Inverse()
-{
-    return *this = Matrix2x2::Inverse(*this);
-}
-
 Matrix2x2 Matrix2x2::Transpose(const Matrix2x2& matrix)
 {
     return Matrix2x2(
         matrix[0].x, matrix[1].x,
         matrix[0].y, matrix[1].y
     );
-}
-
-Matrix2x2 Matrix2x2::Inverse(const Matrix2x2 &matrix)
-{
-    if (matrix.Determinant() == 0) [[unlikely]]
-        throw std::invalid_argument("Matrix2x2 isn't inversible");
-    else [[likely]]
-    {
-        Matrix<2, 4> gaussJordan = Matrix<2, 4>::GaussJordan(Matrix<2, 2>::Augmented<2>(matrix, Matrix2x2::Identity()));
-        Matrix2x2 right = (Matrix2x2) gaussJordan.SubMatrix<2, 2>(0, 2);
-
-        return right;
-    }
 }
 
 Matrix2x2 Matrix2x2::Scaling2D(const Vector2 scale)

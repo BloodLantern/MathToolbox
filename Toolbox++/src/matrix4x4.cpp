@@ -140,11 +140,6 @@ Matrix4x4 &Matrix4x4::Transpose()
     return *this = Transpose(*this);
 }
 
-Matrix4x4 &Matrix4x4::GaussJordan()
-{
-    return *this = GaussJordan(*this);
-}
-
 Matrix4x4 &Matrix4x4::Inverse()
 {
     return *this = Inverse(*this);
@@ -160,57 +155,32 @@ Matrix4x4 Matrix4x4::Transpose(const Matrix4x4& matrix)
     };
 }
 
-Matrix4x4 Matrix4x4::GaussJordan(const Matrix4x4 &matrix)
+float Matrix4x4::Cofactor(const Matrix4x4 &matrix, size_t row, size_t column)
 {
-    Matrix4x4 result = matrix;
+    Matrix3x3 result;
     
-    // Last pivot rank
-    size_t r = (size_t) -1;
-    // j is the current column
-    for (size_t j = 0; j < 4; j++)
-    {
-        // Max value row index
-        size_t k = 0;
+    for (size_t i = 0, k = 0; i < 4; i++)
+        if (i != row)
         {
-            float maxValue = 0;
-            for (size_t i = r + 1; i < 4; i++)
-            {
-                float value = result[i][j];
-                if (value == 1)
+            for (size_t j = 0, l = 0; j < 4; j++)
+                if (j != column)
                 {
-                    k = i;
-                    break;
+                    result[k][l] = matrix[i][j];
+                    l++;
                 }
-
-                if (std::abs(value) > maxValue)
-                {
-                    maxValue = value;
-                    k = i;
-                }
-            }
+            k++;
         }
 
-        float value = result[k][j];
-        if (value != 0)
-        {
-            // r is the next pivot row index
-            r++;
-            // Normalize the pivot's row
-            result[k] /= value;
+    return result.Determinant();
+}
 
-            if (k != r)
-                // Swap k and r rows
-                for (size_t i = 0; i < 4; i++)
-                    std::swap(result[k][i], result[r][i]);
-
-            for (size_t i = 0; i < 4; i++)
-                if (i != r)
-                    result[i] -= result[r] * result[i][j];
-        }
-
-        if (r == 3)
-            break;
-    }
+Matrix4x4 Matrix4x4::Cofactor(const Matrix4x4 &matrix)
+{
+    Matrix4x4 result;
+    
+    for (size_t i = 0; i < 4; i++)
+        for (size_t j = 0; j < 4; j++)
+            result[i][j] = Cofactor(matrix, i, j);
 
     return result;
 }
@@ -220,12 +190,7 @@ Matrix4x4 Matrix4x4::Inverse(const Matrix4x4 &matrix)
     if (matrix.Determinant() == 0) [[unlikely]]
         throw std::invalid_argument("Matrix4x4 isn't inversible");
     else [[likely]]
-    {
-        Matrix<4, 8> gaussJordan = Matrix<4, 8>::GaussJordan(Matrix<4, 4>::Augmented(Matrix<4, 4>(matrix), Matrix<4, 4>::Identity()));
-        Matrix4x4 right = (Matrix4x4) gaussJordan.SubMatrix<4, 4>(0, 4);
-
-        return right;
-    }
+        return Matrix4x4::Cofactor(matrix).Transpose() * (1 / matrix.Determinant());
 }
 
 Matrix4x4 Matrix4x4::Translation2D(const Vector2 &translation)

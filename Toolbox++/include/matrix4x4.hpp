@@ -76,15 +76,17 @@ public:
     Matrix4x4& LoadIdentity();
     /// @brief Switches the matrix by its diagonal elements.
     Matrix4x4& Transpose();
-    Matrix4x4& GaussJordan();
     Matrix4x4& Inverse();
 
     /// @brief Switches the given matrix by its diagonal elements.
     [[nodiscard]]
     static Matrix4x4 Transpose(const Matrix4x4& matrix);
-    /// @brief Computes the Gauss-Jordan pivot.
+    /// @brief Computes the cofactor of the given matrix with a given row and column.
     [[nodiscard]]
-    static Matrix4x4 GaussJordan(const Matrix4x4& matrix);
+    static float Cofactor(const Matrix4x4& matrix, size_t row, size_t column);
+    /// @brief Computes the cofactor matrix of the given matrix.
+    [[nodiscard]]
+    static Matrix4x4 Cofactor(const Matrix4x4& matrix);
     /// @brief Computes the inverse of the given matrix using the Gauss-Jordan pivot.
     [[nodiscard]]
     static Matrix4x4 Inverse(const Matrix4x4& matrix);
@@ -143,3 +145,5 @@ Matrix4x4& operator*=(Matrix4x4& m, const float scalar);
 Matrix4x4& operator*=(Matrix4x4& m1, const Matrix4x4& m2);
 
 std::ostream& operator<<(std::ostream& out, const Matrix4x4& m);
+
+using mat4 = Matrix4x4;

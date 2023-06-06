@@ -125,17 +125,42 @@ Matrix3x3 Matrix3x3::Transpose(const Matrix3x3& matrix)
     };
 }
 
+float Matrix3x3::Cofactor(const Matrix3x3 &matrix, size_t row, size_t column)
+{
+    Matrix2x2 result;
+    
+    for (size_t i = 0, k = 0; i < 3; i++)
+        if (i != row)
+        {
+            for (size_t j = 0, l = 0; j < 3; j++)
+                if (j != column)
+                {
+                    result[k][l] = matrix[i][j];
+                    l++;
+                }
+            k++;
+        }
+
+    return result.Determinant();
+}
+
+Matrix3x3 Matrix3x3::Cofactor(const Matrix3x3 &matrix)
+{
+    Matrix3x3 result;
+    
+    for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++)
+            result[i][j] = Cofactor(matrix, i, j);
+
+    return result;
+}
+
 Matrix3x3 Matrix3x3::Inverse(const Matrix3x3 &matrix)
 {
     if (matrix.Determinant() == 0) [[unlikely]]
         throw std::invalid_argument("Matrix3x3 isn't inversible");
     else [[likely]]
-    {
-        Matrix<3, 6> gaussJordan = Matrix<3, 6>::GaussJordan(Matrix<3, 3>::Augmented<3>(matrix, Matrix3x3::Identity()));
-        Matrix3x3 right = (Matrix3x3) gaussJordan.SubMatrix<3, 3>(0, 2);
-
-        return right;
-    }
+        return Matrix3x3::Cofactor(matrix).Transpose() * (1 / matrix.Determinant());
 }
 
 Matrix3x3 Matrix3x3::Rotation3D(const float angle, const Vector3 &axis)

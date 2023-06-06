@@ -132,3 +132,5 @@ bool operator<=(const Vector3& v, const float f);
 bool operator>=(const Vector3& v, const float f);
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v);
+
+using vec3 = Vector3;
