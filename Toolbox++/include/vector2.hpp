@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ostream>
-#include <compare>
 #include <cassert>
 
 class Vector2i;
@@ -81,6 +80,7 @@ public:
 	[[nodiscard]]
 	Vector2 Rotate(const Vector2 center, const float cos, const float sin) const;
 
+#ifndef SWIG
 	/// @brief Returns the angle between 'a' and 'b'.
 	[[nodiscard]]
 	static float Angle(const Vector2 a, const Vector2 b);
@@ -98,15 +98,13 @@ public:
 	float  operator[](const size_t i) const;
 	[[nodiscard]]
 	float& operator[](const size_t i);
+#endif
+
 	explicit operator Vector2i() const;
 	operator Vector3() const;
 	operator Vector4() const;
 	operator Vector<2>() const;
 	explicit operator Matrix2x2() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Vector2& a, const Vector2& b) = default;
 };
 
 [[nodiscard]]
@@ -136,13 +134,8 @@ Vector2& operator*=(const Matrix2x2& m, Vector2& v);
 Vector2& operator/=(Vector2& a, const Vector2 b);
 Vector2& operator/=(Vector2& v, const float factor);
 
-bool operator==(const Vector2& v, const float f);
-bool operator!=(const Vector2& v, const float f);
-bool operator<(const Vector2& v, const float f);
-bool operator>(const Vector2& v, const float f);
-bool operator<=(const Vector2& v, const float f);
-bool operator>=(const Vector2& v, const float f);
-
+#ifndef SWIG
 std::ostream& operator<<(std::ostream& out, const Vector2 v);
+#endif
 
 using vec2 = Vector2;

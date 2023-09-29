@@ -261,43 +261,15 @@ Vector2& operator/=(Vector2& v, const float factor)
 	return v;
 }
 
-bool operator==(const Vector2 &v, const float f)
-{
-    return v.x == f && v.y == f;
-}
-
-bool operator!=(const Vector2 &v, const float f)
-{
-    return !(v == f);
-}
-
-bool operator<(const Vector2 &v, const float f)
-{
-    return v.x < f && v.y < f;
-}
-
-bool operator>(const Vector2 &v, const float f)
-{
-    return v.x > f && v.y > f;
-}
-
-bool operator<=(const Vector2 &v, const float f)
-{
-    return v < f || v == f;
-}
-
-bool operator>=(const Vector2 &v, const float f)
-{
-    return v > f || v == f;
-}
-
+#ifndef SWIG
 std::ostream& operator<<(std::ostream& out, const Vector2 v)
 {
 	char buffer[10];
-	out << "[ ";
+	out << "{ ";
 	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
 	out << buffer << ", ";
 	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);
 	return out << buffer << " ]";
 }
+#endif
 #pragma endregion

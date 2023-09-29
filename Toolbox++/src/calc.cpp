@@ -3,7 +3,7 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 
-constexpr char calc::Sign(const float value)
+char calc::Sign(const float value)
 {
     // std::signbit returns whether the value is negative
     return std::signbit(value) ? -1 : 1;

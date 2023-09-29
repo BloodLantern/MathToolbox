@@ -1,6 +1,5 @@
 #pragma once
 
-#include <compare>
 #include <ostream>
 
 #include "vector2.hpp"
@@ -97,10 +96,6 @@ public:
     explicit operator Matrix3x3() const;
     explicit operator Matrix4x4() const;
     explicit operator Matrix<2, 2>() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Matrix2x2& a, const Matrix2x2& b) = default;
 
 private:
     Vector2 r0, r1;

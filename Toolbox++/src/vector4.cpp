@@ -241,7 +241,7 @@ bool operator>=(const Vector4 &v, const float f)
 std::ostream& operator<<(std::ostream& out, const Vector4& v)
 {
 	char buffer[10];
-	out << "[ ";
+	out << "{ ";
 	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
 	out << buffer << ", ";
 	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);

@@ -269,7 +269,7 @@ bool operator>=(const Vector3 &v, const float f)
 std::ostream& operator<<(std::ostream& out, const Vector3& v)
 {
 	char buffer[10];
-	out << "[ ";
+	out << "{ ";
 	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
 	out << buffer << ", ";
 	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);

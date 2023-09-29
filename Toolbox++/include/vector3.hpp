@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ostream>
-#include <compare>
 #include <cassert>
 
 class Vector2;
@@ -91,10 +90,6 @@ public:
 	operator Vector4() const;
     operator Vector<3>() const;
     explicit operator Matrix3x3() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Vector3& a, const Vector3& b) = default;
 };
 
 [[nodiscard]]

@@ -260,7 +260,7 @@ bool operator>=(const Vector2i &v, const int i)
 std::ostream& operator<<(std::ostream& out, const Vector2i v)
 {
 	char buffer[10];
-	out << "[ ";
+	out << "{ ";
 	sprintf_s(buffer, sizeof(buffer), "%6d", v.x);
 	out << buffer << ", ";
 	sprintf_s(buffer, sizeof(buffer), "%6d", v.y);

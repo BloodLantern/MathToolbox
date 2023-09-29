@@ -21,6 +21,7 @@ int main()
         { 0, 0, 0, 1 }
     };
     PRINT(m);
+
     PRINT(m.Determinant());
     PRINT(Matrix<4>::Cofactor(m));
     Matrix<4> m2 = Matrix<4>::Inverse(m);

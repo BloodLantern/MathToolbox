@@ -2,7 +2,6 @@
 
 #include "vector4.hpp"
 
-#include <compare>
 #include <ostream>
 
 class Vector2;
@@ -119,10 +118,6 @@ public:
     explicit operator Matrix2x2() const;
     explicit operator Matrix3x3() const;
     explicit operator Matrix<4, 4>() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Matrix4x4& a, const Matrix4x4& b) = default;
 
 private:
     Vector4 r0, r1, r2, r3;

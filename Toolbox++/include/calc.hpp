@@ -16,7 +16,7 @@ namespace calc
     /// @brief Returns -1 if x is less than 0, 1 if x is greater than 0
     ///        and 0 if x is equal to 0.
     [[nodiscard]]
-    extern constexpr inline char Sign(const float value);
+    extern char Sign(const float value);
 
     /// @brief Approaches the target value by the given step size without ever
     ///        exceeding it.
@@ -32,7 +32,7 @@ namespace calc
     /// @param t The time to lerp.
     /// @return The lerped position.
     [[nodiscard]]
-    extern inline Vector2 Lerp(const Vector2& value, const Vector2& target, const float t);
+    extern Vector2 Lerp(const Vector2& value, const Vector2& target, const float t);
 
     /// @brief Lerp between two positions in a 3-dimensional space.
     /// @param value The current position.
@@ -40,16 +40,16 @@ namespace calc
     /// @param t The time to lerp.
     /// @return The lerped position.
     [[nodiscard]]
-    extern inline Vector3 Lerp(const Vector3& value, const Vector3& target, const float t);
+    extern Vector3 Lerp(const Vector3& value, const Vector3& target, const float t);
 
     /// @brief Checks if a value is less than what is considered zero.
     /// @param value The value to check.
     /// @return Whether the value is considered zero.
     [[nodiscard]]
-    extern inline bool IsZero(const float value);
+    extern bool IsZero(const float value);
 
     /// @brief Checks if a value is less than what is considered zero and sets it if true.
     /// @param value The value to check and set.
     /// @return Whether the value is considered zero and the operation was made.
-    extern inline bool Nullify(float& value);
+    extern bool Nullify(float& value);
 }

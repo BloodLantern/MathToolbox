@@ -270,7 +270,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& out, const Vector<M>& v)
 	{
-		out << "[ ";
+		out << "{ ";
 		for (size_t i = 0; i < M; i++)
 		{
 			char buffer[10] = {};
@@ -281,7 +281,7 @@ public:
 			else
 				out << " ";
 		}
-		return out << "]";
+		return out << "}";
 	}
 #pragma endregion
 

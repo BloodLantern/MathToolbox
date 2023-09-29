@@ -1,6 +1,5 @@
 #pragma once
 
-#include <compare>
 #include <ostream>
 
 #include "vector3.hpp"
@@ -135,10 +134,6 @@ public:
     operator Matrix2x2() const;
     operator Matrix4x4() const;
     operator Matrix<3, 3>() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Matrix3x3& a, const Matrix3x3& b) = default;
 
 private:
     Vector3 r0, r1, r2;
