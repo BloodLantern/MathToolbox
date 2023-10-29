@@ -44,3 +44,9 @@ bool calc::Nullify(float &value)
 
     return zero;
 }
+
+void calc::UpdateCooldown(float& cooldown, const float deltaTime)
+{
+    if (cooldown > 0.f)
+        cooldown -= deltaTime;
+}

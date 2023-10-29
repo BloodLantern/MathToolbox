@@ -13,43 +13,68 @@ namespace calc
     /// @brief The value under which a number is considered zero
     constexpr float Zero = 1e-6f;
 
-    /// @brief Returns -1 if x is less than 0, 1 if x is greater than 0
-    ///        and 0 if x is equal to 0.
+    /// <summary>
+    /// Returns -1 if x is less than 0, 1 if x is greater than 0
+    /// and 0 if x is equal to 0.
+    /// </summary>
     [[nodiscard]]
-    extern constexpr inline char Sign(const float value);
+    __forceinline
+    extern constexpr char Sign(const float value);
 
-    /// @brief Approaches the target value by the given step size without ever
-    ///        exceeding it.
-    /// @param value The value to change.
-    /// @param target The target value.
-    /// @param step The step size.
+    /// <summary>
+    /// Approaches the target value by the given step size without ever
+    /// exceeding it.
+    /// </summary>
+    /// <param name="value">The value to change.</param>
+    /// <param name="target">The target value.</param>
+    /// <param name="step">The step size.</param>
     [[nodiscard]]
     extern void Approach(float& value, const float target, const float step);
 
-    /// @brief Lerp between two positions in a 2-dimensional space.
-    /// @param value The current position.
-    /// @param target The target position.
-    /// @param t The time to lerp.
-    /// @return The lerped position.
+    /// <summary>
+    /// Lerp between two positions in a 2-dimensional space.
+    /// </summary>
+    /// <param name="value">The current position.</param>
+    /// <param name="target">The target position.</param>
+    /// <param name="t">The time to lerp.</param>
+    /// <returns>The lerped position.</returns>
     [[nodiscard]]
-    extern inline Vector2 Lerp(const Vector2& value, const Vector2& target, const float t);
+    __forceinline
+    extern Vector2 Lerp(const Vector2& value, const Vector2& target, const float t);
 
-    /// @brief Lerp between two positions in a 3-dimensional space.
-    /// @param value The current position.
-    /// @param target The target position.
-    /// @param t The time to lerp.
-    /// @return The lerped position.
+    /// <summary>
+    /// Lerp between two positions in a 3-dimensional space.
+    /// </summary>
+    /// <param name="value">The current position.</param>
+    /// <param name="target">The target position.</param>
+    /// <param name="t">The time to lerp.</param>
+    /// <returns>The lerped position.</returns>
     [[nodiscard]]
-    extern inline Vector3 Lerp(const Vector3& value, const Vector3& target, const float t);
+    __forceinline
+    extern Vector3 Lerp(const Vector3& value, const Vector3& target, const float t);
 
-    /// @brief Checks if a value is less than what is considered zero.
-    /// @param value The value to check.
-    /// @return Whether the value is considered zero.
+    /// <summary>
+    /// Checks if a value is less than what is considered zero.
+    /// </summary>
+    /// <param name="value">The value to check.</param>
+    /// <returns>Whether the value is considered zero.</returns>
     [[nodiscard]]
-    extern inline bool IsZero(const float value);
+    __forceinline
+    extern bool IsZero(const float value);
 
-    /// @brief Checks if a value is less than what is considered zero and sets it if true.
-    /// @param value The value to check and set.
-    /// @return Whether the value is considered zero and the operation was made.
-    extern inline bool Nullify(float& value);
+    /// <summary>
+    /// Checks if a value is less than what is considered zero and sets it if true.
+    /// </summary>
+    /// <param name="value">The value to check and set.</param>
+    /// <returns>Whether the value is considered zero and the operation was made.</returns>
+    __forceinline
+    extern bool Nullify(float& value);
+
+    /// <summary>
+	/// Updates a cooldown timer.
+    /// </summary>
+    /// <param name="cooldown">The variable to update.</param>
+    /// <param name="deltaTime">The delta time to substract to 'cooldown'.</param>
+    __forceinline
+    extern void UpdateCooldown(float& cooldown, const float deltaTime);
 }
