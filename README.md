@@ -4,7 +4,7 @@ This library defines a set of math types and functions to easily manipulate main
 
 ## How to use this library
 
-To use this library, you need to compile it using the Visual Studio 2022 (this should also work with older versions) solution file found in the Toolbox++ directory. After opening it, the only thing you have to do is to build the library (Toolbox++ project) in Debug and then in Release mode.
+To use this library, you need to compile it using the Visual Studio 2022 solution file found in the root directory. After opening it, the only thing you have to do is to build the library (Toolbox++ project) in Debug and then in Release mode.
 
 The build events will automatically create a 'bin' folder at the project root. In that folder, you will find the .lib, .pdb and .idb files for Debug and Release. For the Debug version, the file names will be suffixed with a 'd'. Additionally, you will find an 'include' folder in which all the header files have been copied for you.
 
