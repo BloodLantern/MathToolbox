@@ -77,4 +77,20 @@ namespace calc
     /// <param name="deltaTime">The delta time to substract to 'cooldown'.</param>
     __forceinline
     extern void UpdateCooldown(float& cooldown, const float deltaTime);
+
+    /// <summary>
+	/// Rounds a Vector2 x and y components to the nearest integer.
+    /// </summary>
+    /// <param name="value">The vector to round the components to.</param>
+    /// <returns>The rounded vector.</returns>
+    __forceinline
+    extern Vector2 Round(const Vector2& value);
+
+    /// <summary>
+    /// Rounds a Vector3 x, y and z components to the nearest integer.
+    /// </summary>
+    /// <param name="value">The vector to round the components to.</param>
+    /// <returns>The rounded vector.</returns>
+    __forceinline
+    extern Vector3 Round(const Vector3& value);
 }

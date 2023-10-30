@@ -50,3 +50,13 @@ void calc::UpdateCooldown(float& cooldown, const float deltaTime)
     if (cooldown > 0.f)
         cooldown -= deltaTime;
 }
+
+Vector2 calc::Round(const Vector2& value)
+{
+    return Vector2(std::roundf(value.x), std::roundf(value.y));
+}
+
+Vector3 calc::Round(const Vector3& value)
+{
+	return Vector3(std::roundf(value.x), std::roundf(value.y), std::roundf(value.z));
+}
