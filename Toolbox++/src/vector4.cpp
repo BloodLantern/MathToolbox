@@ -4,69 +4,35 @@
 #include "matrix4x4.hpp"
 #include "vector3.hpp"
 
-#define SQ(var) ((var) * (var))
-
-Vector4::Vector4(const Vector4& p1, const Vector4& p2)
+constexpr Vector4::Vector4(const Vector4& p1, const Vector4& p2)
 	: x(p2.x - p1.x), y(p2.y - p1.y), z(p2.z - p1.z), w(p2.w - p1.w)
 {
 }
-
-#pragma region functions
-float Vector4::Norm() const
-{
-	return sqrt(SquaredNorm());
-}
-
-float Vector4::SquaredNorm() const
-{
-	return x * x + y * y + z * z + w * w;
-}
-
-Vector4 Vector4::Normalized() const
-{
-	float norm = Norm();
-	if (norm == 0)
-		return 0;
-
-    __assume(norm != 0.f);
-	return Vector4(x / norm, y / norm, z / norm, w / norm);
-}
-
-float Vector4::Dot(const Vector4& other) const
-{
-	return x * other.x + y * other.y + z * other.z + w * other.w;
-}
-
-float Vector4::Dot(const Vector4& a, const Vector4& b)
-{
-	return a.Dot(b);
-}
-#pragma endregion
 
 #pragma region operators
 
 float Vector4::operator[](const size_t i) const
 {
-	assert(i >= 0 && i < 4 && "Vector4 subscript out of range");
-    __assume(i >= 0 && i < 4);
+	assert(i < 4 && "Vector4 subscript out of range");
+	__assume(i < 4);
 
 	return *(&x + i);
 }
 
 float& Vector4::operator[](const size_t i)
 {
-	assert(i >= 0 && i < 4 && "Vector4 subscript out of range");
-    __assume(i >= 0 && i < 4);
+	assert(i < 4 && "Vector4 subscript out of range");
+    __assume(i < 4);
 
 	return *(&x + i);
 }
 
-Vector4::operator Vector2() const
+constexpr Vector4::operator Vector2() const
 {
 	return Vector2(x, y);
 }
 
-Vector4::operator Vector3() const
+constexpr Vector4::operator Vector3() const
 {
 	return Vector3(x, y, z);
 }
@@ -76,7 +42,7 @@ Vector4::operator Vector<4>() const
 	return Vector<4>{ x, y, z, w };
 }
 
-Vector4::operator Matrix4x4() const
+constexpr Vector4::operator Matrix4x4() const
 {
 	return Matrix4x4(
 		x, 0, 0, 0,

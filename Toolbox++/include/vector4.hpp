@@ -36,7 +36,7 @@ public:
 		w = it[3];
 	}
 	/// @brief Constructs a Vector4 from point 'p1' to point 'p2'
-	Vector4(const Vector4& p1, const Vector4& p2);
+	constexpr Vector4(const Vector4& p1, const Vector4& p2);
 
 	/// @brief Returns the length of the vector.
 	[[nodiscard]]
@@ -57,13 +57,13 @@ public:
 	static float Dot(const Vector4& a, const Vector4& b);
 
 	[[nodiscard]]
-	float  operator[](const size_t i) const;
+	float operator[](const size_t i) const;
 	[[nodiscard]]
 	float& operator[](const size_t i);
-    explicit operator Vector2() const;
-    explicit operator Vector3() const;
-    operator Vector<4>() const;
-    explicit operator Matrix4x4() const;
+	constexpr explicit operator Vector2() const;
+    constexpr explicit operator Vector3() const;
+	operator Vector<4>() const;
+	constexpr explicit operator Matrix4x4() const;
 
     // Automatically generates all comparison operators
 	[[nodiscard]]

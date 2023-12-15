@@ -14,14 +14,14 @@ class Vector
 {
 public:
 #pragma region constructors
-    Vector(const float defaultValue = 0.f)
+	constexpr Vector(const float defaultValue = 0.f)
 	{
 		for (size_t i = 0; i < M; i++)
 			mData[i] = defaultValue;
 	}
 
     /// @brief Copies the content of the given vector to this one.
-    Vector(const Vector<M>& vector)
+	constexpr Vector(const Vector<M>& vector)
 	{
 		for (size_t i = 0; i < M; i++)
 			mData[i] = vector[i];
