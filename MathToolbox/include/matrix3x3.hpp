@@ -11,6 +11,7 @@ class Matrix4x4;
 class Matrix2x2;
 template<size_t M, size_t N>
 class Matrix;
+class Quaternion;
 
 /// @brief The Matrix3x3 class represents a two-dimensional array mainly used for mathematical operations.
 class Matrix3x3
@@ -117,6 +118,8 @@ public:
     /// @brief Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
     [[nodiscard]]
     static Matrix3x3 Rotation3D(const Vector3& rotation);
+    [[nodiscard]]
+    static Matrix3x3 Rotation3D(const Quaternion& rotation);
     /// @brief Creates a 3D rotation matrix from the given cosine, sine and axis.
 	/// @param cos The cosine of the angle in radians.
 	/// @param sin The sine of the angle in radians.

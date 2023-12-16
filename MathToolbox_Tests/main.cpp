@@ -16,10 +16,12 @@
 int main()
 {
     Vector3 point(0, 1, 0);
-    Quaternion rotation = Quaternion::FromEuler(Vector3(PI / 2.f, 0.f, 0.f));
+    Vector3 euler(PI / 2.f, 0.f, 0.f);
+    Quaternion rotation = Quaternion::FromEuler(euler);
     
     PRINT(point);
-    PRINT((Quaternion) point);
+    
+    PRINT(euler);
 
     PRINT(rotation);
 
@@ -30,6 +32,14 @@ int main()
     newPoint = Quaternion::Rotate(point, rotation);
 
     PRINT(newPoint);
+
+    Matrix4x4 trs = Matrix4x4::TRS(0.f, rotation, 1.f);
+
+    PRINT(trs);
+
+    trs = Matrix4x4::TRS(0.f, euler, 1.f);
+
+    PRINT(trs);
 
     return 0;
 }

@@ -22,8 +22,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Toolbox++\Toolbox++.vcxproj">
+    <ProjectReference Include="..\MathToolbox\MathToolbox.vcxproj">
       <Project>{a8435058-4fbe-4673-aca6-e4e662a40225}</Project>
+      <Name>MathToolbox</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

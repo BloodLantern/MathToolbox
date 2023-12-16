@@ -234,6 +234,11 @@ Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, 
     return result * rotation * Matrix3x3::Scaling3D(scale);
 }
 
+Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
+{
+    return Matrix4x4::TRS(translation, Matrix3x3::Rotation3D(rotation), scale);
+}
+
 void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix4x4 &result)
 {
     const Vector3 cameraForward = -(eye - center).Normalized();

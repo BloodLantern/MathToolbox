@@ -5,6 +5,8 @@
 #include <compare>
 #include <ostream>
 
+#include "quaternion.hpp"
+
 class Vector2;
 class Vector3;
 template<size_t M>
@@ -106,6 +108,8 @@ public:
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static Matrix4x4 TRS(const Vector3& translation, const Matrix4x4& rotation, const Vector3& scale);
+    [[nodiscard]]
+    static Matrix4x4 TRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
     static void ViewMatrix(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix4x4& result);
     static void PerspectiveProjectionMatrix(const float fov, const float aspectRatio, const float near, const float far, Matrix4x4& result);
     static void OrthographicProjectionMatrix(const float left, const float right, const float bottom, const float top, const float near, const float far, Matrix4x4& result);

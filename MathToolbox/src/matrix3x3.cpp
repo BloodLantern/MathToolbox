@@ -2,6 +2,7 @@
 #include "matrix.hpp"
 #include "matrix4x4.hpp"
 #include "matrix2x2.hpp"
+#include "quaternion.hpp"
 
 #include <cassert>
 
@@ -215,6 +216,40 @@ Matrix3x3 Matrix3x3::Rotation3D(const Vector3 &rotation)
     return Matrix3x3::Rotation3DZ(rotation.z)
          * Matrix3x3::Rotation3DY(rotation.y)
          * Matrix3x3::Rotation3DX(rotation.x);
+}
+
+Matrix3x3 Matrix3x3::Rotation3D(const Quaternion& rotation)
+{
+    float xx = SQ(rotation.X());
+    float yy = SQ(rotation.Y());
+    float zz = SQ(rotation.Z());
+
+    float xy = rotation.X() * rotation.Y();
+    float wz = rotation.Z() * rotation.W();
+    float xz = rotation.Z() * rotation.X();
+    float wy = rotation.Y() * rotation.W();
+    float yz = rotation.Y() * rotation.Z();
+    float wx = rotation.X() * rotation.W();
+
+    Matrix3x3 result;
+
+    result[0] = Vector3(
+        1.f - 2.f * (yy + zz),
+        2.f * (xy - wz),
+        2.f * (xz + wy)
+    );
+    result[1] = Vector3(
+        2.f * (xy + wz),
+        1.f - 2.f * (zz + xx),
+        2.f * (yz - wx)
+    );
+    result[2] = Vector3(
+        2.f * (xz - wy),
+        2.f * (yz + wx),
+        1.f - 2.f * (yy + xx)
+    );
+
+    return result;
 }
 
 Matrix3x3 Matrix3x3::Rotation3D(const float cos, const float sin, const Vector3 &axis)
