@@ -36,14 +36,14 @@ public:
 		w = it[3];
 	}
 	/// @brief Constructs a Vector4 from point 'p1' to point 'p2'
-	constexpr Vector4(const Vector4& p1, const Vector4& p2);
+	Vector4(const Vector4& p1, const Vector4& p2);
 
 	/// @brief Returns the length of the vector.
 	[[nodiscard]]
-	float Norm() const;
+	float Length() const;
 	/// @brief Returns the squared length of the vector.
 	[[nodiscard]]
-	float SquaredNorm() const;
+	float SquaredLength() const;
 	/// @brief Normalizes the vector.
 	/// @return A vector with the same direction but a length of one.
 	[[nodiscard]]
@@ -61,7 +61,7 @@ public:
 	[[nodiscard]]
 	float& operator[](const size_t i);
 	constexpr explicit operator Vector2() const;
-    constexpr explicit operator Vector3() const;
+    explicit operator Vector3() const;
 	operator Vector<4>() const;
 	constexpr explicit operator Matrix4x4() const;
 

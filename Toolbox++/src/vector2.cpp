@@ -12,19 +12,19 @@ Vector2::Vector2(const Vector2 p1, const Vector2 p2)
 }
 
 #pragma region functions
-float Vector2::Norm() const
+float Vector2::Length() const
 {
-	return std::sqrt(SquaredNorm());
+	return std::sqrt(SquaredLength());
 }
 
-float Vector2::SquaredNorm() const
+float Vector2::SquaredLength() const
 {
 	return x * x + y * y;
 }
 
 Vector2 Vector2::Normalized() const
 {
-	float norm = Norm();
+	float norm = Length();
 	if (norm == 0)
 		return 0;
 
@@ -86,7 +86,7 @@ Vector2 Vector2::Rotate(const Vector2 center, const float cos, const float sin) 
 float Vector2::Angle(const Vector2 a, const Vector2 b)
 {
 	float dotProduct = Dot(a, b);
-	float angle = std::acos(dotProduct / (a.Norm() * b.Norm()));
+	float angle = std::acos(dotProduct / (a.Length() * b.Length()));
 
 	if (Determinant(a, b) < 0)
 		angle = -angle;

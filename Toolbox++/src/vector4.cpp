@@ -4,12 +4,47 @@
 #include "matrix4x4.hpp"
 #include "vector3.hpp"
 
-constexpr Vector4::Vector4(const Vector4& p1, const Vector4& p2)
+#define SQ(x) ((x) * (x))
+
+Vector4::Vector4(const Vector4& p1, const Vector4& p2)
 	: x(p2.x - p1.x), y(p2.y - p1.y), z(p2.z - p1.z), w(p2.w - p1.w)
 {
 }
 
 #pragma region operators
+
+float Vector4::Length() const
+{
+	return std::sqrt(SquaredLength());
+}
+
+float Vector4::SquaredLength() const
+{
+	return SQ(x) + SQ(y) + SQ(z) + SQ(w);
+}
+
+Vector4 Vector4::Normalized() const
+{
+	const float length = Length();
+	if (length == 0.f)
+		return 0.f;
+
+	__assume(length != 0.f);
+	return Vector4(x / length, y / length, z / length, w / length);
+}
+
+float Vector4::Dot(const Vector4& other) const
+{
+	return Vector4::Dot(*this, other);
+}
+
+float Vector4::Dot(const Vector4& a, const Vector4& b)
+{
+	return a.x * b.x
+		+ a.y * b.y
+		+ a.z * b.z
+		+ a.w * b.w;
+}
 
 float Vector4::operator[](const size_t i) const
 {
@@ -32,7 +67,7 @@ constexpr Vector4::operator Vector2() const
 	return Vector2(x, y);
 }
 
-constexpr Vector4::operator Vector3() const
+Vector4::operator Vector3() const
 {
 	return Vector3(x, y, z);
 }

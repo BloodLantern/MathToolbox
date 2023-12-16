@@ -1,135 +1,110 @@
 #include "quaternion.hpp"
 
-#include <cassert>
+#include "calc.hpp"
+#include "matrix4x4.hpp"
 
 #define SQ(x) ((x) * (x))
 
-constexpr void FromRotation(Quaternion& quat, const float xRotation, const float yRotation, const float zRotation)
-{
-	float cr = std::cos(xRotation * 0.5f);
-	float sr = std::sin(xRotation * 0.5f);
-	float cp = std::cos(yRotation * 0.5f);
-	float sp = std::sin(yRotation * 0.5f);
-	float cy = std::cos(zRotation * 0.5f);
-	float sy = std::sin(zRotation * 0.5f);
-	
-	quat.X() = sr * cp * cy - cr * sp * sy;
-	quat.Y() = cr * sp * cy + sr * cp * sy;
-	quat.Z() = cr * cp * sy - sr * sp * cy;
-	quat.W() = cr * cp * cy + sr * sp * sy;
-}
-
-constexpr void FromRotation(Quaternion& quat, const Vector3& rotation)
-{
-	FromRotation(quat, rotation.x, rotation.y, rotation.z);
-}
-
-constexpr Quaternion Quaternion::Zero()
+Quaternion Quaternion::Zero()
 {
 	return Quaternion();
 }
 
-constexpr Quaternion Quaternion::UnitX()
+Quaternion Quaternion::UnitX()
 {
-	return Quaternion(1.0f, 0.0f, 0.0f, 0.0f);
+	return Quaternion(1.f, 0.f, 0.f, 0.f);
 }
 
-constexpr Quaternion Quaternion::UnitY()
+Quaternion Quaternion::UnitY()
 {
-	return Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+	return Quaternion(0.f, 1.f, 0.f, 0.f);
 }
 
-constexpr Quaternion Quaternion::UnitZ()
+Quaternion Quaternion::UnitZ()
 {
-	return Quaternion(0.0f, 0.0f, 1.0f, 0.0f);
+	return Quaternion(0.f, 0.f, 1.f, 0.f);
 }
 
-constexpr Quaternion Quaternion::UnitW()
+Quaternion Quaternion::UnitW()
 {
-	return Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+	return Quaternion(0.f, 0.f, 0.f, 1.f);
 }
 
-constexpr Quaternion Quaternion::Identity()
+Quaternion Quaternion::Identity()
 {
 	return UnitW();
 }
 
-constexpr Quaternion::Quaternion()
+Quaternion::Quaternion()
 	: real()
 {
 }
 
-constexpr Quaternion::Quaternion(const Vector4& values)
+Quaternion::Quaternion(const Vector4& values)
 	: imaginary((Vector3) values)
 	, real(values.w)
 {
 }
 
-constexpr Quaternion::Quaternion(const Vector3& imaginary, const float real)
+Quaternion::Quaternion(const Vector3& imaginary, const float real)
 	: imaginary(imaginary)
 	, real(real)
 {
 }
 
-constexpr Quaternion::Quaternion(const float xyzw)
+Quaternion::Quaternion(const float xyzw)
 	: imaginary(xyzw)
 	, real(xyzw)
 {
 }
 
-constexpr Quaternion::Quaternion(const float x, const float y, const float z, const float w)
+Quaternion::Quaternion(const float x, const float y, const float z, const float w)
 	: imaginary(x, y, z)
 	, real(w)
 {
 }
 
-constexpr Quaternion::Quaternion(const std::initializer_list<float>& values)
-{
-	assert(values.size() == 3 || values.size() == 4 && "Cannot initialize Quaternion from initializer list with size != 3 && size != 4");
-
-	const float* it = values.begin();
-	if (values.size() == 3)
-	{
-		FromRotation(*this, it[0], it[1], it[2]);
-	}
-	else
-	{
-		imaginary = Vector3(it[0], it[1], it[2]);
-		real = it[3];
-	}
-}
-
-constexpr Quaternion::Quaternion(const Vector3& rotation)
-{
-	FromRotation(*this, rotation);
-}
-
-constexpr Quaternion::Quaternion(const float xRotation, const float yRotation, const float zRotation)
-{
-	FromRotation(*this, xRotation, yRotation, zRotation);
-}
-
-constexpr float& Quaternion::X()
+float& Quaternion::X()
 {
 	return imaginary.x;
 }
 
-constexpr float& Quaternion::Y()
+float& Quaternion::Y()
 {
 	return imaginary.y;
 }
 
-constexpr float& Quaternion::Z()
+float& Quaternion::Z()
 {
 	return imaginary.z;
 }
 
-constexpr float& Quaternion::W()
+float& Quaternion::W()
 {
 	return real;
 }
 
-constexpr Quaternion Quaternion::Conjugate() const
+float Quaternion::X() const
+{
+	return imaginary.x;
+}
+
+float Quaternion::Y() const
+{
+	return imaginary.y;
+}
+
+float Quaternion::Z() const
+{
+	return imaginary.z;
+}
+
+float Quaternion::W() const
+{
+	return real;
+}
+
+Quaternion Quaternion::Conjugate() const
 {
 	return Quaternion(-imaginary, real);
 }
@@ -139,58 +114,47 @@ float Quaternion::Length() const
 	return std::sqrt(SquaredLength());
 }
 
-constexpr float Quaternion::SquaredLength() const
+float Quaternion::SquaredLength() const
 {
 	return SQ(imaginary.x) + SQ(imaginary.y) + SQ(imaginary.z) + SQ(real);
 }
 
-constexpr Quaternion Quaternion::Inverse() const
+Quaternion Quaternion::Inverse() const
 {
-	float norm = SquaredLength();
-	if (norm > 0.f) 
+	const float sqLength = SquaredLength();
+	if (sqLength > 0.f) 
 	{
-		float invNorm = 1.f / norm;
-		return Quaternion(-X() * invNorm, -Y() * invNorm, -Z() * invNorm, W() * invNorm);
+		return Conjugate() / sqLength;
 	}
 	return Quaternion::Zero();
 }
 
-constexpr float Quaternion::X() const
+float Quaternion::Dot(const Quaternion& other) const
 {
-	return imaginary.x;
+	return Quaternion::Dot(*this, other);
 }
 
-constexpr float Quaternion::Y() const
-{
-	return imaginary.y;
-}
-
-constexpr float Quaternion::Z() const
-{
-	return imaginary.z;
-}
-
-constexpr float Quaternion::W() const
-{
-	return real;
-}
-
-constexpr float Quaternion::operator[](const size_t i) const
+float Quaternion::operator[](const size_t i) const
 {
 	return (&imaginary.x)[i];
 }
 
-constexpr float& Quaternion::operator[](const size_t i)
+float& Quaternion::operator[](const size_t i)
 {
 	return (&imaginary.x)[i];
 }
 
-constexpr Quaternion::operator Vector4() const
+Quaternion::operator Vector<3>() const
 {
-	return Vector4(imaginary, real);
+	return (Vector<3>) imaginary;
 }
 
-constexpr Quaternion::operator Vector<4>() const
+Quaternion::operator Vector3() const
+{
+	return imaginary;
+}
+
+Quaternion::operator Vector<4>() const
 {
 	return
 	{
@@ -199,6 +163,180 @@ constexpr Quaternion::operator Vector<4>() const
 		imaginary.z,
 		real
 	};
+}
+
+Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float angle)
+{
+	const float halfAngle = angle * 0.5f;
+	const float s = std::sin(halfAngle);
+	const float c = std::cos(halfAngle);
+
+	Quaternion quat;
+
+	quat.X() = axis.x * s;
+	quat.Y() = axis.y * s;
+	quat.Z() = axis.z * s;
+	quat.W() = c;
+
+	return quat;
+}
+
+Quaternion Quaternion::FromEuler(const Vector3& rotation)
+{
+	const float cr = cos(rotation.x * 0.5f);
+	const float sr = sin(rotation.x * 0.5f);
+	const float cp = cos(rotation.y * 0.5f);
+	const float sp = sin(rotation.y * 0.5f);
+	const float cy = cos(rotation.z * 0.5f);
+	const float sy = sin(rotation.z * 0.5f);
+
+	Quaternion quat;
+	
+	quat.X() = sr * cp * cy - cr * sp * sy;
+	quat.Y() = cr * sp * cy + sr * cp * sy;
+	quat.Z() = cr * cp * sy - sr * sp * cy;
+	quat.W() = cr * cp * cy + sr * sp * sy;
+	
+	return quat;
+}
+
+Quaternion Quaternion::FromRotationMatrix(const Matrix4x4& rotation)
+{
+	const float trace = rotation.Trace();
+
+	Quaternion q;
+
+	if (trace > 0.f)
+	{
+		float s = std::sqrt(trace + 1.f);
+		q.W() = s * 0.5f;
+		s = 0.5f / s;
+		q.X() = (rotation[2][3] - rotation[3][2]) * s;
+		q.Y() = (rotation[3][1] - rotation[1][3]) * s;
+		q.Z() = (rotation[1][2] - rotation[2][1]) * s;
+	}
+	else
+	{
+		if (rotation[1][1] >= rotation[2][2] && rotation[1][1] >= rotation[3][3])
+		{
+			const float s = std::sqrt(1.f + rotation[1][1] - rotation[2][2] - rotation[3][3]);
+			const float invS = 0.5f / s;
+			q.X() = 0.5f * s;
+			q.Y() = (rotation[1][2] + rotation[2][1]) * invS;
+			q.Z() = (rotation[1][3] + rotation[3][1]) * invS;
+			q.W() = (rotation[2][3] - rotation[3][2]) * invS;
+		}
+		else if (rotation[2][2] > rotation[3][3])
+		{
+			const float s = std::sqrt(1.f + rotation[2][2] - rotation[1][1] - rotation[3][3]);
+			const float invS = 0.5f / s;
+			q.X() = (rotation[2][1] + rotation[1][2]) * invS;
+			q.Y() = 0.5f * s;
+			q.Z() = (rotation[3][2] + rotation[2][3]) * invS;
+			q.W() = (rotation[3][1] - rotation[1][3]) * invS;
+		}
+		else
+		{
+			const float s = std::sqrt(1.f + rotation[3][3] - rotation[1][1] - rotation[2][2]);
+			const float invS = 0.5f / s;
+			q.X() = (rotation[3][1] + rotation[1][3]) * invS;
+			q.Y() = (rotation[3][2] + rotation[2][3]) * invS;
+			q.Z() = 0.5f * s;
+			q.W() = (rotation[1][2] - rotation[2][1]) * invS;
+		}
+	}
+
+	return q;
+}
+
+float Quaternion::Dot(const Quaternion& a, const Quaternion& b)
+{
+	return a.X() * b.X()
+		 + a.Y() * b.Y()
+		 + a.Z() * b.Z()
+		 + a.W() * b.W();
+}
+
+Quaternion Quaternion::Lerp(const Quaternion& a, const Quaternion& b, const float t)
+{
+	const float t1 = 1.0f - t;
+
+	Quaternion r;
+
+	const float dot = Quaternion::Dot(a, b);
+
+	if (dot >= 0.0f)
+	{
+		r.X() = t1 * a.X() + t * b.X();
+		r.Y() = t1 * a.Y() + t * b.Y();
+		r.Z() = t1 * a.Z() + t * b.Z();
+		r.W() = t1 * a.W() + t * b.W();
+	}
+	else
+	{
+		r.X() = t1 * a.X() - t * b.X();
+		r.Y() = t1 * a.Y() - t * b.Y();
+		r.Z() = t1 * a.Z() - t * b.Z();
+		r.W() = t1 * a.W() - t * b.W();
+	}
+
+	// Normalize it.
+	const float ls = r.X() * r.X() + r.Y() * r.Y() + r.Z() * r.Z() + r.W() * r.W();
+	const float invNorm = 1.0f / std::sqrt(ls);
+
+	r.X() *= invNorm;
+	r.Y() *= invNorm;
+	r.Z() *= invNorm;
+	r.W() *= invNorm;
+
+	return r;
+}
+
+Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const float t)
+{
+	float cosOmega = a.X() * b.X() + a.Y() * b.Y() +
+					 a.Z() * b.Z() + a.W() * b.W();
+
+	bool flip = false;
+
+	if (cosOmega < 0.f)
+	{
+		flip = true;
+		cosOmega = -cosOmega;
+	}
+
+	float s1, s2;
+
+	if (cosOmega > 1.f - calc::Zero)
+	{
+		// Too close, do straight linear interpolation.
+		s1 = 1.f - t;
+		s2 = flip ? -t : t;
+	}
+	else
+	{
+		const float omega = std::acos(cosOmega);
+		const float invSinOmega = 1.f / std::sin(omega);
+
+		s1 = std::sin((1.f - t) * omega) * invSinOmega;
+		s2 = flip
+			? -std::sin(t * omega) * invSinOmega
+			: std::sin(t * omega) * invSinOmega;
+	}
+
+	Quaternion ans;
+
+	ans.X() = s1 * a.X() + s2 * b.X();
+	ans.Y() = s1 * a.Y() + s2 * b.Y();
+	ans.Z() = s1 * a.Z() + s2 * b.Z();
+	ans.W() = s1 * a.W() + s2 * b.W();
+
+	return ans;
+}
+
+Quaternion::operator Vector4() const
+{
+	return Vector4(imaginary, real);
 }
 
 Quaternion operator+(const Quaternion& a, const Quaternion& b)
@@ -218,22 +356,36 @@ Quaternion operator-(const Quaternion& a)
 
 Quaternion operator*(const Quaternion& a, const Quaternion& b)
 {
-	return Quaternion(
-		a.X() * b.W() + a.W() * b.X() - a.Z() * b.Y() + a.Y() * b.Z(),
-		a.Y() * b.W() + a.Z() * b.X() + a.W() * b.Y() - a.X() * b.Z(),
-		a.Z() * b.W() - a.Y() * b.X() + a.X() * b.Y() + a.W() + b.Z(),
-		a.W() * b.W() - a.X() * b.X() - a.Y() * b.Y() - a.Z() * b.Z()
-	);
+	Quaternion result;
+
+	const float q1x = a.X();
+	const float q1y = a.Y();
+	const float q1z = a.Z();
+	const float q1w = a.W();
+
+	const float q2x = b.X();
+	const float q2y = b.Y();
+	const float q2z = b.Z();
+	const float q2w = b.W();
+
+	// cross(av, bv)
+	const float cx = q1y * q2z - q1z * q2y;
+	const float cy = q1z * q2x - q1x * q2z;
+	const float cz = q1x * q2y - q1y * q2x;
+
+	const float dot = q1x * q2x + q1y * q2y + q1z * q2z;
+
+	result.X() = q1x * q2w + q2x * q1w + cx;
+	result.Y() = q1y * q2w + q2y * q1w + cy;
+	result.Z() = q1z * q2w + q2z * q1w + cz;
+	result.W() = q1w * q2w - dot;
+
+	return result;
 }
 
 Quaternion operator*(const Quaternion& v, const float factor)
 {
 	return Quaternion(v.imaginary * factor, v.real * factor);
-}
-
-Quaternion operator/(const Quaternion& a, const Quaternion& b)
-{
-	return Quaternion(a.imaginary / b.imaginary, a.real / b.real);
 }
 
 Quaternion operator/(const Quaternion& v, const float factor)
@@ -259,11 +411,6 @@ Quaternion& operator*=(Quaternion& a, const Quaternion& b)
 Quaternion& operator*=(Quaternion& v, const float factor)
 {
 	return v = v * factor;
-}
-
-Quaternion& operator/=(Quaternion& a, const Quaternion& b)
-{
-	return a = a / b;
 }
 
 Quaternion& operator/=(Quaternion& v, const float factor)

@@ -12,49 +12,69 @@ public:
 	Vector3 imaginary;
 	float real;
 
-	static constexpr Quaternion Zero();
-	static constexpr Quaternion UnitX();
-	static constexpr Quaternion UnitY();
-	static constexpr Quaternion UnitZ();
-	static constexpr Quaternion UnitW();
-	static constexpr Quaternion Identity();
+	static Quaternion Zero();
+	static Quaternion UnitX();
+	static Quaternion UnitY();
+	static Quaternion UnitZ();
+	static Quaternion UnitW();
+	static Quaternion Identity();
 
-	constexpr Quaternion();
-	constexpr Quaternion(const Vector4& values);
-	constexpr Quaternion(const Vector3& imaginary, const float real);
-	constexpr Quaternion(const float xyzw);
-	constexpr Quaternion(const float x, const float y, const float z, const float w);
-	/// @brief Used to create a Quaternion from an euler rotation if 3 floats are given
-	/// or an exact Quaternion if 4 floats are given instead.
-	constexpr Quaternion(const std::initializer_list<float>& values);
-	constexpr Quaternion(const Vector3& rotation);
-	constexpr Quaternion(const float xRotation, const float yRotation, const float zRotation);
+	Quaternion();
+	explicit Quaternion(const Vector4& values);
+	Quaternion(const Vector3& imaginary, float real);
+	explicit Quaternion(float xyzw);
+	Quaternion(float x, float y, float z, float w);
 
-	__forceinline constexpr float X() const;
-	__forceinline constexpr float Y() const;
-	__forceinline constexpr float Z() const;
-	__forceinline constexpr float W() const;
+	[[nodiscard]]
+	__forceinline float X() const;
+	[[nodiscard]]
+	__forceinline float Y() const;
+	[[nodiscard]]
+	__forceinline float Z() const;
+	[[nodiscard]]
+	__forceinline float W() const;
 
-	__forceinline constexpr float& X();
-	__forceinline constexpr float& Y();
-	__forceinline constexpr float& Z();
-	__forceinline constexpr float& W();
+	[[nodiscard]]
+	__forceinline float& X();
+	[[nodiscard]]
+	__forceinline float& Y();
+	[[nodiscard]]
+	__forceinline float& Z();
+	[[nodiscard]]
+	__forceinline float& W();
 
-	constexpr Quaternion Conjugate() const;
+	[[nodiscard]]
+	Quaternion Conjugate() const;
+	[[nodiscard]]
 	float Length() const;
-	constexpr float SquaredLength() const;
-	constexpr Quaternion Inverse() const;
+	[[nodiscard]]
+	float SquaredLength() const;
+	[[nodiscard]]
+	Quaternion Inverse() const;
+	[[nodiscard]]
+	float Dot(const Quaternion& other) const;
 
 	[[nodiscard]]
-	constexpr float  operator[](const size_t i) const;
+	float operator[](size_t i) const;
 	[[nodiscard]]
-	constexpr float& operator[](const size_t i);
-	constexpr explicit operator Vector<4>() const;
-	constexpr explicit operator Vector4() const;
+	float& operator[](size_t i);
+	explicit operator Vector<3>() const;
+	explicit operator Vector3() const;
+	explicit operator Vector<4>() const;
+	explicit operator Vector4() const;
 
-	// Automatically generates all comparison operators
 	[[nodiscard]]
-	friend auto operator<=>(const Quaternion& a, const Quaternion& b) = default;
+	static Quaternion FromAxisAngle(const Vector3& axis, float angle);
+	[[nodiscard]]
+	static Quaternion FromEuler(const Vector3& rotation);
+	[[nodiscard]]
+	static Quaternion FromRotationMatrix(const Matrix4x4& rotation);
+	[[nodiscard]]
+	static float Dot(const Quaternion& a, const Quaternion& b);
+	[[nodiscard]]
+	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float t);
+	[[nodiscard]]
+	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float t);
 };
 
 [[nodiscard]]
@@ -66,18 +86,15 @@ Quaternion operator-(const Quaternion& a);
 [[nodiscard]]
 Quaternion operator*(const Quaternion& a, const Quaternion& b);
 [[nodiscard]]
-Quaternion operator*(const Quaternion& v, const float factor);
+Quaternion operator*(const Quaternion& v, float factor);
 [[nodiscard]]
-Quaternion operator/(const Quaternion& a, const Quaternion& b);
-[[nodiscard]]
-Quaternion operator/(const Quaternion& v, const float factor);
+Quaternion operator/(const Quaternion& v, float factor);
 
 Quaternion& operator+=(Quaternion& a, const Quaternion& b);
 Quaternion& operator-=(Quaternion& a, const Quaternion& b);
 Quaternion& operator*=(Quaternion& a, const Quaternion& b);
-Quaternion& operator*=(Quaternion& v, const float factor);
-Quaternion& operator/=(Quaternion& a, const Quaternion& b);
-Quaternion& operator/=(Quaternion& v, const float factor);
+Quaternion& operator*=(Quaternion& v, float factor);
+Quaternion& operator/=(Quaternion& v, float factor);
 
 std::ostream& operator<<(std::ostream& out, const Quaternion& v);
 
