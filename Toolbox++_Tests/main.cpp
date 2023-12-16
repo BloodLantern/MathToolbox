@@ -17,14 +17,17 @@ int main()
 {
     Vector3 point(0, 1, 0);
     Quaternion rotation = Quaternion::FromEuler(Vector3(PI / 2.f, 0.f, 0.f));
-    //Quaternion rotation = Quaternion::FromAxisAngle(Vector3(1.f, 0.f, 0.f), PI / 2.f);
     
     PRINT(point);
     PRINT((Quaternion) point);
 
     PRINT(rotation);
 
-    Vector3 newPoint = (Vector3) (rotation * (Quaternion) point * rotation.Conjugate());
+    Vector3 newPoint = (Vector3) (rotation * point * rotation.Conjugate());
+
+    PRINT(newPoint);
+
+    newPoint = Quaternion::Rotate(point, rotation);
 
     PRINT(newPoint);
 

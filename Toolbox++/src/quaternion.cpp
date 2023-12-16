@@ -134,6 +134,11 @@ float Quaternion::Dot(const Quaternion& other) const
 	return Quaternion::Dot(*this, other);
 }
 
+Vector3 Quaternion::Rotate(const Vector3& point) const
+{
+	return Quaternion::Rotate(point, *this);
+}
+
 float Quaternion::operator[](const size_t i) const
 {
 	return (&imaginary.x)[i];
@@ -334,6 +339,11 @@ Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const flo
 	return ans;
 }
 
+Vector3 Quaternion::Rotate(const Vector3& point, const Quaternion& rotation)
+{
+	return (Vector3) (rotation * point * rotation.Conjugate());
+}
+
 Quaternion::operator Vector4() const
 {
 	return Vector4(imaginary, real);
@@ -381,6 +391,11 @@ Quaternion operator*(const Quaternion& a, const Quaternion& b)
 	result.W() = q1w * q2w - dot;
 
 	return result;
+}
+
+Quaternion operator*(const Quaternion& q, const Vector3& v)
+{
+	return q * (Quaternion) v;
 }
 
 Quaternion operator*(const Quaternion& v, const float factor)

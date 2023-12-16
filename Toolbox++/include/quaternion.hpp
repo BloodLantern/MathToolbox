@@ -53,6 +53,8 @@ public:
 	Quaternion Inverse() const;
 	[[nodiscard]]
 	float Dot(const Quaternion& other) const;
+	[[nodiscard]]
+	Vector3 Rotate(const Vector3& point) const;
 
 	[[nodiscard]]
 	float operator[](size_t i) const;
@@ -75,6 +77,8 @@ public:
 	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float t);
 	[[nodiscard]]
 	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float t);
+	[[nodiscard]]
+	static Vector3 Rotate(const Vector3& point, const Quaternion& rotation);
 };
 
 [[nodiscard]]
@@ -85,6 +89,8 @@ Quaternion operator-(const Quaternion& a, const Quaternion& b);
 Quaternion operator-(const Quaternion& a);
 [[nodiscard]]
 Quaternion operator*(const Quaternion& a, const Quaternion& b);
+[[nodiscard]]
+Quaternion operator*(const Quaternion& q, const Vector3& v);
 [[nodiscard]]
 Quaternion operator*(const Quaternion& v, float factor);
 [[nodiscard]]
