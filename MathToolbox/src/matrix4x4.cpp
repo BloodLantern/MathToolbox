@@ -187,10 +187,72 @@ Matrix4x4 Matrix4x4::Cofactor(const Matrix4x4 &matrix)
 
 Matrix4x4 Matrix4x4::Inverse(const Matrix4x4 &matrix)
 {
-    if (matrix.Determinant() == 0) [[unlikely]]
+    if (matrix.Determinant() == 0.f) [[unlikely]]
         throw std::invalid_argument("Matrix4x4 isn't inversible");
     else [[likely]]
-        return Matrix4x4::Cofactor(matrix).Transpose() * (1 / matrix.Determinant());
+    {
+        // Definition from MonoGame/XNA: https://github.com/MonoGame/MonoGame/blob/b30122c99597eaf81b81f32ab1d467a7b4185c73/MonoGame.Framework/Matrix.cs#L4
+        Matrix4x4 result;
+        
+        const float num1 = matrix[0][0];
+		const float num2 = matrix[0][1];
+		const float num3 = matrix[0][2];
+		const float num4 = matrix[0][3];
+		const float num5 = matrix[1][0];
+		const float num6 = matrix[1][1];
+		const float num7 = matrix[1][2];
+		const float num8 = matrix[1][3];
+		const float num9 = matrix[2][0];
+		const float num10 = matrix[2][1];
+		const float num11 = matrix[2][2];
+		const float num12 = matrix[2][3];
+		const float num13 = matrix[3][0];
+		const float num14 = matrix[3][1];
+		const float num15 = matrix[3][2];
+		const float num16 = matrix[3][3];
+		const float num17 = (num11 * num16 - num12 * num15);
+		const float num18 = (num10 * num16 - num12 * num14);
+		const float num19 = (num10 * num15 - num11 * num14);
+		const float num20 = (num9 * num16 - num12 * num13);
+		const float num21 = (num9 * num15 - num11 * num13);
+		const float num22 = (num9 * num14 - num10 * num13);
+		const float num23 = (num6 * num17 - num7 * num18 + num8 * num19);
+		const float num24 = -(num5 * num17 - num7 * num20 + num8 * num21);
+		const float num25 = (num5 * num18 - num6 * num20 + num8 * num22);
+		const float num26 = -(num5 * num19 - num6 * num21 + num7 * num22);
+		const float num27 = (1.f / (num1 * num23 + num2 * num24 + num3 * num25 + num4 * num26));
+		
+		result[0][0] = num23 * num27;
+		result[1][0] = num24 * num27;
+		result[2][0] = num25 * num27;
+		result[3][0] = num26 * num27;
+		result[0][1] = -(num2 * num17 - num3 * num18 + num4 * num19) * num27;
+		result[1][1] = (num1 * num17 - num3 * num20 + num4 * num21) * num27;
+		result[2][1] = -(num1 * num18 - num2 * num20 + num4 * num22) * num27;
+		result[3][1] = (num1 * num19 - num2 * num21 + num3 * num22) * num27;
+		const float num28 = (num7 * num16 - num8 * num15);
+		const float num29 = (num6 * num16 - num8 * num14);
+		const float num30 = (num6 * num15 - num7 * num14);
+		const float num31 = (num5 * num16 - num8 * num13);
+		const float num32 = (num5 * num15 - num7 * num13);
+		const float num33 = (num5 * num14 - num6 * num13);
+		result[0][2] = (num2 * num28 - num3 * num29 + num4 * num30) * num27;
+		result[1][2] = -(num1 * num28 - num3 * num31 + num4 * num32) * num27;
+		result[2][2] = (num1 * num29 - num2 * num31 + num4 * num33) * num27;
+		result[3][2] = -(num1 * num30 - num2 * num32 + num3 * num33) * num27;
+		const float num34 = (num7 * num12 - num8 * num11);
+		const float num35 = (num6 * num12 - num8 * num10);
+		const float num36 = (num6 * num11 - num7 * num10);
+		const float num37 = (num5 * num12 - num8 * num9);
+		const float num38 = (num5 * num11 - num7 * num9);
+		const float num39 = (num5 * num10 - num6 * num9);
+		result[0][3] = -(num2 * num34 - num3 * num35 + num4 * num36) * num27;
+		result[1][3] = (num1 * num34 - num3 * num37 + num4 * num38) * num27;
+		result[2][3] = -(num1 * num35 - num2 * num37 + num4 * num39) * num27;
+		result[3][3] = (num1 * num36 - num2 * num38 + num3 * num39) * num27;
+
+        return result;
+    }
 }
 
 Matrix4x4 Matrix4x4::Translation2D(const Vector2 &translation)
