@@ -15,17 +15,13 @@
 
 int main()
 {
-    Vector3 euler(PI / 2.f, 0.f, 0.f);
+    Matrix4x4 matrix = Matrix3x3::Rotation3DY(PI / 2.f);
 
-    Matrix4x4 trs = Matrix4x4::TRS(10.f, euler, 2.f);
+    PRINT(matrix);
 
-    PRINT(trs);
+    Quaternion quat = Quaternion::FromRotationMatrix(matrix);
 
-    Matrix4x4 inverse = Matrix4x4::Inverse(trs);
-
-    PRINT(inverse);
-
-    PRINT(trs * inverse);
+    PRINT(quat);
 
     return 0;
 }

@@ -207,7 +207,7 @@ Quaternion Quaternion::FromEuler(const Vector3& rotation)
 
 Quaternion Quaternion::FromRotationMatrix(const Matrix4x4& rotation)
 {
-	const float trace = rotation.Trace();
+	const float trace = rotation.Trace() - rotation[3][3];
 
 	Quaternion q;
 
@@ -216,38 +216,38 @@ Quaternion Quaternion::FromRotationMatrix(const Matrix4x4& rotation)
 		float s = std::sqrt(trace + 1.f);
 		q.W() = s * 0.5f;
 		s = 0.5f / s;
-		q.X() = (rotation[2][3] - rotation[3][2]) * s;
-		q.Y() = (rotation[3][1] - rotation[1][3]) * s;
-		q.Z() = (rotation[1][2] - rotation[2][1]) * s;
+		q.X() = (rotation[2][1] - rotation[1][2]) * s;
+		q.Y() = (rotation[0][2] - rotation[2][0]) * s;
+		q.Z() = (rotation[1][0] - rotation[0][1]) * s;
 	}
 	else
 	{
-		if (rotation[1][1] >= rotation[2][2] && rotation[1][1] >= rotation[3][3])
+		if (rotation[0][0] >= rotation[1][1] && rotation[0][0] >= rotation[2][2])
 		{
-			const float s = std::sqrt(1.f + rotation[1][1] - rotation[2][2] - rotation[3][3]);
+			const float s = std::sqrt(1.f + rotation[0][0] - rotation[1][1] - rotation[2][2]);
 			const float invS = 0.5f / s;
 			q.X() = 0.5f * s;
-			q.Y() = (rotation[1][2] + rotation[2][1]) * invS;
-			q.Z() = (rotation[1][3] + rotation[3][1]) * invS;
-			q.W() = (rotation[2][3] - rotation[3][2]) * invS;
+			q.Y() = (rotation[1][0] + rotation[0][1]) * invS;
+			q.Z() = (rotation[2][0] + rotation[0][2]) * invS;
+			q.W() = (rotation[2][1] - rotation[1][2]) * invS;
 		}
-		else if (rotation[2][2] > rotation[3][3])
+		else if (rotation[1][1] > rotation[2][2])
 		{
-			const float s = std::sqrt(1.f + rotation[2][2] - rotation[1][1] - rotation[3][3]);
+			const float s = std::sqrt(1.f + rotation[1][1] - rotation[0][0] - rotation[2][2]);
 			const float invS = 0.5f / s;
-			q.X() = (rotation[2][1] + rotation[1][2]) * invS;
+			q.X() = (rotation[0][1] + rotation[1][0]) * invS;
 			q.Y() = 0.5f * s;
-			q.Z() = (rotation[3][2] + rotation[2][3]) * invS;
-			q.W() = (rotation[3][1] - rotation[1][3]) * invS;
+			q.Z() = (rotation[1][2] + rotation[2][1]) * invS;
+			q.W() = (rotation[0][2] - rotation[2][0]) * invS;
 		}
 		else
 		{
-			const float s = std::sqrt(1.f + rotation[3][3] - rotation[1][1] - rotation[2][2]);
+			const float s = std::sqrt(1.f + rotation[2][2] - rotation[0][0] - rotation[1][1]);
 			const float invS = 0.5f / s;
-			q.X() = (rotation[3][1] + rotation[1][3]) * invS;
-			q.Y() = (rotation[3][2] + rotation[2][3]) * invS;
+			q.X() = (rotation[0][2] + rotation[2][0]) * invS;
+			q.Y() = (rotation[1][2] + rotation[2][1]) * invS;
 			q.Z() = 0.5f * s;
-			q.W() = (rotation[1][2] - rotation[2][1]) * invS;
+			q.W() = (rotation[1][0] - rotation[0][1]) * invS;
 		}
 	}
 
