@@ -1,13 +1,10 @@
 #pragma once
 
 #include <ostream>
-#include <compare>
 #include <cassert>
 
 class Vector2;
 class Vector3;
-template<size_t M>
-class Vector;
 class Matrix4x4;
 
 /// @brief The Vector4 class represents either a four-dimensional vector or a point.
@@ -25,16 +22,6 @@ public:
 	/// @brief Constructs a Vector4 with all its components set to 'xyzw'.
 	constexpr Vector4(const float xyzw) : x(xyzw), y(xyzw), z(xyzw), w(xyzw) {}
 	constexpr Vector4(const float x, const float y, const float z, const float w) : x(x), y(y), z(z), w(w) {}
-	constexpr Vector4(const std::initializer_list<float>& values)
-	{
-		assert(values.size() == 4 && "Cannot initialize Vector4 from initializer list with size != 4");
-
-		const float* it = values.begin();
-		x = it[0];
-		y = it[1];
-		z = it[2];
-		w = it[3];
-	}
 	/// @brief Constructs a Vector4 from point 'p1' to point 'p2'
 	Vector4(const Vector4& p1, const Vector4& p2);
 
@@ -57,12 +44,11 @@ public:
 	static float Dot(const Vector4& a, const Vector4& b);
 
 	[[nodiscard]]
-	float operator[](const size_t i) const;
+	float operator[](size_t i) const;
 	[[nodiscard]]
-	float& operator[](const size_t i);
+	float& operator[](size_t i);
 	constexpr explicit operator Vector2() const;
     explicit operator Vector3() const;
-	operator Vector<4>() const;
 	constexpr explicit operator Matrix4x4() const;
 
     // Automatically generates all comparison operators

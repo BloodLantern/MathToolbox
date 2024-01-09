@@ -3,10 +3,9 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 
-constexpr char calc::Sign(const float value)
+constexpr float calc::Sign(const float value)
 {
-    // std::signbit returns whether the value is negative
-    return std::signbit(value) ? -1 : 1;
+    return value < 0.f ? -1.f : 1.f;
 }
 
 void calc::Approach(float &value, const float target, const float step)
@@ -15,9 +14,12 @@ void calc::Approach(float &value, const float target, const float step)
 
     // If the target value hasn't been reached yet
     if (std::abs(difference) > 0)
-    {
         value += std::min(step, std::abs(difference)) * Sign(difference);
-    }
+}
+
+float calc::YoYo(const float value)
+{
+    return value <= 0.5f ? value * 2.f : 1.f - (value - 0.5f) * 2.f;
 }
 
 Vector2 calc::Lerp(const Vector2 &value, const Vector2 &target, const float t)
@@ -32,7 +34,12 @@ Vector3 calc::Lerp(const Vector3 &value, const Vector3 &target, const float t)
 
 bool calc::IsZero(const float value)
 {
-    return value <= Zero;
+    return std::abs(value) <= Zero;
+}
+
+bool calc::Equals(const float a, const float b)
+{
+    return IsZero(a - b);
 }
 
 bool calc::Nullify(float &value)

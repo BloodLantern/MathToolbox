@@ -1,6 +1,5 @@
 #include "vector4.hpp"
 
-#include "matrix.hpp"
 #include "matrix4x4.hpp"
 #include "vector3.hpp"
 
@@ -10,8 +9,6 @@ Vector4::Vector4(const Vector4& p1, const Vector4& p2)
 	: x(p2.x - p1.x), y(p2.y - p1.y), z(p2.z - p1.z), w(p2.w - p1.w)
 {
 }
-
-#pragma region operators
 
 float Vector4::Length() const
 {
@@ -243,13 +240,12 @@ std::ostream& operator<<(std::ostream& out, const Vector4& v)
 {
 	char buffer[10];
 	out << "[ ";
-	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
+	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
 	out << buffer << ", ";
-	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);
+	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);
 	out << buffer << ", ";
-	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.z);
+	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.z);
 	out << buffer << ", ";
-	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.w);
+	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.w);
 	return out << buffer << " ]";
 }
-#pragma endregion

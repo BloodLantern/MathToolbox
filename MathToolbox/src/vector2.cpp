@@ -1,17 +1,44 @@
 #include "vector2.hpp"
 
-#include "matrix.hpp"
+#include "calc.hpp"
 #include "vector2i.hpp"
 #include "vector3.hpp"
+#include "vector4.hpp"
+#include "matrix2x2.hpp"
 
-#define SQ(var) ((var) * (var))
+constexpr Vector2 Vector2::Zero()
+{
+	return Vector2();
+}
 
-Vector2::Vector2(const Vector2 p1, const Vector2 p2)
-    : x(p2.x - p1.x), y(p2.y - p1.y)
+constexpr Vector2 Vector2::UnitX()
+{
+	return Vector2(1.f, 0.f);
+}
+
+constexpr Vector2 Vector2::UnitY()
+{
+	return Vector2(0.f, 1.f);
+}
+
+constexpr Vector2::Vector2()
+	: x(0.f)
+	, y(0.f)
 {
 }
 
-#pragma region functions
+constexpr Vector2::Vector2(const float xy)
+	: x(xy)
+	, y(xy)
+{
+}
+
+constexpr Vector2::Vector2(const float x, const float y)
+	: x(x)
+	, y(y)
+{
+}
+
 float Vector2::Length() const
 {
 	return std::sqrt(SquaredLength());
@@ -24,12 +51,12 @@ float Vector2::SquaredLength() const
 
 Vector2 Vector2::Normalized() const
 {
-	float norm = Length();
-	if (norm == 0)
-		return 0;
+	const float length = Length();
+	if (calc::IsZero(length))
+		return Zero();
 
-    __assume(norm != 0.f);
-	return Vector2(x / norm, y / norm);
+    __assume(length != 0.f);
+	return Vector2(x / length, y / length);
 }
 
 Vector2 Vector2::Normal() const
@@ -53,47 +80,6 @@ float Vector2::Determinant(const Vector2 other) const
 	return (x * other.y) - (other.x * y);
 }
 
-float Vector2::Angle() const
-{
-	return atan2f(y, x);
-}
-
-Vector2 Vector2::Rotate(const float angle) const
-{
-	float c = cos(angle);
-	float s = sin(angle);
-	return Rotate(c, s);
-}
-
-Vector2 Vector2::Rotate(const float angle, const Vector2 center) const
-{
-	float c = cos(angle);
-	float s = sin(angle);
-	return Rotate(center, c, s);
-}
-
-Vector2 Vector2::Rotate(const float cos, const float sin) const
-{
-	return Vector2(x * cos - y * sin, y * cos + x * sin);
-}
-
-Vector2 Vector2::Rotate(const Vector2 center, const float cos, const float sin) const
-{
-	Vector2 temp = *this - center;
-	return Vector2(temp.x * cos - temp.y * sin, temp.y * cos + temp.x * sin) + center;
-}
-
-float Vector2::Angle(const Vector2 a, const Vector2 b)
-{
-	float dotProduct = Dot(a, b);
-	float angle = std::acos(dotProduct / (a.Length() * b.Length()));
-
-	if (Determinant(a, b) < 0)
-		angle = -angle;
-
-	return angle;
-}
-
 float Vector2::Dot(const Vector2 a, const Vector2 b)
 {
 	return a.Dot(b);
@@ -109,51 +95,41 @@ float Vector2::Determinant(const Vector2 a, const Vector2 b)
 {
 	return a.Determinant(b);
 }
-#pragma endregion
 
-#pragma region operators
 float Vector2::operator[](const size_t i) const
 {
-	assert(i >= 0 && i < 2 && "Vector2 subscript out of range");
-    __assume(i >= 0 && i < 2);
+	assert(i < 2 && "Vector2 subscript out of range");
 
     return *(&x + i);
 }
 
 float &Vector2::operator[](const size_t i)
 {
-    
-	assert(i >= 0 && i < 2 && "Vector2 subscript out of range");
-    __assume(i >= 0 && i < 2);
+	assert(i < 2 && "Vector2 subscript out of range");
 
     return *(&x + i);
 }
 
 Vector2::operator Vector2i() const
 {
-	return Vector2i((int)std::round(x), (int)std::round(y));
+	return Vector2i(static_cast<int>(std::round(x)), static_cast<int>(std::round(y)));
 }
 
 Vector2::operator Vector3() const
 {
-	return Vector3(x, y, 0);
+	return Vector3(x, y, 0.f);
 }
 
 Vector2::operator Vector4() const
 {
-	return Vector4(x, y, 0, 1);
-}
-
-Vector2::operator Vector<2>() const
-{
-	return Vector<2>{ x, y };
+	return Vector4(x, y, 0.f, 1.f);
 }
 
 Vector2::operator Matrix2x2() const
 {
 	return Matrix2x2(
-		x, 0,
-		y, 1
+		x, 0.f,
+		y, 1.f
 	);
 }
 
@@ -177,9 +153,9 @@ Vector2 operator*(const Vector2 a, const Vector2 b)
 	return Vector2(a.x * b.x, a.y * b.y);
 }
 
-Vector2 operator*(const Vector2 a, const float s)
+Vector2 operator*(const Vector2 v, const float factor)
 {
-	return Vector2(a.x * s, a.y * s);
+	return Vector2(v.x * factor, v.y * factor);
 }
 
 Vector2 operator*(const Matrix2x2& m, const Vector2& v)
@@ -195,9 +171,9 @@ Vector2 operator/(const Vector2 a, const Vector2 b)
 	return Vector2(a.x / b.x, a.y / b.y);
 }
 
-Vector2 operator/(const Vector2 a, const float s)
+Vector2 operator/(const Vector2 v, const float factor)
 {
-	return Vector2(a.x / s, a.y / s);
+	return Vector2(v.x / factor, v.y / factor);
 }
 
 Vector2& operator+=(Vector2& a, const Vector2 b)
@@ -261,43 +237,7 @@ Vector2& operator/=(Vector2& v, const float factor)
 	return v;
 }
 
-bool operator==(const Vector2 &v, const float f)
-{
-    return v.x == f && v.y == f;
-}
-
-bool operator!=(const Vector2 &v, const float f)
-{
-    return !(v == f);
-}
-
-bool operator<(const Vector2 &v, const float f)
-{
-    return v.x < f && v.y < f;
-}
-
-bool operator>(const Vector2 &v, const float f)
-{
-    return v.x > f && v.y > f;
-}
-
-bool operator<=(const Vector2 &v, const float f)
-{
-    return v < f || v == f;
-}
-
-bool operator>=(const Vector2 &v, const float f)
-{
-    return v > f || v == f;
-}
-
 std::ostream& operator<<(std::ostream& out, const Vector2 v)
 {
-	char buffer[10];
-	out << "[ ";
-	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
-	out << buffer << ", ";
-	sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);
-	return out << buffer << " ]";
+	return out << std::format("{:" + calc::StreamFloatFormatString + "} {:" + calc::StreamFloatFormatString + "}", v.x, v.y);
 }
-#pragma endregion

@@ -1,16 +1,15 @@
 #include "vector2i.hpp"
 
-#include "matrix.hpp"
+#include <cassert>
+
+#include "calc.hpp"
 #include "vector2.hpp"
+#include "vector3.hpp"
+#include "vector4.hpp"
+#include "matrix2x2.hpp"
 
 #define SQ(var) ((var) * (var))
 
-Vector2i::Vector2i(const Vector2i p1, const Vector2i p2)
-	: x(p2.x - p1.x), y(p2.y - p1.y)
-{
-}
-
-#pragma region functions
 float Vector2i::Length() const
 {
 	return sqrt(SquaredLength());
@@ -18,17 +17,17 @@ float Vector2i::Length() const
 
 float Vector2i::SquaredLength() const
 {
-	return (float) (x * x + y * y);
+	return static_cast<float>(x * x + y * y);
 }
 
 Vector2 Vector2i::Normalized() const
 {
-	float norm = Length();
-	if (norm == 0)
+	const float length = Length();
+	if (calc::IsZero(length))
 		return 0;
 
-    __assume(norm != 0.f);
-	return Vector2(x / norm, y / norm);
+    __assume(length != 0.f);
+	return Vector2(static_cast<float>(x) / length, static_cast<float>(y) / length);
 }
 
 Vector2 Vector2i::Normal() const
@@ -38,7 +37,7 @@ Vector2 Vector2i::Normal() const
 
 float Vector2i::Dot(const Vector2i other) const
 {
-	return (float)(x * other.x + y * other.y);
+	return static_cast<float>(x * other.x + y * other.y);
 }
 
 float Vector2i::Cross(const Vector2i other) const
@@ -49,48 +48,7 @@ float Vector2i::Cross(const Vector2i other) const
 
 float Vector2i::Determinant(const Vector2i other) const
 {
-	return (float)((x * other.y) - (other.x * y));
-}
-
-float Vector2i::Angle() const
-{
-	return atan2f((float) y, (float) x);
-}
-
-Vector2 Vector2i::Rotate(const float angle) const
-{
-	float c = cos(angle);
-	float s = sin(angle);
-	return Rotate(c, s);
-}
-
-Vector2 Vector2i::Rotate(const float angle, const Vector2i center) const
-{
-	float c = cos(angle);
-	float s = sin(angle);
-	return Rotate(center, c, s);
-}
-
-Vector2 Vector2i::Rotate(const float cos, const float sin) const
-{
-	return Vector2(x * cos - y * sin, y * cos + x * sin);
-}
-
-Vector2 Vector2i::Rotate(const Vector2i center, const float cos, const float sin) const
-{
-	Vector2i temp = *this - center;
-	return Vector2(temp.x * cos - temp.y * sin, temp.y * cos + temp.x * sin) + center;
-}
-
-float Vector2i::Angle(const Vector2i a, const Vector2i b)
-{
-	float dotProduct = Dot(a, b);
-	float angle = std::acos(dotProduct / (a.Length() * b.Length()));
-
-	if (Determinant(a, b) < 0)
-		angle = -angle;
-
-	return angle;
+	return static_cast<float>(x * other.y - other.x * y);
 }
 
 float Vector2i::Dot(const Vector2i a, const Vector2i b)
@@ -107,9 +65,7 @@ float Vector2i::Determinant(const Vector2i a, const Vector2i b)
 {
 	return a.Determinant(b);
 }
-#pragma endregion
 
-#pragma region operators
 int Vector2i::operator[](const size_t i) const
 {
 	assert(i >= 0 && i < 2 && "Vector2i subscript out of range");
@@ -129,24 +85,24 @@ int &Vector2i::operator[](const size_t i)
 
 Vector2i::operator Vector2() const
 {
-	return Vector2((float) x, (float) y);
+	return Vector2(static_cast<float>(x), static_cast<float>(y));
 }
 
 Vector2i::operator Vector3() const
 {
-	return Vector3((float) x, (float) y, 0);
+	return Vector3(static_cast<float>(x), static_cast<float>(y), 0.f);
 }
 
-Vector2i::operator Vector<2>() const
+Vector2i::operator Vector4() const
 {
-	return Vector<2>{ (float) x, (float) y };
+	return Vector4(static_cast<float>(x), static_cast<float>(y), 0.f, 0.f);
 }
 
 Vector2i::operator Matrix2x2() const
 {
 	return Matrix2x2(
-		(float) x, 0,
-		(float) y, 1
+		static_cast<float>(x), 0.f,
+		static_cast<float>(y), 1.f
 	);
 }
 
@@ -177,12 +133,12 @@ Vector2i operator*(const Vector2i a, const int s)
 
 Vector2 operator/(const Vector2i a, const Vector2i b)
 {
-	return Vector2(a.x / (float) b.x, a.y / (float) b.y);
+	return Vector2(a.x / static_cast<float>(b.x), a.y / static_cast<float>(b.y));
 }
 
-Vector2 operator/(const Vector2i a, const float s)
+Vector2 operator/(const Vector2i v, const float factor)
 {
-	return Vector2(a.x / s, a.y / s);
+	return Vector2(v.x / factor, v.y / factor);
 }
 
 Vector2i& operator+=(Vector2i& a, const Vector2i b)
@@ -259,11 +215,5 @@ bool operator>=(const Vector2i &v, const int i)
 
 std::ostream& operator<<(std::ostream& out, const Vector2i v)
 {
-	char buffer[10];
-	out << "[ ";
-	sprintf_s(buffer, sizeof(buffer), "%6d", v.x);
-	out << buffer << ", ";
-	sprintf_s(buffer, sizeof(buffer), "%6d", v.y);
-	return out << buffer << " ]";
+	return out << std::format("%6d %6d", v.x, v.y);
 }
-#pragma endregion

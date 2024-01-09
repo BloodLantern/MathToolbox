@@ -20,12 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\calc.hpp" />
-    <ClInclude Include="include\matrix.hpp" />
     <ClInclude Include="include\matrix2x2.hpp" />
     <ClInclude Include="include\matrix3x3.hpp" />
     <ClInclude Include="include\matrix4x4.hpp" />
     <ClInclude Include="include\quaternion.hpp" />
-    <ClInclude Include="include\vector.hpp" />
     <ClInclude Include="include\vector2.hpp" />
     <ClInclude Include="include\vector2i.hpp" />
     <ClInclude Include="include\vector3.hpp" />
@@ -37,7 +35,6 @@
     <ClCompile Include="src\matrix3x3.cpp" />
     <ClCompile Include="src\matrix4x4.cpp" />
     <ClCompile Include="src\quaternion.cpp" />
-    <ClCompile Include="src\vector.cpp" />
     <ClCompile Include="src\vector2.cpp" />
     <ClCompile Include="src\vector2i.cpp" />
     <ClCompile Include="src\vector3.cpp" />

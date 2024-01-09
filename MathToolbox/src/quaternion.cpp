@@ -7,27 +7,27 @@
 
 Quaternion Quaternion::Zero()
 {
-	return Quaternion();
+	return {};
 }
 
 Quaternion Quaternion::UnitX()
 {
-	return Quaternion(1.f, 0.f, 0.f, 0.f);
+	return { 1.f, 0.f, 0.f, 0.f };
 }
 
 Quaternion Quaternion::UnitY()
 {
-	return Quaternion(0.f, 1.f, 0.f, 0.f);
+	return { 0.f, 1.f, 0.f, 0.f };
 }
 
 Quaternion Quaternion::UnitZ()
 {
-	return Quaternion(0.f, 0.f, 1.f, 0.f);
+	return { 0.f, 0.f, 1.f, 0.f };
 }
 
 Quaternion Quaternion::UnitW()
 {
-	return Quaternion(0.f, 0.f, 0.f, 1.f);
+	return { 0.f, 0.f, 0.f, 1.f };
 }
 
 Quaternion Quaternion::Identity()
@@ -41,7 +41,7 @@ Quaternion::Quaternion()
 }
 
 Quaternion::Quaternion(const Vector4& values)
-	: imaginary((Vector3) values)
+	: imaginary(static_cast<Vector3>(values))
 	, real(values.w)
 {
 }
@@ -106,7 +106,7 @@ float Quaternion::W() const
 
 Quaternion Quaternion::Conjugate() const
 {
-	return Quaternion(-imaginary, real);
+	return { -imaginary, real };
 }
 
 float Quaternion::Length() const
@@ -149,25 +149,9 @@ float& Quaternion::operator[](const size_t i)
 	return (&imaginary.x)[i];
 }
 
-Quaternion::operator Vector<3>() const
-{
-	return (Vector<3>) imaginary;
-}
-
 Quaternion::operator Vector3() const
 {
 	return imaginary;
-}
-
-Quaternion::operator Vector<4>() const
-{
-	return
-	{
-		imaginary.x,
-		imaginary.y,
-		imaginary.z,
-		real
-	};
 }
 
 Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float angle)
@@ -341,17 +325,17 @@ Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const flo
 
 Vector3 Quaternion::Rotate(const Vector3& point, const Quaternion& rotation)
 {
-	return (Vector3) (rotation * point * rotation.Conjugate());
+	return static_cast<Vector3>(rotation * point * rotation.Conjugate());
 }
 
 Quaternion::operator Vector4() const
 {
-	return Vector4(imaginary, real);
+	return { imaginary.x, imaginary.y, imaginary.z, real };
 }
 
 Quaternion operator+(const Quaternion& a, const Quaternion& b)
 {
-	return Quaternion(a.imaginary + b.imaginary, a.real + b.real);
+	return { a.imaginary + b.imaginary, a.real + b.real };
 }
 
 Quaternion operator-(const Quaternion& a, const Quaternion& b)
@@ -361,7 +345,7 @@ Quaternion operator-(const Quaternion& a, const Quaternion& b)
 
 Quaternion operator-(const Quaternion& a)
 {
-	return Quaternion(-a.imaginary, -a.real);
+	return { -a.imaginary, -a.real };
 }
 
 Quaternion operator*(const Quaternion& a, const Quaternion& b)
@@ -395,17 +379,17 @@ Quaternion operator*(const Quaternion& a, const Quaternion& b)
 
 Quaternion operator*(const Quaternion& q, const Vector3& v)
 {
-	return q * (Quaternion) v;
+	return q * static_cast<Quaternion>(v);
 }
 
 Quaternion operator*(const Quaternion& v, const float factor)
 {
-	return Quaternion(v.imaginary * factor, v.real * factor);
+	return { v.imaginary * factor, v.real * factor };
 }
 
 Quaternion operator/(const Quaternion& v, const float factor)
 {
-	return Quaternion(v.imaginary / factor, v.real / factor);
+	return { v.imaginary / factor, v.real / factor };
 }
 
 Quaternion& operator+=(Quaternion& a, const Quaternion& b)

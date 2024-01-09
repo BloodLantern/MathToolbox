@@ -11,17 +11,10 @@
 #include "quaternion.hpp"
 
 #define PRINT(o) (std::cout << (o) << '\n' << std::endl)
-#define PI std::numbers::pi_v<float>
 
 int main()
 {
-    Matrix4x4 matrix = Matrix3x3::Rotation3DY(PI / 2.f);
-
-    PRINT(matrix);
-
-    Quaternion quat = Quaternion::FromRotationMatrix(matrix);
-
-    PRINT(quat);
+    vec2 v{1.f, 2.f};
 
     return 0;
 }

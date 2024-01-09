@@ -2,7 +2,6 @@
 
 #include "vector3.hpp"
 #include "vector4.hpp"
-#include "vector.hpp"
 
 #include <ostream>
 
@@ -60,9 +59,7 @@ public:
 	float operator[](size_t i) const;
 	[[nodiscard]]
 	float& operator[](size_t i);
-	explicit operator Vector<3>() const;
 	explicit operator Vector3() const;
-	explicit operator Vector<4>() const;
 	explicit operator Vector4() const;
 
 	[[nodiscard]]

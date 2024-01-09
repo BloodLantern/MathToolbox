@@ -1,148 +1,155 @@
 #pragma once
 
 #include <ostream>
-#include <compare>
-#include <cassert>
+#include <type_traits>
 
 class Vector2i;
 class Vector3;
 class Vector4;
-template<size_t M>
-class Vector;
 class Matrix2x2;
 
-/// @brief The Vector2 class represents either a two-dimensional vector or a point.
+/// <summary>
+/// The Vector2 class represents either a two-dimensional vector or a point.
+/// </summary>
 class Vector2
 {
 public:
 	float x, y;
 
-	static constexpr Vector2 UnitX() { return Vector2(1.0f, 0.0f); }
-	static constexpr Vector2 UnitY() { return Vector2(0.0f, 1.0f); }
+	static constexpr Vector2 Zero();
+	
+	static constexpr Vector2 UnitX();
+	
+	static constexpr Vector2 UnitY();
 
-	constexpr Vector2()	: x(0), y(0) {}
-	/// @brief Constructs a Vector2 with both its components set to 'xy'.
-	constexpr Vector2(const float xy) : x(xy), y(xy) {}
-	constexpr Vector2(const float x, const float y) : x(x), y(y) {}
-	constexpr Vector2(const std::initializer_list<float>& values)
-	{
-		assert(values.size() == 2 && "Cannot initialize Vector2 from initializer list with size != 2");
+	/// <summary>
+	/// Constructs a Vector2 with both its components set to 0.
+	/// </summary>
+	constexpr Vector2();
+	
+	/// <summary>
+	/// Constructs a Vector2 with both its components set to 'xy'.
+	/// </summary>
+	/// <param name="xy">The value to set this vector's x and y components to.</param>
+	constexpr Vector2(float xy);
+	
+	/// <summary>
+	/// Constructs a Vector2 with set component values.
+	/// </summary>
+	/// <param name="x">The value to set this vector's x components to.</param>
+	/// <param name="y">The value to set this vector's y components to.</param>
+	constexpr Vector2(float x, float y);
 
-		const float* it = values.begin();
-		x = it[0];
-		y = it[1];
-	}
-	/// @brief Constructs a Vector2 from point 'p1' to point 'p2'
-	Vector2(const Vector2 p1, const Vector2 p2);
-
-	/// @brief Returns the length of the vector.
+	/// <summary>
+	/// Returns the length of the vector.
+	/// </summary>
 	[[nodiscard]]
 	float Length() const;
-	/// @brief Returns the squared length of the vector.
+	
+	/// <summary>
+	/// Returns the squared length of the vector.
+	/// </summary>
 	[[nodiscard]]
 	float SquaredLength() const;
-	/// @brief Returns a normalized vector.
-	/// @return A vector with the same direction but a length of one.
+	
+	/// <summary>
+	/// Returns a normalized vector.
+	/// </summary>
+	/// <returns>A vector with the same direction but a length of one.</returns>
 	[[nodiscard]]
 	Vector2 Normalized() const;
-	/// @brief Returns the normal vector to this one.
-	/// @return A vector with the same length but a normal direction.
+	
+	/// <summary>
+	/// Returns the normal vector to this one.
+	/// </summary>
+	/// <returns>A vector with the same length but a normal direction.</returns>
 	[[nodiscard]]
 	Vector2 Normal() const;
-	/// @brief Returns the dot product of this Vector2 with 'other'.
+	
+	/// <summary>
+	/// Returns the dot product of this Vector2 with 'other'.
+	/// </summary>
 	[[nodiscard]]
-	float Dot(const Vector2 other) const;
-	/// @brief Returns the cross product of this Vector2 with 'other'.
+	float Dot(Vector2 other) const;
+	
+	/// <summary>
+	/// Returns the cross product of this Vector2 with 'other'.
+	/// </summary>
 	[[nodiscard]]
-	float Cross(const Vector2 other) const;
-	/// @brief Returns the determinant of this Vector2 with 'other'.
+	float Cross(Vector2 other) const;
+	
+	/// <summary>
+	/// Returns the determinant of this Vector2 with 'other'.
+	/// </summary>
 	[[nodiscard]]
-	float Determinant(const Vector2 other) const;
-	/// @brief Returns the angle between the beginning and the end of this vector.
-	/// @return An angle in radians.
-	[[nodiscard]]
-	float Angle() const;
-	/// @brief Rotates the vector by the specified angle.
-	/// @param angle The angle in radians.
-	[[nodiscard]]
-	Vector2 Rotate(const float angle) const;
-	/// @brief Rotates the vector by the specified angle around a center.
-	/// @param angle The angle in radians.
-	[[nodiscard]]
-	Vector2 Rotate(const float angle, const Vector2 center) const;
-	/// @brief Rotates the vector by the specified cosine and sine around a center.
-	/// @param cos The cosine of the angle in radians.
-	/// @param sin The sine of the angle in radians.
-	[[nodiscard]]
-	Vector2 Rotate(const float cos, const float sin) const;
-	/// @brief Rotates the vector by the specified cosine and sine.
-	/// @param cos The cosine of the angle in radians.
-	/// @param sin The sine of the angle in radians.
-	[[nodiscard]]
-	Vector2 Rotate(const Vector2 center, const float cos, const float sin) const;
+	float Determinant(Vector2 other) const;
 
-	/// @brief Returns the angle between 'a' and 'b'.
+	/// <summary>
+	/// Returns a · b.
+	/// </summary>
 	[[nodiscard]]
-	static float Angle(const Vector2 a, const Vector2 b);
-	/// @brief Returns a · b.
+	static float Dot(Vector2 a, Vector2 b);
+	
+	/// <summary>
+	/// Returns a x b.
+	/// </summary>
 	[[nodiscard]]
-	static float Dot(const Vector2 a, const Vector2 b);
-	/// @brief Returns a x b.
+	static float Cross(Vector2 a, Vector2 b);
+	
+	/// <summary>
+	/// Returns the determinant of 'a' and 'b'.
+	/// </summary>
 	[[nodiscard]]
-	static float Cross(const Vector2 a, const Vector2 b);
-	/// @brief Returns the determinant of 'a' and 'b'.
-	[[nodiscard]]
-	static float Determinant(const Vector2 a, const Vector2 b);
+	static float Determinant(Vector2 a, Vector2 b);
 
 	[[nodiscard]]
-	float  operator[](const size_t i) const;
+	float  operator[](size_t i) const;
+	
 	[[nodiscard]]
-	float& operator[](const size_t i);
+	float& operator[](size_t i);
+	
 	explicit operator Vector2i() const;
-	operator Vector3() const;
-	operator Vector4() const;
-	operator Vector<2>() const;
+	
+	explicit operator Vector3() const;
+	
+	explicit operator Vector4() const;
+	
 	explicit operator Matrix2x2() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Vector2& a, const Vector2& b) = default;
 };
 
+static_assert(std::is_default_constructible_v<Vector2>, "Class Vector2 must be default constructible.");
+static_assert(std::is_copy_constructible_v<Vector2>, "Class Vector2 must be copy constructible.");
+static_assert(std::is_move_constructible_v<Vector2>, "Class Vector2 must be move constructible.");
+static_assert(std::is_copy_assignable_v<Vector2>, "Class Vector2 must be copy assignable.");
+static_assert(std::is_move_assignable_v<Vector2>, "Class Vector2 must be move assignable.");
+
 [[nodiscard]]
-Vector2 operator+(const Vector2 a, const Vector2 b);
+Vector2 operator+(Vector2 a, Vector2 b);
 [[nodiscard]]
-Vector2 operator-(const Vector2 a, const Vector2 b);
+Vector2 operator-(Vector2 a, Vector2 b);
 [[nodiscard]]
-Vector2 operator-(const Vector2 a);
+Vector2 operator-(Vector2 a);
 [[nodiscard]]
-Vector2 operator*(const Vector2 a, const Vector2 b);
+Vector2 operator*(Vector2 a, Vector2 b);
 [[nodiscard]]
-Vector2 operator*(const Vector2 v, const float factor);
+Vector2 operator*(Vector2 v, float factor);
 [[nodiscard]]
 Vector2 operator*(const Matrix2x2& m, const Vector2& v);
 [[nodiscard]]
-Vector2 operator/(const Vector2 a, const Vector2 b);
+Vector2 operator/(Vector2 a, Vector2 b);
 [[nodiscard]]
-Vector2 operator/(const Vector2 v, const float factor);
+Vector2 operator/(Vector2 v, float factor);
 
-Vector2& operator+=(Vector2& a, const Vector2 b);
-Vector2& operator+=(Vector2& v, const float factor);
-Vector2& operator-=(Vector2& a, const Vector2 b);
-Vector2& operator-=(Vector2& v, const float factor);
-Vector2& operator*=(Vector2& a, const Vector2 b);
-Vector2& operator*=(Vector2& v, const float factor);
+Vector2& operator+=(Vector2& a, Vector2 b);
+Vector2& operator+=(Vector2& v, float factor);
+Vector2& operator-=(Vector2& a, Vector2 b);
+Vector2& operator-=(Vector2& v, float factor);
+Vector2& operator*=(Vector2& a, Vector2 b);
+Vector2& operator*=(Vector2& v, float factor);
 Vector2& operator*=(const Matrix2x2& m, Vector2& v);
-Vector2& operator/=(Vector2& a, const Vector2 b);
-Vector2& operator/=(Vector2& v, const float factor);
+Vector2& operator/=(Vector2& a, Vector2 b);
+Vector2& operator/=(Vector2& v, float factor);
 
-bool operator==(const Vector2& v, const float f);
-bool operator!=(const Vector2& v, const float f);
-bool operator<(const Vector2& v, const float f);
-bool operator>(const Vector2& v, const float f);
-bool operator<=(const Vector2& v, const float f);
-bool operator>=(const Vector2& v, const float f);
-
-std::ostream& operator<<(std::ostream& out, const Vector2 v);
+std::ostream& operator<<(std::ostream& out, Vector2 v);
 
 using vec2 = Vector2;
