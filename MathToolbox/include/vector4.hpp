@@ -1,94 +1,164 @@
 #pragma once
 
 #include <ostream>
-#include <cassert>
 
 class Vector2;
 class Vector3;
 class Matrix4x4;
 
-/// @brief The Vector4 class represents either a four-dimensional vector or a point.
+/// <summary>
+/// The Vector4 class represents either a four-dimensional vector or a point.
+/// </summary>
 class Vector4
 {
 public:
 	float x, y, z, w;
 
-	static constexpr Vector4 UnitX() { return Vector4(1.0f, 0.0f, 0.0f, 0.0f); }
-	static constexpr Vector4 UnitY() { return Vector4(0.0f, 1.0f, 0.0f, 0.0f); }
-	static constexpr Vector4 UnitZ() { return Vector4(0.0f, 0.0f, 1.0f, 0.0f); }
-	static constexpr Vector4 UnitW() { return Vector4(0.0f, 0.0f, 0.0f, 1.0f); }
+	static constexpr Vector4 Zero();
 
-	constexpr Vector4()	: x(0), y(0), z(0), w(0) {}
-	/// @brief Constructs a Vector4 with all its components set to 'xyzw'.
-	constexpr Vector4(const float xyzw) : x(xyzw), y(xyzw), z(xyzw), w(xyzw) {}
-	constexpr Vector4(const float x, const float y, const float z, const float w) : x(x), y(y), z(z), w(w) {}
-	/// @brief Constructs a Vector4 from point 'p1' to point 'p2'
-	Vector4(const Vector4& p1, const Vector4& p2);
+	static constexpr Vector4 UnitX();
 
-	/// @brief Returns the length of the vector.
+	static constexpr Vector4 UnitY();
+
+	static constexpr Vector4 UnitZ();
+
+	static constexpr Vector4 UnitW();
+
+	constexpr Vector4();
+
+	/// <summary>
+	/// Constructs a Vector4 with all its components set to 'xyzw'.
+	/// </summary>
+	constexpr Vector4(float xyzw);
+
+	constexpr Vector4(float x, float y, float z, float w);
+
+	/// <summary>
+	///	Gets a pointer to the first component of this vector.
+	/// </summary>
+	/// <returns>A pointer to the first component of this vector.</returns>
+	[[nodiscard]]
+	__forceinline
+	constexpr const float* Raw() const;
+
+	/// <summary>
+	///	Gets a pointer to the first component of this vector.
+	/// </summary>
+	/// <returns>A pointer to the first component of this vector.</returns>
+	[[nodiscard]]
+	__forceinline
+	constexpr float* Raw();
+
+	/// <summary>
+	/// Returns the length of the vector.
+	/// </summary>
 	[[nodiscard]]
 	float Length() const;
-	/// @brief Returns the squared length of the vector.
+	/// <summary>
+	/// Returns the squared length of the vector.
+	/// </summary>
 	[[nodiscard]]
 	float SquaredLength() const;
-	/// @brief Normalizes the vector.
-	/// @return A vector with the same direction but a length of one.
+	/// <summary>
+	/// Normalizes the vector.
+	/// </summary>
+	/// <returns>A vector with the same direction but a length of one.</returns>
 	[[nodiscard]]
 	Vector4 Normalized() const;
-	/// @brief Returns the dot product of this Vector4& with 'other'.
+	/// <summary>
+	/// Returns the dot product of this Vector4& with 'other'.
+	/// </summary>
 	[[nodiscard]]
 	float Dot(const Vector4& other) const;
 
-	/// @brief Returns a · b.
+	/// <summary>
+	/// Returns a · b.
+	/// </summary>
 	[[nodiscard]]
 	static float Dot(const Vector4& a, const Vector4& b);
 
+	/// <summary>
+	/// Lerp between two positions in a 4-dimensional space.
+	/// </summary>
+	/// <param name="value">The current position.</param>
+	/// <param name="target">The target position.</param>
+	/// <param name="t">The time to lerp.</param>
+	/// <returns>The lerp position.</returns>
+	[[nodiscard]]
+	static Vector4 Lerp(Vector4 value, Vector4 target, float t);
+
+	/// <summary>
+	///	Retrieves this vector's component at index i.
+	/// </summary>
+	/// <param name="i">The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...</param>
+	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	float operator[](size_t i) const;
+	
+	/// <summary>
+	///	Retrieves this vector's component at index i.
+	/// </summary>
+	/// <param name="i">The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...</param>
+	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	float& operator[](size_t i);
+	
 	constexpr explicit operator Vector2() const;
+	
     explicit operator Vector3() const;
+	
 	constexpr explicit operator Matrix4x4() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Vector4& a, const Vector4& b) = default;
 };
+
+static_assert(std::is_default_constructible_v<Vector4>, "Class Vector4 must be default constructible.");
+static_assert(std::is_copy_constructible_v<Vector4>, "Class Vector4 must be copy constructible.");
+static_assert(std::is_move_constructible_v<Vector4>, "Class Vector4 must be move constructible.");
+static_assert(std::is_copy_assignable_v<Vector4>, "Class Vector4 must be copy assignable.");
+static_assert(std::is_move_assignable_v<Vector4>, "Class Vector4 must be move assignable.");
 
 [[nodiscard]]
 Vector4 operator+(const Vector4& a, const Vector4& b);
+
 [[nodiscard]]
 Vector4 operator-(const Vector4& a, const Vector4& b);
+
 [[nodiscard]]
 Vector4 operator-(const Vector4& a);
+
 [[nodiscard]]
 Vector4 operator*(const Vector4& a, const Vector4& b);
+
 [[nodiscard]]
-Vector4 operator*(const Vector4& v, const float factor);
+Vector4 operator*(const Vector4& v, float factor);
+
 [[nodiscard]]
 Vector4 operator*(const Matrix4x4& m, const Vector4& v);
+
 [[nodiscard]]
 Vector4 operator/(const Vector4& a, const Vector4& b);
+
 [[nodiscard]]
-Vector4 operator/(const Vector4& v, const float factor);
+Vector4 operator/(const Vector4& v, float factor);
 
 Vector4& operator+=(Vector4& a, const Vector4& b);
-Vector4& operator+=(Vector4& v, const float factor);
-Vector4& operator-=(Vector4& a, const Vector4& b);
-Vector4& operator-=(Vector4& v, const float factor);
-Vector4& operator*=(Vector4& a, const Vector4& b);
-Vector4& operator*=(Vector4& v, const float factor);
-Vector4& operator*=(const Matrix4x4& m, Vector4& v);
-Vector4& operator/=(Vector4& a, const Vector4& b);
-Vector4& operator/=(Vector4& v, const float factor);
 
-bool operator==(const Vector4& v, const float f);
-bool operator!=(const Vector4& v, const float f);
-bool operator<(const Vector4& v, const float f);
-bool operator>(const Vector4& v, const float f);
-bool operator<=(const Vector4& v, const float f);
-bool operator>=(const Vector4& v, const float f);
+Vector4& operator+=(Vector4& v, float factor);
+
+Vector4& operator-=(Vector4& a, const Vector4& b);
+
+Vector4& operator-=(Vector4& v, float factor);
+
+Vector4& operator*=(Vector4& a, const Vector4& b);
+
+Vector4& operator*=(Vector4& v, float factor);
+
+Vector4& operator*=(const Matrix4x4& m, Vector4& v);
+
+Vector4& operator/=(Vector4& a, const Vector4& b);
+
+Vector4& operator/=(Vector4& v, float factor);
 
 std::ostream& operator<<(std::ostream& out, const Vector4& v);
 

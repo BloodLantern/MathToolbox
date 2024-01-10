@@ -1,9 +1,11 @@
 #include "matrix4x4.hpp"
 #include "matrix3x3.hpp"
-#include "matrix.hpp"
 
 #include <cassert>
 #include <numbers>
+
+#include "matrix2x2.hpp"
+#include "vector2.hpp"
 
 #define SQ(var) ((var) * (var))
 
@@ -17,7 +19,6 @@ Matrix4x4 Matrix4x4::Identity()
     );
 }
 
-#pragma region functions
 bool Matrix4x4::IsDiagonal() const
 {
     for (size_t i = 0; i < 4; i++)
@@ -85,12 +86,9 @@ Matrix4x4 Matrix4x4::SubMatrix(const size_t rowIndex, const size_t colIndex, con
     assert(rowIndex < 4 && colIndex < 4 && "Cannot submatrix out of bounds");
     assert(rows > 0 && cols > 0 && "Cannot submatrix of size 0");
     assert(colIndex + cols >= 4 && "Cannot overflow submatrix columns");
-    __assume(rowIndex < 4 && colIndex < 4);
-    __assume(rows > 0 && cols > 0);
-    __assume(colIndex + cols >= 4);
 
     Matrix4x4 result;
-    size_t overflow = rowIndex + rows - 4;
+    const size_t overflow = rowIndex + rows - 4;
 
     for (size_t i = 0; i < rows; i++)
         for (size_t j = 0; j < cols; j++)
@@ -132,7 +130,7 @@ float Matrix4x4::Determinant() const
 
 Matrix4x4 &Matrix4x4::LoadIdentity()
 {
-    return *this = Matrix4x4::Identity();
+    return *this = Identity();
 }
 
 Matrix4x4 &Matrix4x4::Transpose()
@@ -155,7 +153,7 @@ Matrix4x4 Matrix4x4::Transpose(const Matrix4x4& matrix)
     };
 }
 
-float Matrix4x4::Cofactor(const Matrix4x4 &matrix, size_t row, size_t column)
+float Matrix4x4::Cofactor(const Matrix4x4 &matrix, const size_t row, const size_t column)
 {
     Matrix3x3 result;
     
@@ -277,17 +275,17 @@ Matrix4x4 Matrix4x4::Translation3D(const Vector3 &translation)
 
 Matrix4x4 Matrix4x4::TRS(const Vector3 &translation, const Vector3 &rotation, const Vector3 &scale)
 {
-    return Matrix4x4::TRS(translation, Matrix3x3::Rotation3D(rotation), scale);
+    return TRS(translation, Matrix3x3::Rotation3D(rotation), scale);
 }
 
 Matrix4x4 Matrix4x4::TRS(const Vector3 &translation, const float rotationAngle, const Vector3& axis, const Vector3 &scale)
 {
-    return Matrix4x4::TRS(translation, Matrix3x3::Rotation3D(rotationAngle, axis), scale);
+    return TRS(translation, Matrix3x3::Rotation3D(rotationAngle, axis), scale);
 }
 
 Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, const Vector3& scale)
 {
-    Matrix4x4 result = Matrix4x4::Identity();
+    Matrix4x4 result = Identity();
 
     result[0][3] = translation.x;
     result[1][3] = translation.y;
@@ -298,7 +296,7 @@ Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Matrix4x4& rotation, 
 
 Matrix4x4 Matrix4x4::TRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
 {
-    return Matrix4x4::TRS(translation, Matrix3x3::Rotation3D(rotation), scale);
+    return TRS(translation, Matrix3x3::Rotation3D(rotation), scale);
 }
 
 void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix4x4 &result)
@@ -312,20 +310,19 @@ void Matrix4x4::ViewMatrix(const Vector3 &eye, const Vector3 &center, const Vect
         cameraUp.x, cameraUp.y, cameraUp.z, 0,
         cameraForward.x, cameraForward.y, cameraForward.z, 0,
         0, 0, 0, 1
-    ) * Matrix4x4::Translation3D(-eye);
+    ) * Translation3D(-eye);
 }
 
 void Matrix4x4::PerspectiveProjectionMatrix(const float fov, const float ar, const float near, const float far, Matrix4x4 &result)
 {
     assert(near < far && "Near must be smaller than far.");
-    __assume(near < far);
 
     const float range = near - far;
-    const float tanHalfFOV = std::tan(fov / 2);
+    const float tanHalfFov = std::tan(fov / 2);
 
     result = Matrix4x4(
-        1 / (tanHalfFOV * ar), 0, 0, 0,
-        0, 1 / tanHalfFOV, 0, 0,
+        1 / (tanHalfFov * ar), 0, 0, 0,
+        0, 1 / tanHalfFov, 0, 0,
         0, 0, (-near - far) / range, 2 * far * near / range,
         0, 0, 1, 0
     );
@@ -334,7 +331,6 @@ void Matrix4x4::PerspectiveProjectionMatrix(const float fov, const float ar, con
 void Matrix4x4::OrthographicProjectionMatrix(const float l, const float r, const float b, const float t, const float n, const float f, Matrix4x4& result)
 {
     assert(n < f && "Near must be smaller than far.");
-    __assume(n < f);
 
     result = Matrix4x4(
         2 / (r - l), 0, 0, -((r + l) / (r - l)),
@@ -353,9 +349,7 @@ constexpr Vector4 &Matrix4x4::operator[](const size_t row)
 {
     return (&r0)[row];
 }
-#pragma endregion
 
-#pragma region operators
 Matrix4x4::operator Vector4() const
 {
     return Vector4(r0.x, r1.x, r2.x, r3.x);
@@ -381,13 +375,6 @@ Matrix4x4::operator Matrix3x3() const
         r1.x, r1.y, r1.z,
         r2.x, r2.y, r2.z
     );
-}
-
-Matrix4x4::operator Matrix<4>() const
-{
-    return Matrix<4>{
-        r0, r1, r2, r3
-    };
 }
 
 Matrix4x4 operator-(const Matrix4x4& matrix)
@@ -459,4 +446,3 @@ std::ostream &operator<<(std::ostream &out, const Matrix4x4 &m)
     out << m[3];
     return out;
 }
-#pragma endregion

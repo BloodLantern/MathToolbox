@@ -1,8 +1,8 @@
 #include "matrix2x2.hpp"
 
-#include "matrix.hpp"
 #include "matrix3x3.hpp"
 #include "matrix4x4.hpp"
+#include "calc.hpp"
 
 #include <cassert>
 
@@ -14,15 +14,42 @@ Matrix2x2 Matrix2x2::Identity()
     );
 }
 
-#pragma region functions
+constexpr Matrix2x2::Matrix2x2(const float defaultValue)
+    : r0(defaultValue)
+    , r1(defaultValue)
+{
+}
+
+constexpr Matrix2x2::Matrix2x2(const Vector2& r0, const Vector2& r1)
+    : r0(r0)
+    , r1(r1)
+{
+}
+
+constexpr Matrix2x2::Matrix2x2(const float r00, const float r01, const float r10, const float r11)
+    : r0(r00, r01)
+    , r1(r10, r11)
+{
+}
+
+constexpr const float* Matrix2x2::Raw() const
+{
+    return &r0.x;
+}
+
+constexpr float* Matrix2x2::Raw()
+{
+    return &r0.x;
+}
+
 bool Matrix2x2::IsDiagonal() const
 {
-    return r0.y == 0 && r1.y == 0;
+    return calc::Equals(r0.y, 0) && calc::Equals(r1.y, 0);
 }
 
 bool Matrix2x2::IsIdentity() const
 {
-    return IsDiagonal() && r0.x == 1 && r1.x == 1;
+    return IsDiagonal() && calc::Equals(r0.x, 1) && calc::Equals(r1.x, 1);
 }
 
 bool Matrix2x2::IsNull() const
@@ -31,26 +58,39 @@ bool Matrix2x2::IsNull() const
         return false;
 
     for (size_t i = 0; i < 2; i++)
-        if ((*this)[i][i] != 0)
+    {
+        if (!calc::Equals((*this)[i][i], 0))
             return false;
+    }
+
     return true;
 }
 
 bool Matrix2x2::IsSymmetric() const
 {
     for (size_t i = 0; i < 2; i++)
+    {
         for (size_t j = i + 1; j < 2; j++)
-            if ((*this)[i][j] != (*this)[j][i])
+        {
+            if (!calc::Equals((*this)[i][j], (*this)[j][i]))
                 return false;
+        }
+    }
+
     return true;
 }
 
 bool Matrix2x2::IsAntisymmetric() const
 {
     for (size_t i = 0; i < 2; i++)
+    {
         for (size_t j = 0; j < 2; j++)
-            if ((*this)[i][j] != -(*this)[j][i])
+        {
+            if (!calc::Equals((*this)[i][j], -(*this)[j][i]))
                 return false;
+        }
+    }
+
     return true;
 }
 
@@ -64,6 +104,7 @@ float Matrix2x2::Trace() const
     float result = 0.f;
     for (size_t i = 0; i < 2; i++)
         result += (*this)[i][i];
+    
     return result;
 }
 
@@ -72,12 +113,9 @@ Matrix2x2 Matrix2x2::SubMatrix(const size_t rowIndex, const size_t colIndex, con
     assert(rowIndex < 2 && colIndex < 2 && "Cannot submatrix out of bounds");
     assert(rows > 0 && cols > 0 && "Cannot submatrix of size 0");
     assert(colIndex + cols >= 2 && "Cannot overflow submatrix columns");
-    __assume(rowIndex < 2 && colIndex < 2);
-    __assume(rows > 0 && cols > 0);
-    __assume(colIndex + cols >= 2);
 
     Matrix2x2 result;
-    size_t overflow = rowIndex + rows - 2;
+    const size_t overflow = rowIndex + rows - 2;
 
     for (size_t i = 0; i < rows; i++)
         for (size_t j = 0; j < cols; j++)
@@ -97,12 +135,12 @@ float Matrix2x2::Determinant() const
 
 Matrix2x2 &Matrix2x2::LoadIdentity()
 {
-    return *this = Matrix2x2::Identity();
+    return *this = Identity();
 }
 
 Matrix2x2 &Matrix2x2::Transpose()
 {
-    return *this = Matrix2x2::Transpose(*this);
+    return *this = Transpose(*this);
 }
 
 Matrix2x2 Matrix2x2::Transpose(const Matrix2x2& matrix)
@@ -123,7 +161,7 @@ Matrix2x2 Matrix2x2::Scaling2D(const Vector2 scale)
 
 Matrix2x2 Matrix2x2::Rotation2D(const float angle)
 {
-    return Matrix2x2::Rotation2D(std::cos(angle), std::sin(angle));
+    return Rotation2D(std::cos(angle), std::sin(angle));
 }
 
 Matrix2x2 Matrix2x2::Rotation2D(const float cos, const float sin)
@@ -143,9 +181,7 @@ constexpr Vector2 &Matrix2x2::operator[](const size_t row)
 {
     return (&r0)[row];
 }
-#pragma endregion
 
-#pragma region operators
 Matrix2x2::operator Vector2() const
 {
     return Vector2(r0.x, r1.x);
@@ -245,4 +281,3 @@ std::ostream &operator<<(std::ostream &out, const Matrix2x2 &m)
     out << m[1];
     return out;
 }
-#pragma endregion

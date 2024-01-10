@@ -2,19 +2,14 @@
 
 #include "vector4.hpp"
 
-#include <compare>
 #include <ostream>
 
 #include "quaternion.hpp"
 
 class Vector2;
 class Vector3;
-template<size_t M>
-class Vector;
 class Matrix2x2;
 class Matrix3x3;
-template<size_t M, size_t N>
-class Matrix;
 
 /// @brief The Matrix4x4 class represents a two-dimensional array mainly used for mathematical operations.
 class Matrix4x4
@@ -70,7 +65,7 @@ public:
     float Trace() const;
     /// @brief Returns a matrix with its data set to the given indices of this one.
     [[nodiscard]]
-    Matrix4x4 SubMatrix(const size_t rowIndex, const size_t colIndex, const size_t rows, const size_t cols) const;
+    Matrix4x4 SubMatrix(size_t rowIndex, size_t colIndex, size_t rows, size_t cols) const;
     /// @brief Returns the determinant of this matrix.
     [[nodiscard]]
     float Determinant() const;
@@ -104,29 +99,23 @@ public:
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
 	/// @param rotationAngle The angle in radians.
     [[nodiscard]]
-    static Matrix4x4 TRS(const Vector3& translation, const float rotationAngle, const Vector3& axis, const Vector3& scale);
+    static Matrix4x4 TRS(const Vector3& translation, float rotationAngle, const Vector3& axis, const Vector3& scale);
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static Matrix4x4 TRS(const Vector3& translation, const Matrix4x4& rotation, const Vector3& scale);
     [[nodiscard]]
     static Matrix4x4 TRS(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
     static void ViewMatrix(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix4x4& result);
-    static void PerspectiveProjectionMatrix(const float fov, const float aspectRatio, const float near, const float far, Matrix4x4& result);
-    static void OrthographicProjectionMatrix(const float left, const float right, const float bottom, const float top, const float near, const float far, Matrix4x4& result);
+    static void PerspectiveProjectionMatrix(float fov, float aspectRatio, float near, float far, Matrix4x4& result);
+    static void OrthographicProjectionMatrix(float left, float right, float bottom, float top, float near, float far, Matrix4x4& result);
 
     [[nodiscard]]
-    constexpr const Vector4& operator[](const size_t row) const;
+    constexpr const Vector4& operator[](size_t row) const;
     [[nodiscard]]
-    constexpr Vector4& operator[](const size_t row);
+    constexpr Vector4& operator[](size_t row);
     explicit operator Vector4() const;
-    explicit operator Vector<4>() const;
     explicit operator Matrix2x2() const;
     explicit operator Matrix3x3() const;
-    explicit operator Matrix<4, 4>() const;
-
-    // Automatically generates all comparison operators
-	[[nodiscard]]
-	friend auto operator<=>(const Matrix4x4& a, const Matrix4x4& b) = default;
 
 private:
     Vector4 r0, r1, r2, r3;
@@ -139,13 +128,13 @@ Matrix4x4 operator+(const Matrix4x4& m1, const Matrix4x4& m2);
 [[nodiscard]]
 Matrix4x4 operator-(const Matrix4x4& m1, const Matrix4x4& m2);
 [[nodiscard]]
-Matrix4x4 operator*(const Matrix4x4& m, const float scalar);
+Matrix4x4 operator*(const Matrix4x4& m, float scalar);
 [[nodiscard]]
 Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
 
 Matrix4x4& operator+=(Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4& operator-=(Matrix4x4& m1, const Matrix4x4& m2);
-Matrix4x4& operator*=(Matrix4x4& m, const float scalar);
+Matrix4x4& operator*=(Matrix4x4& m, float scalar);
 Matrix4x4& operator*=(Matrix4x4& m1, const Matrix4x4& m2);
 
 std::ostream& operator<<(std::ostream& out, const Matrix4x4& m);

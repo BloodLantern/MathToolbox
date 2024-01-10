@@ -1,5 +1,7 @@
 #include "vector2.hpp"
 
+#include <cassert>
+
 #include "calc.hpp"
 #include "vector2i.hpp"
 #include "vector3.hpp"
@@ -21,12 +23,6 @@ constexpr Vector2 Vector2::UnitY()
 	return Vector2(0.f, 1.f);
 }
 
-constexpr Vector2::Vector2()
-	: x(0.f)
-	, y(0.f)
-{
-}
-
 constexpr Vector2::Vector2(const float xy)
 	: x(xy)
 	, y(xy)
@@ -39,6 +35,16 @@ constexpr Vector2::Vector2(const float x, const float y)
 {
 }
 
+constexpr const float* Vector2::Raw() const
+{
+	return &x;
+}
+
+constexpr float* Vector2::Raw()
+{
+	return &x;
+}
+
 float Vector2::Length() const
 {
 	return std::sqrt(SquaredLength());
@@ -46,7 +52,7 @@ float Vector2::Length() const
 
 float Vector2::SquaredLength() const
 {
-	return x * x + y * y;
+	return SQ(x) + SQ(y);
 }
 
 Vector2 Vector2::Normalized() const
@@ -96,18 +102,23 @@ float Vector2::Determinant(const Vector2 a, const Vector2 b)
 	return a.Determinant(b);
 }
 
+Vector2 Vector2::Lerp(const Vector2 value, const Vector2 target, const float t)
+{
+    return value + (target - value) * t;
+}
+
 float Vector2::operator[](const size_t i) const
 {
 	assert(i < 2 && "Vector2 subscript out of range");
 
-    return *(&x + i);
+    return *(Raw() + i);
 }
 
 float &Vector2::operator[](const size_t i)
 {
 	assert(i < 2 && "Vector2 subscript out of range");
 
-    return *(&x + i);
+    return *(Raw() + i);
 }
 
 Vector2::operator Vector2i() const
@@ -180,6 +191,7 @@ Vector2& operator+=(Vector2& a, const Vector2 b)
 {
 	a.x += b.x;
 	a.y += b.y;
+	
 	return a;
 }
 
@@ -187,6 +199,7 @@ Vector2& operator+=(Vector2& v, const float factor)
 {
 	v.x += factor;
 	v.y += factor;
+	
 	return v;
 }
 
@@ -194,6 +207,7 @@ Vector2 &operator-=(Vector2 &a, const Vector2 b)
 {
 	a.x -= b.x;
 	a.y -= b.y;
+	
 	return a;
 }
 
@@ -201,6 +215,7 @@ Vector2& operator-=(Vector2& v, const float factor)
 {
 	v.x -= factor;
 	v.y -= factor;
+	
 	return v;
 }
 
@@ -208,6 +223,7 @@ Vector2& operator*=(Vector2& a, const Vector2 b)
 {
 	a.x *= b.x;
 	a.y *= b.y;
+	
 	return a;
 }
 
@@ -215,6 +231,7 @@ Vector2& operator*=(Vector2& v, const float factor)
 {
 	v.x *= factor;
 	v.y *= factor;
+	
 	return v;
 }
 
@@ -227,6 +244,7 @@ Vector2 &operator/=(Vector2 &a, const Vector2 b)
 {
 	a.x /= b.x;
 	a.y /= b.y;
+	
 	return a;
 }
 
@@ -234,10 +252,11 @@ Vector2& operator/=(Vector2& v, const float factor)
 {
 	v.x /= factor;
 	v.y /= factor;
+	
 	return v;
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector2 v)
 {
-	return out << std::format("{:" + calc::StreamFloatFormatString + "} {:" + calc::StreamFloatFormatString + "}", v.x, v.y);
+	return out << std::format("{:6.3f} {:6.3f}", v.x, v.y);
 }

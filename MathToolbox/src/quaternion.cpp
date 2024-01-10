@@ -126,17 +126,17 @@ Quaternion Quaternion::Inverse() const
 	{
 		return Conjugate() / sqLength;
 	}
-	return Quaternion::Zero();
+	return Zero();
 }
 
 float Quaternion::Dot(const Quaternion& other) const
 {
-	return Quaternion::Dot(*this, other);
+	return Dot(*this, other);
 }
 
 Vector3 Quaternion::Rotate(const Vector3& point) const
 {
-	return Quaternion::Rotate(point, *this);
+	return Rotate(point, *this);
 }
 
 float Quaternion::operator[](const size_t i) const
@@ -252,7 +252,7 @@ Quaternion Quaternion::Lerp(const Quaternion& a, const Quaternion& b, const floa
 
 	Quaternion r;
 
-	const float dot = Quaternion::Dot(a, b);
+	const float dot = Dot(a, b);
 
 	if (dot >= 0.0f)
 	{

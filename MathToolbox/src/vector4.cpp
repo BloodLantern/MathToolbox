@@ -1,13 +1,69 @@
 #include "vector4.hpp"
 
+#include <cassert>
+
+#include "calc.hpp"
 #include "matrix4x4.hpp"
+#include "vector2.hpp"
 #include "vector3.hpp"
 
-#define SQ(x) ((x) * (x))
-
-Vector4::Vector4(const Vector4& p1, const Vector4& p2)
-	: x(p2.x - p1.x), y(p2.y - p1.y), z(p2.z - p1.z), w(p2.w - p1.w)
+constexpr Vector4 Vector4::Zero()
 {
+	return Vector4();
+}
+
+constexpr Vector4 Vector4::UnitX()
+{
+	return Vector4(1.f, 0.f, 0.f, 0.f);
+}
+
+constexpr Vector4 Vector4::UnitY()
+{
+	return Vector4(0.f, 1.f, 0.f, 0.f);
+}
+
+constexpr Vector4 Vector4::UnitZ()
+{
+	return Vector4(0.f, 0.f, 1.f, 0.f);
+}
+
+constexpr Vector4 Vector4::UnitW()
+{
+	return Vector4(0.f, 0.f, 0.f, 1.f);
+}
+
+constexpr Vector4::Vector4()
+	: x(0)
+	, y(0)
+	, z(0)
+	, w(0)
+{
+}
+
+constexpr Vector4::Vector4(const float xyzw)
+	: x(xyzw)
+	, y(xyzw)
+	, z(xyzw)
+	, w(xyzw)
+{
+}
+
+constexpr Vector4::Vector4(const float x, const float y, const float z, const float w)
+	: x(x)
+	, y(y)
+	, z(z)
+	, w(w)
+{
+}
+
+constexpr const float* Vector4::Raw() const
+{
+	return &x;
+}
+
+constexpr float* Vector4::Raw()
+{
+	return &x;
 }
 
 float Vector4::Length() const
@@ -32,7 +88,7 @@ Vector4 Vector4::Normalized() const
 
 float Vector4::Dot(const Vector4& other) const
 {
-	return Vector4::Dot(*this, other);
+	return Dot(*this, other);
 }
 
 float Vector4::Dot(const Vector4& a, const Vector4& b)
@@ -43,20 +99,23 @@ float Vector4::Dot(const Vector4& a, const Vector4& b)
 		+ a.w * b.w;
 }
 
+Vector4 Vector4::Lerp(const Vector4 value, const Vector4 target, const float t)
+{
+    return value + (target - value) * t;
+}
+
 float Vector4::operator[](const size_t i) const
 {
 	assert(i < 4 && "Vector4 subscript out of range");
-	__assume(i < 4);
 
-	return *(&x + i);
+	return *(Raw() + i);
 }
 
 float& Vector4::operator[](const size_t i)
 {
 	assert(i < 4 && "Vector4 subscript out of range");
-    __assume(i < 4);
 
-	return *(&x + i);
+	return *(Raw() + i);
 }
 
 constexpr Vector4::operator Vector2() const
@@ -67,11 +126,6 @@ constexpr Vector4::operator Vector2() const
 Vector4::operator Vector3() const
 {
 	return Vector3(x, y, z);
-}
-
-Vector4::operator Vector<4>() const
-{
-	return Vector<4>{ x, y, z, w };
 }
 
 constexpr Vector4::operator Matrix4x4() const
@@ -104,9 +158,9 @@ Vector4 operator*(const Vector4& a, const Vector4& b)
 	return Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
 }
 
-Vector4 operator*(const Vector4& a, const float s)
+Vector4 operator*(const Vector4& v, const float factor)
 {
-	return Vector4(a.x * s, a.y * s, a.z * s, a.w * s);
+	return Vector4(v.x * factor, v.y * factor, v.z * factor, v.w * factor);
 }
 
 Vector4 operator*(const Matrix4x4& m, const Vector4& v)
@@ -124,9 +178,9 @@ Vector4 operator/(const Vector4& a, const Vector4& b)
 	return Vector4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
 }
 
-Vector4 operator/(const Vector4& a, const float s)
+Vector4 operator/(const Vector4& v, const float factor)
 {
-	return Vector4(a.x / s, a.y / s, a.z / s, a.w / s);
+	return Vector4(v.x / factor, v.y / factor, v.z / factor, v.w / factor);
 }
 
 Vector4& operator+=(Vector4& a, const Vector4& b)
@@ -135,6 +189,7 @@ Vector4& operator+=(Vector4& a, const Vector4& b)
 	a.y += b.y;
     a.z += b.z;
     a.w += b.w;
+	
 	return a;
 }
 
@@ -144,6 +199,7 @@ Vector4& operator+=(Vector4& v, const float factor)
 	v.y += factor;
     v.z += factor;
     v.w += factor;
+	
 	return v;
 }
 
@@ -153,6 +209,7 @@ Vector4 &operator-=(Vector4 &a, const Vector4& b)
 	a.y -= b.y;
     a.z -= b.z;
     a.w -= b.w;
+	
 	return a;
 }
 
@@ -162,6 +219,7 @@ Vector4& operator-=(Vector4& v, const float factor)
 	v.y -= factor;
     v.z -= factor;
     v.w -= factor;
+	
 	return v;
 }
 
@@ -171,6 +229,7 @@ Vector4& operator*=(Vector4& a, const Vector4& b)
 	a.y *= b.y;
     a.z *= b.z;
     a.w *= b.w;
+	
 	return a;
 }
 
@@ -180,6 +239,7 @@ Vector4& operator*=(Vector4& v, const float factor)
 	v.y *= factor;
     v.z *= factor;
     v.w *= factor;
+	
 	return v;
 }
 
@@ -194,6 +254,7 @@ Vector4 &operator/=(Vector4 &a, const Vector4& b)
 	a.y /= b.y;
     a.z /= b.z;
     a.w /= b.w;
+	
 	return a;
 }
 
@@ -203,49 +264,11 @@ Vector4& operator/=(Vector4& v, const float factor)
 	v.y /= factor;
     v.z /= factor;
     v.w /= factor;
+	
 	return v;
-}
-
-bool operator==(const Vector4 &v, const float f)
-{
-    return v.x == f && v.y == f && v.z == f && v.w == f;
-}
-
-bool operator!=(const Vector4 &v, const float f)
-{
-    return !(v == f);
-}
-
-bool operator<(const Vector4 &v, const float f)
-{
-    return v.x < f && v.y < f && v.z < f && v.w < f;
-}
-
-bool operator>(const Vector4 &v, const float f)
-{
-    return v.x > f && v.y > f && v.z > f && v.w > f;
-}
-
-bool operator<=(const Vector4 &v, const float f)
-{
-    return v < f || v == f;
-}
-
-bool operator>=(const Vector4 &v, const float f)
-{
-    return v > f || v == f;
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector4& v)
 {
-	char buffer[10];
-	out << "[ ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.x);
-	out << buffer << ", ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.y);
-	out << buffer << ", ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.z);
-	out << buffer << ", ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.w);
-	return out << buffer << " ]";
+	return out << std::format("{:6.3f} {:6.3f} {:6.3f} {:6.3f}", v.x, v.y, v.z, v.w);
 }

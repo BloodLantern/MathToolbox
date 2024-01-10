@@ -87,34 +87,34 @@ public:
     /// @brief Creates a 3D rotation matrix from the given angle and axis.
 	/// @param angle The angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3D(const float angle, const Vector3& axis);
+    static Matrix3x3 Rotation3D(float angle, const Vector3& axis);
     /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
     /// @param angle The angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3DX(const float angle);
+    static Matrix3x3 Rotation3DX(float angle);
     /// @brief Creates a 3D rotation matrix around the X axis from the given angle.
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3DX(const float cos, const float sin);
+    static Matrix3x3 Rotation3DX(float cos, float sin);
     /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
     /// @param angle The angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3DY(const float angle);
+    static Matrix3x3 Rotation3DY(float angle);
     /// @brief Creates a 3D rotation matrix around the Y axis from the given angle.
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3DY(const float cos, const float sin);
+    static Matrix3x3 Rotation3DY(float cos, float sin);
     /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
     /// @param angle The angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3DZ(const float angle);
+    static Matrix3x3 Rotation3DZ(float angle);
     /// @brief Creates a 3D rotation matrix around the Z axis from the given angle.
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3DZ(const float cos, const float sin);
+    static Matrix3x3 Rotation3DZ(float cos, float sin);
     /// @brief Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
     [[nodiscard]]
     static Matrix3x3 Rotation3D(const Vector3& rotation);
@@ -124,15 +124,15 @@ public:
 	/// @param cos The cosine of the angle in radians.
 	/// @param sin The sine of the angle in radians.
     [[nodiscard]]
-    static Matrix3x3 Rotation3D(const float cos, const float sin, const Vector3& axis);
+    static Matrix3x3 Rotation3D(float cos, float sin, const Vector3& axis);
     /// @brief Creates a 3D scaling matrix from the given Vector3.
     [[nodiscard]]
     static Matrix3x3 Scaling3D(const Vector3& scale);
 
     [[nodiscard]]
-    constexpr const Vector3& operator[](const size_t row) const;
+    constexpr const Vector3& operator[](size_t row) const;
     [[nodiscard]]
-    constexpr Vector3& operator[](const size_t row);
+    constexpr Vector3& operator[](size_t row);
     explicit operator Vector3() const;
     explicit operator Vector<3>() const;
     operator Matrix2x2() const;
@@ -154,13 +154,13 @@ Matrix3x3 operator+(const Matrix3x3& m1, const Matrix3x3& m2);
 [[nodiscard]]
 Matrix3x3 operator-(const Matrix3x3& m1, const Matrix3x3& m2);
 [[nodiscard]]
-Matrix3x3 operator*(const Matrix3x3& m, const float scalar);
+Matrix3x3 operator*(const Matrix3x3& m, float scalar);
 [[nodiscard]]
 Matrix3x3 operator*(const Matrix3x3& m1, const Matrix3x3& m2);
 
 Matrix3x3& operator+=(Matrix3x3& m1, const Matrix3x3& m2);
 Matrix3x3& operator-=(Matrix3x3& m1, const Matrix3x3& m2);
-Matrix3x3& operator*=(Matrix3x3& m, const float scalar);
+Matrix3x3& operator*=(Matrix3x3& m, float scalar);
 Matrix3x3& operator*=(Matrix3x3& m1, const Matrix3x3& m2);
 
 std::ostream& operator<<(std::ostream& out, const Matrix3x3& m);

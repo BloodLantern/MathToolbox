@@ -8,7 +8,33 @@
 #include "vector4.hpp"
 #include "matrix2x2.hpp"
 
-#define SQ(var) ((var) * (var))
+constexpr Vector2i Vector2i::Zero()
+{ return Vector2i(); }
+
+constexpr Vector2i Vector2i::UnitX()
+{ return Vector2i(1, 0); }
+
+constexpr Vector2i Vector2i::UnitY()
+{ return Vector2i(0, 1); }
+
+constexpr Vector2i::Vector2i(): x(0), y(0)
+{}
+
+constexpr Vector2i::Vector2i(const int xy): x(xy), y(xy)
+{}
+
+constexpr Vector2i::Vector2i(const int x, const int y): x(x), y(y)
+{}
+
+constexpr const int* Vector2i::Raw() const
+{
+	return &x;
+}
+
+constexpr int* Vector2i::Raw()
+{
+	return &x;
+}
 
 float Vector2i::Length() const
 {
@@ -68,19 +94,16 @@ float Vector2i::Determinant(const Vector2i a, const Vector2i b)
 
 int Vector2i::operator[](const size_t i) const
 {
-	assert(i >= 0 && i < 2 && "Vector2i subscript out of range");
-    __assume(i >= 0 && i < 2);
+	assert(i < 2 && "Vector2i subscript out of range");
 
-    return *(&x + i);
+    return *(Raw() + i);
 }
 
 int &Vector2i::operator[](const size_t i)
 {
-    
-	assert(i >= 0 && i < 2 && "Vector2i subscript out of range");
-    __assume(i >= 0 && i < 2);
+	assert(i < 2 && "Vector2i subscript out of range");
 
-    return *(&x + i);
+    return *(Raw() + i);
 }
 
 Vector2i::operator Vector2() const
@@ -126,19 +149,19 @@ Vector2i operator*(const Vector2i a, const Vector2i b)
 	return Vector2i(a.x * b.x, a.y * b.y);
 }
 
-Vector2i operator*(const Vector2i a, const int s)
+Vector2i operator*(const Vector2i v, const int factor)
 {
-	return Vector2i(a.x * s, a.y * s);
+	return Vector2i(v.x * factor, v.y * factor);
 }
 
 Vector2 operator/(const Vector2i a, const Vector2i b)
 {
-	return Vector2(a.x / static_cast<float>(b.x), a.y / static_cast<float>(b.y));
+	return Vector2(static_cast<float>(a.x) / static_cast<float>(b.x), static_cast<float>(a.y) / static_cast<float>(b.y));
 }
 
 Vector2 operator/(const Vector2i v, const float factor)
 {
-	return Vector2(v.x / factor, v.y / factor);
+	return Vector2(static_cast<float>(v.x) / factor, static_cast<float>(v.y) / factor);
 }
 
 Vector2i& operator+=(Vector2i& a, const Vector2i b)
@@ -183,37 +206,7 @@ Vector2i& operator*=(Vector2i& v, const int factor)
 	return v;
 }
 
-bool operator==(const Vector2i &v, const int i)
-{
-    return v.x == i && v.y == i;
-}
-
-bool operator!=(const Vector2i &v, const int i)
-{
-    return !(v == i);
-}
-
-bool operator<(const Vector2i &v, const int i)
-{
-    return v.x < i && v.y < i;
-}
-
-bool operator>(const Vector2i &v, const int i)
-{
-    return v.x > i && v.y > i;
-}
-
-bool operator<=(const Vector2i &v, const int i)
-{
-    return v < i || v == i;
-}
-
-bool operator>=(const Vector2i &v, const int i)
-{
-    return v > i || v == i;
-}
-
 std::ostream& operator<<(std::ostream& out, const Vector2i v)
 {
-	return out << std::format("%6d %6d", v.x, v.y);
+	return out << std::format("{:6d} {:6d}", v.x, v.y);
 }

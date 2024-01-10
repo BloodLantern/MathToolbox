@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// Constructs a Vector2 with both its components set to 0.
 	/// </summary>
-	constexpr Vector2();
+	constexpr Vector2() = default;
 	
 	/// <summary>
 	/// Constructs a Vector2 with both its components set to 'xy'.
@@ -39,6 +39,22 @@ public:
 	/// <param name="x">The value to set this vector's x components to.</param>
 	/// <param name="y">The value to set this vector's y components to.</param>
 	constexpr Vector2(float x, float y);
+
+	/// <summary>
+	///	Gets a pointer to the first component of this vector.
+	/// </summary>
+	/// <returns>A pointer to the first component of this vector.</returns>
+	[[nodiscard]]
+	__forceinline
+	constexpr const float* Raw() const;
+
+	/// <summary>
+	///	Gets a pointer to the first component of this vector.
+	/// </summary>
+	/// <returns>A pointer to the first component of this vector.</returns>
+	[[nodiscard]]
+	__forceinline
+	constexpr float* Raw();
 
 	/// <summary>
 	/// Returns the length of the vector.
@@ -102,9 +118,31 @@ public:
 	[[nodiscard]]
 	static float Determinant(Vector2 a, Vector2 b);
 
+	/// <summary>
+	/// Lerp between two positions in a 2-dimensional space.
+	/// </summary>
+	/// <param name="value">The current position.</param>
+	/// <param name="target">The target position.</param>
+	/// <param name="t">The time to lerp.</param>
+	/// <returns>The lerp position.</returns>
 	[[nodiscard]]
-	float  operator[](size_t i) const;
+	static Vector2 Lerp(Vector2 value, Vector2 target, float t);
+
+	/// <summary>
+	///	Retrieves this vector's component at index i.
+	/// </summary>
+	/// <param name="i">The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...</param>
+	/// <returns>The value of the component at index i.</returns>
+	[[nodiscard]]
+	float operator[](size_t i) const;
 	
+	/// <summary>
+	///	Retrieves this vector's component at index i.
+	/// </summary>
+	/// <param name="i">The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...</param>
+	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	float& operator[](size_t i);
 	
@@ -125,29 +163,44 @@ static_assert(std::is_move_assignable_v<Vector2>, "Class Vector2 must be move as
 
 [[nodiscard]]
 Vector2 operator+(Vector2 a, Vector2 b);
+
 [[nodiscard]]
 Vector2 operator-(Vector2 a, Vector2 b);
+
 [[nodiscard]]
 Vector2 operator-(Vector2 a);
+
 [[nodiscard]]
 Vector2 operator*(Vector2 a, Vector2 b);
+
 [[nodiscard]]
 Vector2 operator*(Vector2 v, float factor);
+
 [[nodiscard]]
 Vector2 operator*(const Matrix2x2& m, const Vector2& v);
+
 [[nodiscard]]
 Vector2 operator/(Vector2 a, Vector2 b);
+
 [[nodiscard]]
 Vector2 operator/(Vector2 v, float factor);
 
 Vector2& operator+=(Vector2& a, Vector2 b);
+
 Vector2& operator+=(Vector2& v, float factor);
+
 Vector2& operator-=(Vector2& a, Vector2 b);
+
 Vector2& operator-=(Vector2& v, float factor);
+
 Vector2& operator*=(Vector2& a, Vector2 b);
+
 Vector2& operator*=(Vector2& v, float factor);
+
 Vector2& operator*=(const Matrix2x2& m, Vector2& v);
+
 Vector2& operator/=(Vector2& a, Vector2 b);
+
 Vector2& operator/=(Vector2& v, float factor);
 
 std::ostream& operator<<(std::ostream& out, Vector2 v);
