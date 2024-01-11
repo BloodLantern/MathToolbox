@@ -2,8 +2,10 @@
 
 #include <ostream>
 
+#include "calc.hpp"
+#include "vector3.hpp"
+
 class Vector2;
-class Vector3;
 class Matrix;
 
 /// <summary>
@@ -18,69 +20,69 @@ public:
 	///	Equivalent to calling the default constructor.
 	/// </summary>
 	[[nodiscard]]
-	
-	static constexpr Vector4 Zero();
+	static constexpr Vector4 Zero() noexcept;
 
-	static constexpr Vector4 UnitX();
+	static constexpr Vector4 UnitX() noexcept;
 
-	static constexpr Vector4 UnitY();
+	static constexpr Vector4 UnitY() noexcept;
 
-	static constexpr Vector4 UnitZ();
+	static constexpr Vector4 UnitZ() noexcept;
 
-	static constexpr Vector4 UnitW();
+	static constexpr Vector4 UnitW() noexcept;
 
-	constexpr Vector4();
+	constexpr Vector4() = default;
 
 	/// <summary>
 	/// Constructs a Vector4 with all its components set to 'xyzw'.
 	/// </summary>
-	constexpr Vector4(float xyzw);
+	constexpr Vector4(float xyzw) noexcept;
 
-	constexpr Vector4(float x, float y, float z, float w);
+	/// <summary>
+	/// Constructs a Vector3 with set component values.
+	/// </summary>
+	/// <param name="x">The value to set this vector's x components to.</param>
+	/// <param name="y">The value to set this vector's y components to.</param>
+	/// <param name="z">The value to set this vector's z components to.</param>
+	constexpr Vector4(float x, float y, float z, float w) noexcept;
 
 	/// <summary>
 	///	Gets a pointer to the first component of this vector.
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	
-	constexpr const float* Raw() const;
+	constexpr const float* Raw() const noexcept;
 
 	/// <summary>
 	///	Gets a pointer to the first component of this vector.
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	
-	constexpr float* Raw();
+	constexpr float* Raw() noexcept;
 
 	/// <summary>
 	/// Returns the length of the vector.
 	/// </summary>
 	[[nodiscard]]
-	float Length() const;
+	float Length() const noexcept;
+	
 	/// <summary>
 	/// Returns the squared length of the vector.
 	/// </summary>
 	[[nodiscard]]
-	float SquaredLength() const;
+	constexpr float SquaredLength() const noexcept;
+
 	/// <summary>
-	/// Normalizes the vector.
+	/// Returns a normalized vector.
 	/// </summary>
 	/// <returns>A vector with the same direction but a length of one.</returns>
 	[[nodiscard]]
-	Vector4 Normalized() const;
-	/// <summary>
-	/// Returns the dot product of this Vector4& with 'other'.
-	/// </summary>
-	[[nodiscard]]
-	float Dot(const Vector4& other) const;
+	Vector4 Normalized() const noexcept;
 
 	/// <summary>
 	/// Returns a · b.
 	/// </summary>
 	[[nodiscard]]
-	static float Dot(const Vector4& a, const Vector4& b);
+	static constexpr float Dot(const Vector4& a, const Vector4& b) noexcept;
 
 	/// <summary>
 	/// Lerp between two positions in a 4-dimensional space.
@@ -90,7 +92,7 @@ public:
 	/// <param name="t">The time to lerp.</param>
 	/// <returns>The lerp position.</returns>
 	[[nodiscard]]
-	static Vector4 Lerp(Vector4 value, Vector4 target, float t);
+	static constexpr Vector4 Lerp(const Vector4& value, const Vector4& target, float t) noexcept;
 
 	/// <summary>
 	///	Retrieves this vector's component at index i.
@@ -101,8 +103,8 @@ public:
 	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
-	float operator[](size_t i) const;
-	
+	constexpr float operator[](size_t i) const;
+
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
@@ -112,13 +114,13 @@ public:
 	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
-	float& operator[](size_t i);
+	constexpr float& operator[](size_t i);
 	
-	constexpr explicit operator Vector2() const;
+	explicit operator Vector2() const noexcept;
 	
-    constexpr explicit operator Vector3() const;
+    explicit operator Vector3() const noexcept;
 	
-	constexpr explicit operator Matrix() const;
+	explicit operator Matrix() const noexcept;
 };
 
 static_assert(std::is_default_constructible_v<Vector4>, "Class Vector4 must be default constructible.");
@@ -127,62 +129,152 @@ static_assert(std::is_move_constructible_v<Vector4>, "Class Vector4 must be move
 static_assert(std::is_copy_assignable_v<Vector4>, "Class Vector4 must be copy assignable.");
 static_assert(std::is_move_assignable_v<Vector4>, "Class Vector4 must be move assignable.");
 
-[[nodiscard]]
-Vector4 operator+(const Vector4& a, const Vector4& b);
+constexpr Vector4::Vector4(const float xyzw) noexcept : x(xyzw), y(xyzw), z(xyzw), w(xyzw) {}
 
-[[nodiscard]]
-Vector4 operator-(const Vector4& a, const Vector4& b);
+constexpr Vector4::Vector4(const float x, const float y, const float z, const float w) noexcept : x(x), y(y), z(z), w(w) {}
 
-[[nodiscard]]
-Vector4 operator-(const Vector4& a);
+constexpr Vector4 Vector4::Zero() noexcept { return Vector4(); }
 
-[[nodiscard]]
-Vector4 operator*(const Vector4& a, const Vector4& b);
+constexpr Vector4 Vector4::UnitX() noexcept { return Vector4(1.f, 0.f, 0.f, 0.f); }
 
-[[nodiscard]]
-Vector4 operator*(const Vector4& v, float factor);
+constexpr Vector4 Vector4::UnitY() noexcept { return Vector4(0.f, 1.f, 0.f, 0.f); }
 
-[[nodiscard]]
-Vector4 operator*(const Matrix& m, const Vector4& v);
+constexpr Vector4 Vector4::UnitZ() noexcept { return Vector4(0.f, 0.f, 1.f, 0.f); }
 
-[[nodiscard]]
-Vector4 operator/(const Vector4& a, const Vector4& b);
+constexpr Vector4 Vector4::UnitW() noexcept { return Vector4(0.f, 0.f, 0.f, 1.f); }
 
-[[nodiscard]]
-Vector4 operator/(const Vector4& v, float factor);
+constexpr const float* Vector4::Raw() const noexcept { return &x; }
 
-Vector4& operator+=(Vector4& a, const Vector4& b);
+constexpr float* Vector4::Raw() noexcept { return &x; }
 
-Vector4& operator+=(Vector4& v, float factor);
+constexpr float Vector4::SquaredLength() const noexcept { return SQ(x) + SQ(y) + SQ(z) + SQ(w); }
 
-Vector4& operator-=(Vector4& a, const Vector4& b);
+constexpr float Vector4::Dot(const Vector4& a, const Vector4& b) noexcept {	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w; }
 
-Vector4& operator-=(Vector4& v, float factor);
+constexpr float Vector4::operator[](const size_t i) const
+{
+	if (i < 4) [[likely]]
+		return *(Raw() + i);
+	else [[unlikely]]
+		throw std::out_of_range("Vector4 subscript out of range");
+}
 
-Vector4& operator*=(Vector4& a, const Vector4& b);
+constexpr float& Vector4::operator[](const size_t i)
+{
+	if (i < 4) [[likely]]
+		return *(Raw() + i);
+	else [[unlikely]]
+		throw std::out_of_range("Vector4 subscript out of range");
+}
 
-Vector4& operator*=(Vector4& v, float factor);
+constexpr Vector4 operator+(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w); }
 
-Vector4& operator*=(const Matrix& m, Vector4& v);
+constexpr Vector4 operator-(const Vector4& a) noexcept { return Vector4(-a.x, -a.y, -a.z, -a.w); }
 
-Vector4& operator/=(Vector4& a, const Vector4& b);
+constexpr Vector4 operator-(const Vector4& a, const Vector4& b) noexcept { return a + -b; }
 
-Vector4& operator/=(Vector4& v, float factor);
+constexpr Vector4 operator*(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w); }
+
+constexpr Vector4 operator*(const Vector4& v, const float factor) noexcept { return Vector4(v.x * factor, v.y * factor, v.z * factor, v.w * factor); }
+
+constexpr Vector4 operator/(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w); }
+
+constexpr Vector4 operator/(const Vector4& v, const float factor) noexcept { return Vector4(v.x / factor, v.y / factor, v.z / factor, v.w / factor); }
+
+constexpr Vector4& operator+=(Vector4& a, const Vector4& b) noexcept
+{
+	a.x += b.x;
+	a.y += b.y;
+    a.z += b.z;
+    a.w += b.w;
+	
+	return a;
+}
+
+constexpr Vector4& operator+=(Vector4& v, const float factor) noexcept
+{
+	v.x += factor;
+	v.y += factor;
+    v.z += factor;
+    v.w += factor;
+	
+	return v;
+}
+
+constexpr Vector4 &operator-=(Vector4 &a, const Vector4& b) noexcept
+{
+	a.x -= b.x;
+	a.y -= b.y;
+    a.z -= b.z;
+    a.w -= b.w;
+	
+	return a;
+}
+
+constexpr Vector4& operator-=(Vector4& v, const float factor) noexcept
+{
+	v.x -= factor;
+	v.y -= factor;
+    v.z -= factor;
+    v.w -= factor;
+	
+	return v;
+}
+
+constexpr Vector4& operator*=(Vector4& a, const Vector4& b) noexcept
+{
+	a.x *= b.x;
+	a.y *= b.y;
+    a.z *= b.z;
+    a.w *= b.w;
+	
+	return a;
+}
+
+constexpr Vector4& operator*=(Vector4& v, const float factor) noexcept
+{
+	v.x *= factor;
+	v.y *= factor;
+    v.z *= factor;
+    v.w *= factor;
+	
+	return v;
+}
+
+constexpr Vector4 &operator/=(Vector4 &a, const Vector4& b) noexcept
+{
+	a.x /= b.x;
+	a.y /= b.y;
+    a.z /= b.z;
+    a.w /= b.w;
+	
+	return a;
+}
+
+constexpr Vector4& operator/=(Vector4& v, const float factor) noexcept
+{
+	v.x /= factor;
+	v.y /= factor;
+    v.z /= factor;
+    v.w /= factor;
+	
+	return v;
+}
 
 /// <summary>
 ///	Checks if two Vector4 are considered equal using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
-
-bool operator==(Vector4 a, Vector4 b);
+bool operator==(Vector4 a, Vector4 b) noexcept;
 
 /// <summary>
 ///	Checks if two Vector4 are considered different using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
+bool operator!=(Vector4 a, Vector4 b) noexcept;
 
-bool operator!=(Vector4 a, Vector4 b);
+std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept;
 
-std::ostream& operator<<(std::ostream& out, const Vector4& v);
+constexpr Vector4 Vector4::Lerp(const Vector4& value, const Vector4& target, const float t) noexcept { return value + (target - value) * t; }
 
 using vec4 = Vector4;

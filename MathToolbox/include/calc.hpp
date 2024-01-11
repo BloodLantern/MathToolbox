@@ -60,8 +60,8 @@ namespace calc
 	extern float YoYo(float value) noexcept;
 
 	/// <summary>
-	/// Checks if a value is less than what is considered zero, e.g. if it is smaller
-	/// than <code>calc::Zero</code>.
+	/// Checks if a value is less than what is considered zero, e.g. if its absolute
+	/// value is smaller than <code>calc::Zero</code>.
 	/// </summary>
 	/// <param name="value">The value to check.</param>
 	/// <returns>Whether the value is considered zero.</returns>
@@ -90,4 +90,6 @@ namespace calc
     /// <param name="cooldown">The variable to update.</param>
     /// <param name="deltaTime">The delta time to subtract to 'cooldown'.</param>
     extern void UpdateCooldown(float& cooldown, float deltaTime) noexcept;
+
+    extern float FastInverseSqrt(float number, bool precise = false) noexcept;
 }

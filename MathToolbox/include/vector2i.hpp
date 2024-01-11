@@ -1,9 +1,9 @@
 #pragma once
 
 #include <ostream>
-#include <type_traits>
 
-class Vector2;
+#include "vector2.hpp"
+
 class Vector3;
 class Vector4;
 
@@ -19,18 +19,15 @@ public:
 	///	Equivalent to calling the default constructor.
 	/// </summary>
 	[[nodiscard]]
-	
-	static constexpr Vector2i Zero();
+	static constexpr Vector2i Zero() noexcept;
 
 	[[nodiscard]]
-	
-	static constexpr Vector2i UnitX();
+	static constexpr Vector2i UnitX() noexcept;
 
 	[[nodiscard]]
-	
-	static constexpr Vector2i UnitY();
+	static constexpr Vector2i UnitY() noexcept;
 
-	constexpr Vector2i();
+	constexpr Vector2i() = default;
 
 	/// <summary>
 	/// Constructs a Vector2i with both its components set to 'xy'.
@@ -44,28 +41,26 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	
-	constexpr const int* Raw() const;
+	constexpr const int* Raw() const noexcept;
 
 	/// <summary>
 	///	Gets a pointer to the first component of this vector.
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	
-	constexpr int* Raw();
+	constexpr int* Raw() noexcept;
 
 	/// <summary>
 	/// Returns the length of the vector.
 	/// </summary>
 	[[nodiscard]]
-	float Length() const;
+	float Length() const noexcept;
 	
 	/// <summary>
 	/// Returns the squared length of the vector.
 	/// </summary>
 	[[nodiscard]]
-	float SquaredLength() const;
+	constexpr float SquaredLength() const noexcept;
 	
 	/// <summary>
 	/// Returns a normalized vector.
@@ -82,40 +77,23 @@ public:
 	Vector2 Normal() const;
 	
 	/// <summary>
-	/// Returns the dot product of this Vector2i with 'other'.
-	/// </summary>
-	[[nodiscard]]
-	float Dot(Vector2i other) const;
-	
-	/// <summary>
-	/// Returns the cross product of this Vector2i with 'other'.
-	/// </summary>
-	[[nodiscard]]
-	float Cross(Vector2i other) const;
-	
-	/// <summary>
-	/// Returns the determinant of this Vector2i with 'other'.
-	/// </summary>
-	[[nodiscard]]
-	float Determinant(Vector2i other) const;
-	
-	/// <summary>
 	/// Returns a · b.
 	/// </summary>
 	[[nodiscard]]
-	static float Dot(Vector2i a, Vector2i b);
+	static constexpr float Dot(Vector2i a, Vector2i b) noexcept;
 	
 	/// <summary>
 	/// Returns a x b.
+	/// For a Vector2i this is only the determinant.
 	/// </summary>
 	[[nodiscard]]
-	static float Cross(Vector2i a, Vector2i b);
+	static constexpr float Cross(Vector2i a, Vector2i b) noexcept;
 	
 	/// <summary>
 	/// Returns the determinant of 'a' and 'b'.
 	/// </summary>
 	[[nodiscard]]
-	static float Determinant(Vector2i a, Vector2i b);
+	static constexpr float Determinant(Vector2i a, Vector2i b) noexcept;
 
 	/// <summary>
 	///	Retrieves this vector's component at index i.
@@ -126,7 +104,7 @@ public:
 	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
-	int operator[](size_t i) const;
+	constexpr int operator[](size_t i) const;
 	
 	
 	/// <summary>
@@ -138,7 +116,7 @@ public:
 	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
-	int& operator[](size_t i);
+	constexpr int& operator[](size_t i);
 	
     explicit operator Vector2() const;
 	
@@ -153,43 +131,110 @@ static_assert(std::is_move_constructible_v<Vector2i>, "Class Vector2i must be mo
 static_assert(std::is_copy_assignable_v<Vector2i>, "Class Vector2i must be copy assignable.");
 static_assert(std::is_move_assignable_v<Vector2i>, "Class Vector2i must be move assignable.");
 
-[[nodiscard]]
-Vector2i operator+(Vector2i a, Vector2i b);
+constexpr Vector2i::Vector2i(const int xy): x(xy), y(xy) {}
 
-[[nodiscard]]
-Vector2i operator-(Vector2i a, Vector2i b);
+constexpr Vector2i::Vector2i(const int x, const int y): x(x), y(y) {}
 
-[[nodiscard]]
-Vector2i operator-(Vector2i a);
+constexpr Vector2i Vector2i::Zero() noexcept { return Vector2i(); }
 
-[[nodiscard]]
-Vector2i operator*(Vector2i a, Vector2i b);
+constexpr Vector2i Vector2i::UnitX() noexcept { return Vector2i(1, 0); }
 
-[[nodiscard]]
-Vector2i operator*(Vector2i v, int factor);
+constexpr Vector2i Vector2i::UnitY() noexcept { return Vector2i(0, 1); }
 
-[[nodiscard]]
-Vector2 operator/(Vector2i a, Vector2i b);
+constexpr const int* Vector2i::Raw() const noexcept { return &x; }
 
-[[nodiscard]]
-Vector2 operator/(Vector2i v, float factor);
+constexpr int* Vector2i::Raw() noexcept { return &x; }
 
-Vector2i& operator+=(Vector2i& a, Vector2i b);
+constexpr float Vector2i::SquaredLength() const noexcept { return static_cast<float>(x * x + y * y); }
 
-Vector2i& operator+=(Vector2i& v, int factor);
+constexpr float Vector2i::Dot(const Vector2i a, const Vector2i b) noexcept { return static_cast<float>(a.x * b.x + a.y * b.y); }
 
-Vector2i& operator-=(Vector2i& a, Vector2i b);
+constexpr float Vector2i::Cross(const Vector2i a, const Vector2i b) noexcept { return Determinant(a, b); }
 
-Vector2i& operator-=(Vector2i& v, int factor);
+constexpr float Vector2i::Determinant(const Vector2i a, const Vector2i b) noexcept { return static_cast<float>(a.x * b.y - b.x * a.y); }
 
-Vector2i& operator*=(Vector2i& a, Vector2i b);
+constexpr int Vector2i::operator[](size_t i) const
+{
+	if (i < 2) [[likely]]
+		return *(Raw() + i);
+	else [[unlikely]]
+		throw std::out_of_range("Vector2i subscript out of range");
+}
 
-Vector2i& operator*=(Vector2i& v, int factor);
+constexpr int& Vector2i::operator[](size_t i)
+{
+	if (i < 2) [[likely]]
+		return *(Raw() + i);
+	else [[unlikely]]
+		throw std::out_of_range("Vector2i subscript out of range");
+}
 
-bool operator==(Vector2i a, Vector2i b);
+constexpr Vector2i operator+(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x + b.x, a.y + b.y); }
 
-bool operator!=(Vector2i a, Vector2i b);
+constexpr Vector2i operator-(const Vector2i a) noexcept { return Vector2i(-a.x, -a.y); }
 
-std::ostream& operator<<(std::ostream& out, Vector2i v);
+constexpr Vector2i operator-(const Vector2i a, const Vector2i b) noexcept { return a + -b; }
+
+constexpr Vector2i operator*(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x * b.x, a.y * b.y); }
+
+constexpr Vector2i operator*(const Vector2i v, const int factor) noexcept { return Vector2i(v.x * factor, v.y * factor); }
+
+constexpr Vector2 operator/(const Vector2i a, const Vector2i b) noexcept { return Vector2(static_cast<float>(a.x) / static_cast<float>(b.x), static_cast<float>(a.y) / static_cast<float>(b.y)); }
+
+constexpr Vector2 operator/(const Vector2i v, const float factor) noexcept { return Vector2(static_cast<float>(v.x) / factor, static_cast<float>(v.y) / factor); }
+
+constexpr Vector2i& operator+=(Vector2i& a, const Vector2i b) noexcept
+{
+	a.x += b.x;
+	a.y += b.y;
+	
+	return a;
+}
+
+constexpr Vector2i& operator+=(Vector2i& v, const int factor) noexcept
+{
+	v.x += factor;
+	v.y += factor;
+	
+	return v;
+}
+
+constexpr Vector2i &operator-=(Vector2i &a, const Vector2i b) noexcept
+{
+	a.x -= b.x;
+	a.y -= b.y;
+	
+	return a;
+}
+
+constexpr Vector2i& operator-=(Vector2i& v, const int factor) noexcept
+{
+	v.x -= factor;
+	v.y -= factor;
+	
+	return v;
+}
+
+constexpr Vector2i& operator*=(Vector2i& a, const Vector2i b) noexcept
+{
+	a.x *= b.x;
+	a.y *= b.y;
+	
+	return a;
+}
+
+constexpr Vector2i& operator*=(Vector2i& v, const int factor) noexcept
+{
+	v.x *= factor;
+	v.y *= factor;
+	
+	return v;
+}
+
+bool operator==(Vector2i a, Vector2i b) noexcept;
+
+bool operator!=(Vector2i a, Vector2i b) noexcept;
+
+std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
 
 using vec2i = Vector2i;

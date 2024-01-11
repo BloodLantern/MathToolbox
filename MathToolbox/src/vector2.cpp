@@ -16,7 +16,8 @@ Vector2 Vector2::Normalized() const noexcept
 		return Zero();
 
     __assume(length != 0.f);
-	return Vector2(x / length, y / length);
+	const float invLength = 1.f / length;
+	return Vector2(x * invLength, y * invLength);
 }
 
 Vector2 Vector2::Normal() const noexcept
@@ -52,5 +53,5 @@ bool operator!=(Vector2 a, Vector2 b) noexcept
 
 std::ostream& operator<<(std::ostream& out, const Vector2 v) noexcept
 {
-	return out << std::format("{{{:6.3f} {:6.3f}}}", v.x, v.y);
+	return out << std::format("{{{:.3f} {:.3f}}}", v.x, v.y);
 }
