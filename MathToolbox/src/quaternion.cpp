@@ -1,67 +1,70 @@
 #include "quaternion.hpp"
 
 #include "calc.hpp"
-#include "matrix4x4.hpp"
+#include "matrix.hpp"
 
-#define SQ(x) ((x) * (x))
-
-Quaternion Quaternion::Zero()
+constexpr Quaternion Quaternion::Zero() noexcept
 {
-	return {};
+	return Quaternion();
 }
 
-Quaternion Quaternion::UnitX()
+constexpr Quaternion Quaternion::UnitX() noexcept
 {
-	return { 1.f, 0.f, 0.f, 0.f };
+	return Quaternion(1.f, 0.f, 0.f, 0.f);
 }
 
-Quaternion Quaternion::UnitY()
+constexpr Quaternion Quaternion::UnitY() noexcept
 {
-	return { 0.f, 1.f, 0.f, 0.f };
+	return Quaternion(0.f, 1.f, 0.f, 0.f);
 }
 
-Quaternion Quaternion::UnitZ()
+constexpr Quaternion Quaternion::UnitZ() noexcept
 {
-	return { 0.f, 0.f, 1.f, 0.f };
+	return Quaternion(0.f, 0.f, 1.f, 0.f);
 }
 
-Quaternion Quaternion::UnitW()
+constexpr Quaternion Quaternion::UnitW() noexcept
 {
-	return { 0.f, 0.f, 0.f, 1.f };
+	return Quaternion(0.f, 0.f, 0.f, 1.f);
 }
 
-Quaternion Quaternion::Identity()
+constexpr Quaternion Quaternion::Identity() noexcept
 {
 	return UnitW();
 }
 
-Quaternion::Quaternion()
-	: real()
-{
-}
-
-Quaternion::Quaternion(const Vector4& values)
+constexpr Quaternion::Quaternion(const Vector4& values)
 	: imaginary(static_cast<Vector3>(values))
 	, real(values.w)
 {
 }
 
-Quaternion::Quaternion(const Vector3& imaginary, const float real)
+constexpr Quaternion::Quaternion(const Vector3& imaginary, const float real)
 	: imaginary(imaginary)
 	, real(real)
 {
 }
 
-Quaternion::Quaternion(const float xyzw)
+constexpr Quaternion::Quaternion(const float xyzw)
 	: imaginary(xyzw)
 	, real(xyzw)
 {
 }
 
-Quaternion::Quaternion(const float x, const float y, const float z, const float w)
+constexpr Quaternion::Quaternion(const float x, const float y, const float z, const float w)
 	: imaginary(x, y, z)
 	, real(w)
 {
+}
+
+constexpr const float* Quaternion::Raw() const
+{
+	return &imaginary.x;
+}
+
+constexpr float* Quaternion::Raw()
+{
+	return &imaginary.x;
 }
 
 float& Quaternion::X()
@@ -106,7 +109,7 @@ float Quaternion::W() const
 
 Quaternion Quaternion::Conjugate() const
 {
-	return { -imaginary, real };
+	return Quaternion(-imaginary, real);
 }
 
 float Quaternion::Length() const
@@ -122,10 +125,12 @@ float Quaternion::SquaredLength() const
 Quaternion Quaternion::Inverse() const
 {
 	const float sqLength = SquaredLength();
+	
 	if (sqLength > 0.f) 
 	{
 		return Conjugate() / sqLength;
 	}
+	
 	return Zero();
 }
 
@@ -137,21 +142,6 @@ float Quaternion::Dot(const Quaternion& other) const
 Vector3 Quaternion::Rotate(const Vector3& point) const
 {
 	return Rotate(point, *this);
-}
-
-float Quaternion::operator[](const size_t i) const
-{
-	return (&imaginary.x)[i];
-}
-
-float& Quaternion::operator[](const size_t i)
-{
-	return (&imaginary.x)[i];
-}
-
-Quaternion::operator Vector3() const
-{
-	return imaginary;
 }
 
 Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float angle)
@@ -189,7 +179,7 @@ Quaternion Quaternion::FromEuler(const Vector3& rotation)
 	return quat;
 }
 
-Quaternion Quaternion::FromRotationMatrix(const Matrix4x4& rotation)
+Quaternion Quaternion::FromRotationMatrix(const Matrix& rotation)
 {
 	const float trace = rotation.Trace() - rotation[3][3];
 
@@ -248,13 +238,13 @@ float Quaternion::Dot(const Quaternion& a, const Quaternion& b)
 
 Quaternion Quaternion::Lerp(const Quaternion& a, const Quaternion& b, const float t)
 {
-	const float t1 = 1.0f - t;
+	const float t1 = 1.f - t;
 
 	Quaternion r;
 
 	const float dot = Dot(a, b);
 
-	if (dot >= 0.0f)
+	if (dot >= 0.f)
 	{
 		r.X() = t1 * a.X() + t * b.X();
 		r.Y() = t1 * a.Y() + t * b.Y();
@@ -271,7 +261,7 @@ Quaternion Quaternion::Lerp(const Quaternion& a, const Quaternion& b, const floa
 
 	// Normalize it.
 	const float ls = r.X() * r.X() + r.Y() * r.Y() + r.Z() * r.Z() + r.W() * r.W();
-	const float invNorm = 1.0f / std::sqrt(ls);
+	const float invNorm = 1.f / std::sqrt(ls);
 
 	r.X() *= invNorm;
 	r.Y() *= invNorm;
@@ -328,14 +318,29 @@ Vector3 Quaternion::Rotate(const Vector3& point, const Quaternion& rotation)
 	return static_cast<Vector3>(rotation * point * rotation.Conjugate());
 }
 
+float Quaternion::operator[](const size_t i) const
+{
+	return (&imaginary.x)[i];
+}
+
+float& Quaternion::operator[](const size_t i)
+{
+	return (&imaginary.x)[i];
+}
+
+Quaternion::operator Vector3() const
+{
+	return imaginary;
+}
+
 Quaternion::operator Vector4() const
 {
-	return { imaginary.x, imaginary.y, imaginary.z, real };
+	return Vector4(imaginary.x, imaginary.y, imaginary.z, real);
 }
 
 Quaternion operator+(const Quaternion& a, const Quaternion& b)
 {
-	return { a.imaginary + b.imaginary, a.real + b.real };
+	return Quaternion(a.imaginary + b.imaginary, a.real + b.real);
 }
 
 Quaternion operator-(const Quaternion& a, const Quaternion& b)
@@ -345,7 +350,7 @@ Quaternion operator-(const Quaternion& a, const Quaternion& b)
 
 Quaternion operator-(const Quaternion& a)
 {
-	return { -a.imaginary, -a.real };
+	return Quaternion(-a.imaginary, -a.real);
 }
 
 Quaternion operator*(const Quaternion& a, const Quaternion& b)
@@ -379,17 +384,17 @@ Quaternion operator*(const Quaternion& a, const Quaternion& b)
 
 Quaternion operator*(const Quaternion& q, const Vector3& v)
 {
-	return q * static_cast<Quaternion>(v);
+	return q * Quaternion(v, 1.f);
 }
 
 Quaternion operator*(const Quaternion& v, const float factor)
 {
-	return { v.imaginary * factor, v.real * factor };
+	return Quaternion(v.imaginary * factor, v.real * factor);
 }
 
 Quaternion operator/(const Quaternion& v, const float factor)
 {
-	return { v.imaginary / factor, v.real / factor };
+	return Quaternion(v.imaginary / factor, v.real / factor);
 }
 
 Quaternion& operator+=(Quaternion& a, const Quaternion& b)
@@ -417,16 +422,20 @@ Quaternion& operator/=(Quaternion& v, const float factor)
 	return v = v * factor;
 }
 
-std::ostream& operator<<(std::ostream& out, const Quaternion& v)
+bool operator==(Quaternion a, Quaternion b)
 {
-	char buffer[10];
-	out << "[ ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.imaginary.x);
-	out << buffer << ", ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.imaginary.y);
-	out << buffer << ", ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.imaginary.z);
-	out << buffer << ", ";
-	(void) sprintf_s(buffer, sizeof(buffer), "%6.3f", v.real);
-	return out << buffer << " ]";
+	return calc::Equals(a.imaginary.x, b.imaginary.x)
+		&& calc::Equals(a.imaginary.y, b.imaginary.y)
+		&& calc::Equals(a.imaginary.z, b.imaginary.z)
+		&& calc::Equals(a.real, b.real);
+}
+
+bool operator!=(Quaternion a, Quaternion b)
+{
+	return !(a == b);
+}
+
+std::ostream& operator<<(std::ostream& out, const Quaternion& q)
+{
+	return out << std::format("{{{:6.3f} {:6.3f} {:6.3f} {:6.3f}}}", q.imaginary.x, q.imaginary.y, q.imaginary.z, q.real);
 }

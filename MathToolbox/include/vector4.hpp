@@ -4,7 +4,7 @@
 
 class Vector2;
 class Vector3;
-class Matrix4x4;
+class Matrix;
 
 /// <summary>
 /// The Vector4 class represents either a four-dimensional vector or a point.
@@ -14,6 +14,11 @@ class Vector4
 public:
 	float x, y, z, w;
 
+	/// <summary>
+	///	Equivalent to calling the default constructor.
+	/// </summary>
+	[[nodiscard]]
+	
 	static constexpr Vector4 Zero();
 
 	static constexpr Vector4 UnitX();
@@ -38,7 +43,7 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
+	
 	constexpr const float* Raw() const;
 
 	/// <summary>
@@ -46,7 +51,7 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
+	
 	constexpr float* Raw();
 
 	/// <summary>
@@ -90,8 +95,10 @@ public:
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	float operator[](size_t i) const;
@@ -99,17 +106,19 @@ public:
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	float& operator[](size_t i);
 	
 	constexpr explicit operator Vector2() const;
 	
-    explicit operator Vector3() const;
+    constexpr explicit operator Vector3() const;
 	
-	constexpr explicit operator Matrix4x4() const;
+	constexpr explicit operator Matrix() const;
 };
 
 static_assert(std::is_default_constructible_v<Vector4>, "Class Vector4 must be default constructible.");
@@ -134,7 +143,7 @@ Vector4 operator*(const Vector4& a, const Vector4& b);
 Vector4 operator*(const Vector4& v, float factor);
 
 [[nodiscard]]
-Vector4 operator*(const Matrix4x4& m, const Vector4& v);
+Vector4 operator*(const Matrix& m, const Vector4& v);
 
 [[nodiscard]]
 Vector4 operator/(const Vector4& a, const Vector4& b);
@@ -154,11 +163,25 @@ Vector4& operator*=(Vector4& a, const Vector4& b);
 
 Vector4& operator*=(Vector4& v, float factor);
 
-Vector4& operator*=(const Matrix4x4& m, Vector4& v);
+Vector4& operator*=(const Matrix& m, Vector4& v);
 
 Vector4& operator/=(Vector4& a, const Vector4& b);
 
 Vector4& operator/=(Vector4& v, float factor);
+
+/// <summary>
+///	Checks if two Vector4 are considered equal using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+
+bool operator==(Vector4 a, Vector4 b);
+
+/// <summary>
+///	Checks if two Vector4 are considered different using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+
+bool operator!=(Vector4 a, Vector4 b);
 
 std::ostream& operator<<(std::ostream& out, const Vector4& v);
 

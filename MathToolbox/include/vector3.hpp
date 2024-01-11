@@ -4,7 +4,7 @@
 
 class Vector2;
 class Vector4;
-class Matrix3x3;
+class Matrix;
 
 /// <summary>
 /// The Vector3 class represents either a three-dimensional vector or a point.
@@ -14,12 +14,23 @@ class Vector3
 public:
 	float x, y, z;
 
+	/// <summary>
+	///	Equivalent to calling the default constructor.
+	/// </summary>
+	[[nodiscard]]
+	
 	static constexpr Vector3 Zero();
 
+	[[nodiscard]]
+	
 	static constexpr Vector3 UnitX();
 
+	[[nodiscard]]
+	
 	static constexpr Vector3 UnitY();
 
+	[[nodiscard]]
+	
 	static constexpr Vector3 UnitZ();
 
 
@@ -37,7 +48,7 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
+	
 	constexpr const float* Raw() const;
 
 	/// <summary>
@@ -45,7 +56,7 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
+	
 	constexpr float* Raw();
 
 	/// <summary>
@@ -99,8 +110,10 @@ public:
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	float operator[](size_t i) const;
@@ -108,8 +121,10 @@ public:
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	float& operator[](size_t i);
@@ -117,8 +132,6 @@ public:
     explicit operator Vector2() const;
 	
 	explicit operator Vector4() const;
-	
-    explicit operator Matrix3x3() const;
 };
 
 static_assert(std::is_default_constructible_v<Vector3>, "Class Vector3 must be default constructible.");
@@ -143,7 +156,7 @@ Vector3 operator*(const Vector3& a, const Vector3& b);
 Vector3 operator*(const Vector3& v, float factor);
 
 [[nodiscard]]
-Vector3 operator*(const Matrix3x3& m, const Vector3& v);
+Vector3 operator*(const Matrix& m, const Vector3& v);
 
 [[nodiscard]]
 Vector3 operator/(const Vector3& a, const Vector3& b);
@@ -163,11 +176,25 @@ Vector3& operator*=(Vector3& a, const Vector3& b);
 
 Vector3& operator*=(Vector3& v, float factor);
 
-Vector3& operator*=(const Matrix3x3& m, Vector3& v);
+Vector3& operator*=(const Matrix& m, Vector3& v);
 
 Vector3& operator/=(Vector3& a, const Vector3& b);
 
 Vector3& operator/=(Vector3& v, float factor);
+
+/// <summary>
+///	Checks if two Vector3 are considered equal using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+
+bool operator==(Vector3 a, Vector3 b);
+
+/// <summary>
+///	Checks if two Vector3 are considered different using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+
+bool operator!=(Vector3 a, Vector3 b);
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v);
 

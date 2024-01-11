@@ -1,14 +1,10 @@
 #pragma once
 
 #include <numbers>
-#include <string>
 
 #ifndef ZERO
 #define ZERO 1e-6f
 #endif
-
-#define STRINGIFY(x) #x
-#define TO_STRING(x) STRINGIFY(x)
 
 #define SQ(x) ((x) * (x))
 
@@ -43,8 +39,7 @@ namespace calc
     /// </summary>
     /// <returns>-1 if the value is negative, 1 if it is positive. 0 Otherwise.</returns>
     [[nodiscard]]
-    __forceinline
-	extern constexpr float Sign(float value);
+	extern constexpr float Sign(float value) noexcept;
 
 	/// <summary>
 	/// Approaches the target value by the given step size without ever
@@ -53,7 +48,7 @@ namespace calc
 	/// <param name="value">The value to change.</param>
 	/// <param name="target">The target value.</param>
 	/// <param name="step">The step size.</param>
-	extern void Approach(float& value, float target, float step);
+	extern void Approach(float& value, float target, float step) noexcept;
 
 	/// <summary>
 	/// Given a value between 0 and 1, returns a value going from 0 to 1
@@ -61,7 +56,8 @@ namespace calc
 	/// </summary>
 	/// <param name="value"></param>
 	/// <returns>A value between 0 and 1, closer to 1 if the input value is close to 0.5.</returns>
-	extern float YoYo(float value);
+	[[nodiscard]]
+	extern float YoYo(float value) noexcept;
 
 	/// <summary>
 	/// Checks if a value is less than what is considered zero, e.g. if it is smaller
@@ -70,8 +66,7 @@ namespace calc
 	/// <param name="value">The value to check.</param>
 	/// <returns>Whether the value is considered zero.</returns>
 	[[nodiscard]]
-	__forceinline
-	extern bool IsZero(float value);
+	extern bool IsZero(float value) noexcept;
 
 	/// <summary>
 	/// Checks if two values are considered equal.
@@ -80,22 +75,19 @@ namespace calc
 	/// <param name="b">The second value.</param>
 	/// <returns>Whether the values are considered equal.</returns>
 	[[nodiscard]]
-	__forceinline
-	extern bool Equals(float a, float b);
+	extern bool Equals(float a, float b) noexcept;
 
     /// <summary>
     /// Checks if a value is less than what is considered zero and sets it if true.
     /// </summary>
     /// <param name="value">The value to check and set.</param>
     /// <returns>Whether the value is considered zero and the operation was made.</returns>
-    __forceinline
-    extern bool Nullify(float& value);
+    extern bool Nullify(float& value) noexcept;
 
     /// <summary>
 	/// Updates a cooldown timer.
     /// </summary>
     /// <param name="cooldown">The variable to update.</param>
     /// <param name="deltaTime">The delta time to subtract to 'cooldown'.</param>
-    __forceinline
-    extern void UpdateCooldown(float& cooldown, float deltaTime);
+    extern void UpdateCooldown(float& cooldown, float deltaTime) noexcept;
 }

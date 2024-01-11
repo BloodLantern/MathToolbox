@@ -6,7 +6,6 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
-#include "matrix2x2.hpp"
 
 constexpr Vector2i Vector2i::Zero()
 { return Vector2i(); }
@@ -38,7 +37,7 @@ constexpr int* Vector2i::Raw()
 
 float Vector2i::Length() const
 {
-	return sqrt(SquaredLength());
+	return std::sqrt(SquaredLength());
 }
 
 float Vector2i::SquaredLength() const
@@ -50,7 +49,7 @@ Vector2 Vector2i::Normalized() const
 {
 	const float length = Length();
 	if (calc::IsZero(length))
-		return 0;
+		return Vector2::Zero();
 
     __assume(length != 0.f);
 	return Vector2(static_cast<float>(x) / length, static_cast<float>(y) / length);
@@ -119,14 +118,6 @@ Vector2i::operator Vector3() const
 Vector2i::operator Vector4() const
 {
 	return Vector4(static_cast<float>(x), static_cast<float>(y), 0.f, 0.f);
-}
-
-Vector2i::operator Matrix2x2() const
-{
-	return Matrix2x2(
-		static_cast<float>(x), 0.f,
-		static_cast<float>(y), 1.f
-	);
 }
 
 Vector2i operator+(const Vector2i a, const Vector2i b)
@@ -204,6 +195,16 @@ Vector2i& operator*=(Vector2i& v, const int factor)
 	v.x *= factor;
 	v.y *= factor;
 	return v;
+}
+
+bool operator==(Vector2i a, Vector2i b)
+{
+	return a.x == b.x && a.y == b.y;
+}
+
+bool operator!=(Vector2i a, Vector2i b)
+{
+	return !(a == b);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector2i v)

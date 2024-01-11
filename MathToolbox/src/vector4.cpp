@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include "calc.hpp"
-#include "matrix4x4.hpp"
+#include "..\include\matrix.hpp"
 #include "vector2.hpp"
 #include "vector3.hpp"
 
@@ -123,14 +123,14 @@ constexpr Vector4::operator Vector2() const
 	return Vector2(x, y);
 }
 
-Vector4::operator Vector3() const
+constexpr Vector4::operator Vector3() const
 {
 	return Vector3(x, y, z);
 }
 
-constexpr Vector4::operator Matrix4x4() const
+constexpr Vector4::operator Matrix() const
 {
-	return Matrix4x4(
+	return Matrix(
 		x, 0, 0, 0,
 		y, 1, 0, 0,
 		z, 0, 1, 0,
@@ -163,7 +163,7 @@ Vector4 operator*(const Vector4& v, const float factor)
 	return Vector4(v.x * factor, v.y * factor, v.z * factor, v.w * factor);
 }
 
-Vector4 operator*(const Matrix4x4& m, const Vector4& v)
+Vector4 operator*(const Matrix& m, const Vector4& v)
 {
 	const float x = v.x * m[0].x + v.y * m[0].y + v.z * m[0].z + v.w * m[0].w;
     const float y = v.x * m[1].x + v.y * m[1].y + v.z * m[1].z + v.w * m[1].w;
@@ -243,7 +243,7 @@ Vector4& operator*=(Vector4& v, const float factor)
 	return v;
 }
 
-Vector4 &operator*=(const Matrix4x4 &m, Vector4& v)
+Vector4 &operator*=(const Matrix &m, Vector4& v)
 {
     return v = m * v;
 }
@@ -268,7 +268,20 @@ Vector4& operator/=(Vector4& v, const float factor)
 	return v;
 }
 
+bool operator==(Vector4 a, Vector4 b)
+{
+	return calc::Equals(a.x, b.x)
+		&& calc::Equals(a.y, b.y)
+		&& calc::Equals(a.z, b.z)
+		&& calc::Equals(a.w, b.w);
+}
+
+bool operator!=(Vector4 a, Vector4 b)
+{
+	return !(a == b);
+}
+
 std::ostream& operator<<(std::ostream& out, const Vector4& v)
 {
-	return out << std::format("{:6.3f} {:6.3f} {:6.3f} {:6.3f}", v.x, v.y, v.z, v.w);
+	return out << std::format("{{{:6.3f} {:6.3f} {:6.3f} {:6.3f}}}", v.x, v.y, v.z, v.w);
 }

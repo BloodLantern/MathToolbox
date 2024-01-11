@@ -1,12 +1,12 @@
 #pragma once
 
 #include <ostream>
-#include <type_traits>
+
+#include "calc.hpp"
 
 class Vector2i;
 class Vector3;
 class Vector4;
-class Matrix2x2;
 
 /// <summary>
 /// The Vector2 class represents either a two-dimensional vector or a point.
@@ -16,11 +16,17 @@ class Vector2
 public:
 	float x, y;
 
-	static constexpr Vector2 Zero();
-	
-	static constexpr Vector2 UnitX();
-	
-	static constexpr Vector2 UnitY();
+	/// <summary>
+	///	Equivalent to calling the default constructor.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr Vector2 Zero() noexcept;
+
+	[[nodiscard]]
+	static constexpr Vector2 UnitX() noexcept;
+
+	[[nodiscard]]
+	static constexpr Vector2 UnitY() noexcept;
 
 	/// <summary>
 	/// Constructs a Vector2 with both its components set to 0.
@@ -31,92 +37,73 @@ public:
 	/// Constructs a Vector2 with both its components set to 'xy'.
 	/// </summary>
 	/// <param name="xy">The value to set this vector's x and y components to.</param>
-	constexpr Vector2(float xy);
-	
+	constexpr Vector2(float xy) noexcept;
+
 	/// <summary>
 	/// Constructs a Vector2 with set component values.
 	/// </summary>
 	/// <param name="x">The value to set this vector's x components to.</param>
 	/// <param name="y">The value to set this vector's y components to.</param>
-	constexpr Vector2(float x, float y);
+	constexpr Vector2(float x, float y) noexcept;
 
 	/// <summary>
 	///	Gets a pointer to the first component of this vector.
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
-	constexpr const float* Raw() const;
+	constexpr const float* Raw() const noexcept;
 
 	/// <summary>
 	///	Gets a pointer to the first component of this vector.
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
-	constexpr float* Raw();
+	constexpr float* Raw() noexcept;
 
 	/// <summary>
 	/// Returns the length of the vector.
 	/// </summary>
 	[[nodiscard]]
-	float Length() const;
+	float Length() const noexcept;
 	
 	/// <summary>
 	/// Returns the squared length of the vector.
 	/// </summary>
 	[[nodiscard]]
-	float SquaredLength() const;
-	
+	constexpr float SquaredLength() const noexcept;
+
 	/// <summary>
 	/// Returns a normalized vector.
 	/// </summary>
 	/// <returns>A vector with the same direction but a length of one.</returns>
 	[[nodiscard]]
-	Vector2 Normalized() const;
+	Vector2 Normalized() const noexcept;
 	
 	/// <summary>
 	/// Returns the normal vector to this one.
 	/// </summary>
 	/// <returns>A vector with the same length but a normal direction.</returns>
 	[[nodiscard]]
-	Vector2 Normal() const;
-	
-	/// <summary>
-	/// Returns the dot product of this Vector2 with 'other'.
-	/// </summary>
-	[[nodiscard]]
-	float Dot(Vector2 other) const;
-	
-	/// <summary>
-	/// Returns the cross product of this Vector2 with 'other'.
-	/// </summary>
-	[[nodiscard]]
-	float Cross(Vector2 other) const;
-	
-	/// <summary>
-	/// Returns the determinant of this Vector2 with 'other'.
-	/// </summary>
-	[[nodiscard]]
-	float Determinant(Vector2 other) const;
+	Vector2 Normal() const noexcept;
 
 	/// <summary>
 	/// Returns a · b.
 	/// </summary>
 	[[nodiscard]]
-	static float Dot(Vector2 a, Vector2 b);
-	
+	static constexpr float Dot(const Vector2 a, const Vector2 b) noexcept;
+
 	/// <summary>
 	/// Returns a x b.
+	/// For a Vector2, this is simply the determinant.
 	/// </summary>
 	[[nodiscard]]
-	static float Cross(Vector2 a, Vector2 b);
-	
+	static constexpr float Cross(const Vector2 a, const Vector2 b) noexcept;
+
 	/// <summary>
 	/// Returns the determinant of 'a' and 'b'.
 	/// </summary>
 	[[nodiscard]]
-	static float Determinant(Vector2 a, Vector2 b);
+	static constexpr float Determinant(const Vector2 a, const Vector2 b) noexcept;
 
 	/// <summary>
 	/// Lerp between two positions in a 2-dimensional space.
@@ -126,33 +113,35 @@ public:
 	/// <param name="t">The time to lerp.</param>
 	/// <returns>The lerp position.</returns>
 	[[nodiscard]]
-	static Vector2 Lerp(Vector2 value, Vector2 target, float t);
+	static constexpr Vector2 Lerp(Vector2 value, Vector2 target, float t) noexcept;
 
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
-	float operator[](size_t i) const;
-	
+	constexpr float operator[](size_t i) const;
+
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
-	float& operator[](size_t i);
+	constexpr float& operator[](size_t i);
+
+	explicit operator Vector2i() const noexcept;
 	
-	explicit operator Vector2i() const;
+	explicit operator Vector3() const noexcept;
 	
-	explicit operator Vector3() const;
-	
-	explicit operator Vector4() const;
-	
-	explicit operator Matrix2x2() const;
+	explicit operator Vector4() const noexcept;
 };
 
 static_assert(std::is_default_constructible_v<Vector2>, "Class Vector2 must be default constructible.");
@@ -161,48 +150,143 @@ static_assert(std::is_move_constructible_v<Vector2>, "Class Vector2 must be move
 static_assert(std::is_copy_assignable_v<Vector2>, "Class Vector2 must be copy assignable.");
 static_assert(std::is_move_assignable_v<Vector2>, "Class Vector2 must be move assignable.");
 
-[[nodiscard]]
-Vector2 operator+(Vector2 a, Vector2 b);
+constexpr Vector2::Vector2(float xy) noexcept : x(xy), y(xy) {}
+
+constexpr Vector2::Vector2(float x, float y) noexcept : x(x), y(y) {}
+
+constexpr Vector2 Vector2::Zero() noexcept { return Vector2(); }
+
+constexpr Vector2 Vector2::UnitX() noexcept { return Vector2(1.f, 0.f); }
+
+constexpr Vector2 Vector2::UnitY() noexcept { return Vector2(0.f, 1.f); }
+
+constexpr const float* Vector2::Raw() const noexcept { return &x; }
+
+constexpr float* Vector2::Raw() noexcept { return &x; }
+
+constexpr float Vector2::SquaredLength() const noexcept { return SQ(x) + SQ(y); }
+
+constexpr float Vector2::Dot(const Vector2 a, const Vector2 b) noexcept { return a.x * b.x + a.y * b.y; }
+
+constexpr float Vector2::Cross(const Vector2 a, const Vector2 b) noexcept { return Determinant(a, b); }
+
+constexpr float Vector2::Determinant(const Vector2 a, const Vector2 b) noexcept { return a.x * b.y - b.x * a.y; }
+
+constexpr float Vector2::operator[](size_t i) const
+{
+	if (i < 2) [[likely]]
+		return *(Raw() + i);
+	else [[unlikely]]
+		throw std::out_of_range("Vector2 subscript out of range");
+}
+
+constexpr float& Vector2::operator[](size_t i)
+{
+	if (i < 2) [[likely]]
+		return *(Raw() + i);
+	else [[unlikely]]
+		throw std::out_of_range("Vector2 subscript out of range");
+}
 
 [[nodiscard]]
-Vector2 operator-(Vector2 a, Vector2 b);
+constexpr Vector2 operator+(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x + b.x, a.y + b.y); }
 
 [[nodiscard]]
-Vector2 operator-(Vector2 a);
+constexpr Vector2 operator-(const Vector2 a) noexcept { return Vector2(-a.x, -a.y); }
 
 [[nodiscard]]
-Vector2 operator*(Vector2 a, Vector2 b);
+constexpr Vector2 operator-(const Vector2 a, const Vector2 b) noexcept { return a + -b; }
 
 [[nodiscard]]
-Vector2 operator*(Vector2 v, float factor);
+constexpr Vector2 operator*(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x * b.x, a.y * b.y); }
 
 [[nodiscard]]
-Vector2 operator*(const Matrix2x2& m, const Vector2& v);
+constexpr Vector2 operator*(const Vector2 v, const float factor) noexcept { return Vector2(v.x * factor, v.y * factor); }
 
 [[nodiscard]]
-Vector2 operator/(Vector2 a, Vector2 b);
+constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x / b.x, a.y / b.y); }
 
 [[nodiscard]]
-Vector2 operator/(Vector2 v, float factor);
+constexpr Vector2 operator/(const Vector2 v, const float factor) noexcept { return Vector2(v.x / factor, v.y / factor); }
 
-Vector2& operator+=(Vector2& a, Vector2 b);
+constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept
+{
+	a.x += b.x;
+	a.y += b.y;
+	
+	return a;
+}
 
-Vector2& operator+=(Vector2& v, float factor);
+constexpr Vector2& operator+=(Vector2& v, const float factor) noexcept
+{
+	v.x += factor;
+	v.y += factor;
+	
+	return v;
+}
 
-Vector2& operator-=(Vector2& a, Vector2 b);
+constexpr Vector2 &operator-=(Vector2 &a, const Vector2 b) noexcept
+{
+	a.x -= b.x;
+	a.y -= b.y;
+	
+	return a;
+}
 
-Vector2& operator-=(Vector2& v, float factor);
+constexpr Vector2& operator-=(Vector2& v, const float factor) noexcept
+{
+	v.x -= factor;
+	v.y -= factor;
+	
+	return v;
+}
 
-Vector2& operator*=(Vector2& a, Vector2 b);
+constexpr Vector2& operator*=(Vector2& a, const Vector2 b) noexcept
+{
+	a.x *= b.x;
+	a.y *= b.y;
+	
+	return a;
+}
 
-Vector2& operator*=(Vector2& v, float factor);
+constexpr Vector2& operator*=(Vector2& v, const float factor) noexcept
+{
+	v.x *= factor;
+	v.y *= factor;
+	
+	return v;
+}
 
-Vector2& operator*=(const Matrix2x2& m, Vector2& v);
+constexpr Vector2 &operator/=(Vector2 &a, const Vector2 b) noexcept
+{
+	a.x /= b.x;
+	a.y /= b.y;
+	
+	return a;
+}
 
-Vector2& operator/=(Vector2& a, Vector2 b);
+constexpr Vector2& operator/=(Vector2& v, const float factor) noexcept
+{
+	v.x /= factor;
+	v.y /= factor;
+	
+	return v;
+}
 
-Vector2& operator/=(Vector2& v, float factor);
+/// <summary>
+///	Checks if two Vector2 are considered equal using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+bool operator==(Vector2 a, Vector2 b) noexcept;
 
-std::ostream& operator<<(std::ostream& out, Vector2 v);
+/// <summary>
+///	Checks if two Vector2 are considered different using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+bool operator!=(Vector2 a, Vector2 b) noexcept;
+
+std::ostream& operator<<(std::ostream& out, const Vector2 v) noexcept;
+
+constexpr Vector2 Vector2::Lerp(Vector2 value, Vector2 target, float t) noexcept { return value + (target - value) * t; }
 
 using vec2 = Vector2;

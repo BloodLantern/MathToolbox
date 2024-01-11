@@ -6,7 +6,6 @@
 class Vector2;
 class Vector3;
 class Vector4;
-class Matrix2x2;
 
 /// <summary>
 /// The Vector2i class represents either a two-dimensional vector or a point.
@@ -16,10 +15,19 @@ class Vector2i
 public:
 	int x, y;
 
+	/// <summary>
+	///	Equivalent to calling the default constructor.
+	/// </summary>
+	[[nodiscard]]
+	
 	static constexpr Vector2i Zero();
 
+	[[nodiscard]]
+	
 	static constexpr Vector2i UnitX();
 
+	[[nodiscard]]
+	
 	static constexpr Vector2i UnitY();
 
 	constexpr Vector2i();
@@ -36,7 +44,7 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
+	
 	constexpr const int* Raw() const;
 
 	/// <summary>
@@ -44,7 +52,7 @@ public:
 	/// </summary>
 	/// <returns>A pointer to the first component of this vector.</returns>
 	[[nodiscard]]
-	__forceinline
+	
 	constexpr int* Raw();
 
 	/// <summary>
@@ -112,8 +120,10 @@ public:
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	int operator[](size_t i) const;
@@ -122,8 +132,10 @@ public:
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
-	/// <param name="i">The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...</param>
+	/// <param name="i">
+	/// The index of the component to get. It would be 0
+	/// for x, 1 for y, etc...
+	/// </param>
 	/// <returns>The value of the component at index i.</returns>
 	[[nodiscard]]
 	int& operator[](size_t i);
@@ -133,8 +145,6 @@ public:
     explicit operator Vector3() const;
 	
     explicit operator Vector4() const;
-	
-    explicit operator Matrix2x2() const;
 };
 
 static_assert(std::is_default_constructible_v<Vector2i>, "Class Vector2i must be default constructible.");
@@ -175,6 +185,10 @@ Vector2i& operator-=(Vector2i& v, int factor);
 Vector2i& operator*=(Vector2i& a, Vector2i b);
 
 Vector2i& operator*=(Vector2i& v, int factor);
+
+bool operator==(Vector2i a, Vector2i b);
+
+bool operator!=(Vector2i a, Vector2i b);
 
 std::ostream& operator<<(std::ostream& out, Vector2i v);
 
