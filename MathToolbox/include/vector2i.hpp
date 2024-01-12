@@ -231,9 +231,17 @@ constexpr Vector2i& operator*=(Vector2i& v, const int factor) noexcept
 	return v;
 }
 
-bool operator==(Vector2i a, Vector2i b) noexcept;
+/// <summary>
+///	Checks if two Vector2i are considered equal using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+constexpr bool operator==(const Vector2i a, const Vector2i b) noexcept { return a.x == b.x && a.y == b.y; }
 
-bool operator!=(Vector2i a, Vector2i b) noexcept;
+/// <summary>
+///	Checks if two Vector2i are considered different using <code>calc::Equals</code>.
+/// </summary>
+[[nodiscard]]
+constexpr bool operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }
 
 std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
 

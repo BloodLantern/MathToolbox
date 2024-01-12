@@ -277,13 +277,17 @@ constexpr Vector2& operator/=(Vector2& v, const float factor) noexcept
 ///	Checks if two Vector2 are considered equal using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
-bool operator==(Vector2 a, Vector2 b) noexcept;
+constexpr bool operator==(const Vector2 a, const Vector2 b) noexcept
+{
+	return calc::Equals(a.x, b.x)
+		&& calc::Equals(a.y, b.y);
+}
 
 /// <summary>
 ///	Checks if two Vector2 are considered different using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
-bool operator!=(Vector2 a, Vector2 b) noexcept;
+constexpr bool operator!=(const Vector2 a, const Vector2 b) noexcept { return !(a == b); }
 
 std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 

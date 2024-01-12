@@ -43,16 +43,6 @@ Vector2i::operator Vector4() const
 	return Vector4(static_cast<float>(x), static_cast<float>(y), 0.f, 0.f);
 }
 
-bool operator==(Vector2i a, Vector2i b) noexcept
-{
-	return a.x == b.x && a.y == b.y;
-}
-
-bool operator!=(Vector2i a, Vector2i b) noexcept
-{
-	return !(a == b);
-}
-
 std::ostream& operator<<(std::ostream& out, const Vector2i v) noexcept
 {
 	return out << std::format("{{{:d} {:d}}}", v.x, v.y);

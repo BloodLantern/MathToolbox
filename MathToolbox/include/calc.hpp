@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <numbers>
 
 #ifndef ZERO
@@ -38,8 +39,16 @@ namespace calc
     /// and 0 if x is equal to 0.
     /// </summary>
     /// <returns>-1 if the value is negative, 1 if it is positive. 0 Otherwise.</returns>
+	template<typename T>
     [[nodiscard]]
-	extern constexpr float Sign(float value) noexcept;
+	extern constexpr T Sign(T number) noexcept;
+
+	/// <summary>
+	///	A constexpr version of the <code>std::abs</code> function.
+	/// </summary>
+	template<typename T>
+	[[nodiscard]]
+	extern constexpr T Abs(T number) noexcept;
 
 	/// <summary>
 	/// Approaches the target value by the given step size without ever
@@ -48,7 +57,8 @@ namespace calc
 	/// <param name="value">The value to change.</param>
 	/// <param name="target">The target value.</param>
 	/// <param name="step">The step size.</param>
-	extern void Approach(float& value, float target, float step) noexcept;
+	template<typename T>
+	extern constexpr void Approach(T& value, T target, T step) noexcept;
 
 	/// <summary>
 	/// Given a value between 0 and 1, returns a value going from 0 to 1
@@ -57,7 +67,7 @@ namespace calc
 	/// <param name="value"></param>
 	/// <returns>A value between 0 and 1, closer to 1 if the input value is close to 0.5.</returns>
 	[[nodiscard]]
-	extern float YoYo(float value) noexcept;
+	extern constexpr float YoYo(float value) noexcept;
 
 	/// <summary>
 	/// Checks if a value is less than what is considered zero, e.g. if its absolute
@@ -66,7 +76,7 @@ namespace calc
 	/// <param name="value">The value to check.</param>
 	/// <returns>Whether the value is considered zero.</returns>
 	[[nodiscard]]
-	extern bool IsZero(float value) noexcept;
+	extern constexpr bool IsZero(float value) noexcept;
 
 	/// <summary>
 	/// Checks if two values are considered equal.
@@ -75,19 +85,73 @@ namespace calc
 	/// <param name="b">The second value.</param>
 	/// <returns>Whether the values are considered equal.</returns>
 	[[nodiscard]]
-	extern bool Equals(float a, float b) noexcept;
+	extern constexpr bool Equals(float a, float b) noexcept;
 
     /// <summary>
     /// Checks if a value is less than what is considered zero and sets it if true.
     /// </summary>
     /// <param name="value">The value to check and set.</param>
     /// <returns>Whether the value is considered zero and the operation was made.</returns>
-    extern bool Nullify(float& value) noexcept;
+    extern constexpr bool Nullify(float& value) noexcept;
 
     /// <summary>
 	/// Updates a cooldown timer.
     /// </summary>
     /// <param name="cooldown">The variable to update.</param>
     /// <param name="deltaTime">The delta time to subtract to 'cooldown'.</param>
-    extern void UpdateCooldown(float& cooldown, float deltaTime) noexcept;
+    extern constexpr void UpdateCooldown(float& cooldown, float deltaTime) noexcept;
+}
+
+template<typename T>
+constexpr T calc::Sign(const T number) noexcept
+{
+	return number < 0.f ? -1.f : 1.f;
+}
+
+template<typename T>
+constexpr T calc::Abs(const T number) noexcept
+{
+	return number < 0.f ? -number : number;
+}
+
+template<typename T>
+constexpr void calc::Approach(T &value, const T target, const T step) noexcept
+{
+	// If the target value hasn't been reached yet
+	if (!Equals(value, target))
+	{
+		const float difference = target - value;
+		value += std::min(step, Abs(difference)) * Sign(difference);
+	}
+}
+
+constexpr float calc::YoYo(const float value) noexcept
+{
+	return value <= 0.5f ? value * 2.f : 1.f - (value - 0.5f) * 2.f;
+}
+
+constexpr bool calc::IsZero(const float value) noexcept
+{
+	return Abs(value) <= Zero;
+}
+
+constexpr bool calc::Equals(const float a, const float b) noexcept
+{
+	return IsZero(a - b);
+}
+
+constexpr bool calc::Nullify(float &value) noexcept
+{
+	const bool zero = IsZero(value);
+
+	if (zero)
+		value = 0.f;
+
+	return zero;
+}
+
+constexpr void calc::UpdateCooldown(float& cooldown, const float deltaTime) noexcept
+{
+	if (cooldown > 0.f)
+		cooldown -= deltaTime;
 }

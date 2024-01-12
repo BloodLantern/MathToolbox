@@ -16,7 +16,7 @@ Vector3 Vector3::Normalized() const noexcept
 {
 	const float length = Length();
 	if (calc::IsZero(length))
-		return Vector3::Zero();
+		return Zero();
 
 	__assume(length != 0.f);
 	const float invLength = 1.f / length;
@@ -31,18 +31,6 @@ Vector3::operator Vector2() const noexcept
 Vector3::operator Vector4() const noexcept
 {
 	return Vector4(x, y, z, 1.f);
-}
-
-bool operator==(Vector3 a, Vector3 b) noexcept
-{
-	return calc::Equals(a.x, b.x)
-		&& calc::Equals(a.y, b.y)
-		&& calc::Equals(a.z, b.z);
-}
-
-bool operator!=(Vector3 a, Vector3 b) noexcept
-{
-	return !(a == b);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept

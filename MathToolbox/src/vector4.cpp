@@ -16,7 +16,7 @@ Vector4 Vector4::Normalized() const noexcept
 {
 	const float length = Length();
 	if (calc::IsZero(length))
-		return Vector4::Zero();
+		return Zero();
 
 	__assume(length != 0.f);
 	const float invLength = 1.f / length;
@@ -41,19 +41,6 @@ Vector4::operator Matrix() const noexcept
 		z, 0, 1, 0,
         w, 0, 0, 1
 	);
-}
-
-bool operator==(Vector4 a, Vector4 b) noexcept
-{
-	return calc::Equals(a.x, b.x)
-		&& calc::Equals(a.y, b.y)
-		&& calc::Equals(a.z, b.z)
-		&& calc::Equals(a.w, b.w);
-}
-
-bool operator!=(Vector4 a, Vector4 b) noexcept
-{
-	return !(a == b);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept

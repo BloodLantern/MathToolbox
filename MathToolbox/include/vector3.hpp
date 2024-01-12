@@ -266,13 +266,18 @@ constexpr Vector3& operator/=(Vector3& v, const float factor) noexcept
 ///	Checks if two Vector3 are considered equal using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
-bool operator==(Vector3 a, Vector3 b) noexcept;
+constexpr bool operator==(const Vector3 a, const Vector3 b) noexcept
+{
+	return calc::Equals(a.x, b.x)
+		&& calc::Equals(a.y, b.y)
+		&& calc::Equals(a.z, b.z);
+}
 
 /// <summary>
 ///	Checks if two Vector3 are considered different using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
-bool operator!=(Vector3 a, Vector3 b) noexcept;
+constexpr bool operator!=(const Vector3 a, const Vector3 b) noexcept { return !(a == b); }
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
 

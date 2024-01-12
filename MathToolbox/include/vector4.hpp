@@ -265,13 +265,19 @@ constexpr Vector4& operator/=(Vector4& v, const float factor) noexcept
 ///	Checks if two Vector4 are considered equal using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
-bool operator==(Vector4 a, Vector4 b) noexcept;
+constexpr bool operator==(const Vector4 a, const Vector4 b) noexcept
+{
+	return calc::Equals(a.x, b.x)
+		&& calc::Equals(a.y, b.y)
+		&& calc::Equals(a.z, b.z)
+		&& calc::Equals(a.w, b.w);
+}
 
 /// <summary>
 ///	Checks if two Vector4 are considered different using <code>calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
-bool operator!=(Vector4 a, Vector4 b) noexcept;
+constexpr bool operator!=(const Vector4 a, const Vector4 b) noexcept { return !(a == b); }
 
 std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept;
 

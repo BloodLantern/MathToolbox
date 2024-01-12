@@ -40,17 +40,6 @@ Vector2::operator Vector4() const noexcept
 	return Vector4(x, y, 0.f, 1.f);
 }
 
-bool operator==(Vector2 a, Vector2 b) noexcept
-{
-	return calc::Equals(a.x, b.x)
-		&& calc::Equals(a.y, b.y);
-}
-
-bool operator!=(Vector2 a, Vector2 b) noexcept
-{
-	return !(a == b);
-}
-
 std::ostream& operator<<(std::ostream& out, const Vector2 v) noexcept
 {
 	return out << std::format("{{{:.3f} {:.3f}}}", v.x, v.y);
