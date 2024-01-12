@@ -14,7 +14,7 @@ class Vector4;
 class Vector2
 {
 public:
-	float x, y;
+	float x = 0.f, y = 0.f;
 
 	/// <summary>
 	///	Equivalent to calling the default constructor.
@@ -90,20 +90,20 @@ public:
 	/// Returns a · b.
 	/// </summary>
 	[[nodiscard]]
-	static constexpr float Dot(const Vector2 a, const Vector2 b) noexcept;
+	static constexpr float Dot(Vector2 a, Vector2 b) noexcept;
 
 	/// <summary>
 	/// Returns a x b.
 	/// For a Vector2, this is simply the determinant.
 	/// </summary>
 	[[nodiscard]]
-	static constexpr float Cross(const Vector2 a, const Vector2 b) noexcept;
+	static constexpr float Cross(Vector2 a, Vector2 b) noexcept;
 
 	/// <summary>
 	/// Returns the determinant of 'a' and 'b'.
 	/// </summary>
 	[[nodiscard]]
-	static constexpr float Determinant(const Vector2 a, const Vector2 b) noexcept;
+	static constexpr float Determinant(Vector2 a, Vector2 b) noexcept;
 
 	/// <summary>
 	/// Lerp between two positions in a 2-dimensional space.
@@ -285,7 +285,7 @@ bool operator==(Vector2 a, Vector2 b) noexcept;
 [[nodiscard]]
 bool operator!=(Vector2 a, Vector2 b) noexcept;
 
-std::ostream& operator<<(std::ostream& out, const Vector2 v) noexcept;
+std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 
 constexpr Vector2 Vector2::Lerp(Vector2 value, Vector2 target, float t) noexcept { return value + (target - value) * t; }
 

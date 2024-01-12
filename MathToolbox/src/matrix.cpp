@@ -95,9 +95,9 @@ Matrix Matrix::Rotation3DZ(const float angle) noexcept
 
 Matrix Matrix::Rotation3D(const Vector3 &rotation) noexcept
 {
-    return Matrix::Rotation3DZ(rotation.z)
-         * Matrix::Rotation3DY(rotation.y)
-         * Matrix::Rotation3DX(rotation.x);
+    return Rotation3DZ(rotation.z)
+         * Rotation3DY(rotation.y)
+         * Rotation3DX(rotation.x);
 }
 
 Matrix Matrix::Rotation3D(const float cos, const float sin, const Vector3 &axis) noexcept
@@ -115,12 +115,12 @@ Matrix Matrix::Rotation3D(const float cos, const float sin, const Vector3 &axis)
 
 Matrix Matrix::Trs(const Vector3 &translation, const Vector3 &rotation, const Vector3 &scale) noexcept
 {
-    return Trs(translation, Matrix::Rotation3D(rotation), scale);
+    return Trs(translation, Rotation3D(rotation), scale);
 }
 
 Matrix Matrix::Trs(const Vector3 &translation, const float rotationAngle, const Vector3& axis, const Vector3 &scale) noexcept
 {
-    return Trs(translation, Matrix::Rotation3D(rotationAngle, axis), scale);
+    return Trs(translation, Rotation3D(rotationAngle, axis), scale);
 }
 
 void Matrix::View(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix &result) noexcept

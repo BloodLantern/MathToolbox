@@ -13,7 +13,7 @@ class Vector4;
 class Vector2i
 {
 public:
-	int x, y;
+	int x = 0, y = 0;
 
 	/// <summary>
 	///	Equivalent to calling the default constructor.

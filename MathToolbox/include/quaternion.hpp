@@ -9,7 +9,7 @@ class Quaternion
 {
 public:
 	Vector3 imaginary;
-	float real;
+	float real = 0.f;
 
 	/// <summary>
 	///	Equivalent to calling the default constructor.

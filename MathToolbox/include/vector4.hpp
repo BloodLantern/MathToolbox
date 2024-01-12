@@ -14,7 +14,7 @@ class Matrix;
 class Vector4
 {
 public:
-	float x, y, z, w;
+	float x = 0.f, y = 0.f, z = 0.f, w = 0.f;
 
 	/// <summary>
 	///	Equivalent to calling the default constructor.

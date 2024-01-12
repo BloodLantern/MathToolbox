@@ -13,7 +13,10 @@
 
 int main()
 {
-    constexpr vec2i v2(1, 2);
+    Matrix mat = Matrix::Trs(vec3(1.f, 0.f, 0.f), vec3(0.f, 0.f, calc::Pi) / 2.f, 2.f);
+    PRINT(mat);
+    vec3 v(1.f, 0.f, 0.f);
+    PRINT(mat * v);
 
-    return v2.x;
+    return 0;
 }

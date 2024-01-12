@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ostream>
-#include <cassert>
 
 #include "quaternion.hpp"
 #include "vector3.hpp"
@@ -32,7 +31,7 @@ public:
     /// <summary>
     /// Creates a matrix with all its values set to this default value.
     /// </summary>
-    explicit constexpr Matrix(const float defaultValue) noexcept;
+    explicit constexpr Matrix(float defaultValue) noexcept;
 
     constexpr Matrix(
         const Vector4& r0,
@@ -42,10 +41,10 @@ public:
     ) noexcept;
 
     constexpr Matrix(
-        const float r00, const float r01, const float r02, const float r03,
-        const float r10, const float r11, const float r12, const float r13,
-        const float r20, const float r21, const float r22, const float r23,
-        const float r30, const float r31, const float r32, const float r33
+        float r00, float r01, float r02, float r03,
+        float r10, float r11, float r12, float r13,
+        float r20, float r21, float r22, float r23,
+        float r30, float r31, float r32, float r33
     ) noexcept;
 
     /// <summary>
@@ -239,6 +238,9 @@ public:
     [[nodiscard]]
     static constexpr Matrix Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale) noexcept;
     
+	/// <summary>
+	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
+	/// </summary>
     [[nodiscard]]
     static constexpr Matrix Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale) noexcept;
     
@@ -598,9 +600,9 @@ constexpr Matrix operator*(const Matrix &m, const float scalar) noexcept
 
 constexpr Vector3 operator*(const Matrix& m, const Vector3& v) noexcept
 {
-    const float x = v.x * m[0].x + v.y * m[0].y + v.z * m[0].z;
-    const float y = v.x * m[1].x + v.y * m[1].y + v.z * m[1].z;
-    const float z = v.x * m[2].x + v.y * m[2].y + v.z * m[2].z;
+    const float x = v.x * m[0].x + v.y * m[0].y + v.z * m[0].z + m[0].w;
+    const float y = v.x * m[1].x + v.y * m[1].y + v.z * m[1].z + m[1].w;
+    const float z = v.x * m[2].x + v.y * m[2].y + v.z * m[2].z + m[2].w;
 
     return Vector3(x, y, z);
 }
