@@ -90,6 +90,4 @@ namespace calc
     /// <param name="cooldown">The variable to update.</param>
     /// <param name="deltaTime">The delta time to subtract to 'cooldown'.</param>
     extern void UpdateCooldown(float& cooldown, float deltaTime) noexcept;
-
-    extern float FastInverseSqrt(float number, bool precise = false) noexcept;
 }

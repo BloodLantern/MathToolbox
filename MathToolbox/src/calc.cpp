@@ -47,22 +47,3 @@ void calc::UpdateCooldown(float& cooldown, const float deltaTime) noexcept
     if (cooldown > 0.f)
         cooldown -= deltaTime;
 }
-
-float calc::FastInverseSqrt(const float number, const bool precise) noexcept
-{
-    constexpr float threehalfs = 1.5f;
-
-    const float x2 = number * 0.5f;
-    float y = number;
-    	
-    long i = *(long*) &y;
-    i = 0x5F3759DF - (i >> 1);
-    y = *(float*) &i;
-    	
-    y = y * (threehalfs - (x2 * y * y)); // 1st iteration
-    	
-    if (precise)
-        y = y * (threehalfs - (x2 * y * y)); // 2nd iteration, optional
-
-    return y;
-}
