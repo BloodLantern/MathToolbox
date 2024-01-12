@@ -7,7 +7,6 @@
 
 int main()
 {
-    vec4 v = calc::Abs(4.f);
 
     return 0;
 }

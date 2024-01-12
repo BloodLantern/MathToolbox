@@ -78,26 +78,26 @@ Matrix Matrix::Rotation3D(const float angle, const Vector3 &axis) noexcept
     return Rotation3D(std::cos(angle), std::sin(angle), axis);
 }
 
-Matrix Matrix::Rotation3DX(const float angle) noexcept
+Matrix Matrix::Rotation3Dx(const float angle) noexcept
 {
-    return Rotation3DX(std::cos(angle), std::sin(angle));
+    return Rotation3Dx(std::cos(angle), std::sin(angle));
 }
 
-Matrix Matrix::Rotation3DY(const float angle) noexcept
+Matrix Matrix::Rotation3Dy(const float angle) noexcept
 {
-    return Rotation3DY(std::cos(angle), std::sin(angle));
+    return Rotation3Dy(std::cos(angle), std::sin(angle));
 }
 
-Matrix Matrix::Rotation3DZ(const float angle) noexcept
+Matrix Matrix::Rotation3Dz(const float angle) noexcept
 {
-    return Rotation3DZ(std::cos(angle), std::sin(angle));
+    return Rotation3Dz(std::cos(angle), std::sin(angle));
 }
 
 Matrix Matrix::Rotation3D(const Vector3 &rotation) noexcept
 {
-    return Rotation3DZ(rotation.z)
-         * Rotation3DY(rotation.y)
-         * Rotation3DX(rotation.x);
+    return Rotation3Dz(rotation.z)
+         * Rotation3Dy(rotation.y)
+         * Rotation3Dx(rotation.x);
 }
 
 Matrix Matrix::Rotation3D(const float cos, const float sin, const Vector3 &axis) noexcept
@@ -118,9 +118,9 @@ Matrix Matrix::Trs(const Vector3 &translation, const Vector3 &rotation, const Ve
     return Trs(translation, Rotation3D(rotation), scale);
 }
 
-Matrix Matrix::Trs(const Vector3 &translation, const float rotationAngle, const Vector3& axis, const Vector3 &scale) noexcept
+Matrix Matrix::Trs(const Vector3 &translation, const float rotationAngle, const Vector3& rotationAxis, const Vector3 &scale) noexcept
 {
-    return Trs(translation, Rotation3D(rotationAngle, axis), scale);
+    return Trs(translation, Rotation3D(rotationAngle, rotationAxis), scale);
 }
 
 void Matrix::View(const Vector3 &eye, const Vector3 &center, const Vector3 &up, Matrix &result) noexcept
@@ -141,18 +141,15 @@ void Matrix::PerspectiveProjection(const float fov, const float aspectRatio, con
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
-    else [[likely]]
-    {
-        const float range = near - far;
-        const float tanHalfFov = std::tan(fov / 2);
+    const float range = near - far;
+    const float tanHalfFov = std::tan(fov / 2);
 
-        result = Matrix(
-            1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
-            0.f, 1.f / tanHalfFov, 0.f, 0.f,
-            0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
-            0.f, 0.f, 1.f, 0.f
-        );
-    }
+    result = Matrix(
+        1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
+        0.f, 1.f / tanHalfFov, 0.f, 0.f,
+        0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
+        0.f, 0.f, 1.f, 0.f
+    );
 }
 
 Matrix::operator Vector4() const noexcept

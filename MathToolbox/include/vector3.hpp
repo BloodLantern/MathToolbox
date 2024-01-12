@@ -164,7 +164,7 @@ constexpr float Vector3::operator[](const size_t i) const
 {
 	if (i < 3) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector3 subscript out of range");
 }
 
@@ -172,7 +172,7 @@ constexpr float& Vector3::operator[](const size_t i)
 {
 	if (i < 3) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector3 subscript out of range");
 }
 
@@ -281,6 +281,6 @@ constexpr bool operator!=(const Vector3 a, const Vector3 b) noexcept { return !(
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
 
-constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, float t) noexcept { return value + (target - value) * t; }
+constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, const float t) noexcept { return value + (target - value) * t; }
 
 using vec3 = Vector3;

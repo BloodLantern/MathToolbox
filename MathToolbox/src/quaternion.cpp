@@ -169,7 +169,7 @@ Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const flo
 	return ans;
 }
 
-bool operator==(Quaternion a, Quaternion b)
+bool operator==(const Quaternion a, const Quaternion b)
 {
 	return calc::Equals(a.imaginary.x, b.imaginary.x)
 		&& calc::Equals(a.imaginary.y, b.imaginary.y)
@@ -177,7 +177,7 @@ bool operator==(Quaternion a, Quaternion b)
 		&& calc::Equals(a.real, b.real);
 }
 
-bool operator!=(Quaternion a, Quaternion b)
+bool operator!=(const Quaternion a, const Quaternion b)
 {
 	return !(a == b);
 }

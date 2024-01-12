@@ -150,9 +150,9 @@ static_assert(std::is_move_constructible_v<Vector2>, "Class Vector2 must be move
 static_assert(std::is_copy_assignable_v<Vector2>, "Class Vector2 must be copy assignable.");
 static_assert(std::is_move_assignable_v<Vector2>, "Class Vector2 must be move assignable.");
 
-constexpr Vector2::Vector2(float xy) noexcept : x(xy), y(xy) {}
+constexpr Vector2::Vector2(const float xy) noexcept : x(xy), y(xy) {}
 
-constexpr Vector2::Vector2(float x, float y) noexcept : x(x), y(y) {}
+constexpr Vector2::Vector2(const float x, const float y) noexcept : x(x), y(y) {}
 
 constexpr Vector2 Vector2::Zero() noexcept { return Vector2(); }
 
@@ -172,19 +172,19 @@ constexpr float Vector2::Cross(const Vector2 a, const Vector2 b) noexcept { retu
 
 constexpr float Vector2::Determinant(const Vector2 a, const Vector2 b) noexcept { return a.x * b.y - b.x * a.y; }
 
-constexpr float Vector2::operator[](size_t i) const
+constexpr float Vector2::operator[](const size_t i) const
 {
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector2 subscript out of range");
 }
 
-constexpr float& Vector2::operator[](size_t i)
+constexpr float& Vector2::operator[](const size_t i)
 {
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector2 subscript out of range");
 }
 
@@ -291,6 +291,6 @@ constexpr bool operator!=(const Vector2 a, const Vector2 b) noexcept { return !(
 
 std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 
-constexpr Vector2 Vector2::Lerp(Vector2 value, Vector2 target, float t) noexcept { return value + (target - value) * t; }
+constexpr Vector2 Vector2::Lerp(const Vector2 value, const Vector2 target, const float t) noexcept { return value + (target - value) * t; }
 
 using vec2 = Vector2;

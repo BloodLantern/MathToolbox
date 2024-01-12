@@ -199,7 +199,7 @@ constexpr float Quaternion::operator[](const size_t i) const
 {
 	if (i < 4) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Quaternion subscript out of range");
 }
 
@@ -207,7 +207,7 @@ constexpr float& Quaternion::operator[](const size_t i)
 {
 	if (i < 4) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Quaternion subscript out of range");
 }
 
@@ -225,27 +225,17 @@ constexpr Quaternion operator*(const Quaternion& a, const Quaternion& b) noexcep
 {
 	Quaternion result;
 
-	const float q1x = a.X();
-	const float q1y = a.Y();
-	const float q1z = a.Z();
-	const float q1w = a.W();
-
-	const float q2x = b.X();
-	const float q2y = b.Y();
-	const float q2z = b.Z();
-	const float q2w = b.W();
-
 	// cross(av, bv)
-	const float cx = q1y * q2z - q1z * q2y;
-	const float cy = q1z * q2x - q1x * q2z;
-	const float cz = q1x * q2y - q1y * q2x;
+	const float cx = a.Y() * b.Z() - a.Z() * b.Y();
+	const float cy = a.Z() * b.X() - a.X() * b.Z();
+	const float cz = a.X() * b.Y() - a.Y() * b.X();
 
-	const float dot = q1x * q2x + q1y * q2y + q1z * q2z;
+	const float dot = a.X() * b.X() + a.Y() * b.Y() + a.Z() * b.Z();
 
-	result.X() = q1x * q2w + q2x * q1w + cx;
-	result.Y() = q1y * q2w + q2y * q1w + cy;
-	result.Z() = q1z * q2w + q2z * q1w + cz;
-	result.W() = q1w * q2w - dot;
+	result.X() = a.X() * b.W() + b.X() * a.W() + cx;
+	result.Y() = a.Y() * b.W() + b.Y() * a.W() + cy;
+	result.Z() = a.Z() * b.W() + b.Z() * a.W() + cz;
+	result.W() = a.W() * b.W() - dot;
 
 	return result;
 }

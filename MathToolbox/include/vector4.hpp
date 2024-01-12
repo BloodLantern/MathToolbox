@@ -155,7 +155,7 @@ constexpr float Vector4::operator[](const size_t i) const
 {
 	if (i < 4) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector4 subscript out of range");
 }
 
@@ -163,7 +163,7 @@ constexpr float& Vector4::operator[](const size_t i)
 {
 	if (i < 4) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector4 subscript out of range");
 }
 

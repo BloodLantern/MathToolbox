@@ -148,6 +148,7 @@ public:
     /// Creates a 3D rotation matrix from the given angle and axis.
     /// </summary>
 	/// <param name="angle">The angle in radians.</param>
+	/// <param name="axis">The axis around which the rotation occurs.</param>
     [[nodiscard]]
     static Matrix Rotation3D(float angle, const Vector3& axis) noexcept;
     
@@ -156,7 +157,7 @@ public:
     /// </summary>
     /// <param name="angle">The angle in radians.</param>
     [[nodiscard]]
-    static Matrix Rotation3DX(float angle) noexcept;
+    static Matrix Rotation3Dx(float angle) noexcept;
     
     /// <summary>
     /// Creates a 3D rotation matrix around the X axis from the given angle.
@@ -164,14 +165,14 @@ public:
     /// <param name="cos">The cosine of the angle in radians.</param>
     /// <param name="sin">The sine of the angle in radians.</param>
     [[nodiscard]]
-    static constexpr Matrix Rotation3DX(float cos, float sin) noexcept;
+    static constexpr Matrix Rotation3Dx(float cos, float sin) noexcept;
     
     /// <summary>
     /// Creates a 3D rotation matrix around the Y axis from the given angle.
     /// </summary>
     /// <param name="angle">The angle in radians.</param>
     [[nodiscard]]
-    static Matrix Rotation3DY(float angle) noexcept;
+    static Matrix Rotation3Dy(float angle) noexcept;
     
     /// <summary>
     /// Creates a 3D rotation matrix around the Y axis from the given angle.
@@ -179,14 +180,14 @@ public:
     /// <param name="cos">The cosine of the angle in radians.</param>
     /// <param name="sin">The sine of the angle in radians.</param>
     [[nodiscard]]
-    static constexpr Matrix Rotation3DY(float cos, float sin) noexcept;
+    static constexpr Matrix Rotation3Dy(float cos, float sin) noexcept;
     
     /// <summary>
     /// Creates a 3D rotation matrix around the Z axis from the given angle.
     /// </summary>
     /// <param name="angle">The angle in radians.</param>
     [[nodiscard]]
-    static Matrix Rotation3DZ(float angle) noexcept;
+    static Matrix Rotation3Dz(float angle) noexcept;
     
     /// <summary>
     /// Creates a 3D rotation matrix around the Z axis from the given angle.
@@ -194,7 +195,7 @@ public:
     /// <param name="cos">The cosine of the angle in radians.</param>
     /// <param name="sin">The sine of the angle in radians.</param>
     [[nodiscard]]
-    static constexpr Matrix Rotation3DZ(float cos, float sin) noexcept;
+    static constexpr Matrix Rotation3Dz(float cos, float sin) noexcept;
     
     /// <summary>
     /// Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
@@ -210,6 +211,7 @@ public:
     /// </summary>
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
+	/// <param name="axis">The axis around which the rotation occurs.</param>
     [[nodiscard]]
     static Matrix Rotation3D(float cos, float sin, const Vector3& axis) noexcept;
     
@@ -228,9 +230,8 @@ public:
     /// <summary>
     /// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     /// </summary>
-	/// <param name="rotationAngle">The angle in radians.</param>
     [[nodiscard]]
-    static Matrix Trs(const Vector3& translation, float rotationAngle, const Vector3& axis, const Vector3& scale) noexcept;
+    static Matrix Trs(const Vector3& translation, float rotationAngle, const Vector3& rotationAxis, const Vector3& scale) noexcept;
     
     /// <summary>
     /// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
@@ -323,45 +324,23 @@ constexpr float* Matrix::Raw() noexcept { return &r0.x; }
 
 constexpr Vector4 Matrix::Diagonal() const noexcept { return Vector4(r0[0], r1[1], r2[2], r3[3]); }
 
-constexpr float Matrix::Trace() const noexcept
-{
-    float result = 0.f;
-    
-    for (size_t i = 0; i < 4; i++)
-        result += (*this)[i][i];
-    
-    return result;
-}
+constexpr float Matrix::Trace() const noexcept { return r0[0] + r1[1] + r2[2] + r3[3]; }
 
 constexpr float Matrix::Determinant() const noexcept
 { 
     // Definition from MonoGame/XNA: https://github.com/MonoGame/MonoGame/blob/b30122c99597eaf81b81f32ab1d467a7b4185c73/MonoGame.Framework/Matrix.cs
     
-    const float r00 = r0[0];
-    const float r10 = r1[0];
-    const float r20 = r2[0];
-    const float r30 = r3[0];
-    const float r01 = r0[1];
-    const float r11 = r1[1];
-    const float r21 = r2[1];
-    const float r31 = r3[1];
-    const float r02 = r0[2];
-    const float r12 = r1[2];
-    const float r22 = r2[2];
-    const float r32 = r3[2];
-    const float r03 = r0[3];
-    const float r13 = r1[3];
-    const float r23 = r2[3];
-    const float r33 = r3[3];
+    const float det2233 = r2[2] * r3[3] - r3[2] * r2[3];
+    const float det1233 = r1[2] * r3[3] - r3[2] * r1[3];
+    const float det1223 = r1[2] * r2[3] - r2[2] * r1[3];
+    const float det0233 = r0[2] * r3[3] - r3[2] * r0[3];
+    const float det0223 = r0[2] * r2[3] - r2[2] * r0[3];
+    const float det0213 = r0[2] * r1[3] - r1[2] * r0[3];
     
-    const float det2233 = r22 * r33 - r32 * r23;
-    const float det1233 = r12 * r33 - r32 * r13;
-    const float det1223 = r12 * r23 - r22 * r13;
-    const float det0233 = r02 * r33 - r32 * r03;
-    const float det0223 = r02 * r23 - r22 * r03;
-    const float det0213 = r02 * r13 - r12 * r03;
-    
-    return ((r00 * ((r11 * det2233 - r21 * det1233) + r31 * det1223) - r10 * ((r01 * det2233 - r21 * det0233) + r31 * det0223)) + r20 * ((r01 * det1233 - r11 * det0233) + r31 * det0213)) - r30 * ((r01 * det1223 - r11 * det0223) + r21 * det0213);
+    return r0[0] * (r1[1] * det2233 - r2[1] * det1233 + r3[1] * det1223)
+		- r1[0] * (r0[1] * det2233 - r2[1] * det0233 + r3[1] * det0223)
+		+ r2[0] * (r0[1] * det1233 - r1[1] * det0233 + r3[1] * det0213)
+		- r3[0] * (r0[1] * det1223 - r1[1] * det0223 + r2[1] * det0213);
 }
 
 constexpr Matrix& Matrix::LoadIdentity() noexcept { return *this = Identity(); }
@@ -373,10 +352,10 @@ constexpr Matrix& Matrix::Invert() { return *this = Invert(*this); }
 constexpr Matrix Matrix::Transpose(const Matrix& matrix) noexcept
 {
     return Matrix(
-        matrix.r0.x, matrix.r1.x, matrix.r2.x, matrix.r3.x,
-        matrix.r0.y, matrix.r1.y, matrix.r2.y, matrix.r3.y,
-        matrix.r0.z, matrix.r1.z, matrix.r2.z, matrix.r3.z,
-        matrix.r0.w, matrix.r1.w, matrix.r2.w, matrix.r3.w
+        matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
+        matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
+        matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
+        matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]
     );
 }
 
@@ -384,76 +363,74 @@ constexpr Matrix Matrix::Invert(const Matrix &matrix)
 {
     if (matrix.Determinant() == 0.f) [[unlikely]]
         throw std::invalid_argument("Matrix isn't invertible");
-    else [[likely]]
-    {
-        // Definition from MonoGame/XNA: https://github.com/MonoGame/MonoGame/blob/b30122c99597eaf81b81f32ab1d467a7b4185c73/MonoGame.Framework/Matrix.cs
-        Matrix result;
+	
+	    // Definition from MonoGame/XNA: https://github.com/MonoGame/MonoGame/blob/b30122c99597eaf81b81f32ab1d467a7b4185c73/MonoGame.Framework/Matrix.cs
+	    Matrix result;
+	        
+    const float m00 = matrix[0][0];
+    const float m01 = matrix[0][1];
+    const float m02 = matrix[0][2];
+    const float m03 = matrix[0][3];
+    const float m10 = matrix[1][0];
+    const float m11 = matrix[1][1];
+    const float m12 = matrix[1][2];
+    const float m13 = matrix[1][3];
+    const float m20 = matrix[2][0];
+    const float m21 = matrix[2][1];
+    const float m22 = matrix[2][2];
+    const float m23 = matrix[2][3];
+    const float m30 = matrix[3][0];
+    const float m31 = matrix[3][1];
+    const float m32 = matrix[3][2];
+    const float m33 = matrix[3][3];
         
-        const float r00 = matrix.r0[0];
-		const float r01 = matrix.r0[1];
-		const float r02 = matrix.r0[2];
-		const float r03 = matrix.r0[3];
-		const float r10 = matrix.r1[0];
-		const float r11 = matrix.r1[1];
-		const float r12 = matrix.r1[2];
-		const float r13 = matrix.r1[3];
-		const float r20 = matrix.r2[0];
-		const float r21 = matrix.r2[1];
-		const float r22 = matrix.r2[2];
-		const float r23 = matrix.r2[3];
-		const float r30 = matrix.r3[0];
-		const float r31 = matrix.r3[1];
-		const float r32 = matrix.r3[2];
-		const float r33 = matrix.r3[3];
-        
-		const float num17 = r22 * r33 - r23 * r32;
-		const float num18 = r21 * r33 - r23 * r31;
-		const float num19 = r21 * r32 - r22 * r31;
-		const float num20 = r20 * r33 - r23 * r30;
-		const float num21 = r20 * r32 - r22 * r30;
-		const float num22 = r20 * r31 - r21 * r30;
-		const float num23 = r11 * num17 - r12 * num18 + r13 * num19;
-		const float num24 = -(r10 * num17 - r12 * num20 + r13 * num21);
-		const float num25 = r10 * num18 - r11 * num20 + r13 * num22;
-		const float num26 = -(r10 * num19 - r11 * num21 + r12 * num22);
-		const float num27 = 1.f / (r00 * num23 + r01 * num24 + r02 * num25 + r03 * num26);
+    const float num17 = m22 * m33 - m23 * m32;
+    const float num18 = m21 * m33 - m23 * m31;
+    const float num19 = m21 * m32 - m22 * m31;
+    const float num20 = m20 * m33 - m23 * m30;
+    const float num21 = m20 * m32 - m22 * m30;
+    const float num22 = m20 * m31 - m21 * m30;
+    const float num23 = m11 * num17 - m12 * num18 + m13 * num19;
+    const float num24 = -(m10 * num17 - m12 * num20 + m13 * num21);
+    const float num25 = m10 * num18 - m11 * num20 + m13 * num22;
+    const float num26 = -(m10 * num19 - m11 * num21 + m12 * num22);
+    const float num27 = 1.f / (m00 * num23 + m01 * num24 + m02 * num25 + m03 * num26);
 		
-		result.r0[0] = num23 * num27;
-		result.r1[0] = num24 * num27;
-		result.r2[0] = num25 * num27;
-		result.r3[0] = num26 * num27;
+    result[0][0] = num23 * num27;
+    result[1][0] = num24 * num27;
+    result[2][0] = num25 * num27;
+    result[3][0] = num26 * num27;
         
-		result.r0[1] = -(r01 * num17 - r02 * num18 + r03 * num19) * num27;
-		result.r1[1] = (r00 * num17 - r02 * num20 + r03 * num21) * num27;
-		result.r2[1] = -(r00 * num18 - r01 * num20 + r03 * num22) * num27;
-		result.r3[1] = (r00 * num19 - r01 * num21 + r02 * num22) * num27;
+    result[0][1] = -(m01 * num17 - m02 * num18 + m03 * num19) * num27;
+    result[1][1] = (m00 * num17 - m02 * num20 + m03 * num21) * num27;
+    result[2][1] = -(m00 * num18 - m01 * num20 + m03 * num22) * num27;
+    result[3][1] = (m00 * num19 - m01 * num21 + m02 * num22) * num27;
         
-		const float num28 = r12 * r33 - r13 * r32;
-		const float num29 = r11 * r33 - r13 * r31;
-		const float num30 = r11 * r32 - r12 * r31;
-		const float num31 = r10 * r33 - r13 * r30;
-		const float num32 = r10 * r32 - r12 * r30;
-		const float num33 = r10 * r31 - r11 * r30;
+    const float num28 = m12 * m33 - m13 * m32;
+    const float num29 = m11 * m33 - m13 * m31;
+    const float num30 = m11 * m32 - m12 * m31;
+    const float num31 = m10 * m33 - m13 * m30;
+    const float num32 = m10 * m32 - m12 * m30;
+    const float num33 = m10 * m31 - m11 * m30;
         
-		result.r0[2] = (r01 * num28 - r02 * num29 + r03 * num30) * num27;
-		result.r1[2] = -(r00 * num28 - r02 * num31 + r03 * num32) * num27;
-		result.r2[2] = (r00 * num29 - r01 * num31 + r03 * num33) * num27;
-		result.r3[2] = -(r00 * num30 - r01 * num32 + r02 * num33) * num27;
+    result[0][2] = (m01 * num28 - m02 * num29 + m03 * num30) * num27;
+    result[1][2] = -(m00 * num28 - m02 * num31 + m03 * num32) * num27;
+    result[2][2] = (m00 * num29 - m01 * num31 + m03 * num33) * num27;
+    result[3][2] = -(m00 * num30 - m01 * num32 + m02 * num33) * num27;
         
-		const float num34 = r12 * r23 - r13 * r22;
-		const float num35 = r11 * r23 - r13 * r21;
-		const float num36 = r11 * r22 - r12 * r21;
-		const float num37 = r10 * r23 - r13 * r20;
-		const float num38 = r10 * r22 - r12 * r20;
-		const float num39 = r10 * r21 - r11 * r20;
+    const float num34 = m12 * m23 - m13 * m22;
+    const float num35 = m11 * m23 - m13 * m21;
+    const float num36 = m11 * m22 - m12 * m21;
+    const float num37 = m10 * m23 - m13 * m20;
+    const float num38 = m10 * m22 - m12 * m20;
+    const float num39 = m10 * m21 - m11 * m20;
         
-		result.r0[3] = -(r01 * num34 - r02 * num35 + r03 * num36) * num27;
-		result.r1[3] = (r00 * num34 - r02 * num37 + r03 * num38) * num27;
-		result.r2[3] = -(r00 * num35 - r01 * num37 + r03 * num39) * num27;
-		result.r3[3] = (r00 * num36 - r01 * num38 + r02 * num39) * num27;
+    result[0][3] = -(m01 * num34 - m02 * num35 + m03 * num36) * num27;
+    result[1][3] = (m00 * num34 - m02 * num37 + m03 * num38) * num27;
+    result[2][3] = -(m00 * num35 - m01 * num37 + m03 * num39) * num27;
+    result[3][3] = (m00 * num36 - m01 * num38 + m02 * num39) * num27;
 
-        return result;
-    }
+    return result;
 }
 
 constexpr Matrix Matrix::Translation3D(const Vector3 &translation) noexcept
@@ -466,7 +443,7 @@ constexpr Matrix Matrix::Translation3D(const Vector3 &translation) noexcept
     );
 }
 
-constexpr Matrix Matrix::Rotation3DX(const float cos, const float sin) noexcept
+constexpr Matrix Matrix::Rotation3Dx(const float cos, const float sin) noexcept
 {
 	return Matrix(
 		1.f,    0.f,    0.f,    0.f,
@@ -476,7 +453,7 @@ constexpr Matrix Matrix::Rotation3DX(const float cos, const float sin) noexcept
 	);
 }
 
-constexpr Matrix Matrix::Rotation3DY(const float cos, const float sin) noexcept
+constexpr Matrix Matrix::Rotation3Dy(const float cos, const float sin) noexcept
 {
 	return Matrix(
 		 cos,    0.f,    sin,    0.f,
@@ -486,7 +463,7 @@ constexpr Matrix Matrix::Rotation3DY(const float cos, const float sin) noexcept
 	);
 }
 
-constexpr Matrix Matrix::Rotation3DZ(const float cos, const float sin) noexcept
+constexpr Matrix Matrix::Rotation3Dz(const float cos, const float sin) noexcept
 {
 	return Matrix(
 		cos,   -sin,    0.f,    0.f,
@@ -498,38 +475,38 @@ constexpr Matrix Matrix::Rotation3DZ(const float cos, const float sin) noexcept
 
 constexpr Matrix Matrix::Rotation3D(const Quaternion& rotation) noexcept
 {
-	float xx = SQ(rotation.X());
-	float yy = SQ(rotation.Y());
-	float zz = SQ(rotation.Z());
+	const float xx = SQ(rotation.X());
+	const float yy = SQ(rotation.Y());
+	const float zz = SQ(rotation.Z());
 
-	float xy = rotation.X() * rotation.Y();
-	float wz = rotation.Z() * rotation.W();
-	float xz = rotation.Z() * rotation.X();
-	float wy = rotation.Y() * rotation.W();
-	float yz = rotation.Y() * rotation.Z();
-	float wx = rotation.X() * rotation.W();
+	const float xy = rotation.X() * rotation.Y();
+	const float wz = rotation.Z() * rotation.W();
+	const float xz = rotation.Z() * rotation.X();
+	const float wy = rotation.Y() * rotation.W();
+	const float yz = rotation.Y() * rotation.Z();
+	const float wx = rotation.X() * rotation.W();
 
 	Matrix result;
 
-	result.r0 = Vector4(
+	result[0] = Vector4(
 		1.f - 2.f * (yy + zz),
 		2.f * (xy - wz),
 		2.f * (xz + wy),
 		0.f
 	);
-	result.r1 = Vector4(
+	result[1] = Vector4(
 		2.f * (xy + wz),
 		1.f - 2.f * (zz + xx),
 		2.f * (yz - wx),
 		0.f
 	);
-	result.r2 = Vector4(
+	result[2] = Vector4(
 		2.f * (xz - wy),
 		2.f * (yz + wx),
 		1.f - 2.f * (yy + xx),
 		0.f
 	);
-	result.r3[3] = 1.f;
+	result[3][3] = 1.f;
 
 	return result;
 }
@@ -544,19 +521,19 @@ constexpr Matrix Matrix::Scaling3D(const Vector3 &scale) noexcept
 	);
 }
 
-constexpr Matrix Matrix::Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale) noexcept { return Trs(translation, Matrix::Rotation3D(rotation), scale); }
+constexpr Matrix Matrix::Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale) noexcept { return Trs(translation, Rotation3D(rotation), scale); }
 
 constexpr void Matrix::OrthographicProjection(const float left, const float right, const float bottom, const float top, const float near, const float far, Matrix& result)
 {
-	if (near < far) [[unlikely]]
+	if (near > far) [[unlikely]]
 		throw std::invalid_argument("Near must be smaller than far.");
-	else [[likely]]
-		result = Matrix(
-			2.f / (right - left), 0.f, 0.f, -((right + left) / (right - left)),
-			0.f, 2.f / (top - bottom), 0.f, -((top + bottom) / (top - bottom)),
-			0.f, 0.f, -2.f / (far - near), -((far + near) / (far - near)),
-			0.f, 0.f, 0.f, 1.f
-		);
+	[[likely]]
+	result = Matrix(
+		2.f / (right - left), 0.f, 0.f, -((right + left) / (right - left)),
+		0.f, 2.f / (top - bottom), 0.f, -((top + bottom) / (top - bottom)),
+		0.f, 0.f, -2.f / (far - near), -((far + near) / (far - near)),
+		0.f, 0.f, 0.f, 1.f
+	);
 }
 
 constexpr const Vector4 &Matrix::operator[](const size_t row) const { return (&r0)[row]; }
@@ -583,7 +560,7 @@ constexpr Matrix operator+(const Matrix &m1, const Matrix &m2) noexcept
 	return result;
 }
 
-constexpr Matrix operator-(const Matrix &m1, const Matrix &m2) noexcept { return m1 + (-m2); }
+constexpr Matrix operator-(const Matrix &m1, const Matrix &m2) noexcept { return m1 + -m2; }
 
 constexpr Matrix operator*(const Matrix &m, const float scalar) noexcept
 {
@@ -667,7 +644,7 @@ constexpr Matrix Matrix::Trs(const Vector3& translation, const Matrix& rotation,
 	result[1][3] = translation.y;
 	result[2][3] = translation.z;
 
-	return result * rotation * Matrix::Scaling3D(scale);
+	return result * rotation * Scaling3D(scale);
 }
 
 using mat4 = Matrix;

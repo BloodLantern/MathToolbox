@@ -153,19 +153,19 @@ constexpr float Vector2i::Cross(const Vector2i a, const Vector2i b) noexcept { r
 
 constexpr float Vector2i::Determinant(const Vector2i a, const Vector2i b) noexcept { return static_cast<float>(a.x * b.y - b.x * a.y); }
 
-constexpr int Vector2i::operator[](size_t i) const
+constexpr int Vector2i::operator[](const size_t i) const
 {
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector2i subscript out of range");
 }
 
-constexpr int& Vector2i::operator[](size_t i)
+constexpr int& Vector2i::operator[](const size_t i)
 {
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
-	else [[unlikely]]
+	[[unlikely]]
 		throw std::out_of_range("Vector2i subscript out of range");
 }
 
