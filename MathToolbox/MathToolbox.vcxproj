@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\calc.hpp" />
+    <ClInclude Include="include\math.hpp" />
     <ClInclude Include="include\matrix.hpp" />
     <ClInclude Include="include\quaternion.hpp" />
     <ClInclude Include="include\vector2.hpp" />

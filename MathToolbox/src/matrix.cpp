@@ -139,7 +139,7 @@ void Matrix::View(const Vector3 &eye, const Vector3 &center, const Vector3 &up, 
 
 void Matrix::PerspectiveProjection(const float fov, const float aspectRatio, const float near, const float far, Matrix &result)
 {
-    if (near < far) [[unlikely]]
+    if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
     else [[likely]]
     {
