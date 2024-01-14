@@ -22,14 +22,25 @@ public:
 	[[nodiscard]]
 	static constexpr Vector3 Zero() noexcept;
 
+	/// <summary>
+	///	Equivalent to calling the default constructor.
+	/// </summary>
+	static constexpr void Zero(Vector3& result) noexcept;
+
 	[[nodiscard]]
 	static constexpr Vector3 UnitX() noexcept;
+
+	static constexpr void UnitX(Vector3& result) noexcept;
 
 	[[nodiscard]]
 	static constexpr Vector3 UnitY() noexcept;
 
+	static constexpr void UnitY(Vector3& result) noexcept;
+
 	[[nodiscard]]
 	static constexpr Vector3 UnitZ() noexcept;
+
+	static constexpr void UnitZ(Vector3& result) noexcept;
 
 	/// <summary>
 	/// Constructs a Vector3 with both its components set to 0.
@@ -84,6 +95,14 @@ public:
 	Vector3 Normalized() const noexcept;
 
 	/// <summary>
+	/// Returns a normalized vector.
+	/// </summary>
+	/// <param name="result">
+	/// A vector to store the result which is one with the same direction but a length of one.
+	/// </param>
+	void Normalized(Vector3& result) const noexcept;
+
+	/// <summary>
 	/// Returns a · b.
 	/// </summary>
 	[[nodiscard]]
@@ -96,6 +115,11 @@ public:
 	static constexpr Vector3 Cross(const Vector3& a, const Vector3& b) noexcept;
 
 	/// <summary>
+	/// Returns a x b.
+	/// </summary>
+	static constexpr void Cross(const Vector3& a, const Vector3& b, Vector3& result) noexcept;
+
+	/// <summary>
 	/// Lerp between two positions in a 3-dimensional space.
 	/// </summary>
 	/// <param name="value">The current position.</param>
@@ -104,6 +128,15 @@ public:
 	/// <returns>The lerp position.</returns>
 	[[nodiscard]]
 	static constexpr Vector3 Lerp(const Vector3& value, const Vector3& target, float t) noexcept;
+
+	/// <summary>
+	/// Lerp between two positions in a 3-dimensional space.
+	/// </summary>
+	/// <param name="value">The current position.</param>
+	/// <param name="target">The target position.</param>
+	/// <param name="t">The time to lerp.</param>
+	/// <returns>The lerp position.</returns>
+	static constexpr void Lerp(const Vector3& value, const Vector3& target, float t, Vector3& result) noexcept;
 
 	/// <summary>
 	///	Retrieves this vector's component at index i.
@@ -144,11 +177,19 @@ constexpr Vector3::Vector3(const float x, const float y, const float z) noexcept
 
 constexpr Vector3 Vector3::Zero() noexcept { return Vector3(); }
 
+constexpr void Vector3::Zero(Vector3& result) noexcept { result = Vector3(); }
+
 constexpr Vector3 Vector3::UnitX() noexcept { return Vector3(1.f, 0.f, 0.f); }
+
+constexpr void Vector3::UnitX(Vector3& result) noexcept { result = Vector3(1.f, 0.f, 0.f); }
 
 constexpr Vector3 Vector3::UnitY() noexcept { return Vector3(0.f, 1.f, 0.f); }
 
+constexpr void Vector3::UnitY(Vector3& result) noexcept { result = Vector3(0.f, 1.f, 0.f); }
+
 constexpr Vector3 Vector3::UnitZ() noexcept { return Vector3(0.f, 0.f, 1.f); }
+
+constexpr void Vector3::UnitZ(Vector3& result) noexcept { result = Vector3(0.f, 0.f, 1.f); }
 
 constexpr const float* Vector3::Raw() const noexcept { return &x; }
 
@@ -159,6 +200,8 @@ constexpr float Vector3::SquaredLength() const noexcept { return SQ(x) + SQ(y) +
 constexpr float Vector3::Dot(const Vector3& a, const Vector3& b) noexcept { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
 constexpr Vector3 Vector3::Cross(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
+
+constexpr void Vector3::Cross(const Vector3& a, const Vector3& b, Vector3& result) noexcept { result = Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
 
 constexpr float Vector3::operator[](const size_t i) const
 {
@@ -282,5 +325,7 @@ constexpr bool operator!=(const Vector3 a, const Vector3 b) noexcept { return !(
 std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
 
 constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, const float t) noexcept { return value + (target - value) * t; }
+
+constexpr void Vector3::Lerp(const Vector3& value, const Vector3& target, float t, Vector3& result) noexcept { result = value + (target - value) * t; }
 
 using vec3 = Vector3;

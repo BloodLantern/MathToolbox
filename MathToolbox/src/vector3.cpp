@@ -23,6 +23,20 @@ Vector3 Vector3::Normalized() const noexcept
 	return Vector3(x * invLength, y * invLength, z * invLength);
 }
 
+void Vector3::Normalized(Vector3& result) const noexcept
+{
+	const float length = Length();
+	if (calc::IsZero(length))
+	{
+		result = Zero();
+		return;
+	}
+
+	__assume(length != 0.f);
+	const float invLength = 1.f / length;
+	result = Vector3(x * invLength, y * invLength, z * invLength);
+}
+
 Vector3::operator Vector2() const noexcept
 {
 	return Vector2(x, y);

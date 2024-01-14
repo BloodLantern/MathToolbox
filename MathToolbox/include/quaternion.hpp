@@ -16,24 +16,42 @@ public:
 	/// </summary>
 	[[nodiscard]]
 	static constexpr Quaternion Zero() noexcept;
+
+	/// <summary>
+	///	Equivalent to calling the default constructor.
+	/// </summary>
+	static constexpr void Zero(Quaternion& result) noexcept;
 	
 	[[nodiscard]]
 	static constexpr Quaternion UnitX() noexcept;
 	
+	static constexpr void UnitX(Quaternion& result) noexcept;
+	
 	[[nodiscard]]
 	static constexpr Quaternion UnitY() noexcept;
+	
+	static constexpr void UnitY(Quaternion& result) noexcept;
 	
 	[[nodiscard]]
 	static constexpr Quaternion UnitZ() noexcept;
 	
+	static constexpr void UnitZ(Quaternion& result) noexcept;
+	
 	[[nodiscard]]
 	static constexpr Quaternion UnitW() noexcept;
+	
+	static constexpr void UnitW(Quaternion& result) noexcept;
 
 	/// <summary>
 	///	Equivalent to calling <code>Quaternion::UnitW()</code>.
 	/// </summary>
 	[[nodiscard]]
 	static constexpr Quaternion Identity() noexcept;
+
+	/// <summary>
+	///	Equivalent to calling <code>Quaternion::UnitW()</code>.
+	/// </summary>
+	static constexpr void Identity(Quaternion& result) noexcept;
 
 	constexpr Quaternion() = default;
 	
@@ -85,6 +103,8 @@ public:
 
 	[[nodiscard]]
 	constexpr Quaternion Conjugate() const noexcept;
+
+	constexpr void Conjugate(Quaternion& result) const noexcept;
 	
 	[[nodiscard]]
 	float Length() const noexcept;
@@ -94,15 +114,23 @@ public:
 	
 	[[nodiscard]]
 	constexpr Quaternion Invert() const noexcept;
+	
+	constexpr void Invert(Quaternion& result) const noexcept;
 
 	[[nodiscard]]
 	static Quaternion FromAxisAngle(const Vector3& axis, float angle) noexcept;
+
+	static void FromAxisAngle(const Vector3& axis, float angle, Quaternion& result) noexcept;
 	
 	[[nodiscard]]
 	static Quaternion FromEuler(const Vector3& rotation) noexcept;
 	
+	static void FromEuler(const Vector3& rotation, Quaternion& result) noexcept;
+	
 	[[nodiscard]]
 	static Quaternion FromRotationMatrix(const Matrix& rotation) noexcept;
+	
+	static void FromRotationMatrix(const Matrix& rotation, Quaternion& result) noexcept;
 	
 	[[nodiscard]]
 	static constexpr float Dot(const Quaternion& a, const Quaternion& b) noexcept;
@@ -110,11 +138,17 @@ public:
 	[[nodiscard]]
 	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float t) noexcept;
 	
+	static void Lerp(const Quaternion& a, const Quaternion& b, float t, Quaternion& result) noexcept;
+	
 	[[nodiscard]]
 	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float t) noexcept;
 	
+	static void Slerp(const Quaternion& a, const Quaternion& b, float t, Quaternion& result) noexcept;
+	
 	[[nodiscard]]
 	static constexpr Vector3 Rotate(const Vector3& point, const Quaternion& rotation) noexcept;
+	
+	static constexpr void Rotate(const Vector3& point, const Quaternion& rotation, Vector3& result) noexcept;
 
 	/// <summary>
 	///	Retrieves this vector's component at index i.
@@ -159,15 +193,27 @@ constexpr Quaternion::Quaternion(const float x, const float y, const float z, co
 
 constexpr Quaternion Quaternion::Zero() noexcept { return Quaternion(); }
 
+constexpr void Quaternion::Zero(Quaternion& result) noexcept { result = Quaternion(); }
+
 constexpr Quaternion Quaternion::UnitX() noexcept { return Quaternion(1.f, 0.f, 0.f, 0.f); }
+
+constexpr void Quaternion::UnitX(Quaternion& result) noexcept { result = Quaternion(1.f, 0.f, 0.f, 0.f); }
 
 constexpr Quaternion Quaternion::UnitY() noexcept { return Quaternion(0.f, 1.f, 0.f, 0.f); }
 
+constexpr void Quaternion::UnitY(Quaternion& result) noexcept { result = Quaternion(0.f, 1.f, 0.f, 0.f); }
+
 constexpr Quaternion Quaternion::UnitZ() noexcept { return Quaternion(0.f, 0.f, 1.f, 0.f); }
+
+constexpr void Quaternion::UnitZ(Quaternion& result) noexcept { result = Quaternion(0.f, 0.f, 1.f, 0.f); }
 
 constexpr Quaternion Quaternion::UnitW() noexcept { return Quaternion(0.f, 0.f, 0.f, 1.f); }
 
+constexpr void Quaternion::UnitW(Quaternion& result) noexcept { result = Quaternion(0.f, 0.f, 0.f, 1.f); }
+
 constexpr Quaternion Quaternion::Identity() noexcept { return UnitW(); }
+
+constexpr void Quaternion::Identity(Quaternion& result) noexcept { result = UnitW(); }
 
 constexpr const float* Quaternion::Raw() const noexcept { return &imaginary.x; }
 
@@ -190,6 +236,8 @@ constexpr float Quaternion::Z() const noexcept { return imaginary.z; }
 constexpr float Quaternion::W() const noexcept { return real; }
 
 constexpr Quaternion Quaternion::Conjugate() const noexcept { return Quaternion(-imaginary, real); }
+
+constexpr void Quaternion::Conjugate(Quaternion& result) const noexcept { result = Quaternion(-imaginary, real); }
 
 constexpr float Quaternion::SquaredLength() const noexcept { return SQ(imaginary.x) + SQ(imaginary.y) + SQ(imaginary.z) + SQ(real); }
 
@@ -272,14 +320,26 @@ std::ostream& operator<<(std::ostream& out, const Quaternion& q);
 
 constexpr Quaternion Quaternion::Invert() const noexcept
 {
+	Quaternion result;
+	Invert(result);
+	return result;
+}
+
+constexpr void Quaternion::Invert(Quaternion& result) const noexcept
+{
 	const float sqLength = SquaredLength();
 	
-	if (sqLength > 0.f) 
-		return Conjugate() / sqLength;
+	if (calc::IsZero(sqLength))
+	{
+		result = Zero();
+		return;
+	}
 	
-	return Zero();
+	result = Conjugate() / sqLength;
 }
 
 constexpr Vector3 Quaternion::Rotate(const Vector3& point, const Quaternion& rotation) noexcept { return (rotation * point * rotation.Conjugate()).imaginary; }
+
+constexpr void Quaternion::Rotate(const Vector3& point, const Quaternion& rotation, Vector3& result) noexcept { result = (rotation * point * rotation.Conjugate()).imaginary; }
 
 using quat = Quaternion;

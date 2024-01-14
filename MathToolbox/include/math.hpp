@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+// A convenient way to include all math-related headers, e.g. include all headers of this library.
+
 #include "calc.hpp"
 
 #include "matrix.hpp"

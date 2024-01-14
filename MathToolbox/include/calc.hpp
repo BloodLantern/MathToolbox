@@ -15,7 +15,7 @@ class Vector3;
 namespace calc
 {
 	/// <summary>
-    /// The value under which a number is considered zero
+    /// The value under which a number is considered to be zero.
 	/// </summary>
 	constexpr float Zero = ZERO;
 	
@@ -67,21 +67,21 @@ namespace calc
 	extern constexpr float YoYo(float value) noexcept;
 
 	/// <summary>
-	/// Checks if a value is less than what is considered zero, e.g. if its absolute
+	/// Checks if a value is less than what is considered to be zero, e.g. if its absolute
 	/// value is smaller than <code>calc::Zero</code>.
 	/// </summary>
 	/// <param name="value">The value to check.</param>
-	/// <returns>Whether the value is considered zero.</returns>
+	/// <returns>Whether the value is considered to be zero.</returns>
 	[[nodiscard]]
 	extern constexpr bool IsZero(float value) noexcept;
 
 	/// <summary>
-	/// Checks if a value is less than what is considered zero, e.g. if its absolute
+	/// Checks if a value is less than what is considered to be zero, e.g. if its absolute
 	/// value is smaller than <code>calc::Zero</code>.
 	/// </summary>
 	/// <param name="value">The value to check.</param>
 	/// <param name="zero">The value under which a number is considered to be zero.</param>
-	/// <returns>Whether the value is considered zero.</returns>
+	/// <returns>Whether the value is considered to be zero.</returns>
 	[[nodiscard]]
 	extern constexpr bool IsZero(float value, float zero) noexcept;
 
