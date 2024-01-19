@@ -105,6 +105,11 @@ public:
 	constexpr Quaternion Conjugate() const noexcept;
 
 	constexpr void Conjugate(Quaternion& result) const noexcept;
+
+	[[nodiscard]]
+	constexpr Quaternion Normalized() const noexcept;
+
+	constexpr void Normalized(Quaternion& result) const noexcept;
 	
 	[[nodiscard]]
 	float Length() const noexcept;
@@ -238,6 +243,18 @@ constexpr float Quaternion::W() const noexcept { return real; }
 constexpr Quaternion Quaternion::Conjugate() const noexcept { return Quaternion(-imaginary, real); }
 
 constexpr void Quaternion::Conjugate(Quaternion& result) const noexcept { result = Quaternion(-imaginary, real); }
+
+constexpr Quaternion Quaternion::Normalized() const noexcept
+{
+	const float length = Length();
+	return Quaternion(imaginary / length, real / length);
+}
+
+constexpr void Quaternion::Normalized(Quaternion& result) const noexcept
+{
+	const float length = Length();
+	result = Quaternion(imaginary / length, real / length);
+}
 
 constexpr float Quaternion::SquaredLength() const noexcept { return SQ(imaginary.x) + SQ(imaginary.y) + SQ(imaginary.z) + SQ(real); }
 
