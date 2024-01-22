@@ -25,6 +25,16 @@ namespace calc
 	constexpr float Pi = std::numbers::pi_v<float>;
 	
 	/// <summary>
+	///	Shorthand for writing <code>calc::Pi / 2.f</code>.
+	/// </summary>
+	constexpr float PiOver2 = Pi / 2.f;
+	
+	/// <summary>
+	///	Shorthand for writing <code>calc::Pi / 2.f</code>.
+	/// </summary>
+	constexpr float PiOver4 = Pi / 4.f;
+	
+	/// <summary>
 	///	Value used to convert from degrees to radians.
 	/// </summary>
 	constexpr float Deg2Rad = Pi / 180.f;

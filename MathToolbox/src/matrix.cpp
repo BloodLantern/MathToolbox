@@ -5,30 +5,18 @@
 
 bool Matrix::IsDiagonal() const noexcept
 {
-    for (size_t i = 0; i < 4; i++)
-    {
-        for (size_t j = 0; j < 4; j++)
-        {
-            if (i != j && !calc::IsZero((*this)[i][j]))
-                return false;
-        }
-    }
-    
-    return true;
+    return calc::IsZero(m01) && calc::IsZero(m02) && calc::IsZero(m03)
+        && calc::IsZero(m10) && calc::IsZero(m12) && calc::IsZero(m13)
+        && calc::IsZero(m20) && calc::IsZero(m21) && calc::IsZero(m23)
+        && calc::IsZero(m30) && calc::IsZero(m31) && calc::IsZero(m32);
 }
 
 bool Matrix::IsIdentity() const noexcept
 {
     if (!IsDiagonal())
         return false;
-
-    for (size_t i = 0; i < 4; i++)
-    {
-        if (!calc::Equals((*this)[i][i], 1.f))
-            return false;
-    }
     
-    return true;
+    return calc::Equals(m00, 1.f) && calc::Equals(m11, 1.f) && calc::Equals(m22, 1.f) && calc::Equals(m33, 1.f);
 }
 
 bool Matrix::IsNull() const noexcept
@@ -36,41 +24,21 @@ bool Matrix::IsNull() const noexcept
     if (!IsDiagonal())
         return false;
 
-    for (size_t i = 0; i < 4; i++)
-    {
-        if (!calc::IsZero((*this)[i][i]))
-            return false;
-    }
-    
-    return true;
+    return calc::IsZero(m00) && calc::IsZero(m11) && calc::IsZero(m22) && calc::IsZero(m33);
 }
 
 bool Matrix::IsSymmetric() const noexcept
 {
-    for (size_t i = 0; i < 4; i++)
-    {
-        for (size_t j = i + 1; j < 4; j++)
-        {
-            if (!calc::Equals((*this)[i][j], (*this)[j][i]))
-                return false;
-        }
-    }
-    
-    return true;
+    return calc::Equals(m01, m10) && calc::Equals(m02, m20) && calc::Equals(m03, m30)
+        && calc::Equals(m12, m21) && calc::Equals(m13, m31)
+        && calc::Equals(m23, m32);
 }
 
 bool Matrix::IsAntisymmetric() const noexcept
 {
-    for (size_t i = 0; i < 4; i++)
-    {
-        for (size_t j = 0; j < 4; j++)
-        {
-            if (!calc::Equals((*this)[i][j], -(*this)[j][i]))
-                return false;
-        }
-    }
-    
-    return true;
+    return calc::Equals(m01, -m10) && calc::Equals(m02, -m20) && calc::Equals(m03, -m30)
+        && calc::Equals(m12, -m21) && calc::Equals(m13, -m31)
+        && calc::Equals(m23, -m32);
 }
 
 Matrix Matrix::Rotation3D(const float angle, const Vector3& axis) noexcept
@@ -136,9 +104,9 @@ Matrix Matrix::Rotation3D(const float cos, const float sin, const Vector3& axis)
     Vector3 v = axis.Normalized();
 
     return Matrix(
-        SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin, 0.f,
-        v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin, 0.f,
-        v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos, 0.f,
+        SQ(v.x) * c2 + cos, v.x * v.y * c2 - v.z * sin, v.x * v.z * c2 - v.y * sin, 0.f,
+        v.y * v.x * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.y * v.z * c2 + v.x * sin, 0.f,
+        v.z * v.x * c2 + v.y * sin, v.z * v.y * c2 - v.x * sin, SQ(v.z) * c2 + cos, 0.f,
         0.f, 0.f, 0.f,                                                              1.f
     );
 }
@@ -149,9 +117,9 @@ void Matrix::Rotation3D(float cos, float sin, const Vector3& axis, Matrix& resul
     Vector3 v = axis.Normalized();
 
     result = Matrix(
-        SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin, 0.f,
-        v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin, 0.f,
-        v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos, 0.f,
+        SQ(v.x) * c2 + cos, v.x * v.y * c2 - v.z * sin, v.x * v.z * c2 - v.y * sin, 0.f,
+        v.y * v.x * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.y * v.z * c2 + v.x * sin, 0.f,
+        v.z * v.x * c2 + v.y * sin, v.z * v.y * c2 - v.x * sin, SQ(v.z) * c2 + cos, 0.f,
         0.f, 0.f, 0.f,                                                              1.f
     );
 }
@@ -183,9 +151,9 @@ Matrix Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up
     const Vector3 cameraUp = Vector3::Cross(cameraForward, cameraRight);
     
     return Matrix(
-        cameraRight.x, cameraRight.y, cameraRight.z, 0.f,
-        cameraUp.x, cameraUp.y, cameraUp.z, 0.f,
-        cameraForward.x, cameraForward.y, cameraForward.z, 0.f,
+        cameraRight.x, cameraUp.x, cameraForward.x, 0.f,
+        cameraRight.y, cameraUp.y, cameraForward.y, 0.f,
+        cameraRight.z, cameraUp.z, cameraForward.z, 0.f,
         0.f, 0.f, 0.f, 1.f
     ) * Translation3D(-eye);
 }
@@ -197,9 +165,9 @@ void Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up, 
     const Vector3 cameraUp = Vector3::Cross(cameraForward, cameraRight);
     
     result = Matrix(
-        cameraRight.x, cameraRight.y, cameraRight.z, 0.f,
-        cameraUp.x, cameraUp.y, cameraUp.z, 0.f,
-        cameraForward.x, cameraForward.y, cameraForward.z, 0.f,
+        cameraRight.x, cameraUp.x, cameraForward.x, 0.f,
+        cameraRight.y, cameraUp.y, cameraForward.y, 0.f,
+        cameraRight.z, cameraUp.z, cameraForward.z, 0.f,
         0.f, 0.f, 0.f, 1.f
     ) * Translation3D(-eye);
 }
@@ -214,8 +182,8 @@ Matrix Matrix::PerspectiveProjection(float fov, float aspectRatio, float near, f
     return Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
         0.f, 1.f / tanHalfFov, 0.f, 0.f,
-        0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
-        0.f, 0.f, 1.f, 0.f
+        0.f, 0.f, (-near - far) / range, 1.f,
+        0.f, 0.f, 2.f * far * near / range, 0.f
     );
 }
 
@@ -229,22 +197,22 @@ void Matrix::PerspectiveProjection(const float fov, const float aspectRatio, con
     result = Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
         0.f, 1.f / tanHalfFov, 0.f, 0.f,
-        0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
-        0.f, 0.f, 1.f, 0.f
+        0.f, 0.f, (-near - far) / range, 1.f,
+        0.f, 0.f, 2.f * far * near / range, 0.f
     );
 }
 
 Matrix::operator Vector4() const noexcept
 {
-    return Vector4(r0.x, r1.x, r2.x, r3.x);
+    return Vector4(m00, m01, m02, m03);
 }
 
 bool operator==(Matrix a, Matrix b)
 {
-    return a[0] == b[0]
-        && a[1] == b[1]
-        && a[2] == b[2]
-        && a[3] == b[3];
+    return calc::Equals(a.m00, b.m00) && calc::Equals(a.m01, b.m01) && calc::Equals(a.m02, b.m02) && calc::Equals(a.m03, b.m03)
+        && calc::Equals(a.m10, b.m10) && calc::Equals(a.m11, b.m11) && calc::Equals(a.m12, b.m12) && calc::Equals(a.m13, b.m13)
+        && calc::Equals(a.m20, b.m20) && calc::Equals(a.m21, b.m21) && calc::Equals(a.m22, b.m22) && calc::Equals(a.m23, b.m23)
+        && calc::Equals(a.m30, b.m30) && calc::Equals(a.m31, b.m31) && calc::Equals(a.m32, b.m32) && calc::Equals(a.m33, b.m33);
 }
 
 bool operator!=(Matrix a, Matrix b)
@@ -254,5 +222,8 @@ bool operator!=(Matrix a, Matrix b)
 
 std::ostream &operator<<(std::ostream &out, const Matrix &m)
 {
-    return out << '{' << m[0] << m[1] << m[2] << m[3] << '}';
+    return out << "{ {" << m.m00 << m.m01 << m.m02 << m.m03 << "} {"
+                        << m.m10 << m.m11 << m.m12 << m.m13 << "} {"
+                        << m.m20 << m.m21 << m.m22 << m.m23 << "} {"
+                        << m.m30 << m.m31 << m.m32 << m.m33 << "} }";
 }

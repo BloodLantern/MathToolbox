@@ -3,6 +3,18 @@
 #include "calc.hpp"
 #include "matrix.hpp"
 
+Quaternion Quaternion::Normalized() const noexcept
+{
+	const float length = Length();
+	return Quaternion(imaginary / length, real / length);
+}
+
+void Quaternion::Normalized(Quaternion& result) const noexcept
+{
+	const float length = Length();
+	result = Quaternion(imaginary / length, real / length);
+}
+
 float Quaternion::Length() const noexcept
 {
 	return std::sqrt(SquaredLength());
@@ -17,13 +29,14 @@ Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float angle) noe
 
 void Quaternion::FromAxisAngle(const Vector3& axis, float angle, Quaternion& result) noexcept
 {
+	const vec3 normalizedAxis = axis.Normalized();
 	const float halfAngle = angle * 0.5f;
 	const float s = std::sin(halfAngle);
 	const float c = std::cos(halfAngle);
 
-	result.X() = axis.x * s;
-	result.Y() = axis.y * s;
-	result.Z() = axis.z * s;
+	result.X() = normalizedAxis.x * s;
+	result.Y() = normalizedAxis.y * s;
+	result.Z() = normalizedAxis.z * s;
 	result.W() = c;
 }
 
@@ -58,45 +71,45 @@ Quaternion Quaternion::FromRotationMatrix(const Matrix& rotation) noexcept
 
 void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion& result) noexcept
 {
-	const float trace = rotation.Trace() - rotation[3][3];
+	const float trace = rotation.Trace() - rotation.m33;
 
 	if (trace > 0.f)
 	{
 		float s = std::sqrt(trace + 1.f);
 		result.W() = s * 0.5f;
 		s = 0.5f / s;
-		result.X() = (rotation[2][1] - rotation[1][2]) * s;
-		result.Y() = (rotation[0][2] - rotation[2][0]) * s;
-		result.Z() = (rotation[1][0] - rotation[0][1]) * s;
+		result.X() = (rotation.m12 - rotation.m21) * s;
+		result.Y() = (rotation.m20 - rotation.m02) * s;
+		result.Z() = (rotation.m01 - rotation.m10) * s;
 	}
 	else
 	{
-		if (rotation[0][0] >= rotation[1][1] && rotation[0][0] >= rotation[2][2])
+		if (rotation.m00 >= rotation.m11 && rotation.m00 >= rotation.m22)
 		{
-			const float s = std::sqrt(1.f + rotation[0][0] - rotation[1][1] - rotation[2][2]);
+			const float s = std::sqrt(1.f + rotation.m00 - rotation.m11 - rotation.m22);
 			const float invS = 0.5f / s;
 			result.X() = 0.5f * s;
-			result.Y() = (rotation[1][0] + rotation[0][1]) * invS;
-			result.Z() = (rotation[2][0] + rotation[0][2]) * invS;
-			result.W() = (rotation[2][1] - rotation[1][2]) * invS;
+			result.Y() = (rotation.m01 + rotation.m10) * invS;
+			result.Z() = (rotation.m02 + rotation.m20) * invS;
+			result.W() = (rotation.m12 - rotation.m21) * invS;
 		}
-		else if (rotation[1][1] > rotation[2][2])
+		else if (rotation.m11 > rotation.m22)
 		{
-			const float s = std::sqrt(1.f + rotation[1][1] - rotation[0][0] - rotation[2][2]);
+			const float s = std::sqrt(1.f + rotation.m11 - rotation.m00 - rotation.m22);
 			const float invS = 0.5f / s;
-			result.X() = (rotation[0][1] + rotation[1][0]) * invS;
+			result.X() = (rotation.m10 + rotation.m01) * invS;
 			result.Y() = 0.5f * s;
-			result.Z() = (rotation[1][2] + rotation[2][1]) * invS;
-			result.W() = (rotation[0][2] - rotation[2][0]) * invS;
+			result.Z() = (rotation.m21 + rotation.m12) * invS;
+			result.W() = (rotation.m20 - rotation.m02) * invS;
 		}
 		else
 		{
-			const float s = std::sqrt(1.f + rotation[2][2] - rotation[0][0] - rotation[1][1]);
+			const float s = std::sqrt(1.f + rotation.m22 - rotation.m00 - rotation.m11);
 			const float invS = 0.5f / s;
-			result.X() = (rotation[0][2] + rotation[2][0]) * invS;
-			result.Y() = (rotation[1][2] + rotation[2][1]) * invS;
+			result.X() = (rotation.m20 + rotation.m02) * invS;
+			result.Y() = (rotation.m21 + rotation.m12) * invS;
 			result.Z() = 0.5f * s;
-			result.W() = (rotation[1][0] - rotation[0][1]) * invS;
+			result.W() = (rotation.m01 - rotation.m10) * invS;
 		}
 	}
 }
