@@ -106,7 +106,6 @@ public:
 	[[nodiscard]]
 	constexpr int operator[](size_t i) const;
 	
-	
 	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>

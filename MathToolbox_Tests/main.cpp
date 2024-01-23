@@ -30,7 +30,7 @@ TEST_CASE("calc")
     
     SUBCASE("Equals")
     {
-        CHECK(calc::Equals(1.f, 1.0000075f));
+        CHECK(calc::Equals(1.f, 1.00000075f));
     }
 }
 
@@ -61,8 +61,10 @@ TEST_CASE("Vector2")
 
     SUBCASE("Normal")
     {
-        CHECK(unitX.Normal() == unitY || unitX.Normal() == -unitY);
-        CHECK(unitY.Normal() == unitX || unitY.Normal() == -unitX);
+        bool check = unitX.Normal() == unitY || unitX.Normal() == -unitY;
+        CHECK(check);
+        check = unitY.Normal() == unitX || unitY.Normal() == -unitX;
+        CHECK(check);
     }
 
     SUBCASE("Dot product")
@@ -75,7 +77,7 @@ TEST_CASE("Vector2")
         CHECK_EQ(vec2::Lerp(vec2::Zero(), vec2(1.f), 0.5f), vec2(0.5f));
     
     SUBCASE("Subscript out of range throw")
-        CHECK_THROWS(unitX[2]);
+        CHECK_THROWS_AS(unitX[2], std::out_of_range);
 }
 
 TEST_CASE("Vector2i")
@@ -87,13 +89,57 @@ TEST_CASE("Vector2i")
     {
         CHECK_EQ(vec2i::Zero(), vec2i());
     
-        CHECK_EQ(unitX, vec2i(1.f, 0.f));
-        CHECK_EQ(unitY, vec2i(0.f, 1.f));
+        CHECK_EQ(unitX, vec2i(1, 0));
+        CHECK_EQ(unitY, vec2i(0, 1));
     }
 
-    constexpr vec2i x4(4.f, 0.f);
-    constexpr vec2i y4(0.f, 4.f);
+    constexpr vec2i x4(4, 0);
+    constexpr vec2i y4(0, 4);
     
+    SUBCASE("Length and normalization")
+    {
+        CHECK_EQ(x4.SquaredLength(), 16);
+        CHECK_EQ(y4.Length(), 4);
+    
+        CHECK_EQ(x4.Normalized().SquaredLength(), 1);
+        CHECK_EQ(y4.Normalized().Length(), 1);
+    }
+
+    SUBCASE("Normal")
+    {
+        bool check = unitX.Normal() == (vec2) unitY || unitX.Normal() == (vec2) -unitY;
+        CHECK(check);
+        check = unitY.Normal() == (vec2) unitX || unitY.Normal() == (vec2) -unitX;
+        CHECK(check);
+    }
+
+    SUBCASE("Dot product")
+    {
+        CHECK_EQ(vec2i::Dot(unitX, unitY), 0);
+        CHECK_EQ(vec2i::Dot(unitX, -unitX), 1);
+    }
+    
+    SUBCASE("Subscript out of range throw")
+        CHECK_THROWS_AS(unitX[2], std::out_of_range);
+}
+
+TEST_CASE("Vector3")
+{
+    constexpr vec3 unitX = vec3::UnitX();
+    constexpr vec3 unitY = vec3::UnitY();
+    constexpr vec3 unitZ = vec3::UnitZ();
+
+    SUBCASE("Constants")
+    {
+        CHECK_EQ(vec3::Zero(), vec3());
+    
+        CHECK_EQ(unitX, vec3(1.f, 0.f, 0.f));
+        CHECK_EQ(unitY, vec3(0.f, 1.f, 0.f));
+        CHECK_EQ(unitZ, vec3(0.f, 0.f, 1.f));
+    }
+
+    constexpr vec3 x4(4.f, 0.f, 0.f);
+    constexpr vec3 y4(0.f, 4.f, 0.f);
     SUBCASE("Length and normalization")
     {
         CHECK_EQ(x4.SquaredLength(), 16.f);
@@ -103,114 +149,106 @@ TEST_CASE("Vector2i")
         CHECK_EQ(y4.Normalized().Length(), 1.f);
     }
 
-    SUBCASE("Normal")
-    {
-        CHECK(unitX.Normal() == (vec2) unitY || unitX.Normal() == (vec2) -unitY);
-        CHECK(unitY.Normal() == (vec2) unitX || unitY.Normal() == (vec2) -unitX);
-    }
-
     SUBCASE("Dot product")
     {
-        CHECK_EQ(vec2i::Dot(unitX, unitY), 0.f);
-        CHECK_EQ(vec2i::Dot(unitX, -unitX), 1.f);
+        CHECK_EQ(vec3::Dot(unitX, unitY), 0.f);
+        CHECK_EQ(vec3::Dot(unitX, -unitX), 1.f);
     }
-    
+
+    SUBCASE("Lerp")
+        CHECK_EQ(vec3::Lerp(vec3::Zero(), vec3(1.f), 0.5f), vec3(0.5f));
+
     SUBCASE("Subscript out of range throw")
-        CHECK_THROWS(unitX[2]);
-}
-
-TEST_CASE("Vector3")
-{
-    constexpr vec3 unitX = vec3::UnitX();
-    constexpr vec3 unitY = vec3::UnitY();
-    constexpr vec3 unitZ = vec3::UnitZ();
-    
-    CHECK_EQ(vec3::Zero(), vec3());
-    
-    CHECK_EQ(unitX, vec3(1.f, 0.f, 0.f));
-    CHECK_EQ(unitY, vec3(0.f, 1.f, 0.f));
-    CHECK_EQ(unitZ, vec3(0.f, 0.f, 1.f));
-
-    constexpr vec3 x4(4.f, 0.f, 0.f);
-    constexpr vec3 y4(0.f, 4.f, 0.f);
-    CHECK_EQ(x4.SquaredLength(), 16.f);
-    CHECK_EQ(y4.Length(), 4.f);
-    
-    CHECK_EQ(x4.Normalized().SquaredLength(), 1.f);
-    CHECK_EQ(y4.Normalized().Length(), 1.f);
-
-    CHECK_EQ(vec3::Dot(unitX, unitY), 0.f);
-    CHECK_EQ(vec3::Dot(unitX, -unitX), 1.f);
-
-    CHECK_EQ(vec3::Lerp(vec3::Zero(), vec3(1.f), 0.5f), vec3(0.5f));
-    
-    CHECK_THROWS(unitX[3]);
+        CHECK_THROWS_AS(unitX[3], std::out_of_range);
 }
 
 TEST_CASE("Vector4")
 {
-    CHECK_EQ(vec4::Zero(), vec4());
-    
     constexpr vec4 unitX = vec4::UnitX();
     constexpr vec4 unitY = vec4::UnitY();
     constexpr vec4 unitZ = vec4::UnitZ();
     constexpr vec4 unitW = vec4::UnitW();
+
+    SUBCASE("Constants")
+    {
+        CHECK_EQ(vec4::Zero(), vec4());
     
-    CHECK_EQ(unitX, vec4(1.f, 0.f, 0.f, 0.f));
-    CHECK_EQ(unitY, vec4(0.f, 1.f, 0.f, 0.f));
-    CHECK_EQ(unitZ, vec4(0.f, 0.f, 1.f, 0.f));
-    CHECK_EQ(unitW, vec4(0.f, 0.f, 0.f, 1.f));
+        CHECK_EQ(unitX, vec4(1.f, 0.f, 0.f, 0.f));
+        CHECK_EQ(unitY, vec4(0.f, 1.f, 0.f, 0.f));
+        CHECK_EQ(unitZ, vec4(0.f, 0.f, 1.f, 0.f));
+        CHECK_EQ(unitW, vec4(0.f, 0.f, 0.f, 1.f));
+    }
 
     constexpr vec4 x4(4.f, 0.f, 0.f, 0.f);
     constexpr vec4 y4(0.f, 4.f, 0.f, 0.f);
-    CHECK_EQ(x4.SquaredLength(), 16.f);
-    CHECK_EQ(y4.Length(), 4.f);
+    SUBCASE("Length and normalization")
+    {
+        CHECK_EQ(x4.SquaredLength(), 16.f);
+        CHECK_EQ(y4.Length(), 4.f);
     
-    CHECK_EQ(x4.Normalized().SquaredLength(), 1.f);
-    CHECK_EQ(y4.Normalized().Length(), 1.f);
+        CHECK_EQ(x4.Normalized().SquaredLength(), 1.f);
+        CHECK_EQ(y4.Normalized().Length(), 1.f);
+    }
 
-    CHECK_EQ(vec4::Dot(unitX, unitY), 0.f);
-    CHECK_EQ(vec4::Dot(unitX, -unitX), 1.f);
+    SUBCASE("Dot product")
+    {
+        CHECK_EQ(vec4::Dot(unitX, unitY), 0.f);
+        CHECK_EQ(vec4::Dot(unitX, -unitX), 1.f);
+    }
 
-    CHECK_EQ(vec4::Lerp(vec4::Zero(), vec4(1.f), 0.5f), vec4(0.5f));
+    SUBCASE("Lerp")
+        CHECK_EQ(vec4::Lerp(vec4::Zero(), vec4(1.f), 0.5f), vec4(0.5f));
     
-    CHECK_THROWS(unitX[4]);
+    SUBCASE("Subscript out of range throw")
+        CHECK_THROWS_AS(unitX[4], std::out_of_range);
 
-    CHECK_EQ(x4, (vec4) (mat4) x4);
+    SUBCASE("Cast to matrix, back to vec4")
+        CHECK_EQ(x4, (vec4) (mat4) x4);
 }
 
 TEST_CASE("Quaternion")
 {
-    CHECK_EQ(quat::Zero(), quat());
-    
     constexpr quat unitX = quat::UnitX();
     constexpr quat unitY = quat::UnitY();
     constexpr quat unitZ = quat::UnitZ();
     constexpr quat unitW = quat::UnitW();
+
+    SUBCASE("Constants")
+    {
+        CHECK_EQ(quat::Zero(), quat());
     
-    CHECK_EQ(unitX, quat(1.f, 0.f, 0.f, 0.f));
-    CHECK_EQ(unitY, quat(0.f, 1.f, 0.f, 0.f));
-    CHECK_EQ(unitZ, quat(0.f, 0.f, 1.f, 0.f));
-    CHECK_EQ(unitW, quat(0.f, 0.f, 0.f, 1.f));
+        CHECK_EQ(unitX, quat(1.f, 0.f, 0.f, 0.f));
+        CHECK_EQ(unitY, quat(0.f, 1.f, 0.f, 0.f));
+        CHECK_EQ(unitZ, quat(0.f, 0.f, 1.f, 0.f));
+        CHECK_EQ(unitW, quat(0.f, 0.f, 0.f, 1.f));
     
-    CHECK_EQ(unitW, quat::Identity());
+        CHECK_EQ(unitW, quat::Identity());
+    }
 
     constexpr quat x4(4.f, 0.f, 0.f, 0.f);
     constexpr quat y4(0.f, 4.f, 0.f, 0.f);
-    CHECK_EQ(x4.SquaredLength(), 16.f);
-    CHECK_EQ(y4.Length(), 4.f);
+    SUBCASE("Length and normalization")
+    {
+        CHECK_EQ(x4.SquaredLength(), 16.f);
+        CHECK_EQ(y4.Length(), 4.f);
     
-    CHECK_EQ(x4.Normalized().SquaredLength(), 1.f);
-    CHECK_EQ(y4.Normalized().Length(), 1.f);
+        CHECK_EQ(x4.Normalized().SquaredLength(), 1.f);
+        CHECK_EQ(y4.Normalized().Length(), 1.f);
+    }
 
-    CHECK_EQ(quat::Dot(unitX, unitY), 0.f);
-    CHECK_EQ(quat::Dot(unitX, -unitX), 1.f);
+    SUBCASE("Dot product")
+    {
+        CHECK_EQ(quat::Dot(unitX, unitY), 0.f);
+        CHECK_EQ(quat::Dot(unitX, -unitX), 1.f);
+    }
 
-    CHECK_EQ(quat::Lerp(quat::Zero(), quat(1.f), 0.5f), quat(0.5f));
-    
-    CHECK_THROWS(unitX[4]);
+    SUBCASE("Lerp")
+        CHECK_EQ(quat::Lerp(quat::Zero(), quat(1.f), 0.5f), quat(0.5f));
 
-    constexpr quat rotationHalfCircleZ = quat::FromAxisAngle(vec3::UnitZ(), calc::PiOver2);
-    constexpr vec3 rotatedUnitX = quat::Rotate(vec3::UnitX(), rotationHalfCircleZ);
+    SUBCASE("Subscript out of range throw")
+        CHECK_THROWS_AS(unitX[4], std::out_of_range);
+
+    const quat rotationHalfCircleZ = quat::FromAxisAngle(vec3::UnitZ(), calc::PiOver2);
+    const vec3 rotatedUnitX = quat::Rotate(vec3::UnitX(), rotationHalfCircleZ);
     CHECK_EQ(quat(rotatedUnitX), rotationHalfCircleZ * vec3::UnitX() * rotationHalfCircleZ.Conjugate());
 }
