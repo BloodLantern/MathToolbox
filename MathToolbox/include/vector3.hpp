@@ -326,6 +326,6 @@ std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
 
 constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, const float t) noexcept { return value + (target - value) * t; }
 
-constexpr void Vector3::Lerp(const Vector3& value, const Vector3& target, float t, Vector3& result) noexcept { result = value + (target - value) * t; }
+constexpr void Vector3::Lerp(const Vector3& value, const Vector3& target, const float t, Vector3& result) noexcept { result = value + (target - value) * t; }
 
 using vec3 = Vector3;

@@ -1,13 +1,24 @@
 #include "matrix.hpp"
 
+#include <iostream>
+
 #include "calc.hpp"
 #include "vector3.hpp"
 
+void Matrix::DebugPrint() const noexcept
+{
+    std::cout << "{ "
+        << m00 << ' ' << m01 << ' ' << m02 << ' ' << m03 << " }\n{ "
+        << m10 << ' ' << m11 << ' ' << m12 << ' ' << m13 << " }\n{ "
+        << m20 << ' ' << m21 << ' ' << m22 << ' ' << m23 << " }\n{ "
+        << m30 << ' ' << m31 << ' ' << m32 << ' ' << m33 << " }\n";
+}
+
 bool Matrix::IsDiagonal() const noexcept
 {
-    return calc::IsZero(m01) && calc::IsZero(m02) && calc::IsZero(m03)
-        && calc::IsZero(m10) && calc::IsZero(m12) && calc::IsZero(m13)
-        && calc::IsZero(m20) && calc::IsZero(m21) && calc::IsZero(m23)
+    return                      calc::IsZero(m01) && calc::IsZero(m02) && calc::IsZero(m03)
+        && calc::IsZero(m10)                      && calc::IsZero(m12) && calc::IsZero(m13)
+        && calc::IsZero(m20) && calc::IsZero(m21)                      && calc::IsZero(m23)
         && calc::IsZero(m30) && calc::IsZero(m31) && calc::IsZero(m32);
 }
 
@@ -41,107 +52,107 @@ bool Matrix::IsAntisymmetric() const noexcept
         && calc::Equals(m23, -m32);
 }
 
-Matrix Matrix::Rotation3D(const float angle, const Vector3& axis) noexcept
+Matrix Matrix::Rotation(const float angle, const Vector3& axis) noexcept
 {
-    return Rotation3D(std::cos(angle), std::sin(angle), axis);
+    return Rotation(std::cos(angle), std::sin(angle), axis);
 }
 
-void Matrix::Rotation3D(float angle, const Vector3& axis, Matrix& result) noexcept
+void Matrix::Rotation(const float angle, const Vector3& axis, Matrix& result) noexcept
 {
-    Rotation3D(std::cos(angle), std::sin(angle), axis, result);
+    Rotation(std::cos(angle), std::sin(angle), axis, result);
 }
 
-Matrix Matrix::Rotation3Dx(const float angle) noexcept
+Matrix Matrix::RotationX(const float angle) noexcept
 {
-    return Rotation3Dx(std::cos(angle), std::sin(angle));
+    return RotationX(std::cos(angle), std::sin(angle));
 }
 
-void Matrix::Rotation3Dx(float angle, Matrix& result) noexcept
+void Matrix::RotationX(const float angle, Matrix& result) noexcept
 {
-    Rotation3Dx(std::cos(angle), std::sin(angle), result);
+    RotationX(std::cos(angle), std::sin(angle), result);
 }
 
-Matrix Matrix::Rotation3Dy(const float angle) noexcept
+Matrix Matrix::RotationY(const float angle) noexcept
 {
-    return Rotation3Dy(std::cos(angle), std::sin(angle));
+    return RotationY(std::cos(angle), std::sin(angle));
 }
 
-void Matrix::Rotation3Dy(float angle, Matrix& result) noexcept
+void Matrix::RotationY(const float angle, Matrix& result) noexcept
 {
-    Rotation3Dy(std::cos(angle), std::sin(angle), result);
+    RotationY(std::cos(angle), std::sin(angle), result);
 }
 
-Matrix Matrix::Rotation3Dz(const float angle) noexcept
+Matrix Matrix::RotationZ(const float angle) noexcept
 {
-    return Rotation3Dz(std::cos(angle), std::sin(angle));
+    return RotationZ(std::cos(angle), std::sin(angle));
 }
 
-void Matrix::Rotation3Dz(float angle, Matrix& result) noexcept
+void Matrix::RotationZ(const float angle, Matrix& result) noexcept
 {
-    Rotation3Dz(std::cos(angle), std::sin(angle), result);
+    RotationZ(std::cos(angle), std::sin(angle), result);
 }
 
-Matrix Matrix::Rotation3D(const Vector3& rotation) noexcept
+Matrix Matrix::Rotation(const Vector3& rotation) noexcept
 {
-    return Rotation3Dz(rotation.z)
-         * Rotation3Dy(rotation.y)
-         * Rotation3Dx(rotation.x);
+    return RotationZ(rotation.z)
+         * RotationY(rotation.y)
+         * RotationX(rotation.x);
 }
 
-void Matrix::Rotation3D(const Vector3& rotation, Matrix& result) noexcept
+void Matrix::Rotation(const Vector3& rotation, Matrix& result) noexcept
 {
-    Rotation3Dz(rotation.z, result);
+    RotationZ(rotation.z, result);
     Matrix temp;
-    Rotation3Dy(rotation.y, temp);
+    RotationY(rotation.y, temp);
     result *= temp;
-    Rotation3Dx(rotation.x, temp);
+    RotationX(rotation.x, temp);
     result *= temp;
 }
 
-Matrix Matrix::Rotation3D(const float cos, const float sin, const Vector3& axis) noexcept
+Matrix Matrix::Rotation(const float cos, const float sin, const Vector3& axis) noexcept
 {
     const float c2 = 1.f - cos;
     Vector3 v = axis.Normalized();
 
     return Matrix(
-        SQ(v.x) * c2 + cos, v.x * v.y * c2 - v.z * sin, v.x * v.z * c2 - v.y * sin, 0.f,
-        v.y * v.x * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.y * v.z * c2 + v.x * sin, 0.f,
-        v.z * v.x * c2 + v.y * sin, v.z * v.y * c2 - v.x * sin, SQ(v.z) * c2 + cos, 0.f,
+        SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin, 0.f,
+        v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin, 0.f,
+        v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos, 0.f,
         0.f, 0.f, 0.f,                                                              1.f
     );
 }
 
-void Matrix::Rotation3D(float cos, float sin, const Vector3& axis, Matrix& result) noexcept
+void Matrix::Rotation(const float cos, const float sin, const Vector3& axis, Matrix& result) noexcept
 {
     const float c2 = 1.f - cos;
     Vector3 v = axis.Normalized();
 
     result = Matrix(
-        SQ(v.x) * c2 + cos, v.x * v.y * c2 - v.z * sin, v.x * v.z * c2 - v.y * sin, 0.f,
-        v.y * v.x * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.y * v.z * c2 + v.x * sin, 0.f,
-        v.z * v.x * c2 + v.y * sin, v.z * v.y * c2 - v.x * sin, SQ(v.z) * c2 + cos, 0.f,
+        SQ(v.x) * c2 + cos, v.y * v.x * c2 - v.z * sin, v.z * v.x * c2 + v.y * sin, 0.f,
+        v.x * v.y * c2 - v.z * sin, SQ(v.y) * c2 + cos, v.z * v.y * c2 - v.x * sin, 0.f,
+        v.x * v.z * c2 - v.y * sin, v.y * v.z * c2 + v.x * sin, SQ(v.z) * c2 + cos, 0.f,
         0.f, 0.f, 0.f,                                                              1.f
     );
 }
 
 Matrix Matrix::Trs(const Vector3& translation, const Vector3& rotation, const Vector3& scale) noexcept
 {
-    return Trs(translation, Rotation3D(rotation), scale);
+    return Trs(translation, Rotation(rotation), scale);
 }
 
 void Matrix::Trs(const Vector3& translation, const Vector3& rotation, const Vector3& scale, Matrix& result) noexcept
 {
-    Trs(translation, Rotation3D(rotation), scale, result);
+    Trs(translation, Rotation(rotation), scale, result);
 }
 
 Matrix Matrix::Trs(const Vector3& translation, const float rotationAngle, const Vector3& rotationAxis, const Vector3& scale) noexcept
 {
-    return Trs(translation, Rotation3D(rotationAngle, rotationAxis), scale);
+    return Trs(translation, Rotation(rotationAngle, rotationAxis), scale);
 }
 
 void Matrix::Trs(const Vector3& translation, const float rotationAngle, const Vector3& rotationAxis, const Vector3& scale, Matrix& result) noexcept
 {
-    Trs(translation, Rotation3D(rotationAngle, rotationAxis), scale, result);
+    Trs(translation, Rotation(rotationAngle, rotationAxis), scale, result);
 }
 
 Matrix Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up) noexcept
@@ -151,11 +162,11 @@ Matrix Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up
     const Vector3 cameraUp = Vector3::Cross(cameraForward, cameraRight);
     
     return Matrix(
-        cameraRight.x, cameraUp.x, cameraForward.x, 0.f,
-        cameraRight.y, cameraUp.y, cameraForward.y, 0.f,
-        cameraRight.z, cameraUp.z, cameraForward.z, 0.f,
+        cameraRight.x, cameraRight.y, cameraRight.z, 0.f,
+        cameraUp.x, cameraUp.y, cameraUp.z, 0.f,
+        cameraForward.x, cameraForward.y, cameraForward.z, 0.f,
         0.f, 0.f, 0.f, 1.f
-    ) * Translation3D(-eye);
+    ) * Translation(-eye);
 }
 
 void Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix &result) noexcept
@@ -165,14 +176,14 @@ void Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up, 
     const Vector3 cameraUp = Vector3::Cross(cameraForward, cameraRight);
     
     result = Matrix(
-        cameraRight.x, cameraUp.x, cameraForward.x, 0.f,
-        cameraRight.y, cameraUp.y, cameraForward.y, 0.f,
-        cameraRight.z, cameraUp.z, cameraForward.z, 0.f,
+        cameraRight.x, cameraRight.y, cameraRight.z, 0.f,
+        cameraUp.x, cameraUp.y, cameraUp.z, 0.f,
+        cameraForward.x, cameraForward.y, cameraForward.z, 0.f,
         0.f, 0.f, 0.f, 1.f
-    ) * Translation3D(-eye);
+    ) * Translation(-eye);
 }
 
-Matrix Matrix::PerspectiveProjection(float fov, float aspectRatio, float near, float far)
+Matrix Matrix::Perspective(const float fov, const float aspectRatio, const float near, const float far)
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
@@ -182,12 +193,12 @@ Matrix Matrix::PerspectiveProjection(float fov, float aspectRatio, float near, f
     return Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
         0.f, 1.f / tanHalfFov, 0.f, 0.f,
-        0.f, 0.f, (-near - far) / range, 1.f,
-        0.f, 0.f, 2.f * far * near / range, 0.f
+        0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
+        0.f, 0.f, 1.f, 0.f
     );
 }
 
-void Matrix::PerspectiveProjection(const float fov, const float aspectRatio, const float near, const float far, Matrix &result)
+void Matrix::Perspective(const float fov, const float aspectRatio, const float near, const float far, Matrix &result)
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
@@ -197,8 +208,8 @@ void Matrix::PerspectiveProjection(const float fov, const float aspectRatio, con
     result = Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
         0.f, 1.f / tanHalfFov, 0.f, 0.f,
-        0.f, 0.f, (-near - far) / range, 1.f,
-        0.f, 0.f, 2.f * far * near / range, 0.f
+        0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
+        0.f, 0.f, 1.f, 0.f
     );
 }
 
@@ -222,8 +233,8 @@ bool operator!=(Matrix a, Matrix b)
 
 std::ostream &operator<<(std::ostream &out, const Matrix &m)
 {
-    return out << "{ {" << m.m00 << m.m01 << m.m02 << m.m03 << "} {"
-                        << m.m10 << m.m11 << m.m12 << m.m13 << "} {"
-                        << m.m20 << m.m21 << m.m22 << m.m23 << "} {"
-                        << m.m30 << m.m31 << m.m32 << m.m33 << "} }";
+    return out << "{ { " << m.m00 << ' ' << m.m01 << ' ' << m.m02 << ' ' << m.m03 << " } { "
+                        << m.m10 << ' ' << m.m11 << ' ' << m.m12 << ' ' << m.m13 << " } { "
+                        << m.m20 << ' ' << m.m21 << ' ' << m.m22 << ' ' << m.m23 << " } { "
+                        << m.m30 << ' ' << m.m31 << ' ' << m.m32 << ' ' << m.m33 << " } }";
 }

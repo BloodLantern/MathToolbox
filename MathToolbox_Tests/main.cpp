@@ -1,3 +1,4 @@
+// ReSharper disable CppNoDiscardExpression
 #include <iostream>
 #include <chrono>
 #include <functional>
@@ -70,7 +71,8 @@ TEST_CASE("Vector2")
     SUBCASE("Dot product")
     {
         CHECK_EQ(vec2::Dot(unitX, unitY), 0.f);
-        CHECK_EQ(vec2::Dot(unitX, -unitX), 1.f);
+        CHECK_EQ(vec2::Dot(unitX, unitX), 1.f);
+        CHECK_EQ(vec2::Dot(unitX, -unitX), -1.f);
     }
 
     SUBCASE("Lerp")
@@ -107,16 +109,17 @@ TEST_CASE("Vector2i")
 
     SUBCASE("Normal")
     {
-        bool check = unitX.Normal() == (vec2) unitY || unitX.Normal() == (vec2) -unitY;
+        bool check = unitX.Normal() == static_cast<vec2>(unitY) || unitX.Normal() == static_cast<vec2>(-unitY);
         CHECK(check);
-        check = unitY.Normal() == (vec2) unitX || unitY.Normal() == (vec2) -unitX;
+        check = unitY.Normal() == static_cast<vec2>(unitX) || unitY.Normal() == static_cast<vec2>(-unitX);
         CHECK(check);
     }
 
     SUBCASE("Dot product")
     {
-        CHECK_EQ(vec2i::Dot(unitX, unitY), 0);
-        CHECK_EQ(vec2i::Dot(unitX, -unitX), 1);
+        CHECK_EQ(vec2i::Dot(unitX, unitY), 0.f);
+        CHECK_EQ(vec2i::Dot(unitX, unitX), 1.f);
+        CHECK_EQ(vec2i::Dot(unitX, -unitX), -1.f);
     }
     
     SUBCASE("Subscript out of range throw")
@@ -152,7 +155,8 @@ TEST_CASE("Vector3")
     SUBCASE("Dot product")
     {
         CHECK_EQ(vec3::Dot(unitX, unitY), 0.f);
-        CHECK_EQ(vec3::Dot(unitX, -unitX), 1.f);
+        CHECK_EQ(vec3::Dot(unitX, unitX), 1.f);
+        CHECK_EQ(vec3::Dot(unitX, -unitX), -1.f);
     }
 
     SUBCASE("Lerp")
@@ -193,7 +197,8 @@ TEST_CASE("Vector4")
     SUBCASE("Dot product")
     {
         CHECK_EQ(vec4::Dot(unitX, unitY), 0.f);
-        CHECK_EQ(vec4::Dot(unitX, -unitX), 1.f);
+        CHECK_EQ(vec4::Dot(unitX, unitX), 1.f);
+        CHECK_EQ(vec4::Dot(unitX, -unitX), -1.f);
     }
 
     SUBCASE("Lerp")
@@ -203,7 +208,7 @@ TEST_CASE("Vector4")
         CHECK_THROWS_AS(unitX[4], std::out_of_range);
 
     SUBCASE("Cast to matrix, back to vec4")
-        CHECK_EQ(x4, (vec4) (mat4) x4);
+        CHECK_EQ(x4, static_cast<vec4>(static_cast<mat4>(x4)));
 }
 
 TEST_CASE("Quaternion")
@@ -239,16 +244,111 @@ TEST_CASE("Quaternion")
     SUBCASE("Dot product")
     {
         CHECK_EQ(quat::Dot(unitX, unitY), 0.f);
-        CHECK_EQ(quat::Dot(unitX, -unitX), 1.f);
+        CHECK_EQ(quat::Dot(unitX, unitX), 1.f);
+        CHECK_EQ(quat::Dot(unitX, -unitX), -1.f);
     }
 
     SUBCASE("Lerp")
+    {
         CHECK_EQ(quat::Lerp(quat::Zero(), quat(1.f), 0.5f), quat(0.5f));
+        CHECK_EQ(quat::Slerp(quat::Zero(), quat(1.f), 0.5f), quat(0.707107f));
+    }
 
     SUBCASE("Subscript out of range throw")
         CHECK_THROWS_AS(unitX[4], std::out_of_range);
 
     const quat rotationHalfCircleZ = quat::FromAxisAngle(vec3::UnitZ(), calc::PiOver2);
     const vec3 rotatedUnitX = quat::Rotate(vec3::UnitX(), rotationHalfCircleZ);
-    CHECK_EQ(quat(rotatedUnitX), rotationHalfCircleZ * vec3::UnitX() * rotationHalfCircleZ.Conjugate());
+    SUBCASE("Rotation")
+    {
+        CHECK_EQ(rotatedUnitX, vec3::UnitY());
+        
+        CHECK_EQ(quat(rotatedUnitX), rotationHalfCircleZ * vec3::UnitX() * rotationHalfCircleZ.Conjugate());
+        
+        CHECK_EQ(rotationHalfCircleZ, quat::FromEuler(vec3(0.f, 0.f, calc::PiOver2)));
+        CHECK_EQ(rotationHalfCircleZ, quat::FromRotationMatrix(mat::RotationZ(calc::PiOver2)));
+    }
+
+    SUBCASE("Inversion")
+        CHECK_EQ(quat::Rotate(rotatedUnitX, rotationHalfCircleZ.Invert()), vec3::UnitX());
+}
+
+TEST_CASE("Matrix")
+{
+    constexpr mat zero = mat();
+    constexpr mat identity = mat::Identity();
+
+    SUBCASE("Constants")
+        CHECK_EQ(identity, mat(1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f));
+
+    constexpr vec3 one(1.f);
+    const mat rotationHalfCircleZ = mat::RotationZ(calc::PiOver2);
+    const mat trs = mat::Trs(one, rotationHalfCircleZ, 2.f);
+
+    SUBCASE("Check functions")
+    {
+        CHECK(identity.IsDiagonal());
+        CHECK_FALSE(trs.IsDiagonal());
+
+        CHECK(identity.IsIdentity());
+        CHECK_FALSE(zero.IsIdentity());
+        CHECK_FALSE(trs.IsIdentity());
+
+        CHECK(zero.IsNull());
+        CHECK_FALSE(trs.IsNull());
+
+        constexpr mat symmetric(
+            1.f, 2.f, 3.f, 4.f,
+            2.f, 5.f, 6.f, 7.f,
+            3.f, 6.f, 8.f, 9.f,
+            4.f, 7.f, 9.f, 10.f
+        );
+        constexpr mat antisymmetric(
+            1.f, 2.f, 3.f, 4.f,
+           -2.f, 5.f, 6.f, 7.f,
+           -3.f,-6.f, 8.f, 9.f,
+           -4.f,-7.f,-9.f, 10.f
+        );
+        CHECK(identity.IsSymmetric());
+        CHECK(symmetric.IsSymmetric());
+        CHECK_FALSE(antisymmetric.IsSymmetric());
+        CHECK_FALSE(trs.IsSymmetric());
+        
+        CHECK(identity.IsAntisymmetric());
+        CHECK(antisymmetric.IsAntisymmetric());
+        CHECK_FALSE(symmetric.IsAntisymmetric());
+        CHECK_FALSE(trs.IsAntisymmetric());
+    }
+
+    SUBCASE("Small functions")
+    {
+        CHECK_EQ(identity.Diagonal(), vec4(1.f));
+        
+        CHECK_EQ(identity.Determinant(), 1.f);
+        CHECK_EQ(trs.Determinant(), 8.f);
+        CHECK_EQ(zero.Determinant(), 0.f);
+
+        CHECK_EQ(identity, identity.Transposed());
+    }
+
+    SUBCASE("Inversion")
+        CHECK_EQ(trs * trs.Inverted(), identity);
+
+    constexpr vec3 oneTwoThree(1.f, 2.f, 3.f);
+    SUBCASE("Translation")
+        CHECK_EQ(mat::Translation(oneTwoThree) * one, vec3(2.f, 3.f, 4.f));
+
+    SUBCASE("Rotation")
+        CHECK_EQ(mat::RotationZ(calc::PiOver2) * vec3::UnitX(), vec3::UnitY());
+
+    SUBCASE("Scaling")
+        CHECK_EQ(mat::Scaling(oneTwoThree) * one, oneTwoThree);
+
+    SUBCASE("Subscript")
+    {
+        CHECK_THROWS_AS(zero.At(4, 0), std::out_of_range);
+        CHECK_THROWS_AS(zero.At(0, 4), std::out_of_range);
+        CHECK_THROWS_AS(zero.At(4, 4), std::out_of_range);
+        CHECK_NOTHROW(zero.At(1, 2));
+    }
 }
