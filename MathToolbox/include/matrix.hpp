@@ -83,33 +83,33 @@ public:
     /// Returns whether the matrix has everything except its diagonal set to zero.
     /// </summary>
     [[nodiscard]]
-    bool IsDiagonal() const noexcept;
+    constexpr bool IsDiagonal() const noexcept;
     
     /// <summary>
     /// Returns whether the matrix is the identity matrix.
     /// If this returns true, Matrix::Identity() == *this should be true.
     /// </summary>
     [[nodiscard]]
-    bool IsIdentity() const noexcept;
+    constexpr bool IsIdentity() const noexcept;
     
     /// <summary>
     /// Returns whether this matrix has everything set to zero.
     /// </summary>
     [[nodiscard]]
-    bool IsNull() const noexcept;
+    constexpr bool IsNull() const noexcept;
     
     /// <summary>
     /// Returns whether the matrix is symmetric by its diagonal elements.
     /// </summary>
     [[nodiscard]]
-    bool IsSymmetric() const noexcept;
+    constexpr bool IsSymmetric() const noexcept;
     
     /// <summary>
     /// Returns whether the matrix is symmetric by its diagonal elements
     /// but one of the sides is the opposite of the other.
     /// </summary>
     [[nodiscard]]
-	bool IsAntisymmetric() const noexcept;
+	constexpr bool IsAntisymmetric() const noexcept;
     
 	/// <summary>
 	/// Returns the diagonal elements of the matrix.
@@ -448,6 +448,44 @@ constexpr void Matrix::Identity(Matrix& result) noexcept
 constexpr const float* Matrix::Raw() const noexcept { return &m00; }
 
 constexpr float* Matrix::Raw() noexcept { return &m00; }
+
+constexpr bool Matrix::IsDiagonal() const noexcept
+{
+    return                      calc::IsZero(m01) && calc::IsZero(m02) && calc::IsZero(m03)
+        && calc::IsZero(m10)                      && calc::IsZero(m12) && calc::IsZero(m13)
+        && calc::IsZero(m20) && calc::IsZero(m21)                      && calc::IsZero(m23)
+        && calc::IsZero(m30) && calc::IsZero(m31) && calc::IsZero(m32);
+}
+
+constexpr bool Matrix::IsIdentity() const noexcept
+{
+    if (!IsDiagonal())
+        return false;
+    
+    return calc::Equals(m00, 1.f) && calc::Equals(m11, 1.f) && calc::Equals(m22, 1.f) && calc::Equals(m33, 1.f);
+}
+
+constexpr bool Matrix::IsNull() const noexcept
+{
+    if (!IsDiagonal())
+        return false;
+
+    return calc::IsZero(m00) && calc::IsZero(m11) && calc::IsZero(m22) && calc::IsZero(m33);
+}
+
+constexpr bool Matrix::IsSymmetric() const noexcept
+{
+    return calc::Equals(m01, m10) && calc::Equals(m02, m20) && calc::Equals(m03, m30)
+        && calc::Equals(m12, m21) && calc::Equals(m13, m31)
+        && calc::Equals(m23, m32);
+}
+
+constexpr bool Matrix::IsAntisymmetric() const noexcept
+{
+    return calc::Equals(m01, -m10) && calc::Equals(m02, -m20) && calc::Equals(m03, -m30)
+        && calc::Equals(m12, -m21) && calc::Equals(m13, -m31)
+        && calc::Equals(m23, -m32);
+}
 
 constexpr Vector4 Matrix::Diagonal() const noexcept { return Vector4(m00, m11, m22, m33); }
 

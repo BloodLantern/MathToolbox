@@ -14,44 +14,6 @@ void Matrix::DebugPrint() const noexcept
         << m30 << ' ' << m31 << ' ' << m32 << ' ' << m33 << " }\n";
 }
 
-bool Matrix::IsDiagonal() const noexcept
-{
-    return                      calc::IsZero(m01) && calc::IsZero(m02) && calc::IsZero(m03)
-        && calc::IsZero(m10)                      && calc::IsZero(m12) && calc::IsZero(m13)
-        && calc::IsZero(m20) && calc::IsZero(m21)                      && calc::IsZero(m23)
-        && calc::IsZero(m30) && calc::IsZero(m31) && calc::IsZero(m32);
-}
-
-bool Matrix::IsIdentity() const noexcept
-{
-    if (!IsDiagonal())
-        return false;
-    
-    return calc::Equals(m00, 1.f) && calc::Equals(m11, 1.f) && calc::Equals(m22, 1.f) && calc::Equals(m33, 1.f);
-}
-
-bool Matrix::IsNull() const noexcept
-{
-    if (!IsDiagonal())
-        return false;
-
-    return calc::IsZero(m00) && calc::IsZero(m11) && calc::IsZero(m22) && calc::IsZero(m33);
-}
-
-bool Matrix::IsSymmetric() const noexcept
-{
-    return calc::Equals(m01, m10) && calc::Equals(m02, m20) && calc::Equals(m03, m30)
-        && calc::Equals(m12, m21) && calc::Equals(m13, m31)
-        && calc::Equals(m23, m32);
-}
-
-bool Matrix::IsAntisymmetric() const noexcept
-{
-    return calc::Equals(m01, -m10) && calc::Equals(m02, -m20) && calc::Equals(m03, -m30)
-        && calc::Equals(m12, -m21) && calc::Equals(m13, -m31)
-        && calc::Equals(m23, -m32);
-}
-
 Matrix Matrix::Rotation(const float angle, const Vector3& axis) noexcept
 {
     return Rotation(std::cos(angle), std::sin(angle), axis);
