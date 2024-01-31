@@ -10,15 +10,15 @@ class Vector2;
 
 /// <summary>
 /// The Matrix class represents a 4x4 array mainly used for mathematical operations.
-/// Matrices are stored using the row-major convention.
+/// Matrices are stored using the column-major convention.
 /// </summary>
 class Matrix
 {
 public:
-	float m00 = 0.f, m01 = 0.f, m02 = 0.f, m03 = 0.f;
-	float m10 = 0.f, m11 = 0.f, m12 = 0.f, m13 = 0.f;
-	float m20 = 0.f, m21 = 0.f, m22 = 0.f, m23 = 0.f;
-	float m30 = 0.f, m31 = 0.f, m32 = 0.f, m33 = 0.f;
+	float m00 = 0.f, m10 = 0.f, m20 = 0.f, m30 = 0.f;
+	float m01 = 0.f, m11 = 0.f, m21 = 0.f, m31 = 0.f;
+	float m02 = 0.f, m12 = 0.f, m22 = 0.f, m32 = 0.f;
+	float m03 = 0.f, m13 = 0.f, m23 = 0.f, m33 = 0.f;
 	
 	/// <summary>
 	/// Returns the identity matrix.

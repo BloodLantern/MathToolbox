@@ -16,7 +16,7 @@ TEST_CASE("calc")
         CHECK_EQ(calc::Sign(17.8f), 1.f);
         CHECK_EQ(calc::Sign(-86.1f), -1.f);
     }
-    
+   
     SUBCASE("Abs")
     {
         CHECK_EQ(calc::Abs(17.8f), 17.8f);
