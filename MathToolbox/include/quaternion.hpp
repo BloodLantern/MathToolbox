@@ -55,11 +55,18 @@ public:
 
 	constexpr Quaternion() = default;
 	
-	constexpr explicit Quaternion(const Vector4& values) noexcept;
+	constexpr Quaternion(const Vector4& values) noexcept;
 	
-	constexpr Quaternion(const Vector3& imaginary, float real = 1.f) noexcept;
+	constexpr explicit Quaternion(const Vector3& imaginary, float real = 1.f) noexcept;
 	
-	constexpr explicit Quaternion(float xyzw) noexcept;
+	constexpr Quaternion(float xyzw) noexcept;
+	
+	/// <summary>
+	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.
+	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 2 float values.
+	/// </summary>
+	/// <param name="data">The data where the values for this vector's components are located.</param>
+	constexpr explicit Quaternion(const float* data) noexcept;
 	
 	constexpr Quaternion(float x, float y, float z, float w) noexcept;
 
@@ -193,6 +200,8 @@ constexpr Quaternion::Quaternion(const Vector4& values) noexcept : imaginary(val
 constexpr Quaternion::Quaternion(const Vector3& imaginary, const float real) noexcept : imaginary(imaginary), real(real) {}
 
 constexpr Quaternion::Quaternion(const float xyzw) noexcept : imaginary(xyzw), real(xyzw) {}
+
+constexpr Quaternion::Quaternion(const float* const data) noexcept : imaginary(data), real(data[3]) {}
 
 constexpr Quaternion::Quaternion(const float x, const float y, const float z, const float w) noexcept : imaginary(x, y, z), real(w) {}
 

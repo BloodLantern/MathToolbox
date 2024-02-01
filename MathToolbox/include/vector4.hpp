@@ -53,6 +53,13 @@ public:
 	/// Constructs a Vector4 with all its components set to 'xyzw'.
 	/// </summary>
 	constexpr Vector4(float xyzw) noexcept;
+	
+	/// <summary>
+	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.
+	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 2 float values.
+	/// </summary>
+	/// <param name="data">The data where the values for this vector's components are located.</param>
+	constexpr explicit Vector4(const float* data) noexcept;
 
 	/// <summary>
 	/// Constructs a Vector3 with set component values.
@@ -164,6 +171,8 @@ static_assert(std::is_copy_assignable_v<Vector4>, "Class Vector4 must be copy as
 static_assert(std::is_move_assignable_v<Vector4>, "Class Vector4 must be move assignable.");
 
 constexpr Vector4::Vector4(const float xyzw) noexcept : x(xyzw), y(xyzw), z(xyzw), w(xyzw) {}
+
+constexpr Vector4::Vector4(const float* const data) noexcept : x(data[0]), y(data[1]), z(data[2]), w(data[3]) {}
 
 constexpr Vector4::Vector4(const float x, const float y, const float z, const float w) noexcept : x(x), y(y), z(z), w(w) {}
 

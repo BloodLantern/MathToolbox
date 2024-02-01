@@ -43,7 +43,14 @@ public:
     /// <summary>
     /// Creates a matrix with all its values set to this default value.
     /// </summary>
-    explicit constexpr Matrix(float defaultValue) noexcept;
+	explicit constexpr Matrix(float defaultValue) noexcept;
+	
+	/// <summary>
+	/// Constructs a Matrix with its components set to the data pointed by <code>data</code>.
+	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 16 float values.
+	/// </summary>
+	/// <param name="data">The data where the values for this matrix's components are located.</param>
+	constexpr explicit Matrix(const float* data) noexcept;
 
     constexpr Matrix(
         const Vector4& c0,
@@ -372,20 +379,28 @@ public:
 	/// <summary>
 	///	Retrieves this matrix's value at position <code>[col, row]</code>.
 	/// </summary>
-	/// <param name="row">The index of the row to get.</param>
-	/// <param name="col">The index of the column to get.</param>
+	/// <param name="col">The index of the row to get.</param>
+	/// <param name="row">The index of the column to get.</param>
 	/// <returns>The value at position <code>[col, row]</code>.</returns>
 	[[nodiscard]]
-	constexpr float At(unsigned char row, unsigned char col) const;
+	constexpr float At(unsigned char col, unsigned char row) const;
     
 	/// <summary>
 	///	Retrieves this matrix's row at position <code>[col, row]</code>.
 	/// </summary>
-	/// <param name="row">The index of the row to get.</param>
-	/// <param name="col">The index of the column to get.</param>
+	/// <param name="col">The index of the row to get.</param>
+	/// <param name="row">The index of the column to get.</param>
 	/// <returns>The value at position <code>[col, row]</code>.</returns>
 	[[nodiscard]]
-	constexpr float& At(unsigned char row, unsigned char col);
+	constexpr float& At(unsigned char col, unsigned char row);
+    
+	/// <summary>
+	///	Retrieves this matrix's row at position <code>[col, row]</code>.
+	/// </summary>
+	/// <param name="col">The index of the column to get.</param>
+	/// <returns>The column vector at index <code>col</code>.</returns>
+	[[nodiscard]]
+	constexpr Vector4 operator[](unsigned char col);
     
     explicit operator Vector4() const noexcept;
 };
@@ -397,18 +412,26 @@ static_assert(std::is_copy_assignable_v<Matrix>, "Class Matrix must be copy assi
 static_assert(std::is_move_assignable_v<Matrix>, "Class Matrix must be move assignable.");
 
 constexpr Matrix::Matrix(const float defaultValue) noexcept
-    : m00(defaultValue), m01(defaultValue), m02(defaultValue), m03(defaultValue)
-    , m10(defaultValue), m11(defaultValue), m12(defaultValue), m13(defaultValue)
-    , m20(defaultValue), m21(defaultValue), m22(defaultValue), m23(defaultValue)
-    , m30(defaultValue), m31(defaultValue), m32(defaultValue), m33(defaultValue)
+    : m00(defaultValue), m10(defaultValue), m20(defaultValue), m30(defaultValue)
+    , m01(defaultValue), m11(defaultValue), m21(defaultValue), m31(defaultValue)
+    , m02(defaultValue), m12(defaultValue), m22(defaultValue), m32(defaultValue)
+    , m03(defaultValue), m13(defaultValue), m23(defaultValue), m33(defaultValue)
+{
+}
+
+constexpr Matrix::Matrix(const float* const data) noexcept
+	: m00(data[0]), m10(data[1]), m20(data[2]), m30(data[3])
+	, m01(data[4]), m11(data[5]), m21(data[6]), m31(data[7])
+	, m02(data[8]), m12(data[9]), m22(data[10]), m32(data[11])
+	, m03(data[12]), m13(data[13]), m23(data[14]), m33(data[15])
 {
 }
 
 constexpr Matrix::Matrix(const Vector4& c0, const Vector4& c1, const Vector4& c2, const Vector4& c3) noexcept
-	: m00(c0.x), m01(c0.y), m02(c0.z), m03(c0.w)
-	, m10(c1.x), m11(c1.y), m12(c1.z), m13(c1.w)
-	, m20(c2.x), m21(c2.y), m22(c2.z), m23(c2.w)
-	, m30(c3.x), m31(c3.y), m32(c3.z), m33(c3.w)
+	: m00(c0.x), m10(c1.x), m20(c2.x), m30(c3.x)
+	, m01(c0.y), m11(c1.y), m21(c2.y), m31(c3.y)
+	, m02(c0.z), m12(c1.z), m22(c2.z), m32(c3.z)
+	, m03(c0.w), m13(c1.w), m23(c2.w), m33(c3.w)
 {
 }
 
@@ -418,10 +441,10 @@ constexpr Matrix::Matrix(
     const float m20, const float m21, const float m22, const float m23,
     const float m30, const float m31, const float m32, const float m33
 ) noexcept
-	: m00(m00), m01(m01), m02(m02), m03(m03)
-	, m10(m10), m11(m11), m12(m12), m13(m13)
-	, m20(m20), m21(m21), m22(m22), m23(m23)
-	, m30(m30), m31(m31), m32(m32), m33(m33)
+	: m00(m00), m10(m10), m20(m20), m30(m30)
+	, m01(m01), m11(m11), m21(m21), m31(m31)
+	, m02(m02), m12(m12), m22(m22), m32(m32)
+	, m03(m03), m13(m13), m23(m23), m33(m33)
 {
 }
 
@@ -751,20 +774,25 @@ constexpr void Matrix::Orthographic(const float left, const float right, const f
 	);
 }
 
-constexpr float Matrix::At(const unsigned char row, const unsigned char col) const
+constexpr float Matrix::At(const unsigned char col, const unsigned char row) const
 {
-	if (row < 4 && col < 4) [[likely]]
-		return *(Raw() + (row * 4 + col));
+	if (col < 4 && row < 4) [[likely]]
+		return *(Raw() + (col * 4 + row));
 	[[unlikely]]
 		throw std::out_of_range("Matrix subscript out of range");
 }
 
-constexpr float& Matrix::At(const unsigned char row, const unsigned char col)
+constexpr float& Matrix::At(const unsigned char col, const unsigned char row)
 {
-	if (row < 4 && col < 4) [[likely]]
-		return *(Raw() + (row * 4 + col));
+	if (col < 4 && row < 4) [[likely]]
+		return *(Raw() + (col * 4 + row));
 	[[unlikely]]
 		throw std::out_of_range("Matrix subscript out of range");
+}
+
+constexpr Vector4 Matrix::operator[](const unsigned char col)
+{
+	return Vector4(Raw() + static_cast<ptrdiff_t>(col) * 4);
 }
 
 constexpr Matrix operator-(const Matrix& matrix) noexcept

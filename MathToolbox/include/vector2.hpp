@@ -38,6 +38,13 @@ public:
 	/// </summary>
 	/// <param name="xy">The value to set this vector's x and y components to.</param>
 	constexpr Vector2(float xy) noexcept;
+	
+	/// <summary>
+	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.
+	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 2 float values.
+	/// </summary>
+	/// <param name="data">The data where the values for this vector's components are located.</param>
+	constexpr explicit Vector2(const float* data) noexcept;
 
 	/// <summary>
 	/// Constructs a Vector2 with set component values.
@@ -151,6 +158,8 @@ static_assert(std::is_copy_assignable_v<Vector2>, "Class Vector2 must be copy as
 static_assert(std::is_move_assignable_v<Vector2>, "Class Vector2 must be move assignable.");
 
 constexpr Vector2::Vector2(const float xy) noexcept : x(xy), y(xy) {}
+
+constexpr Vector2::Vector2(const float* const data) noexcept : x(data[0]), y(data[1]) {}
 
 constexpr Vector2::Vector2(const float x, const float y) noexcept : x(x), y(y) {}
 

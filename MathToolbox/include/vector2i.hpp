@@ -33,6 +33,13 @@ public:
 	/// Constructs a Vector2i with both its components set to 'xy'.
 	/// </summary>
 	constexpr Vector2i(int xy);
+	
+	/// <summary>
+	/// Constructs a Vector2i with its components set to the data pointed by <code>data</code>.
+	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 2 int values.
+	/// </summary>
+	/// <param name="data">The data where the values for this vector's components are located.</param>
+	constexpr explicit Vector2i(const int* data) noexcept;
 
 	constexpr Vector2i(int x, int y);
 
@@ -131,6 +138,8 @@ static_assert(std::is_copy_assignable_v<Vector2i>, "Class Vector2i must be copy 
 static_assert(std::is_move_assignable_v<Vector2i>, "Class Vector2i must be move assignable.");
 
 constexpr Vector2i::Vector2i(const int xy): x(xy), y(xy) {}
+
+constexpr Vector2i::Vector2i(const int* const data) noexcept : x(data[0]), y(data[1]) {}
 
 constexpr Vector2i::Vector2i(const int x, const int y): x(x), y(y) {}
 
