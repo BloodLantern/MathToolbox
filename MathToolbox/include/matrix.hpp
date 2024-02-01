@@ -6,8 +6,6 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 
-class Vector2;
-
 /// <summary>
 /// The Matrix class represents a 4x4 array mainly used for mathematical operations.
 /// Matrices are stored using the column-major convention.
@@ -15,43 +13,46 @@ class Vector2;
 class Matrix
 {
 public:
-	float m00 = 0.f, m10 = 0.f, m20 = 0.f, m30 = 0.f;
-	float m01 = 0.f, m11 = 0.f, m21 = 0.f, m31 = 0.f;
-	float m02 = 0.f, m12 = 0.f, m22 = 0.f, m32 = 0.f;
-	float m03 = 0.f, m13 = 0.f, m23 = 0.f, m33 = 0.f;
+	float m00 = 0.f; float m10 = 0.f; float m20 = 0.f; float m30 = 0.f;
+	float m01 = 0.f; float m11 = 0.f; float m21 = 0.f; float m31 = 0.f;
+	float m02 = 0.f; float m12 = 0.f; float m22 = 0.f; float m32 = 0.f;
+	float m03 = 0.f; float m13 = 0.f; float m23 = 0.f; float m33 = 0.f;
 	
 	/// <summary>
-	/// Returns the identity matrix.
-	/// The identity matrix is a matrix with its diagonal
+	/// Returns the identity Matrix.
+	/// The identity Matrix is one with its diagonal
 	/// set to one and everything else set to zero.
 	/// </summary>
 	[[nodiscard]]
 	static constexpr Matrix Identity() noexcept;
 	
 	/// <summary>
-	/// Returns the identity matrix.
-	/// The identity matrix is a matrix with its diagonal
+	/// Returns the identity Matrix.
+	/// The identity Matrix is one with its diagonal
 	/// set to one and everything else set to zero.
 	/// </summary>
 	static constexpr void Identity(Matrix& result) noexcept;
 
     /// <summary>
-    /// Creates a matrix with all its values set to 0.
+    /// Creates a Matrix with all its values set to 0.
     /// </summary>
     constexpr Matrix() = default;
 
     /// <summary>
-    /// Creates a matrix with all its values set to this default value.
+    /// Creates a Matrix with all its values set to this default value.
     /// </summary>
 	explicit constexpr Matrix(float defaultValue) noexcept;
 	
 	/// <summary>
-	/// Constructs a Matrix with its components set to the data pointed by <code>data</code>.
-	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 16 float values.
+	/// Constructs a Matrix with its components set to the data pointed by <c>data</c>.
+	/// This constructor assumes that <c>data</c> is a valid pointer pointing to at least 16 float values.
 	/// </summary>
 	/// <param name="data">The data where the values for this matrix's components are located.</param>
 	constexpr explicit Matrix(const float* data) noexcept;
 
+	/// <summary>
+	///	Constructs a Matrix with 4 column vectors.
+	/// </summary>
     constexpr Matrix(
         const Vector4& c0,
         const Vector4& c1,
@@ -59,123 +60,126 @@ public:
         const Vector4& c3
     ) noexcept;
 
+	/// <summary>
+	///	Constructs a Matrix with 16 float values.
+	/// </summary>
     constexpr Matrix(
-        float m00, float m01, float m02, float m03,
-        float m10, float m11, float m12, float m13,
-        float m20, float m21, float m22, float m23,
-        float m30, float m31, float m32, float m33
+        float m00, float m10, float m20, float m30,
+        float m01, float m11, float m21, float m31,
+        float m02, float m12, float m22, float m32,
+        float m03, float m13, float m23, float m33
     ) noexcept;
 
     /// <summary>
-    ///	Gets a pointer to the first value of this matrix.
+    ///	Gets a pointer to the first value of this Matrix.
     /// </summary>
-    /// <returns>A pointer to the first value of this matrix.</returns>
+    /// <returns>A pointer to the first value of this Matrix.</returns>
     [[nodiscard]]
     constexpr const float* Raw() const noexcept;
 
     /// <summary>
-    ///	Gets a pointer to the first value of this matrix.
+    ///	Gets a pointer to the first value of this Matrix.
     /// </summary>
-    /// <returns>A pointer to the first value of this matrix.</returns>
+    /// <returns>A pointer to the first value of this Matrix.</returns>
     [[nodiscard]]
     constexpr float* Raw() noexcept;
 
 	/// <summary>
-	///	Uses the <code>std::cout</code> stream to print the values of this matrix
+	///	Uses the <c>std::cout</c> stream to print the values of this matrix
 	///	in a square-like shape, e.g. by using newlines to make it easier to read.
 	/// </summary>
 	void DebugPrint() const noexcept;
 
     /// <summary>
-    /// Returns whether the matrix has everything except its diagonal set to zero.
+    /// Returns whether the Matrix has everything except its diagonal set to zero.
     /// </summary>
     [[nodiscard]]
     constexpr bool IsDiagonal() const noexcept;
     
     /// <summary>
-    /// Returns whether the matrix is the identity matrix.
+    /// Returns whether the Matrix is the identity matrix.
     /// If this returns true, Matrix::Identity() == *this should be true.
     /// </summary>
     [[nodiscard]]
     constexpr bool IsIdentity() const noexcept;
     
     /// <summary>
-    /// Returns whether this matrix has everything set to zero.
+    /// Returns whether this Matrix has everything set to zero.
     /// </summary>
     [[nodiscard]]
     constexpr bool IsNull() const noexcept;
     
     /// <summary>
-    /// Returns whether the matrix is symmetric by its diagonal elements.
+    /// Returns whether the Matrix is symmetric by its diagonal elements.
     /// </summary>
     [[nodiscard]]
     constexpr bool IsSymmetric() const noexcept;
     
     /// <summary>
-    /// Returns whether the matrix is symmetric by its diagonal elements
+    /// Returns whether the Matrix is symmetric by its diagonal elements
     /// but one of the sides is the opposite of the other.
     /// </summary>
     [[nodiscard]]
 	constexpr bool IsAntisymmetric() const noexcept;
     
 	/// <summary>
-	/// Returns the diagonal elements of the matrix.
+	/// Returns the diagonal elements of the Matrix.
 	/// </summary>
 	[[nodiscard]]
 	constexpr Vector4 Diagonal() const noexcept;
     
 	/// <summary>
-	/// Returns the diagonal elements of the matrix.
+	/// Returns the diagonal elements of the Matrix.
 	/// </summary>
 	constexpr void Diagonal(Vector4& result) const noexcept;
     
     /// <summary>
-    /// Returns the sum of the diagonal elements of the matrix.
+    /// Returns the sum of the diagonal elements of the Matrix.
     /// </summary>
     [[nodiscard]]
     constexpr float Trace() const noexcept;
     
     /// <summary>
-    /// Returns the determinant of this matrix.
+    /// Returns the determinant of this Matrix.
     /// </summary>
     [[nodiscard]]
 	constexpr float Determinant() const noexcept;
     
 	/// <summary>
-	/// Switches the matrix by its diagonal elements.
+	/// Switches the Matrix by its diagonal elements.
 	/// </summary>
 	[[nodiscard]]
 	constexpr Matrix Transposed() const noexcept;
     
 	/// <summary>
-	/// Switches the matrix by its diagonal elements.
+	/// Switches the Matrix by its diagonal elements.
 	/// </summary>
 	constexpr void Transposed(Matrix& result) const noexcept;
 
 	/// <summary>
-	/// Computes the invert of this matrix, e.g. <code>*this * Inverted() == Identity()</code> is true.
+	/// Computes the invert of this Matrix, e.g. <c>*this * Inverted() == Identity()</c> is true.
 	/// </summary>
 	[[nodiscard]]
 	constexpr Matrix Inverted() const;
 
 	/// <summary>
-	/// Computes the invert of this matrix, e.g. <code>*this * Inverted() == Identity()</code> is true.
+	/// Computes the invert of this Matrix, e.g. <c>*this * Inverted() == Identity()</c> is true.
 	/// </summary>
 	constexpr void Inverted(Matrix& result) const;
     
 	/// <summary>
-	/// Creates a 3D translation matrix from the given angle for each of the x, y, and z axis.
+	/// Creates a 3D translation Matrix from the given angle for each of the x, y, and z axis.
 	/// </summary>
 	[[nodiscard]]
 	static constexpr Matrix Translation(const Vector3& translation) noexcept;
     
 	/// <summary>
-	/// Creates a 3D translation matrix from the given angle for each of the x, y, and z axis.
+	/// Creates a 3D translation Matrix from the given angle for each of the x, y, and z axis.
 	/// </summary>
 	static constexpr void Translation(const Vector3& translation, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix from the given angle and axis.
+	/// Creates a 3D rotation Matrix from the given angle and axis.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	/// <param name="axis">The axis around which the rotation occurs.</param>
@@ -183,27 +187,29 @@ public:
 	static Matrix Rotation(float angle, const Vector3& axis) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix from the given angle and axis.
+	/// Creates a 3D rotation Matrix from the given angle and axis.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	/// <param name="axis">The axis around which the rotation occurs.</param>
+	/// <param name="result">The output of the function.</param>
 	static void Rotation(float angle, const Vector3& axis, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the X axis from the given angle.
+	/// Creates a 3D rotation Matrix around the X axis from the given angle.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	[[nodiscard]]
 	static Matrix RotationX(float angle) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the X axis from the given angle.
+	/// Creates a 3D rotation Matrix around the X axis from the given angle.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
+	/// <param name="result">The output of the function.</param>
 	static void RotationX(float angle, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the X axis from the given angle.
+	/// Creates a 3D rotation Matrix around the X axis from the given angle.
 	/// </summary>
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
@@ -211,27 +217,29 @@ public:
 	static constexpr Matrix RotationX(float cos, float sin) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the X axis from the given angle.
+	/// Creates a 3D rotation Matrix around the X axis from the given angle.
 	/// </summary>
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
+	/// <param name="result">The output of the function.</param>
 	static constexpr void RotationX(float cos, float sin, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Y axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Y axis from the given angle.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	[[nodiscard]]
 	static Matrix RotationY(float angle) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Y axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Y axis from the given angle.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
+	/// <param name="result">The output of the function.</param>
 	static void RotationY(float angle, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Y axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Y axis from the given angle.
 	/// </summary>
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
@@ -239,27 +247,29 @@ public:
 	static constexpr Matrix RotationY(float cos, float sin) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Y axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Y axis from the given angle.
 	/// </summary>
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
+	/// <param name="result">The output of the function.</param>
 	static constexpr void RotationY(float cos, float sin, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Z axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Z axis from the given angle.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	[[nodiscard]]
 	static Matrix RotationZ(float angle) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Z axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Z axis from the given angle.
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
+	/// <param name="result">The output of the function.</param>
 	static void RotationZ(float angle, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Z axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Z axis from the given angle.
 	/// </summary>
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
@@ -267,26 +277,33 @@ public:
 	static constexpr Matrix RotationZ(float cos, float sin) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix around the Z axis from the given angle.
+	/// Creates a 3D rotation Matrix around the Z axis from the given angle.
 	/// </summary>
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
+	/// <param name="result">The output of the function.</param>
 	static constexpr void RotationZ(float cos, float sin, Matrix& result) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
+	/// Creates a 3D rotation Matrix from the given angle for each of the x, y, and z axis.
 	/// </summary>
 	[[nodiscard]]
 	static Matrix Rotation(const Vector3& rotation) noexcept;
     
 	/// <summary>
-	/// Creates a 3D rotation matrix from the given angle for each of the x, y, and z axis.
+	/// Creates a 3D rotation Matrix from the given angle for each of the x, y, and z axis.
 	/// </summary>
 	static void Rotation(const Vector3& rotation, Matrix& result) noexcept;
-    
+
+	/// <summary>
+	///	Creates a 3D rotation Matrix from the given rotation Quaternion.
+	/// </summary>
 	[[nodiscard]]
 	static constexpr Matrix Rotation(const Quaternion& rotation) noexcept;
     
+	/// <summary>
+	///	Creates a 3D rotation Matrix from the given rotation Quaternion.
+	/// </summary>
 	static constexpr void Rotation(const Quaternion& rotation, Matrix& result) noexcept;
     
 	/// <summary>
@@ -304,6 +321,7 @@ public:
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
 	/// <param name="axis">The axis around which the rotation occurs.</param>
+	/// <param name="result">The output of the function.</param>
 	static void Rotation(float cos, float sin, const Vector3& axis, Matrix& result) noexcept;
     
 	/// <summary>
@@ -361,47 +379,76 @@ public:
 	/// </summary>
 	static constexpr void Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale, Matrix& result) noexcept;
 
+	/// <summary>
+	///	Creates a view Matrix, looking from an <c>eye</c> to a <c>center</c> using an <c>up</c> vector.
+	/// </summary>
 	[[nodiscard]]
-	static Matrix View(const Vector3& eye, const Vector3& center, const Vector3& up) noexcept;
+	static Matrix LookAt(const Vector3& eye, const Vector3& center, const Vector3& up) noexcept;
     
-    static void View(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix& result) noexcept;
+	/// <summary>
+	///	Creates a view Matrix, looking from an <c>eye</c> to a <c>center</c> using an <c>up</c> vector.
+	/// </summary>
+    static void LookAt(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix& result) noexcept;
 
+	/// <summary>
+	///	Creates a perspective projection Matrix from the given <c>fov</c> (Field Of View) and aspect ratio.
+	///	Anything closer than <c>near</c> or further than <c>far</c> is discarded.
+	/// </summary>
 	[[nodiscard]]
 	static Matrix Perspective(float fov, float aspectRatio, float near, float far);
     
+	/// <summary>
+	///	Creates a perspective projection Matrix from the given <c>fov</c> (Field Of View) and aspect ratio.
+	///	Anything closer than <c>near</c> or further than <c>far</c> is discarded.
+	/// </summary>
     static void Perspective(float fov, float aspectRatio, float near, float far, Matrix& result);
 
+	/// <summary>
+	///	Creates an orthographic projection Matrix from the given <c>left</c>, <c>right</c>, <c>bottom</c>, and <c>top</c>
+	///	screen positions.
+	///	Anything closer than <c>near</c> or further than <c>far</c> is discarded.
+	/// </summary>
 	[[nodiscard]]
 	static constexpr Matrix Orthographic(float left, float right, float bottom, float top, float near, float far);
     
+	/// <summary>
+	///	Creates an orthographic projection Matrix from the given <c>left</c>, <c>right</c>, <c>bottom</c>, and <c>top</c>
+	///	screen positions.
+	///	Anything closer than <c>near</c> or further than <c>far</c> is discarded.
+	/// </summary>
 	static constexpr void Orthographic(float left, float right, float bottom, float top, float near, float far, Matrix& result);
 
 	/// <summary>
-	///	Retrieves this matrix's value at position <code>[col, row]</code>.
+	///	Retrieves this matrix's value at position <c>[col, row]</c>.
 	/// </summary>
 	/// <param name="col">The index of the row to get.</param>
 	/// <param name="row">The index of the column to get.</param>
-	/// <returns>The value at position <code>[col, row]</code>.</returns>
+	/// <returns>The value at position <c>[col, row]</c>.</returns>
 	[[nodiscard]]
 	constexpr float At(unsigned char col, unsigned char row) const;
     
 	/// <summary>
-	///	Retrieves this matrix's row at position <code>[col, row]</code>.
+	///	Retrieves this matrix's row at position <c>[col, row]</c>.
 	/// </summary>
 	/// <param name="col">The index of the row to get.</param>
 	/// <param name="row">The index of the column to get.</param>
-	/// <returns>The value at position <code>[col, row]</code>.</returns>
+	/// <returns>The value at position <c>[col, row]</c>.</returns>
 	[[nodiscard]]
 	constexpr float& At(unsigned char col, unsigned char row);
     
 	/// <summary>
-	///	Retrieves this matrix's row at position <code>[col, row]</code>.
+	///	Retrieves this matrix's column vector at position <c>col</c>.
+	///	If you want to get a value of this matrix, consider using <see cref="At(unsigned char, unsigned char)"/>
+	///	instead, as it is optimized for direct-value access.
 	/// </summary>
 	/// <param name="col">The index of the column to get.</param>
-	/// <returns>The column vector at index <code>col</code>.</returns>
+	/// <returns>The column vector at index <c>col</c>.</returns>
 	[[nodiscard]]
 	constexpr Vector4 operator[](unsigned char col);
-    
+
+	/// <summary>
+	///	Converts this Matrix to a Vector4 by retrieving its first column.
+	/// </summary>
     explicit operator Vector4() const noexcept;
 };
 
@@ -436,10 +483,10 @@ constexpr Matrix::Matrix(const Vector4& c0, const Vector4& c1, const Vector4& c2
 }
 
 constexpr Matrix::Matrix(
-    const float m00, const float m01, const float m02, const float m03,
-    const float m10, const float m11, const float m12, const float m13,
-    const float m20, const float m21, const float m22, const float m23,
-    const float m30, const float m31, const float m32, const float m33
+	const float m00, const float m10, const float m20, const float m30,
+	const float m01, const float m11, const float m21, const float m31,
+	const float m02, const float m12, const float m22, const float m32,
+	const float m03, const float m13, const float m23, const float m33
 ) noexcept
 	: m00(m00), m10(m10), m20(m20), m30(m30)
 	, m01(m01), m11(m11), m21(m21), m31(m31)
@@ -474,10 +521,10 @@ constexpr float* Matrix::Raw() noexcept { return &m00; }
 
 constexpr bool Matrix::IsDiagonal() const noexcept
 {
-    return                      calc::IsZero(m01) && calc::IsZero(m02) && calc::IsZero(m03)
-        && calc::IsZero(m10)                      && calc::IsZero(m12) && calc::IsZero(m13)
-        && calc::IsZero(m20) && calc::IsZero(m21)                      && calc::IsZero(m23)
-        && calc::IsZero(m30) && calc::IsZero(m31) && calc::IsZero(m32);
+    return                      Calc::IsZero(m01) && Calc::IsZero(m02) && Calc::IsZero(m03)
+        && Calc::IsZero(m10)                      && Calc::IsZero(m12) && Calc::IsZero(m13)
+        && Calc::IsZero(m20) && Calc::IsZero(m21)                      && Calc::IsZero(m23)
+        && Calc::IsZero(m30) && Calc::IsZero(m31) && Calc::IsZero(m32);
 }
 
 constexpr bool Matrix::IsIdentity() const noexcept
@@ -485,7 +532,7 @@ constexpr bool Matrix::IsIdentity() const noexcept
     if (!IsDiagonal())
         return false;
     
-    return calc::Equals(m00, 1.f) && calc::Equals(m11, 1.f) && calc::Equals(m22, 1.f) && calc::Equals(m33, 1.f);
+    return Calc::Equals(m00, 1.f) && Calc::Equals(m11, 1.f) && Calc::Equals(m22, 1.f) && Calc::Equals(m33, 1.f);
 }
 
 constexpr bool Matrix::IsNull() const noexcept
@@ -493,21 +540,21 @@ constexpr bool Matrix::IsNull() const noexcept
     if (!IsDiagonal())
         return false;
 
-    return calc::IsZero(m00) && calc::IsZero(m11) && calc::IsZero(m22) && calc::IsZero(m33);
+    return Calc::IsZero(m00) && Calc::IsZero(m11) && Calc::IsZero(m22) && Calc::IsZero(m33);
 }
 
 constexpr bool Matrix::IsSymmetric() const noexcept
 {
-    return calc::Equals(m01, m10) && calc::Equals(m02, m20) && calc::Equals(m03, m30)
-        && calc::Equals(m12, m21) && calc::Equals(m13, m31)
-        && calc::Equals(m23, m32);
+    return Calc::Equals(m01, m10) && Calc::Equals(m02, m20) && Calc::Equals(m03, m30)
+        && Calc::Equals(m12, m21) && Calc::Equals(m13, m31)
+        && Calc::Equals(m23, m32);
 }
 
 constexpr bool Matrix::IsAntisymmetric() const noexcept
 {
-    return calc::Equals(m01, -m10) && calc::Equals(m02, -m20) && calc::Equals(m03, -m30)
-        && calc::Equals(m12, -m21) && calc::Equals(m13, -m31)
-        && calc::Equals(m23, -m32);
+    return Calc::Equals(m01, -m10) && Calc::Equals(m02, -m20) && Calc::Equals(m03, -m30)
+        && Calc::Equals(m12, -m21) && Calc::Equals(m13, -m31)
+        && Calc::Equals(m23, -m32);
 }
 
 constexpr Vector4 Matrix::Diagonal() const noexcept { return Vector4(m00, m11, m22, m33); }
@@ -884,13 +931,13 @@ constexpr Vector4 &operator*=(const Matrix& m, Vector4& v) noexcept { return v =
 constexpr Matrix& operator*=(Matrix& m1, const Matrix& m2) noexcept { return m1 = m1 * m2; }
 
 /// <summary>
-///	Checks if two Matrices are considered equal using <code>calc::Equals</code>.
+///	Checks if two Matrices are considered equal using <c>Calc::Equals</c>.
 /// </summary>
 [[nodiscard]]
 bool operator==(Matrix a, Matrix b);
 
 /// <summary>
-///	Checks if two Matrices are considered different using <code>calc::Equals</code>.
+///	Checks if two Matrices are considered different using <c>Calc::Equals</c>.
 /// </summary>
 [[nodiscard]]
 bool operator!=(Matrix a, Matrix b);

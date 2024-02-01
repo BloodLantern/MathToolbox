@@ -5,6 +5,10 @@
 
 #include <ostream>
 
+/// <summary>
+/// The Quaternion class represents a 4-dimensional vector mainly used for mathematical
+/// calculations revolving around rotations.
+/// </summary>
 class Quaternion
 {
 public:
@@ -319,13 +323,13 @@ constexpr Quaternion& operator*=(Quaternion& v, const float factor) noexcept { r
 constexpr Quaternion& operator/=(Quaternion& v, const float factor) noexcept { return v = v * factor; }
 
 /// <summary>
-///	Checks if two Quaternions are considered equal using <code>calc::Equals</code>.
+///	Checks if two Quaternions are considered equal using <code>Calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
 bool operator==(Quaternion a, Quaternion b);
 
 /// <summary>
-///	Checks if two Quaternions are considered different using <code>calc::Equals</code>.
+///	Checks if two Quaternions are considered different using <code>Calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
 bool operator!=(Quaternion a, Quaternion b);
@@ -343,7 +347,7 @@ constexpr void Quaternion::Invert(Quaternion& result) const noexcept
 {
 	const float sqLength = SquaredLength();
 	
-	if (calc::IsZero(sqLength))
+	if (Calc::IsZero(sqLength))
 	{
 		result = Zero();
 		return;

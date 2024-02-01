@@ -9,25 +9,25 @@ namespace TestCalc
 {
     TEST(calc, Sign)
     {
-        EXPECT_EQ(calc::Sign(17.8f), 1.f);
-        EXPECT_EQ(calc::Sign(-86.1f), -1.f);
+        EXPECT_EQ(Calc::Sign(17.8f), 1.f);
+        EXPECT_EQ(Calc::Sign(-86.1f), -1.f);
     }
 
     TEST(calc, Abs)
     {
-        EXPECT_EQ(calc::Abs(17.8f), 17.8f);
-        EXPECT_EQ(calc::Abs(-86.1f), 86.1f);
+        EXPECT_EQ(Calc::Abs(17.8f), 17.8f);
+        EXPECT_EQ(Calc::Abs(-86.1f), 86.1f);
     }
 
     TEST(calc, IsZero)
     {
-        EXPECT_TRUE(calc::IsZero(calc::Zero));
-        EXPECT_TRUE(calc::IsZero(0.000001f));
+        EXPECT_TRUE(Calc::IsZero(Calc::Zero));
+        EXPECT_TRUE(Calc::IsZero(0.000001f));
     }
 
     TEST(calc, Equals)
     {
-        EXPECT_TRUE(calc::Equals(1.f, 1.00000075f));
+        EXPECT_TRUE(Calc::Equals(1.f, 1.00000075f));
     }
 }
 
@@ -234,7 +234,7 @@ namespace TestQuaternion
     constexpr quat X4(4.f, 0.f, 0.f, 0.f);
     constexpr quat Y4(0.f, 4.f, 0.f, 0.f);
 
-    const quat RotationHalfCircleZ = quat::FromAxisAngle(vec3::UnitZ(), calc::PiOver2);
+    const quat RotationHalfCircleZ = quat::FromAxisAngle(vec3::UnitZ(), Calc::PiOver2);
     const vec3 RotatedUnitX = quat::Rotate(vec3::UnitX(), RotationHalfCircleZ);
 
     TEST(Quaternion, Constants)
@@ -282,8 +282,8 @@ namespace TestQuaternion
         
         EXPECT_EQ(quat(RotatedUnitX), RotationHalfCircleZ * vec3::UnitX() * RotationHalfCircleZ.Conjugate());
         
-        EXPECT_EQ(RotationHalfCircleZ, quat::FromEuler(vec3(0.f, 0.f, calc::PiOver2)));
-        EXPECT_EQ(RotationHalfCircleZ, quat::FromRotationMatrix(mat::RotationZ(calc::PiOver2)));
+        EXPECT_EQ(RotationHalfCircleZ, quat::FromEuler(vec3(0.f, 0.f, Calc::PiOver2)));
+        EXPECT_EQ(RotationHalfCircleZ, quat::FromRotationMatrix(mat::RotationZ(Calc::PiOver2)));
     }
 
     TEST(Quaternion, Inversion)
@@ -298,7 +298,7 @@ namespace TestMatrix
     constexpr mat Identity = mat::Identity();
 
     constexpr vec3 One(1.f);
-    const mat RotationHalfCircleZ = mat::RotationZ(calc::PiOver2);
+    const mat RotationHalfCircleZ = mat::RotationZ(Calc::PiOver2);
     const mat Trs = mat::Trs(One, RotationHalfCircleZ, 2.f);
 
     constexpr mat Symmetric(
@@ -367,7 +367,7 @@ namespace TestMatrix
 
     TEST(Matrix, Rotation)
     {
-        EXPECT_EQ(mat::RotationZ(calc::PiOver2) * vec3::UnitX(), vec3::UnitY());
+        EXPECT_EQ(mat::RotationZ(Calc::PiOver2) * vec3::UnitX(), vec3::UnitY());
     }
 
     TEST(Matrix, Scaling)

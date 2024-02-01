@@ -184,7 +184,7 @@ void Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const float t, 
 
 	float s1, s2;
 
-	if (cosOmega > 1.f - calc::Zero)
+	if (cosOmega > 1.f - Calc::Zero)
 	{
 		// Too close, do straight linear interpolation.
 		s1 = 1.f - t;
@@ -209,10 +209,10 @@ void Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const float t, 
 
 bool operator==(const Quaternion a, const Quaternion b)
 {
-	return calc::Equals(a.imaginary.x, b.imaginary.x)
-		&& calc::Equals(a.imaginary.y, b.imaginary.y)
-		&& calc::Equals(a.imaginary.z, b.imaginary.z)
-		&& calc::Equals(a.real, b.real);
+	return Calc::Equals(a.imaginary.x, b.imaginary.x)
+		&& Calc::Equals(a.imaginary.y, b.imaginary.y)
+		&& Calc::Equals(a.imaginary.z, b.imaginary.z)
+		&& Calc::Equals(a.real, b.real);
 }
 
 bool operator!=(const Quaternion a, const Quaternion b)

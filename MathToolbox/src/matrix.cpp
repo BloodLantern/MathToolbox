@@ -117,7 +117,7 @@ void Matrix::Trs(const Vector3& translation, const float rotationAngle, const Ve
     Trs(translation, Rotation(rotationAngle, rotationAxis), scale, result);
 }
 
-Matrix Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up) noexcept
+Matrix Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up) noexcept
 {
     const Vector3 cameraForward = -(eye - center).Normalized();
     const Vector3 cameraRight = Vector3::Cross(up, cameraForward).Normalized();
@@ -131,7 +131,7 @@ Matrix Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up
     ) * Translation(-eye);
 }
 
-void Matrix::View(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix &result) noexcept
+void Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix &result) noexcept
 {
     const Vector3 cameraForward = -(eye - center).Normalized();
     const Vector3 cameraRight = Vector3::Cross(up, cameraForward).Normalized();
@@ -182,10 +182,10 @@ Matrix::operator Vector4() const noexcept
 
 bool operator==(Matrix a, Matrix b)
 {
-    return calc::Equals(a.m00, b.m00) && calc::Equals(a.m01, b.m01) && calc::Equals(a.m02, b.m02) && calc::Equals(a.m03, b.m03)
-        && calc::Equals(a.m10, b.m10) && calc::Equals(a.m11, b.m11) && calc::Equals(a.m12, b.m12) && calc::Equals(a.m13, b.m13)
-        && calc::Equals(a.m20, b.m20) && calc::Equals(a.m21, b.m21) && calc::Equals(a.m22, b.m22) && calc::Equals(a.m23, b.m23)
-        && calc::Equals(a.m30, b.m30) && calc::Equals(a.m31, b.m31) && calc::Equals(a.m32, b.m32) && calc::Equals(a.m33, b.m33);
+    return Calc::Equals(a.m00, b.m00) && Calc::Equals(a.m01, b.m01) && Calc::Equals(a.m02, b.m02) && Calc::Equals(a.m03, b.m03)
+        && Calc::Equals(a.m10, b.m10) && Calc::Equals(a.m11, b.m11) && Calc::Equals(a.m12, b.m12) && Calc::Equals(a.m13, b.m13)
+        && Calc::Equals(a.m20, b.m20) && Calc::Equals(a.m21, b.m21) && Calc::Equals(a.m22, b.m22) && Calc::Equals(a.m23, b.m23)
+        && Calc::Equals(a.m30, b.m30) && Calc::Equals(a.m31, b.m31) && Calc::Equals(a.m32, b.m32) && Calc::Equals(a.m33, b.m33);
 }
 
 bool operator!=(Matrix a, Matrix b)

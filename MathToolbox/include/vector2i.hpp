@@ -240,13 +240,13 @@ constexpr Vector2i& operator*=(Vector2i& v, const int factor) noexcept
 }
 
 /// <summary>
-///	Checks if two Vector2i are considered equal using <code>calc::Equals</code>.
+///	Checks if two Vector2i are considered equal using <code>Calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
 constexpr bool operator==(const Vector2i a, const Vector2i b) noexcept { return a.x == b.x && a.y == b.y; }
 
 /// <summary>
-///	Checks if two Vector2i are considered different using <code>calc::Equals</code>.
+///	Checks if two Vector2i are considered different using <code>Calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
 constexpr bool operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }

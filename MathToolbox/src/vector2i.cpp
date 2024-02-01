@@ -16,7 +16,7 @@ float Vector2i::Length() const noexcept
 Vector2 Vector2i::Normalized() const
 {
 	const float length = Length();
-	if (calc::IsZero(length))
+	if (Calc::IsZero(length))
 		return Vector2::Zero();
 
     __assume(length != 0.f);

@@ -29,7 +29,6 @@
     <ClInclude Include="include\vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\calc.cpp" />
     <ClCompile Include="src\matrix.cpp" />
     <ClCompile Include="src\quaternion.cpp" />
     <ClCompile Include="src\vector2.cpp" />

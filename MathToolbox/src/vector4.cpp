@@ -16,7 +16,7 @@ float Vector4::Length() const noexcept
 Vector4 Vector4::Normalized() const noexcept
 {
 	const float length = Length();
-	if (calc::IsZero(length))
+	if (Calc::IsZero(length))
 		return Zero();
 
 	__assume(length != 0.f);
@@ -27,7 +27,7 @@ Vector4 Vector4::Normalized() const noexcept
 void Vector4::Normalized(Vector4& result) const noexcept
 {
 	const float length = Length();
-	if (calc::IsZero(length))
+	if (Calc::IsZero(length))
 	{
 		result = Zero();
 		return;

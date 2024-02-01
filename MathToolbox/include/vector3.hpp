@@ -3,8 +3,8 @@
 #include <ostream>
 
 #include "calc.hpp"
+#include "vector2.hpp"
 
-class Vector2;
 class Vector4;
 class Matrix;
 
@@ -142,7 +142,7 @@ public:
 	/// <param name="value">The current position.</param>
 	/// <param name="target">The target position.</param>
 	/// <param name="t">The time to lerp.</param>
-	/// <returns>The lerp position.</returns>
+	/// <param name="result">The lerp position.</param>
 	static constexpr void Lerp(const Vector3& value, const Vector3& target, float t, Vector3& result) noexcept;
 
 	/// <summary>
@@ -315,18 +315,18 @@ constexpr Vector3& operator/=(Vector3& v, const float factor) noexcept
 }
 
 /// <summary>
-///	Checks if two Vector3 are considered equal using <code>calc::Equals</code>.
+///	Checks if two Vector3 are considered equal using <code>Calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
 constexpr bool operator==(const Vector3 a, const Vector3 b) noexcept
 {
-	return calc::Equals(a.x, b.x)
-		&& calc::Equals(a.y, b.y)
-		&& calc::Equals(a.z, b.z);
+	return Calc::Equals(a.x, b.x)
+		&& Calc::Equals(a.y, b.y)
+		&& Calc::Equals(a.z, b.z);
 }
 
 /// <summary>
-///	Checks if two Vector3 are considered different using <code>calc::Equals</code>.
+///	Checks if two Vector3 are considered different using <code>Calc::Equals</code>.
 /// </summary>
 [[nodiscard]]
 constexpr bool operator!=(const Vector3 a, const Vector3 b) noexcept { return !(a == b); }
