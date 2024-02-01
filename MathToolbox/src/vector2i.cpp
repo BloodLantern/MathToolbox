@@ -1,6 +1,7 @@
 #include "vector2i.hpp"
 
 #include <cassert>
+#include <format>
 
 #include "calc.hpp"
 #include "vector2.hpp"

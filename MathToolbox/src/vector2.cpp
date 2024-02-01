@@ -1,5 +1,7 @@
 #include "vector2.hpp"
 
+#include <format>
+
 #include "vector2i.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
