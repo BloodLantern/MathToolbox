@@ -29,6 +29,35 @@ public:
 	static constexpr Vector2 UnitY() noexcept;
 
 	/// <summary>
+	/// Returns a · b.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr float Dot(Vector2 a, Vector2 b) noexcept;
+
+	/// <summary>
+	/// Returns a x b.
+	/// For a Vector2, this is simply the determinant.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr float Cross(Vector2 a, Vector2 b) noexcept;
+
+	/// <summary>
+	/// Returns the determinant of 'a' and 'b'.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr float Determinant(Vector2 a, Vector2 b) noexcept;
+
+	/// <summary>
+	/// Lerp between two positions in a 2-dimensional space.
+	/// </summary>
+	/// <param name="value">The current position.</param>
+	/// <param name="target">The target position.</param>
+	/// <param name="t">The time to lerp.</param>
+	/// <returns>The lerp position.</returns>
+	[[nodiscard]]
+	static constexpr Vector2 Lerp(Vector2 value, Vector2 target, float t) noexcept;
+
+	/// <summary>
 	/// Constructs a Vector2 with both its components set to 0.
 	/// </summary>
 	constexpr Vector2() = default;
@@ -94,35 +123,6 @@ public:
 	Vector2 Normal() const noexcept;
 
 	/// <summary>
-	/// Returns a · b.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr float Dot(Vector2 a, Vector2 b) noexcept;
-
-	/// <summary>
-	/// Returns a x b.
-	/// For a Vector2, this is simply the determinant.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr float Cross(Vector2 a, Vector2 b) noexcept;
-
-	/// <summary>
-	/// Returns the determinant of 'a' and 'b'.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr float Determinant(Vector2 a, Vector2 b) noexcept;
-
-	/// <summary>
-	/// Lerp between two positions in a 2-dimensional space.
-	/// </summary>
-	/// <param name="value">The current position.</param>
-	/// <param name="target">The target position.</param>
-	/// <param name="t">The time to lerp.</param>
-	/// <returns>The lerp position.</returns>
-	[[nodiscard]]
-	static constexpr Vector2 Lerp(Vector2 value, Vector2 target, float t) noexcept;
-
-	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
 	/// <param name="i">
@@ -169,17 +169,17 @@ constexpr Vector2 Vector2::UnitX() noexcept { return Vector2(1.f, 0.f); }
 
 constexpr Vector2 Vector2::UnitY() noexcept { return Vector2(0.f, 1.f); }
 
-constexpr const float* Vector2::Raw() const noexcept { return &x; }
-
-constexpr float* Vector2::Raw() noexcept { return &x; }
-
-constexpr float Vector2::SquaredLength() const noexcept { return SQ(x) + SQ(y); }
-
 constexpr float Vector2::Dot(const Vector2 a, const Vector2 b) noexcept { return a.x * b.x + a.y * b.y; }
 
 constexpr float Vector2::Cross(const Vector2 a, const Vector2 b) noexcept { return Determinant(a, b); }
 
 constexpr float Vector2::Determinant(const Vector2 a, const Vector2 b) noexcept { return a.x * b.y - b.x * a.y; }
+
+constexpr const float* Vector2::Raw() const noexcept { return &x; }
+
+constexpr float* Vector2::Raw() noexcept { return &x; }
+
+constexpr float Vector2::SquaredLength() const noexcept { return SQ(x) + SQ(y); }
 
 constexpr float Vector2::operator[](const size_t i) const
 {
@@ -283,7 +283,7 @@ constexpr Vector2& operator/=(Vector2& v, const float factor) noexcept
 }
 
 /// <summary>
-///	Checks if two Vector2 are considered equal using <code>Calc::Equals</code>.
+///	Checks if two Vector2 are considered equal using <see cref="Calc::Equals"/>.
 /// </summary>
 [[nodiscard]]
 constexpr bool operator==(const Vector2 a, const Vector2 b) noexcept
@@ -293,7 +293,7 @@ constexpr bool operator==(const Vector2 a, const Vector2 b) noexcept
 }
 
 /// <summary>
-///	Checks if two Vector2 are considered different using <code>Calc::Equals</code>.
+///	Checks if two Vector2 are considered different using <see cref="Calc::Equals"/>.
 /// </summary>
 [[nodiscard]]
 constexpr bool operator!=(const Vector2 a, const Vector2 b) noexcept { return !(a == b); }

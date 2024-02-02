@@ -5,51 +5,34 @@
 #include "calc.hpp"
 #include "matrix.hpp"
 
-Quaternion Quaternion::Normalized() const noexcept
-{
-	const float length = Length();
-	return Quaternion(imaginary / length, real / length);
-}
-
-void Quaternion::Normalized(Quaternion& result) const noexcept
-{
-	const float length = Length();
-	result = Quaternion(imaginary / length, real / length);
-}
-
-float Quaternion::Length() const noexcept
-{
-	return std::sqrt(SquaredLength());
-}
-
 Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float angle) noexcept
 {
 	Quaternion result;
-	FromAxisAngle(axis, angle, result);
+	FromAxisAngle(axis, angle, &result);
 	return result;
 }
 
-void Quaternion::FromAxisAngle(const Vector3& axis, const float angle, Quaternion& result) noexcept
+void Quaternion::FromAxisAngle(const Vector3& axis, const float angle, Quaternion* result) noexcept
 {
 	const vec3 normalizedAxis = axis.Normalized();
 	const float halfAngle = angle * 0.5f;
 	const float s = std::sin(halfAngle);
 	const float c = std::cos(halfAngle);
 
-	result.X() = normalizedAxis.x * s;
-	result.Y() = normalizedAxis.y * s;
-	result.Z() = normalizedAxis.z * s;
-	result.W() = c;
+	result->X() = normalizedAxis.x * s;
+	result->Y() = normalizedAxis.y * s;
+	result->Z() = normalizedAxis.z * s;
+	result->W() = c;
 }
 
 Quaternion Quaternion::FromEuler(const Vector3& rotation) noexcept
 {
 	Quaternion result;
-	FromEuler(rotation, result);
+	FromEuler(rotation, &result);
 	return result;
 }
 
-void Quaternion::FromEuler(const Vector3& rotation, Quaternion& result) noexcept
+void Quaternion::FromEuler(const Vector3& rotation, Quaternion* result) noexcept
 {
 	const float cr = std::cos(rotation.x * 0.5f);
 	const float sr = std::sin(rotation.x * 0.5f);
@@ -58,29 +41,29 @@ void Quaternion::FromEuler(const Vector3& rotation, Quaternion& result) noexcept
 	const float cy = std::cos(rotation.z * 0.5f);
 	const float sy = std::sin(rotation.z * 0.5f);
 
-	result.X() = sr * cp * cy - cr * sp * sy;
-	result.Y() = cr * sp * cy + sr * cp * sy;
-	result.Z() = cr * cp * sy - sr * sp * cy;
-	result.W() = cr * cp * cy + sr * sp * sy;
+	result->X() = sr * cp * cy - cr * sp * sy;
+	result->Y() = cr * sp * cy + sr * cp * sy;
+	result->Z() = cr * cp * sy - sr * sp * cy;
+	result->W() = cr * cp * cy + sr * sp * sy;
 }
 
 Quaternion Quaternion::FromRotationMatrix(const Matrix& rotation) noexcept
 {
 	Quaternion result;
-	FromRotationMatrix(rotation, result);
+	FromRotationMatrix(rotation, &result);
 	return result;
 }
 
-void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion& result) noexcept
+void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion* result) noexcept
 {
 	const float trace = rotation.Trace() - rotation.m33;
 
 	if (trace > 0.f)
 	{
 		float s = std::sqrt(trace + 1.f);
-		result.W() = s * 0.5f;
+		result->W() = s * 0.5f;
 		s = 0.5f / s;
-		result.imaginary = vec3(
+		result->imaginary = vec3(
 			(rotation.m21 - rotation.m12) * s,
 			(rotation.m02 - rotation.m20) * s,
 			(rotation.m10 - rotation.m01) * s
@@ -92,7 +75,7 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion& result) 
 		{
 			const float s = std::sqrt(1.f + rotation.m00 - rotation.m11 - rotation.m22);
 			const float invS = 0.5f / s;
-			result = quat(
+			*result = quat(
 				0.5f * s,
 				(rotation.m10 + rotation.m01) * invS,
 				(rotation.m20 + rotation.m02) * invS,
@@ -103,7 +86,7 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion& result) 
 		{
 			const float s = std::sqrt(1.f + rotation.m11 - rotation.m00 - rotation.m22);
 			const float invS = 0.5f / s;
-			result = quat(
+			*result = quat(
 				(rotation.m01 + rotation.m10) * invS,
 				0.5f * s,
 				(rotation.m12 + rotation.m21) * invS,
@@ -114,7 +97,7 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion& result) 
 		{
 			const float s = std::sqrt(1.f + rotation.m22 - rotation.m00 - rotation.m11);
 			const float invS = 0.5f / s;
-			result = quat(
+			*result = quat(
 				(rotation.m02 + rotation.m20) * invS,
 				(rotation.m12 + rotation.m21) * invS,
 				0.5f * s,
@@ -124,55 +107,55 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion& result) 
 	}
 }
 
-Quaternion Quaternion::Lerp(const Quaternion& a, const Quaternion& b, const float t) noexcept
+Quaternion Quaternion::Lerp(const Quaternion& value, const Quaternion& target, const float t) noexcept
 {
 	Quaternion result;
-	Lerp(a, b, t, result);
+	Lerp(value, target, t, &result);
 	return result;
 }
 
-void Quaternion::Lerp(const Quaternion& a, const Quaternion& b, const float t, Quaternion& result) noexcept
+void Quaternion::Lerp(const Quaternion& value, const Quaternion& target, const float t, Quaternion* result) noexcept
 {
 	const float t1 = 1.f - t;
 
-	const float dot = Dot(a, b);
+	const float dot = Dot(value, target);
 
 	if (dot >= 0.f)
 	{
-		result.X() = t1 * a.X() + t * b.X();
-		result.Y() = t1 * a.Y() + t * b.Y();
-		result.Z() = t1 * a.Z() + t * b.Z();
-		result.W() = t1 * a.W() + t * b.W();
+		result->X() = t1 * value.X() + t * target.X();
+		result->Y() = t1 * value.Y() + t * target.Y();
+		result->Z() = t1 * value.Z() + t * target.Z();
+		result->W() = t1 * value.W() + t * target.W();
 	}
 	else
 	{
-		result.X() = t1 * a.X() - t * b.X();
-		result.Y() = t1 * a.Y() - t * b.Y();
-		result.Z() = t1 * a.Z() - t * b.Z();
-		result.W() = t1 * a.W() - t * b.W();
+		result->X() = t1 * value.X() - t * target.X();
+		result->Y() = t1 * value.Y() - t * target.Y();
+		result->Z() = t1 * value.Z() - t * target.Z();
+		result->W() = t1 * value.W() - t * target.W();
 	}
 
 	// Normalize it.
-	const float ls = result.X() * result.X() + result.Y() * result.Y() + result.Z() * result.Z() + result.W() * result.W();
+	const float ls = result->X() * result->X() + result->Y() * result->Y() + result->Z() * result->Z() + result->W() * result->W();
 	const float invNorm = 1.f / std::sqrt(ls);
 
-	result.X() *= invNorm;
-	result.Y() *= invNorm;
-	result.Z() *= invNorm;
-	result.W() *= invNorm;
+	result->X() *= invNorm;
+	result->Y() *= invNorm;
+	result->Z() *= invNorm;
+	result->W() *= invNorm;
 }
 
-Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const float t) noexcept
+Quaternion Quaternion::Slerp(const Quaternion& value, const Quaternion& target, const float t) noexcept
 {
 	Quaternion result;
-	Slerp(a, b, t, result);
+	Slerp(value, target, t, &result);
 	return result;
 }
 
-void Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const float t, Quaternion& result) noexcept
+void Quaternion::Slerp(const Quaternion& value, const Quaternion& target, const float t, Quaternion* result) noexcept
 {
-	float cosOmega = a.X() * b.X() + a.Y() * b.Y() +
-					 a.Z() * b.Z() + a.W() * b.W();
+	float cosOmega = value.X() * target.X() + value.Y() * target.Y() +
+					 value.Z() * target.Z() + value.W() * target.W();
 
 	bool flip = false;
 
@@ -201,10 +184,27 @@ void Quaternion::Slerp(const Quaternion& a, const Quaternion& b, const float t, 
 			: std::sin(t * omega) * invSinOmega;
 	}
 
-	result.X() = s1 * a.X() + s2 * b.X();
-	result.Y() = s1 * a.Y() + s2 * b.Y();
-	result.Z() = s1 * a.Z() + s2 * b.Z();
-	result.W() = s1 * a.W() + s2 * b.W();
+	result->X() = s1 * value.X() + s2 * target.X();
+	result->Y() = s1 * value.Y() + s2 * target.Y();
+	result->Z() = s1 * value.Z() + s2 * target.Z();
+	result->W() = s1 * value.W() + s2 * target.W();
+}
+
+Quaternion Quaternion::Normalized() const noexcept
+{
+	const float length = Length();
+	return Quaternion(imaginary / length, real / length);
+}
+
+void Quaternion::Normalized(Quaternion* result) const noexcept
+{
+	const float length = Length();
+	*result = Quaternion(imaginary / length, real / length);
+}
+
+float Quaternion::Length() const noexcept
+{
+	return std::sqrt(SquaredLength());
 }
 
 bool operator==(const Quaternion a, const Quaternion b)

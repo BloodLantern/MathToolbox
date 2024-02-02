@@ -5,15 +5,6 @@
 #include "calc.hpp"
 #include "vector3.hpp"
 
-void Matrix::DebugPrint() const noexcept
-{
-    std::cout << "{ "
-        << m00 << ' ' << m01 << ' ' << m02 << ' ' << m03 << " }\n{ "
-        << m10 << ' ' << m11 << ' ' << m12 << ' ' << m13 << " }\n{ "
-        << m20 << ' ' << m21 << ' ' << m22 << ' ' << m23 << " }\n{ "
-        << m30 << ' ' << m31 << ' ' << m32 << ' ' << m33 << " }\n";
-}
-
 Matrix Matrix::Rotation(const float angle, const Vector3& axis) noexcept
 {
     return Rotation(std::cos(angle), std::sin(angle), axis);
@@ -175,22 +166,18 @@ void Matrix::Perspective(const float fov, const float aspectRatio, const float n
     );
 }
 
+void Matrix::DebugPrint() const noexcept
+{
+    std::cout << "{ "
+        << m00 << ' ' << m10 << ' ' << m20 << ' ' << m30 << " }\n{ "
+        << m01 << ' ' << m11 << ' ' << m21 << ' ' << m31 << " }\n{ "
+        << m02 << ' ' << m12 << ' ' << m22 << ' ' << m32 << " }\n{ "
+        << m03 << ' ' << m13 << ' ' << m23 << ' ' << m33 << " }\n";
+}
+
 Matrix::operator Vector4() const noexcept
 {
     return Vector4(m00, m01, m02, m03);
-}
-
-bool operator==(Matrix a, Matrix b)
-{
-    return Calc::Equals(a.m00, b.m00) && Calc::Equals(a.m01, b.m01) && Calc::Equals(a.m02, b.m02) && Calc::Equals(a.m03, b.m03)
-        && Calc::Equals(a.m10, b.m10) && Calc::Equals(a.m11, b.m11) && Calc::Equals(a.m12, b.m12) && Calc::Equals(a.m13, b.m13)
-        && Calc::Equals(a.m20, b.m20) && Calc::Equals(a.m21, b.m21) && Calc::Equals(a.m22, b.m22) && Calc::Equals(a.m23, b.m23)
-        && Calc::Equals(a.m30, b.m30) && Calc::Equals(a.m31, b.m31) && Calc::Equals(a.m32, b.m32) && Calc::Equals(a.m33, b.m33);
-}
-
-bool operator!=(Matrix a, Matrix b)
-{
-    return !(a == b);
 }
 
 std::ostream &operator<<(std::ostream &out, const Matrix &m)

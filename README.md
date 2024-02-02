@@ -1,27 +1,68 @@
-# MathToolbox
+# C++ Math Toolbox
 
-This library defines a set of math types and functions to easily manipulate vectors, quaternions and matrices.
+This library defines a set of math types and functions to easily manipulate vectors, quaternions and matrices for the C++ programming language.
+
+## Language version and architecture
+
+This project is compiled using C++23 features (`/std:c++latest`), on MSVC, for the `x64` architecture.
+
+You could actually build the project from source for the `x86` architecture, but the releases and project configurations are all for `x64`.
 
 ## How to use this library
 
-### Build from source
+You can choose between 3 ways of using this library in your project.
 
-To use this library, you need to compile it using the Visual Studio solution file found in the root directory. After opening it, the only thing you have to do is to build the library (MathToolbox project) in Debug and then in Release mode.
+### 1. Use this as a submodule
 
-The build events will automatically create a 'bin' folder in the root folder. In that folder, you will find the .lib, .pdb and .idb files for Debug and Release. For the Debug version, the file names will be suffixed with a 'd'. Additionally, the 'include' directory, in which all the header files are located, can be found in the MathToolbox folder.
+In a directory of your choice within your project, run `git submodule add https://github.com/BloodLantern/MathToolbox.git`
 
-To then use the library in any of your projects, do as you would usually: include the necessary headers and compile by statically linking the corresponding library files (Debug or Release).
+Add the `MathToolbox/MathToolbox/MathToolbox.vcxproj` project to your solution and set your build order to build it first.
+In your project configuration, add the `MathToolbox/MathToolbox/include` folder to your include path.
+Also add the `MathToolbox/bin` folder to your additional library directories.
+The last thing to do is to statically link your application to `toolboxd.lib` in `Debug` (`/O0`), and to `toolbox.lib` in `Release` (`/O2`).
 
-### Download a release
+### 2. Build from source
 
-[Link](https://github.com/BloodLantern/MathToolbox/releases)
+Clone the project using `git clone https://github.com/BloodLantern/MathToolbox.git`.
+Open the Visual Studio solution file found in the root directory.
+After opening it, the only thing you have to do is to build the library (MathToolbox project) in Debug and then in Release mode.
+
+The build events will automatically create a `MathToolbox/bin` folder.
+In that folder, you will find the `.lib`, `.pdb` and `.idb` files for `Debug` (`/O0`) and `Release` (`/O2`).
+For the `Debug` version, the file names will be suffixed with a 'd'.
+Additionally, the `include` directory, in which all the header files are located, can be found in the `MathToolbox` folder.
+
+To then use the library in any of your projects, do as you would usually: include the necessary headers and compile by statically linking the corresponding library files (`Debug` or `Release`).
+
+### 3. Use a precompiled release
+
+Download a release (use the latest if you want the best optimizations) [here](https://github.com/BloodLantern/MathToolbox/releases).
+Add the `include` directory to your include path.
+Statically link your project to the prebuilt binaries, using `toolboxd.lib` for a `Debug` (`/O0`) build, and `toolbox.lib` for a `Release` (`/O2`) build.
 
 ## What is included
 
-In addition to the common types like vectors in 2, 3 and 4 dimensions, quaternions and 4x4 matrices, this library provides the Vector2i type. This is a vector in 2 dimensions but for integer values. This can be useful when working with resolutions, or more generally when using exact pixel coordinates.
+In addition to the common types like vectors in 2, 3 and 4 dimensions, quaternions and 4x4 matrices, this library provides the Vector2i type.
+This is a vector in 2 dimensions but for integer values.
+This can be useful when working with resolutions, or more generally when using exact pixel coordinates.
+All those types are defined in the global namespace so that they are very easy and quick to use.
 
-In the Calc namespace, mathematical constants, and some useful, general use functions are defined.
+The defined types also all have aliases for quick use, which are listed below:
+- `Vector2` -> `vec2`
+- `Vector2i` -> `vec2i`
+- `Vector3` -> `vec3`
+- `Vector4` -> `vec4`
+- `Quaternion` -> `quat`
+- `Matrix` -> `mat4` -> `mat`
 
-Most types and functions have documentation in their respective header files so you can always check them if needed. A [Doxygen](https://www.doxygen.nl)-generated documentation page will also soon be available.
+In the `Calc` namespace, mathematical constants and some useful, general use functions are defined.
 
-The majority of this library functions are `constexpr`, which means that their calls can be resolved at compile-time.
+Most types and functions have documentation in their respective header files so you can always check them if needed.
+
+A [Doxygen](https://doxygen.nl)-generated documentation page can also be generated by running `doxygen` in the root directory. This will generate the `html` pages in the `doc/html` folder.
+
+The majority of this library functions are `constexpr`, which means that their calls can be resolved at compile-time which allows a faster execution at run-time.
+
+All rotation angles are in radians. If you want to use degrees instead, multiply your degree angle by `Calc::Deg2Rad`. This will give you the same amount but in radians.
+
+To use this library, you can `#include` the specific file you need, or you can instead `#include` the `math.hpp` file, which contains every other header for you.

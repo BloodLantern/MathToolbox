@@ -43,6 +43,42 @@ public:
 	static constexpr void UnitZ(Vector3& result) noexcept;
 
 	/// <summary>
+	/// Returns a · b.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr float Dot(const Vector3& a, const Vector3& b) noexcept;
+
+	/// <summary>
+	/// Returns a x b.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr Vector3 Cross(const Vector3& a, const Vector3& b) noexcept;
+
+	/// <summary>
+	/// Returns a x b.
+	/// </summary>
+	static constexpr void Cross(const Vector3& a, const Vector3& b, Vector3& result) noexcept;
+
+	/// <summary>
+	/// Lerp between two positions in a 3-dimensional space.
+	/// </summary>
+	/// <param name="value">The current position.</param>
+	/// <param name="target">The target position.</param>
+	/// <param name="t">The time to lerp.</param>
+	/// <returns>The lerp position.</returns>
+	[[nodiscard]]
+	static constexpr Vector3 Lerp(const Vector3& value, const Vector3& target, float t) noexcept;
+
+	/// <summary>
+	/// Lerp between two positions in a 3-dimensional space.
+	/// </summary>
+	/// <param name="value">The current position.</param>
+	/// <param name="target">The target position.</param>
+	/// <param name="t">The time to lerp.</param>
+	/// <param name="result">The lerp position.</param>
+	static constexpr void Lerp(const Vector3& value, const Vector3& target, float t, Vector3& result) noexcept;
+
+	/// <summary>
 	/// Constructs a Vector3 with both its components set to 0.
 	/// </summary>
 	constexpr Vector3() = default;
@@ -110,42 +146,6 @@ public:
 	void Normalized(Vector3& result) const noexcept;
 
 	/// <summary>
-	/// Returns a · b.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr float Dot(const Vector3& a, const Vector3& b) noexcept;
-
-	/// <summary>
-	/// Returns a x b.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr Vector3 Cross(const Vector3& a, const Vector3& b) noexcept;
-
-	/// <summary>
-	/// Returns a x b.
-	/// </summary>
-	static constexpr void Cross(const Vector3& a, const Vector3& b, Vector3& result) noexcept;
-
-	/// <summary>
-	/// Lerp between two positions in a 3-dimensional space.
-	/// </summary>
-	/// <param name="value">The current position.</param>
-	/// <param name="target">The target position.</param>
-	/// <param name="t">The time to lerp.</param>
-	/// <returns>The lerp position.</returns>
-	[[nodiscard]]
-	static constexpr Vector3 Lerp(const Vector3& value, const Vector3& target, float t) noexcept;
-
-	/// <summary>
-	/// Lerp between two positions in a 3-dimensional space.
-	/// </summary>
-	/// <param name="value">The current position.</param>
-	/// <param name="target">The target position.</param>
-	/// <param name="t">The time to lerp.</param>
-	/// <param name="result">The lerp position.</param>
-	static constexpr void Lerp(const Vector3& value, const Vector3& target, float t, Vector3& result) noexcept;
-
-	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
 	/// <param name="i">
@@ -200,17 +200,17 @@ constexpr Vector3 Vector3::UnitZ() noexcept { return Vector3(0.f, 0.f, 1.f); }
 
 constexpr void Vector3::UnitZ(Vector3& result) noexcept { result = Vector3(0.f, 0.f, 1.f); }
 
-constexpr const float* Vector3::Raw() const noexcept { return &x; }
-
-constexpr float* Vector3::Raw() noexcept { return &x; }
-
-constexpr float Vector3::SquaredLength() const noexcept { return SQ(x) + SQ(y) + SQ(z); }
-
 constexpr float Vector3::Dot(const Vector3& a, const Vector3& b) noexcept { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
 constexpr Vector3 Vector3::Cross(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
 
 constexpr void Vector3::Cross(const Vector3& a, const Vector3& b, Vector3& result) noexcept { result = Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
+
+constexpr const float* Vector3::Raw() const noexcept { return &x; }
+
+constexpr float* Vector3::Raw() noexcept { return &x; }
+
+constexpr float Vector3::SquaredLength() const noexcept { return SQ(x) + SQ(y) + SQ(z); }
 
 constexpr float Vector3::operator[](const size_t i) const
 {

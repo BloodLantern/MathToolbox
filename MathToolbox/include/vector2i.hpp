@@ -26,6 +26,25 @@ public:
 
 	[[nodiscard]]
 	static constexpr Vector2i UnitY() noexcept;
+	
+	/// <summary>
+	/// Returns a · b.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr float Dot(Vector2i a, Vector2i b) noexcept;
+	
+	/// <summary>
+	/// Returns a x b.
+	/// For a Vector2i this is only the determinant.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr float Cross(Vector2i a, Vector2i b) noexcept;
+	
+	/// <summary>
+	/// Returns the determinant of 'a' and 'b'.
+	/// </summary>
+	[[nodiscard]]
+	static constexpr float Determinant(Vector2i a, Vector2i b) noexcept;
 
 	constexpr Vector2i() = default;
 
@@ -82,25 +101,6 @@ public:
 	/// <returns>A vector with the same length but a normal direction.</returns>
 	[[nodiscard]]
 	Vector2 Normal() const;
-	
-	/// <summary>
-	/// Returns a · b.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr float Dot(Vector2i a, Vector2i b) noexcept;
-	
-	/// <summary>
-	/// Returns a x b.
-	/// For a Vector2i this is only the determinant.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr float Cross(Vector2i a, Vector2i b) noexcept;
-	
-	/// <summary>
-	/// Returns the determinant of 'a' and 'b'.
-	/// </summary>
-	[[nodiscard]]
-	static constexpr float Determinant(Vector2i a, Vector2i b) noexcept;
 
 	/// <summary>
 	///	Retrieves this vector's component at index i.
@@ -149,17 +149,17 @@ constexpr Vector2i Vector2i::UnitX() noexcept { return Vector2i(1, 0); }
 
 constexpr Vector2i Vector2i::UnitY() noexcept { return Vector2i(0, 1); }
 
-constexpr const int* Vector2i::Raw() const noexcept { return &x; }
-
-constexpr int* Vector2i::Raw() noexcept { return &x; }
-
-constexpr float Vector2i::SquaredLength() const noexcept { return static_cast<float>(x * x + y * y); }
-
 constexpr float Vector2i::Dot(const Vector2i a, const Vector2i b) noexcept { return static_cast<float>(a.x * b.x + a.y * b.y); }
 
 constexpr float Vector2i::Cross(const Vector2i a, const Vector2i b) noexcept { return Determinant(a, b); }
 
 constexpr float Vector2i::Determinant(const Vector2i a, const Vector2i b) noexcept { return static_cast<float>(a.x * b.y - b.x * a.y); }
+
+constexpr const int* Vector2i::Raw() const noexcept { return &x; }
+
+constexpr int* Vector2i::Raw() noexcept { return &x; }
+
+constexpr float Vector2i::SquaredLength() const noexcept { return static_cast<float>(x * x + y * y); }
 
 constexpr int Vector2i::operator[](const size_t i) const
 {

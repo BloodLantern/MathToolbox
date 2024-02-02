@@ -528,4 +528,4 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudio,visualstudiocode,rider
 
-MathToolbox/doc/**
+doc
