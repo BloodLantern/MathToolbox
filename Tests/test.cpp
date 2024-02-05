@@ -80,6 +80,29 @@ namespace TestVector2
     {
         EXPECT_THROW(UnitX[2], std::out_of_range);
     }
+
+    TEST(Vector2, Operators)
+    {
+        EXPECT_EQ(UnitX + UnitY, vec2(1.f));
+        EXPECT_EQ(UnitX - UnitX, vec2(0.f));
+        
+        EXPECT_EQ(UnitX * 2.f, vec2(2.f, 0.f));
+        EXPECT_EQ(vec2(1.f) * vec2(2.f, 0.5f), vec2(2.f, 0.5f));
+        
+        EXPECT_EQ(UnitX / 2.f, vec2(0.5f, 0.f));
+        EXPECT_EQ(vec2(1.f) / vec2(2.f, 0.5f), vec2(0.5f, 2.f));
+
+        vec2 temp = UnitX;
+        EXPECT_EQ(temp += UnitY, vec2(1.f));
+        EXPECT_EQ(temp -= UnitX, UnitY);
+        
+        temp = vec2(1.f);
+        EXPECT_EQ(temp *= 2.f, vec2(2.f));
+        EXPECT_EQ(temp *= vec2(2.f, 0.5f), vec2(4.f, 1.f));
+        
+        EXPECT_EQ(temp /= 2.f, vec2(2.f, 0.5f));
+        EXPECT_EQ(temp /= vec2(2.f, 0.5f), vec2(1.f));
+    }
 }
 
 namespace TestVector2i
@@ -126,6 +149,23 @@ namespace TestVector2i
     {
         EXPECT_THROW(UnitX[2], std::out_of_range);
     }
+
+    TEST(Vector2i, Operators)
+    {
+        EXPECT_EQ(UnitX + UnitY, vec2i(1));
+        EXPECT_EQ(UnitX - UnitX, vec2i(0));
+        
+        EXPECT_EQ(UnitX * 2, vec2i(2, 0));
+        EXPECT_EQ(vec2i(1) * vec2i(2, 0), vec2i(2, 0));
+
+        vec2i temp = UnitX;
+        EXPECT_EQ(temp += UnitY, vec2i(1));
+        EXPECT_EQ(temp -= UnitX, UnitY);
+        
+        temp = vec2i(1);
+        EXPECT_EQ(temp *= 2, vec2i(2));
+        EXPECT_EQ(temp *= vec2i(2, 0), vec2i(4, 0));
+    }
 }
 
 namespace TestVector3
@@ -170,6 +210,29 @@ namespace TestVector3
     TEST(Vector3, SubscriptOutOfRangeThrow)
     {
         EXPECT_THROW(UnitX[3], std::out_of_range);
+    }
+
+    TEST(Vector3, Operators)
+    {
+        EXPECT_EQ(UnitX + UnitY, vec3(1.f, 1.f, 0.f));
+        EXPECT_EQ(UnitX - UnitX, vec3(0.f));
+        
+        EXPECT_EQ(UnitX * 2.f, vec3(2.f, 0.f, 0.f));
+        EXPECT_EQ(vec3(1.f) * vec3(2.f, 0.5f, 0.f), vec3(2.f, 0.5f, 0.f));
+        
+        EXPECT_EQ(UnitX / 2.f, vec3(0.5f, 0.f, 0.f));
+        EXPECT_EQ(vec3(1.f) / vec3(2.f, 0.5f, 1.f), vec3(0.5f, 2.f, 1.f));
+
+        vec3 temp = UnitX;
+        EXPECT_EQ(temp += UnitY, vec3(1.f, 1.f, 0.f));
+        EXPECT_EQ(temp -= UnitX, UnitY);
+        
+        temp = vec3(1.f);
+        EXPECT_EQ(temp *= 2.f, vec3(2.f));
+        EXPECT_EQ(temp *= vec3(2.f, 0.5f, 0.f), vec3(4.f, 1.f, 0.f));
+        
+        EXPECT_EQ(temp /= 2.f, vec3(2.f, 0.5f, 0.f));
+        EXPECT_EQ(temp /= vec3(2.f, 0.5f, 1.f), vec3(1.f, 1.f, 0.f));
     }
 }
 
@@ -221,6 +284,29 @@ namespace TestVector4
     TEST(Vector4, CastToMatrixBackToVector4)
     {
         EXPECT_EQ(X4, static_cast<vec4>(static_cast<mat4>(X4)));
+    }
+
+    TEST(Vector4, Operators)
+    {
+        EXPECT_EQ(UnitX + UnitY, vec4(1.f, 1.f, 0.f, 0.f));
+        EXPECT_EQ(UnitX - UnitX, vec4(0.f));
+        
+        EXPECT_EQ(UnitX * 2.f, vec4(2.f, 0.f, 0.f, 0.f));
+        EXPECT_EQ(vec4(1.f) * vec4(2.f, 0.5f, 0.f, 0.f), vec4(2.f, 0.5f, 0.f, 0.f));
+        
+        EXPECT_EQ(UnitX / 2.f, vec4(0.5f, 0.f, 0.f, 0.f));
+        EXPECT_EQ(vec4(1.f) / vec4(2.f, 0.5f, 1.f, 1.f), vec4(0.5f, 2.f, 1.f, 1.f));
+
+        vec4 temp = UnitX;
+        EXPECT_EQ(temp += UnitY, vec4(1.f, 1.f, 0.f, 0.f));
+        EXPECT_EQ(temp -= UnitX, UnitY);
+        
+        temp = vec4(1.f);
+        EXPECT_EQ(temp *= 2.f, vec4(2.f));
+        EXPECT_EQ(temp *= vec4(2.f, 0.5f, 0.f, 0.f), vec4(4.f, 1.f, 0.f, 0.f));
+        
+        EXPECT_EQ(temp /= 2.f, vec4(2.f, 0.5f, 0.f, 0.f));
+        EXPECT_EQ(temp /= vec4(2.f, 0.5f, 1.f, 1.f), vec4(1.f, 1.f, 0.f, 0.f));
     }
 }
 
@@ -290,6 +376,32 @@ namespace TestQuaternion
     {
         EXPECT_EQ(quat::Rotate(RotatedUnitX, RotationHalfCircleZ.Invert()), vec3::UnitX());
     }
+
+    TEST(Quaternion, Operators)
+    {
+        EXPECT_EQ(UnitX + UnitY, quat(1.f, 1.f, 0.f, 0.f));
+        EXPECT_EQ(UnitX - UnitX, quat(0.f));
+        
+        EXPECT_EQ(UnitX * 2.f, quat(2.f, 0.f, 0.f, 0.f));
+        EXPECT_EQ(quat(2.f, 3.f, 4.f, 1.f) * quat(6.f, 7.f, 8.f, 5.f), quat(12.f, 30.f, 24.f, -60.f));
+        EXPECT_EQ(quat(6.f, 7.f, 8.f, 5.f) * quat(2.f, 3.f, 4.f, 1.f), quat(20.f, 14.f, 32.f, -60.f));
+        
+        EXPECT_EQ(UnitX / 2.f, quat(0.5f, 0.f, 0.f, 0.f));
+
+        quat temp = UnitX;
+        EXPECT_EQ(temp += UnitY, quat(1.f, 1.f, 0.f, 0.f));
+        EXPECT_EQ(temp -= UnitX, UnitY);
+        
+        temp = quat(1.f);
+        EXPECT_EQ(temp *= 2.f, quat(2.f));
+        temp = quat(2.f, 3.f, 4.f, 1.f);
+        EXPECT_EQ(temp *= quat(6.f, 7.f, 8.f, 5.f), quat(12.f, 30.f, 24.f, -60.f));
+        temp = quat(6.f, 7.f, 8.f, 5.f);
+        EXPECT_EQ(temp *= quat(2.f, 3.f, 4.f, 1.f), quat(20.f, 14.f, 32.f, -60.f));
+        
+        temp = quat(1.f);
+        EXPECT_EQ(temp /= 2.f, quat(0.5f));
+    }
 }
 
 namespace TestMatrix
@@ -358,6 +470,15 @@ namespace TestMatrix
     TEST(Matrix, Inversion)
     {
         EXPECT_EQ(Trs * Trs.Inverted(), Identity);
+
+        constexpr mat4 temp(
+            1.f, 2.f, 3.f, 4.f,
+            5.f, 6.f, 7.f, 8.f,
+            9.f, 10.f, 11.f, 12.f,
+            13.f, 14.f, 15.f, 16.f
+        );
+
+        EXPECT_THROW(temp.Inverted(), std::invalid_argument);
     }
 
     TEST(Matrix, Translation)
