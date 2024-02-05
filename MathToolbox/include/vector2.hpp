@@ -216,7 +216,7 @@ constexpr Vector2 operator*(const Vector2 v, const float factor) noexcept { retu
 constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x / b.x, a.y / b.y); }
 
 [[nodiscard]]
-constexpr Vector2 operator/(const Vector2 v, const float factor) noexcept { return Vector2(v.x / factor, v.y / factor); }
+constexpr Vector2 operator/(const Vector2 v, const float factor) noexcept { const float invFactor = 1.f / factor; return Vector2(v.x * invFactor, v.y * invFactor); }
 
 constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept
 {
@@ -276,8 +276,10 @@ constexpr Vector2 &operator/=(Vector2 &a, const Vector2 b) noexcept
 
 constexpr Vector2& operator/=(Vector2& v, const float factor) noexcept
 {
-	v.x /= factor;
-	v.y /= factor;
+	const float invFactor = 1.f / factor;
+	
+	v.x *= invFactor;
+	v.y *= invFactor;
 	
 	return v;
 }
