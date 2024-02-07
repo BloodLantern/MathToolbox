@@ -467,6 +467,19 @@ namespace TestMatrix
         EXPECT_EQ(Identity, Identity.Transposed());
     }
 
+    TEST(Matrix, Multiplication)
+    {
+        constexpr mat4 t = mat::Translation(One);
+
+        EXPECT_EQ(t * t, mat::Translation(vec3(2.f)));
+
+        constexpr mat4 s = mat::Scaling(-5.f);
+
+        constexpr mat4 ts = t * s;
+
+        EXPECT_EQ(ts * One, vec3(-4.f));
+    }
+
     TEST(Matrix, Inversion)
     {
         EXPECT_EQ(Trs * Trs.Inverted(), Identity);
@@ -494,6 +507,11 @@ namespace TestMatrix
     TEST(Matrix, Scaling)
     {
         EXPECT_EQ(mat::Scaling(OneTwoThree) * One, OneTwoThree);
+    }
+
+    TEST(Matrix, TRS)
+    {
+        EXPECT_EQ(mat::Trs(One, vec3(0.f, 0.f, Calc::PiOver2), vec3(2.f)) * One, vec3(-1.f, 3.f, 3.f));
     }
 
     TEST(Matrix, Subscript)
