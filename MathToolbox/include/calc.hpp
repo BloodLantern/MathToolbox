@@ -32,32 +32,32 @@ namespace Calc
 	/// <summary>
     /// The value under which a number is considered to be zero.
 	/// </summary>
-	MATH_TOOLBOX constexpr float Zero = ZERO;
+	constexpr float Zero = ZERO;
 	
 	/// <summary>
 	///	Shorthand for writing <c>std::numbers::pi_v<float></c>.
 	/// </summary>
-	MATH_TOOLBOX constexpr float Pi = std::numbers::pi_v<float>;
+	constexpr float Pi = std::numbers::pi_v<float>;
 	
 	/// <summary>
 	///	Shorthand for writing <c>Calc::Pi / 2.f</c>.
 	/// </summary>
-	MATH_TOOLBOX constexpr float PiOver2 = Pi / 2.f;
+	constexpr float PiOver2 = Pi / 2.f;
 	
 	/// <summary>
 	///	Shorthand for writing <c>Calc::Pi / 2.f</c>.
 	/// </summary>
-	MATH_TOOLBOX constexpr float PiOver4 = Pi / 4.f;
+	constexpr float PiOver4 = Pi / 4.f;
 	
 	/// <summary>
 	///	Value used to convert from degrees to radians.
 	/// </summary>
-	MATH_TOOLBOX constexpr float Deg2Rad = Pi / 180.f;
+	constexpr float Deg2Rad = Pi / 180.f;
 	
 	/// <summary>
 	///	Value used to convert from radians to degrees.
 	/// </summary>
-	MATH_TOOLBOX constexpr float Rad2Deg = 1.f / Deg2Rad;
+	constexpr float Rad2Deg = 1.f / Deg2Rad;
 
     /// <summary>
     /// Returns -1 if x is less than 0, 1 if x is greater than 0
