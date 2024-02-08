@@ -240,7 +240,7 @@ constexpr Vector3 operator*(const Vector3& v, const float factor) noexcept { ret
 
 constexpr Vector3 operator/(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x / b.x, a.y / b.y, a.z / b.z); }
 
-constexpr Vector3 operator/(const Vector3& v, const float factor) noexcept { return Vector3(v.x / factor, v.y / factor, v.z / factor); }
+constexpr Vector3 operator/(const Vector3& v, const float factor) noexcept { const float invFactor = 1.f / factor; return Vector3(v.x * invFactor, v.y * invFactor, v.z * invFactor); }
 
 constexpr Vector3& operator+=(Vector3& a, const Vector3& b) noexcept
 {
@@ -307,9 +307,11 @@ constexpr Vector3 &operator/=(Vector3 &a, const Vector3& b) noexcept
 
 constexpr Vector3& operator/=(Vector3& v, const float factor) noexcept
 {
-	v.x /= factor;
-	v.y /= factor;
-	v.z /= factor;
+	const float invFactor = 1.f / factor;
+	
+	v.x *= invFactor;
+	v.y *= invFactor;
+	v.z *= invFactor;
 	
 	return v;
 }

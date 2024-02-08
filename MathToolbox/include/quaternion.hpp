@@ -465,7 +465,7 @@ constexpr Quaternion& operator*=(Quaternion& a, const Quaternion& b) noexcept { 
 
 constexpr Quaternion& operator*=(Quaternion& v, const float factor) noexcept { return v = v * factor; }
 
-constexpr Quaternion& operator/=(Quaternion& v, const float factor) noexcept { return v = v * factor; }
+constexpr Quaternion& operator/=(Quaternion& v, const float factor) noexcept { return v = v / factor; }
 
 /// <summary>
 ///	Checks if two Quaternions are considered equal using <code>Calc::Equals</code>.
