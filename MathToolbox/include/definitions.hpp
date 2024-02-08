@@ -12,9 +12,9 @@
 ///
 /// If using this library to build a DLL, define <c>MATH_TOOLBOX_DLL_EXPORT</c>. If using a DLL that was built using this library, instead define <c>MATH_TOOLBOX_DLL_IMPORT</c>.
 /// </summary>
-#ifdef MATH_TOOLBOX_DLL_EXPORT
+#if defined(MATH_TOOLBOX_DLL_EXPORT)
 #define MATH_TOOLBOX __declspec(dllexport)
-#elifdef MATH_TOOLBOX_DLL_IMPORT
+#elif defined(MATH_TOOLBOX_DLL_IMPORT)
 #define MATH_TOOLBOX __declspec(dllimport)
 #else
 #define MATH_TOOLBOX
