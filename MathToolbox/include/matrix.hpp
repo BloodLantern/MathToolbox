@@ -2,15 +2,16 @@
 
 #include <ostream>
 
-#include "quaternion.hpp"
+#include "calc.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
+#include "quaternion.hpp"
 
 /// <summary>
 /// The Matrix class represents a 4x4 array mainly used for mathematical operations.
 /// Matrices are stored using the column-major convention.
 /// </summary>
-class Matrix
+class MATH_TOOLBOX Matrix
 {
 public:
 	float m00 = 0.f; float m10 = 0.f; float m20 = 0.f; float m30 = 0.f;

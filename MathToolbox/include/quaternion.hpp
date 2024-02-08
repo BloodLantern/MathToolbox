@@ -1,15 +1,16 @@
 #pragma once
 
+#include <ostream>
+
+#include "calc.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
-
-#include <ostream>
 
 /// <summary>
 /// The Quaternion class represents a 4-dimensional vector mainly used for mathematical
 /// calculations revolving around rotations.
 /// </summary>
-class Quaternion
+class MATH_TOOLBOX Quaternion
 {
 public:
 	/// <summary>

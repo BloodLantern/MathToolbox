@@ -2,6 +2,7 @@
 
 #include <ostream>
 
+#include "calc.hpp"
 #include "vector2.hpp"
 
 class Vector3;
@@ -10,7 +11,7 @@ class Vector4;
 /// <summary>
 /// The Vector2i class represents either a two-dimensional vector or a point.
 /// </summary>
-class Vector2i
+class MATH_TOOLBOX Vector2i
 {
 public:
 	int x = 0, y = 0;

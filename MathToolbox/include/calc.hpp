@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <numbers>
 
+#include "definitions.hpp"
+
 /// \file calc.hpp
 /// <summary>
 /// A collection of general-use constants and useful functions.
@@ -20,11 +22,6 @@
 #define ZERO 1e-6f
 #endif
 
-/// <summary>
-/// Expands to the square of a value.
-/// </summary>
-#define SQ(x) ((x) * (x))
-
 /// \namespace Calc
 /// <summary>
 ///	This namespace contains mathematical constants and
@@ -35,32 +32,32 @@ namespace Calc
 	/// <summary>
     /// The value under which a number is considered to be zero.
 	/// </summary>
-	constexpr float Zero = ZERO;
+	MATH_TOOLBOX constexpr float Zero = ZERO;
 	
 	/// <summary>
 	///	Shorthand for writing <c>std::numbers::pi_v<float></c>.
 	/// </summary>
-	constexpr float Pi = std::numbers::pi_v<float>;
+	MATH_TOOLBOX constexpr float Pi = std::numbers::pi_v<float>;
 	
 	/// <summary>
 	///	Shorthand for writing <c>Calc::Pi / 2.f</c>.
 	/// </summary>
-	constexpr float PiOver2 = Pi / 2.f;
+	MATH_TOOLBOX constexpr float PiOver2 = Pi / 2.f;
 	
 	/// <summary>
 	///	Shorthand for writing <c>Calc::Pi / 2.f</c>.
 	/// </summary>
-	constexpr float PiOver4 = Pi / 4.f;
+	MATH_TOOLBOX constexpr float PiOver4 = Pi / 4.f;
 	
 	/// <summary>
 	///	Value used to convert from degrees to radians.
 	/// </summary>
-	constexpr float Deg2Rad = Pi / 180.f;
+	MATH_TOOLBOX constexpr float Deg2Rad = Pi / 180.f;
 	
 	/// <summary>
 	///	Value used to convert from radians to degrees.
 	/// </summary>
-	constexpr float Rad2Deg = 1.f / Deg2Rad;
+	MATH_TOOLBOX constexpr float Rad2Deg = 1.f / Deg2Rad;
 
     /// <summary>
     /// Returns -1 if x is less than 0, 1 if x is greater than 0
@@ -69,7 +66,7 @@ namespace Calc
     /// <param name="number">The number to get the sign of.</param>
     /// <returns>-1 if the value is negative, 1 if it is positive. 0 Otherwise.</returns>
     [[nodiscard]]
-	extern constexpr float Sign(float number) noexcept;
+	MATH_TOOLBOX extern constexpr float Sign(float number) noexcept;
 
 	/// <summary>
 	///	A constexpr version of the <c>std::abs</c> function.
@@ -77,7 +74,7 @@ namespace Calc
 	/// <param name="number">The number to get the absolute value of.</param>
 	/// <returns>The absolute value of <paramref name="number"/>.</returns>
 	[[nodiscard]]
-	extern constexpr float Abs(float number) noexcept;
+	MATH_TOOLBOX extern constexpr float Abs(float number) noexcept;
 
 	/// <summary>
 	/// Approaches the target value by the given step size without ever
@@ -86,7 +83,7 @@ namespace Calc
 	/// <param name="value">The value to change.</param>
 	/// <param name="target">The target value.</param>
 	/// <param name="step">The step size.</param>
-	extern constexpr void Approach(float& value, float target, float step) noexcept;
+	MATH_TOOLBOX extern constexpr void Approach(float& value, float target, float step) noexcept;
 
 	/// <summary>
 	/// Given a value between 0 and 1, returns a value going from 0 to 1
@@ -95,7 +92,7 @@ namespace Calc
 	/// <param name="value"></param>
 	/// <returns>A value between 0 and 1, closer to 1 if the input value is close to 0.5.</returns>
 	[[nodiscard]]
-	extern constexpr float YoYo(float value) noexcept;
+	MATH_TOOLBOX extern constexpr float YoYo(float value) noexcept;
 
 	/// <summary>
 	/// Checks if a value is less than what is considered to be zero, e.g. if its absolute
@@ -104,7 +101,7 @@ namespace Calc
 	/// <param name="value">The value to check.</param>
 	/// <returns>Whether the value is considered to be zero.</returns>
 	[[nodiscard]]
-	extern constexpr bool IsZero(float value) noexcept;
+	MATH_TOOLBOX extern constexpr bool IsZero(float value) noexcept;
 
 	/// <summary>
 	/// Checks if a value is less than what is considered to be zero, e.g. if its absolute
@@ -114,7 +111,7 @@ namespace Calc
 	/// <param name="zero">The value under which a number is considered to be zero.</param>
 	/// <returns>Whether the value is considered to be zero.</returns>
 	[[nodiscard]]
-	extern constexpr bool IsZero(float value, float zero) noexcept;
+	MATH_TOOLBOX extern constexpr bool IsZero(float value, float zero) noexcept;
 
 	/// <summary>
 	/// Checks if two values are considered equal using <see cref="IsZero(float)"/>.
@@ -123,7 +120,7 @@ namespace Calc
 	/// <param name="b">The second value.</param>
 	/// <returns>Whether the values are considered equal.</returns>
 	[[nodiscard]]
-	extern constexpr bool Equals(float a, float b) noexcept;
+	MATH_TOOLBOX extern constexpr bool Equals(float a, float b) noexcept;
 }
 
 constexpr float Calc::Sign(const float number) noexcept

@@ -11,7 +11,7 @@ class Matrix;
 /// <summary>
 /// The Vector3 class represents either a three-dimensional vector or a point.
 /// </summary>
-class Vector3
+class MATH_TOOLBOX Vector3
 {
 public:
 	float x = 0.f, y = 0.f, z = 0.f;

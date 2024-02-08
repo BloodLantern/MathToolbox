@@ -11,7 +11,7 @@ class Vector4;
 /// <summary>
 /// The Vector2 class represents either a two-dimensional vector or a point.
 /// </summary>
-class Vector2
+class MATH_TOOLBOX Vector2
 {
 public:
 	float x = 0.f, y = 0.f;

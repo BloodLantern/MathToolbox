@@ -11,7 +11,7 @@ class Matrix;
 /// <summary>
 /// The Vector4 class represents either a four-dimensional vector or a point.
 /// </summary>
-class Vector4
+class MATH_TOOLBOX Vector4
 {
 public:
 	float x = 0.f, y = 0.f, z = 0.f, w = 0.f;
