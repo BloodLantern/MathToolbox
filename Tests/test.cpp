@@ -11,12 +11,14 @@ namespace TestCalc
     {
         EXPECT_EQ(Calc::Sign(17.8f), 1.f);
         EXPECT_EQ(Calc::Sign(-86.1f), -1.f);
+        EXPECT_EQ(Calc::Sign(0.f), 1.f);
     }
 
     TEST(calc, Abs)
     {
         EXPECT_EQ(Calc::Abs(17.8f), 17.8f);
         EXPECT_EQ(Calc::Abs(-86.1f), 86.1f);
+        EXPECT_EQ(Calc::Abs(0.f), 0.f);
     }
 
     TEST(calc, IsZero)
@@ -28,17 +30,19 @@ namespace TestCalc
     TEST(calc, Equals)
     {
         EXPECT_TRUE(Calc::Equals(1.f, 1.00000075f));
+        EXPECT_FALSE(Calc::Equals(1.f, 1.0000075f));
     }
 }
 
 namespace TestVector2
 {
+    constexpr vec2 Zero = vec2::Zero();
     constexpr vec2 UnitX = vec2::UnitX();
     constexpr vec2 UnitY = vec2::UnitY();
 
     TEST(Vector2, Constants)
     {
-        EXPECT_EQ(vec2::Zero(), vec2());
+        EXPECT_EQ(Zero, vec2());
     
         EXPECT_EQ(UnitX, vec2(1.f, 0.f));
         EXPECT_EQ(UnitY, vec2(0.f, 1.f));
@@ -51,6 +55,9 @@ namespace TestVector2
     {
         EXPECT_EQ(X4.SquaredLength(), 16.f);
         EXPECT_EQ(Y4.Length(), 4.f);
+
+        EXPECT_EQ(Zero.SquaredLength(), 0.f);
+        EXPECT_EQ(Zero.Length(), 0.f);
     
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
@@ -107,6 +114,7 @@ namespace TestVector2
 
 namespace TestVector2i
 {
+    constexpr vec2i Zero = vec2i::Zero();
     constexpr vec2i UnitX = vec2i::UnitX();
     constexpr vec2i UnitY = vec2i::UnitY();
 
@@ -125,6 +133,9 @@ namespace TestVector2i
     {
         EXPECT_EQ(X4.SquaredLength(), 16);
         EXPECT_EQ(Y4.Length(), 4);
+
+        EXPECT_EQ(Zero.SquaredLength(), 0.f);
+        EXPECT_EQ(Zero.Length(), 0.f);
     
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1);
         EXPECT_EQ(Y4.Normalized().Length(), 1);
@@ -170,6 +181,7 @@ namespace TestVector2i
 
 namespace TestVector3
 {
+    constexpr vec3 Zero = vec3::Zero();
     constexpr vec3 UnitX = vec3::UnitX();
     constexpr vec3 UnitY = vec3::UnitY();
     constexpr vec3 UnitZ = vec3::UnitZ();
@@ -190,6 +202,9 @@ namespace TestVector3
     {
         EXPECT_EQ(X4.SquaredLength(), 16.f);
         EXPECT_EQ(Y4.Length(), 4.f);
+
+        EXPECT_EQ(Zero.SquaredLength(), 0.f);
+        EXPECT_EQ(Zero.Length(), 0.f);
     
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
@@ -238,6 +253,7 @@ namespace TestVector3
 
 namespace TestVector4
 {
+    constexpr vec4 Zero = vec4::Zero();
     constexpr vec4 UnitX = vec4::UnitX();
     constexpr vec4 UnitY = vec4::UnitY();
     constexpr vec4 UnitZ = vec4::UnitZ();
@@ -259,6 +275,9 @@ namespace TestVector4
     {
         EXPECT_EQ(X4.SquaredLength(), 16.f);
         EXPECT_EQ(Y4.Length(), 4.f);
+
+        EXPECT_EQ(Zero.SquaredLength(), 0.f);
+        EXPECT_EQ(Zero.Length(), 0.f);
     
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
@@ -312,6 +331,7 @@ namespace TestVector4
 
 namespace TestQuaternion
 {
+    constexpr quat Zero = quat::Zero();
     constexpr quat UnitX = quat::UnitX();
     constexpr quat UnitY = quat::UnitY();
     constexpr quat UnitZ = quat::UnitZ();
@@ -339,6 +359,9 @@ namespace TestQuaternion
     {
         EXPECT_EQ(X4.SquaredLength(), 16.f);
         EXPECT_EQ(Y4.Length(), 4.f);
+
+        EXPECT_EQ(Zero.SquaredLength(), 0.f);
+        EXPECT_EQ(Zero.Length(), 0.f);
     
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
