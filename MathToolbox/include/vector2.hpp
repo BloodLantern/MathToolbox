@@ -123,6 +123,18 @@ public:
 	Vector2 Normal() const noexcept;
 
 	/// <summary>
+	///	Check whether all of this vector's components are infinite.
+	/// </summary>
+	[[nodiscard]]
+	bool IsInfinity() const noexcept;
+
+	/// <summary>
+	///	Check whether all of this vector's components are NaN.
+	/// </summary>
+	[[nodiscard]]
+	bool IsNaN() const noexcept;
+
+	/// <summary>
 	///	Retrieves this vector's component at index i.
 	/// </summary>
 	/// <param name="i">

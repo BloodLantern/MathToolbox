@@ -112,6 +112,18 @@ public:
 	void Normalized(Vector4& result) const noexcept;
 
 	/// <summary>
+	///	Check whether all of this vector's components are infinite.
+	/// </summary>
+	[[nodiscard]]
+	bool IsInfinity() const noexcept;
+
+	/// <summary>
+	///	Check whether all of this vector's components are NaN.
+	/// </summary>
+	[[nodiscard]]
+	bool IsNaN() const noexcept;
+
+	/// <summary>
 	/// Returns a · b.
 	/// </summary>
 	[[nodiscard]]

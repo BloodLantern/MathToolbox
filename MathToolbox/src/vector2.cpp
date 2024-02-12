@@ -27,6 +27,18 @@ Vector2 Vector2::Normal() const noexcept
 	return Vector2(y, -x).Normalized();
 }
 
+bool Vector2::IsInfinity() const noexcept
+{
+	return std::isinf(x)
+		&& std::isinf(y);
+}
+
+bool Vector2::IsNaN() const noexcept
+{
+	return std::isnan(x)
+		&& std::isnan(y);
+}
+
 Vector2::operator Vector2i() const noexcept
 {
 	return Vector2i(static_cast<int>(std::round(x)), static_cast<int>(std::round(y)));

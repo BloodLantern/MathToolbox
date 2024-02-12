@@ -207,6 +207,18 @@ float Quaternion::Length() const noexcept
 	return std::sqrt(SquaredLength());
 }
 
+bool Quaternion::IsInfinity() const noexcept
+{
+	return imaginary.IsInfinity()
+		&& std::isinf(real);
+}
+
+bool Quaternion::IsNaN() const noexcept
+{
+	return imaginary.IsNaN()
+		&& std::isnan(real);
+}
+
 bool operator==(const Quaternion a, const Quaternion b)
 {
 	return Calc::Equals(a.imaginary.x, b.imaginary.x)

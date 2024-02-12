@@ -38,6 +38,22 @@ void Vector4::Normalized(Vector4& result) const noexcept
 	result = Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
 }
 
+bool Vector4::IsInfinity() const noexcept
+{
+	return std::isinf(x)
+		&& std::isinf(y)
+		&& std::isinf(z)
+		&& std::isinf(w);
+}
+
+bool Vector4::IsNaN() const noexcept
+{
+	return std::isnan(x)
+		&& std::isnan(y)
+		&& std::isnan(z)
+		&& std::isnan(w);
+}
+
 Vector4::operator Vector2() const noexcept
 {
 	return Vector2(x, y);

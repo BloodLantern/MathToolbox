@@ -38,6 +38,20 @@ void Vector3::Normalized(Vector3& result) const noexcept
 	result = Vector3(x * invLength, y * invLength, z * invLength);
 }
 
+bool Vector3::IsInfinity() const noexcept
+{
+	return std::isinf(x)
+		&& std::isinf(y)
+		&& std::isinf(z);
+}
+
+bool Vector3::IsNaN() const noexcept
+{
+	return std::isnan(x)
+		&& std::isnan(y)
+		&& std::isnan(z);
+}
+
 Vector3::operator Vector2() const noexcept
 {
 	return Vector2(x, y);

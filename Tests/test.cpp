@@ -88,6 +88,13 @@ namespace TestVector2
         EXPECT_THROW(UnitX[2], std::out_of_range);
     }
 
+    TEST(Vector2, Checks)
+    {
+        EXPECT_TRUE((vec2(1.f) / 0.f).IsInfinity());
+        EXPECT_TRUE((-(vec2(-1.f) / 0.f)).IsInfinity());
+        EXPECT_TRUE((Zero / 0.f).IsNaN());
+    }
+
     TEST(Vector2, Operators)
     {
         EXPECT_EQ(UnitX + UnitY, vec2(1.f));
@@ -227,6 +234,13 @@ namespace TestVector3
         EXPECT_THROW(UnitX[3], std::out_of_range);
     }
 
+    TEST(Vector3, Checks)
+    {
+        EXPECT_TRUE((vec3(1.f) / 0.f).IsInfinity());
+        EXPECT_TRUE((-(vec3(-1.f) / 0.f)).IsInfinity());
+        EXPECT_TRUE((Zero / 0.f).IsNaN());
+    }
+
     TEST(Vector3, Operators)
     {
         EXPECT_EQ(UnitX + UnitY, vec3(1.f, 1.f, 0.f));
@@ -298,6 +312,13 @@ namespace TestVector4
     TEST(Vector4, SubscriptOutOfRangeThrow)
     {
         EXPECT_THROW(UnitX[4], std::out_of_range);
+    }
+
+    TEST(Vector4, Checks)
+    {
+        EXPECT_TRUE((vec4(1.f) / 0.f).IsInfinity());
+        EXPECT_TRUE((-(vec4(-1.f) / 0.f)).IsInfinity());
+        EXPECT_TRUE((Zero / 0.f).IsNaN());
     }
 
     TEST(Vector4, CastToMatrixBackToVector4)
@@ -383,6 +404,13 @@ namespace TestQuaternion
     TEST(Quaternion, SubscriptOutOfRangeThrow)
     {
         EXPECT_THROW(UnitX[4], std::out_of_range);
+    }
+
+    TEST(Quaternion, Checks)
+    {
+        EXPECT_TRUE((quat(1.f) / 0.f).IsInfinity());
+        EXPECT_TRUE((-(quat(-1.f) / 0.f)).IsInfinity());
+        EXPECT_TRUE((Zero / 0.f).IsNaN());
     }
 
     TEST(Quaternion, Rotation)
