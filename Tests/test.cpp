@@ -413,6 +413,11 @@ namespace TestQuaternion
         EXPECT_TRUE((Zero / 0.f).IsNaN());
     }
 
+    TEST(Quaternion, Convertions)
+    {
+        EXPECT_EQ(quat::ToEuler(RotationHalfCircleZ), vec3(0.f, 0.f, Calc::PiOver2));
+    }
+
     TEST(Quaternion, Rotation)
     {
         EXPECT_EQ(RotatedUnitX, vec3::UnitY());

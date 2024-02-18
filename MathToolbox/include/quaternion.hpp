@@ -157,6 +157,22 @@ public:
 	/// <param name="result">The output value.</param>
 	/// <seealso cref="FromRotationMatrix(const Matrix&)"/>
 	static void FromRotationMatrix(const Matrix& rotation, Quaternion* result) noexcept;
+	
+	/// <summary>
+	///	Converts a Quaternion to an euler-angle Vector3.
+	/// </summary>
+	/// <param name="rotation">The euler rotation vector.</param>
+	/// <returns>A rotation Quaternion equivalent to the given axis-angle rotation.</returns>
+	[[nodiscard]]
+	static Vector3 ToEuler(const Quaternion& rotation) noexcept;
+	
+	/// <summary>
+	///	Converts a Quaternion to an euler-angle Vector3.
+	/// </summary>
+	/// <param name="rotation">The rotation quaternion.</param>
+	/// <param name="result">The output value.</param>
+	/// <seealso cref="ToEuler(const Vector3&)"/>
+	static void ToEuler(const Quaternion& rotation, Vector3* result) noexcept;
 
 	/// <summary>
 	///	Compute the dot product of two Quaternions.
