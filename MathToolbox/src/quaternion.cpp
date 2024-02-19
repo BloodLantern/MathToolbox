@@ -119,19 +119,19 @@ void Quaternion::ToEuler(const Quaternion& rotation, Vector3* result) noexcept
 	// Code from https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Source_code_2
 	
 	// roll (x-axis rotation)
-	float sinr_cosp = 2.f * (rotation.W() * rotation.X() + rotation.Y() * rotation.Z());
-	float cosr_cosp = 1.f - 2.f * (rotation.X() * rotation.X() + rotation.Y() * rotation.Y());
-	result->x = std::atan2(sinr_cosp, cosr_cosp);
+	const float sinrCosp = 2.f * (rotation.W() * rotation.X() + rotation.Y() * rotation.Z());
+	const float cosrCosp = 1.f - 2.f * (rotation.X() * rotation.X() + rotation.Y() * rotation.Y());
+	result->x = std::atan2(sinrCosp, cosrCosp);
 
 	// pitch (y-axis rotation)
-	float sinp = std::sqrt(1 + 2 * (rotation.W() * rotation.Y() - rotation.X() * rotation.Z()));
-	float cosp = std::sqrt(1 - 2 * (rotation.W() * rotation.Y() - rotation.X() * rotation.Z()));
-	result->y = 2 * std::atan2(sinp, cosp) - Calc::PiOver2;
+	const float sinp = std::sqrt(1.f + 2.f * (rotation.W() * rotation.Y() - rotation.X() * rotation.Z()));
+	const float cosp = std::sqrt(1.f - 2.f * (rotation.W() * rotation.Y() - rotation.X() * rotation.Z()));
+	result->y = 2.f * std::atan2(sinp, cosp) - Calc::PiOver2;
 
 	// yaw (z-axis rotation)
-	float siny_cosp = 2.f * (rotation.W() * rotation.Z() + rotation.X() * rotation.Y());
-	float cosy_cosp = 1.f - 2.f * (rotation.Y() * rotation.Y() + rotation.Z() * rotation.Z());
-	result->z = std::atan2(siny_cosp, cosy_cosp);
+	const float sinyCosp = 2.f * (rotation.W() * rotation.Z() + rotation.X() * rotation.Y());
+	const float cosyCosp = 1.f - 2.f * (rotation.Y() * rotation.Y() + rotation.Z() * rotation.Z());
+	result->z = std::atan2(sinyCosp, cosyCosp);
 }
 
 Quaternion Quaternion::Lerp(const Quaternion& value, const Quaternion& target, const float t) noexcept
