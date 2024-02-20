@@ -1,9 +1,14 @@
-#include "pch.h"
+#include <gtest/gtest.h>
 
 // ReSharper disable CppNoDiscardExpression
 #include <chrono>
 #include <functional>
 #include <numeric>
+
+#include "math.hpp"
+
+#pragma warning(push)
+#pragma warning(disable: 4834)
 
 namespace TestCalc
 {
@@ -578,3 +583,5 @@ namespace TestMatrix
         EXPECT_NO_THROW(Zero.At(1, 2));
     }
 }
+
+#pragma warning(pop)
