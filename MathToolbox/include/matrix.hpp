@@ -961,7 +961,7 @@ constexpr bool operator==(const Matrix& a, const Matrix& b)
 [[nodiscard]]
 constexpr bool operator!=(const Matrix& a, const Matrix& b) { return !(a == b); }
 
-std::ostream& operator<<(std::ostream& out, const Matrix& m);
+MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Matrix& m);
 
 constexpr Matrix Matrix::Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale) noexcept
 {

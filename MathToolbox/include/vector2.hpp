@@ -269,7 +269,7 @@ constexpr bool operator==(const Vector2 a, const Vector2 b) noexcept
 [[nodiscard]]
 constexpr bool operator!=(const Vector2 a, const Vector2 b) noexcept { return !(a == b); }
 
-std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
+MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 
 constexpr Vector2 Vector2::Lerp(const Vector2 value, const Vector2 target, const float t) noexcept { return value + (target - value) * t; }
 

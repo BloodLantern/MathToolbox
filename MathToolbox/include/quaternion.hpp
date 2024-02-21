@@ -511,18 +511,24 @@ constexpr Quaternion& operator*=(Quaternion& q, const float factor) noexcept { r
 constexpr Quaternion& operator/=(Quaternion& q, const float factor) noexcept { return q = q / factor; }
 
 /// <summary>
-///	Checks if two Quaternions are considered equal using <code>Calc::Equals</code>.
+///	Checks if two Quaternions are considered equal using <c>Calc::Equals</c>.
 /// </summary>
 [[nodiscard]]
-bool operator==(Quaternion a, Quaternion b);
+constexpr bool operator==(Quaternion a, Quaternion b)
+{
+    return Calc::Equals(a.imaginary.x, b.imaginary.x)
+           && Calc::Equals(a.imaginary.y, b.imaginary.y)
+           && Calc::Equals(a.imaginary.z, b.imaginary.z)
+           && Calc::Equals(a.real, b.real);
+}
 
 /// <summary>
-///	Checks if two Quaternions are considered different using <code>Calc::Equals</code>.
+///	Checks if two Quaternions are considered different using <c>Calc::Equals</c>.
 /// </summary>
 [[nodiscard]]
-bool operator!=(Quaternion a, Quaternion b);
+constexpr bool operator!=(Quaternion a, Quaternion b) { return !(a == b); }
 
-std::ostream& operator<<(std::ostream& out, const Quaternion& q);
+MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Quaternion& q);
 
 constexpr Quaternion Quaternion::Invert() const noexcept
 {
