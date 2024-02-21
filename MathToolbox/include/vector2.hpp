@@ -6,6 +6,7 @@
 #endif
 
 #include <stdexcept>
+#include <ostream>
 
 #include "calc.hpp"
 

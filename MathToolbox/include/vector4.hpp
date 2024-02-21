@@ -5,6 +5,8 @@
 #include <sstream>
 #endif
 
+#include <ostream>
+
 #include "calc.hpp"
 #include "vector2.hpp"
 #include "vector3.hpp"
@@ -28,27 +30,27 @@ public:
 	/// <summary>
 	///	Equivalent to calling the default constructor.
 	/// </summary>
-	static constexpr void Zero(Vector4& result) noexcept;
+	static constexpr void Zero(Vector4* result) noexcept;
 
 	[[nodiscard]]
 	static constexpr Vector4 UnitX() noexcept;
 
-	static constexpr void UnitX(Vector4& result) noexcept;
+	static constexpr void UnitX(Vector4* result) noexcept;
 
 	[[nodiscard]]
 	static constexpr Vector4 UnitY() noexcept;
 
-	static constexpr void UnitY(Vector4& result) noexcept;
+	static constexpr void UnitY(Vector4* result) noexcept;
 
 	[[nodiscard]]
 	static constexpr Vector4 UnitZ() noexcept;
 
-	static constexpr void UnitZ(Vector4& result) noexcept;
+	static constexpr void UnitZ(Vector4* result) noexcept;
 
 	[[nodiscard]]
 	static constexpr Vector4 UnitW() noexcept;
 
-	static constexpr void UnitW(Vector4& result) noexcept;
+	static constexpr void UnitW(Vector4* result) noexcept;
 
 	constexpr Vector4() = default;
 
@@ -112,7 +114,7 @@ public:
 	/// <param name="result">
 	/// A vector to store the result which is one with the same direction but a length of one.
 	/// </param>
-	void Normalized(Vector4& result) const noexcept;
+	void Normalized(Vector4* result) const noexcept;
 
 	/// <summary>
 	///	Check whether all of this vector's components are infinite.
@@ -150,7 +152,7 @@ public:
 	/// <param name="t">The time to lerp.</param>
 	/// <param name="result">The lerp position.</param>
 	/// <returns>The lerp position.</returns>
-	static constexpr void Lerp(const Vector4& value, const Vector4& target, float t, Vector4& result) noexcept;
+	static constexpr void Lerp(const Vector4& value, const Vector4& target, float t, Vector4* result) noexcept;
 
 	/// <summary>
 	///	Retrieves this vector's component at index i.
@@ -195,23 +197,23 @@ constexpr Vector4::Vector4(const float x, const float y, const float z, const fl
 
 constexpr Vector4 Vector4::Zero() noexcept { return Vector4(); }
 
-constexpr void Vector4::Zero(Vector4& result) noexcept { result = Vector4(); }
+constexpr void Vector4::Zero(Vector4* result) noexcept { *result = Vector4(); }
 
 constexpr Vector4 Vector4::UnitX() noexcept { return Vector4(1.f, 0.f, 0.f, 0.f); }
 
-constexpr void Vector4::UnitX(Vector4& result) noexcept { result = Vector4(1.f, 0.f, 0.f, 0.f); }
+constexpr void Vector4::UnitX(Vector4* result) noexcept { *result = Vector4(1.f, 0.f, 0.f, 0.f); }
 
 constexpr Vector4 Vector4::UnitY() noexcept { return Vector4(0.f, 1.f, 0.f, 0.f); }
 
-constexpr void Vector4::UnitY(Vector4& result) noexcept { result = Vector4(0.f, 1.f, 0.f, 0.f); }
+constexpr void Vector4::UnitY(Vector4* result) noexcept { *result = Vector4(0.f, 1.f, 0.f, 0.f); }
 
 constexpr Vector4 Vector4::UnitZ() noexcept { return Vector4(0.f, 0.f, 1.f, 0.f); }
 
-constexpr void Vector4::UnitZ(Vector4& result) noexcept { result = Vector4(0.f, 0.f, 1.f, 0.f); }
+constexpr void Vector4::UnitZ(Vector4* result) noexcept { *result = Vector4(0.f, 0.f, 1.f, 0.f); }
 
 constexpr Vector4 Vector4::UnitW() noexcept { return Vector4(0.f, 0.f, 0.f, 1.f); }
 
-constexpr void Vector4::UnitW(Vector4& result) noexcept { result = Vector4(0.f, 0.f, 0.f, 1.f); }
+constexpr void Vector4::UnitW(Vector4* result) noexcept { *result = Vector4(0.f, 0.f, 0.f, 1.f); }
 
 constexpr const float* Vector4::Raw() const noexcept { return &x; }
 
@@ -295,7 +297,7 @@ std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept;
 
 constexpr Vector4 Vector4::Lerp(const Vector4& value, const Vector4& target, const float t) noexcept { return value + (target - value) * t; }
 
-constexpr void Vector4::Lerp(const Vector4& value, const Vector4& target, const float t, Vector4& result) noexcept { result = value + (target - value) * t; }
+constexpr void Vector4::Lerp(const Vector4& value, const Vector4& target, const float t, Vector4* result) noexcept { *result = value + (target - value) * t; }
 
 #ifdef MATH_DEFINE_FORMATTER
 template<>

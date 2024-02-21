@@ -5,6 +5,8 @@
 #include <sstream>
 #endif
 
+#include <ostream>
+
 #include "calc.hpp"
 #include "vector2.hpp"
 

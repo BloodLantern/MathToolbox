@@ -23,18 +23,18 @@ Vector4 Vector4::Normalized() const noexcept
 	return Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
 }
 
-void Vector4::Normalized(Vector4& result) const noexcept
+void Vector4::Normalized(Vector4* result) const noexcept
 {
 	const float length = Length();
 	if (Calc::IsZero(length))
 	{
-		result = Zero();
+		*result = Zero();
 		return;
 	}
 
 	__assume(length != 0.f);
 	const float invLength = 1.f / length;
-	result = Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
+	*result = Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
 }
 
 bool Vector4::IsInfinity() const noexcept

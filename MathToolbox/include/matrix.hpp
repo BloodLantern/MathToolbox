@@ -5,6 +5,8 @@
 #include <sstream>
 #endif
 
+#include <ostream>
+
 #include "calc.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
@@ -35,7 +37,7 @@ public:
 	/// The identity Matrix is one with its diagonal
 	/// set to one and everything else set to zero.
 	/// </summary>
-	static constexpr void Identity(Matrix& result) noexcept;
+	static constexpr void Identity(Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D translation Matrix from the given angle for each of the x, y, and z axis.
@@ -46,7 +48,7 @@ public:
 	/// <summary>
 	/// Creates a 3D translation Matrix from the given angle for each of the x, y, and z axis.
 	/// </summary>
-	static constexpr void Translation(const Vector3& translation, Matrix& result) noexcept;
+	static constexpr void Translation(const Vector3& translation, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix from the given angle and axis.
@@ -62,7 +64,7 @@ public:
 	/// <param name="angle">The angle in radians.</param>
 	/// <param name="axis">The axis around which the rotation occurs.</param>
 	/// <param name="result">The output of the function.</param>
-	static void Rotation(float angle, const Vector3& axis, Matrix& result) noexcept;
+	static void Rotation(float angle, const Vector3& axis, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix around the X axis from the given angle.
@@ -76,7 +78,7 @@ public:
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	/// <param name="result">The output of the function.</param>
-	static void RotationX(float angle, Matrix& result) noexcept;
+	static void RotationX(float angle, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix around the X axis from the given angle.
@@ -92,7 +94,7 @@ public:
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
 	/// <param name="result">The output of the function.</param>
-	static constexpr void RotationX(float cos, float sin, Matrix& result) noexcept;
+	static constexpr void RotationX(float cos, float sin, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix around the Y axis from the given angle.
@@ -106,7 +108,7 @@ public:
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	/// <param name="result">The output of the function.</param>
-	static void RotationY(float angle, Matrix& result) noexcept;
+	static void RotationY(float angle, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix around the Y axis from the given angle.
@@ -122,7 +124,7 @@ public:
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
 	/// <param name="result">The output of the function.</param>
-	static constexpr void RotationY(float cos, float sin, Matrix& result) noexcept;
+	static constexpr void RotationY(float cos, float sin, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix around the Z axis from the given angle.
@@ -136,7 +138,7 @@ public:
 	/// </summary>
 	/// <param name="angle">The angle in radians.</param>
 	/// <param name="result">The output of the function.</param>
-	static void RotationZ(float angle, Matrix& result) noexcept;
+	static void RotationZ(float angle, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix around the Z axis from the given angle.
@@ -152,7 +154,7 @@ public:
 	/// <param name="cos">The cosine of the angle in radians.</param>
 	/// <param name="sin">The sine of the angle in radians.</param>
 	/// <param name="result">The output of the function.</param>
-	static constexpr void RotationZ(float cos, float sin, Matrix& result) noexcept;
+	static constexpr void RotationZ(float cos, float sin, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation Matrix from the given angle for each of the x, y, and z axis.
@@ -163,7 +165,7 @@ public:
 	/// <summary>
 	/// Creates a 3D rotation Matrix from the given angle for each of the x, y, and z axis.
 	/// </summary>
-	static void Rotation(const Vector3& rotation, Matrix& result) noexcept;
+	static void Rotation(const Vector3& rotation, Matrix* result) noexcept;
 
 	/// <summary>
 	///	Creates a 3D rotation Matrix from the given rotation Quaternion.
@@ -174,7 +176,7 @@ public:
 	/// <summary>
 	///	Creates a 3D rotation Matrix from the given rotation Quaternion.
 	/// </summary>
-	static constexpr void Rotation(const Quaternion& rotation, Matrix& result) noexcept;
+	static constexpr void Rotation(const Quaternion& rotation, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D rotation matrix from the given cosine, sine and axis.
@@ -192,7 +194,7 @@ public:
 	/// <param name="sin">The sine of the angle in radians.</param>
 	/// <param name="axis">The axis around which the rotation occurs.</param>
 	/// <param name="result">The output of the function.</param>
-	static void Rotation(float cos, float sin, const Vector3& axis, Matrix& result) noexcept;
+	static void Rotation(float cos, float sin, const Vector3& axis, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a 3D scaling matrix from the given Vector3.
@@ -203,7 +205,7 @@ public:
 	/// <summary>
 	/// Creates a 3D scaling matrix from the given Vector3.
 	/// </summary>
-	static constexpr void Scaling(const Vector3& scale, Matrix& result) noexcept;
+	static constexpr void Scaling(const Vector3& scale, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
@@ -214,7 +216,7 @@ public:
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
 	/// </summary>
-	static void Trs(const Vector3& translation, const Vector3& rotation, const Vector3& scale, Matrix& result) noexcept;
+	static void Trs(const Vector3& translation, const Vector3& rotation, const Vector3& scale, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
@@ -225,7 +227,7 @@ public:
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
 	/// </summary>
-	static void Trs(const Vector3& translation, float rotationAngle, const Vector3& rotationAxis, const Vector3& scale, Matrix& result) noexcept;
+	static void Trs(const Vector3& translation, float rotationAngle, const Vector3& rotationAxis, const Vector3& scale, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
@@ -236,7 +238,7 @@ public:
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
 	/// </summary>
-	static constexpr void Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale, Matrix& result) noexcept;
+	static constexpr void Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale, Matrix* result) noexcept;
     
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
@@ -247,7 +249,7 @@ public:
 	/// <summary>
 	/// Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
 	/// </summary>
-	static constexpr void Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale, Matrix& result) noexcept;
+	static constexpr void Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale, Matrix* result) noexcept;
 
 	/// <summary>
 	///	Creates a view Matrix, looking from an <c>eye</c> to a <c>center</c> using an <c>up</c> vector.
@@ -258,7 +260,7 @@ public:
 	/// <summary>
 	///	Creates a view Matrix, looking from an <c>eye</c> to a <c>center</c> using an <c>up</c> vector.
 	/// </summary>
-    static void LookAt(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix& result) noexcept;
+    static void LookAt(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix* result) noexcept;
 
 	/// <summary>
 	///	Creates a perspective projection Matrix from the given <c>fov</c> (Field Of View) and aspect ratio.
@@ -271,7 +273,7 @@ public:
 	///	Creates a perspective projection Matrix from the given <c>fov</c> (Field Of View) and aspect ratio.
 	///	Anything closer than <c>near</c> or further than <c>far</c> is discarded.
 	/// </summary>
-    static void Perspective(float fov, float aspectRatio, float near, float far, Matrix& result);
+    static void Perspective(float fov, float aspectRatio, float near, float far, Matrix* result);
 
 	/// <summary>
 	///	Creates an orthographic projection Matrix from the given <c>left</c>, <c>right</c>, <c>bottom</c>, and <c>top</c>
@@ -286,7 +288,7 @@ public:
 	///	screen positions.
 	///	Anything closer than <c>near</c> or further than <c>far</c> is discarded.
 	/// </summary>
-	static constexpr void Orthographic(float left, float right, float bottom, float top, float near, float far, Matrix& result);
+	static constexpr void Orthographic(float left, float right, float bottom, float top, float near, float far, Matrix* result);
 
     /// <summary>
     /// Creates a Matrix with all its values set to 0.
@@ -386,7 +388,7 @@ public:
 	/// <summary>
 	/// Returns the diagonal elements of the Matrix.
 	/// </summary>
-	constexpr void Diagonal(Vector4& result) const noexcept;
+	constexpr void Diagonal(Vector4* result) const noexcept;
     
     /// <summary>
     /// Returns the sum of the diagonal elements of the Matrix.
@@ -409,7 +411,7 @@ public:
 	/// <summary>
 	/// Switches the Matrix by its diagonal elements.
 	/// </summary>
-	constexpr void Transposed(Matrix& result) const noexcept;
+	constexpr void Transposed(Matrix* result) const noexcept;
 
 	/// <summary>
 	/// Computes the invert of this Matrix, e.g. <c>*this * Inverted() == Identity()</c> is true.
@@ -420,7 +422,7 @@ public:
 	/// <summary>
 	/// Computes the invert of this Matrix, e.g. <c>*this * Inverted() == Identity()</c> is true.
 	/// </summary>
-	constexpr void Inverted(Matrix& result) const;
+	constexpr void Inverted(Matrix* result) const;
 
 	/// <summary>
 	///	Retrieves this matrix's value at position <c>[col, row]</c>.
@@ -509,9 +511,9 @@ constexpr Matrix Matrix::Identity() noexcept
     );
 }
 
-constexpr void Matrix::Identity(Matrix& result) noexcept
+constexpr void Matrix::Identity(Matrix* result) noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		1.f, 0.f, 0.f, 0.f,
 		0.f, 1.f, 0.f, 0.f,
 		0.f, 0.f, 1.f, 0.f,
@@ -529,9 +531,9 @@ constexpr Matrix Matrix::Translation(const Vector3 &translation) noexcept
     );
 }
 
-constexpr void Matrix::Translation(const Vector3& translation, Matrix& result) noexcept
+constexpr void Matrix::Translation(const Vector3& translation, Matrix* result) noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		1.f, 0.f, 0.f, translation.x,
 		0.f, 1.f, 0.f, translation.y,
 		0.f, 0.f, 1.f, translation.z,
@@ -549,9 +551,9 @@ constexpr Matrix Matrix::RotationX(const float cos, const float sin) noexcept
 	);
 }
 
-constexpr void Matrix::RotationX(const float cos, const float sin, Matrix& result) noexcept
+constexpr void Matrix::RotationX(const float cos, const float sin, Matrix* result) noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		1.f,    0.f,    0.f,    0.f,
 		0.f,    cos,   -sin,    0.f,
 		0.f,    sin,    cos,    0.f,
@@ -569,9 +571,9 @@ constexpr Matrix Matrix::RotationY(const float cos, const float sin) noexcept
 	);
 }
 
-constexpr void Matrix::RotationY(const float cos, const float sin, Matrix& result) noexcept
+constexpr void Matrix::RotationY(const float cos, const float sin, Matrix* result) noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		 cos,    0.f,    sin,    0.f,
 		 0.f,    1.f,    0.f,    0.f,
 		-sin,    0.f,    cos,    0.f,
@@ -589,9 +591,9 @@ constexpr Matrix Matrix::RotationZ(const float cos, const float sin) noexcept
 	);
 }
 
-constexpr void Matrix::RotationZ(const float cos, const float sin, Matrix& result) noexcept
+constexpr void Matrix::RotationZ(const float cos, const float sin, Matrix* result) noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		cos,   -sin,    0.f,    0.f,
 	    sin,    cos,    0.f,    0.f,
 		0.f,    0.f,    1.f,    0.f,
@@ -602,11 +604,11 @@ constexpr void Matrix::RotationZ(const float cos, const float sin, Matrix& resul
 constexpr Matrix Matrix::Rotation(const Quaternion& rotation) noexcept
 {
 	Matrix result;
-	Rotation(rotation, result);
+	Rotation(rotation, &result);
 	return result;
 }
 
-constexpr void Matrix::Rotation(const Quaternion& rotation, Matrix& result) noexcept
+constexpr void Matrix::Rotation(const Quaternion& rotation, Matrix* result) noexcept
 {
 	const float xx = SQ(rotation.X());
 	const float yy = SQ(rotation.Y());
@@ -619,7 +621,7 @@ constexpr void Matrix::Rotation(const Quaternion& rotation, Matrix& result) noex
 	const float yz = rotation.Y() * rotation.Z();
 	const float wx = rotation.X() * rotation.W();
 
-	result = Matrix(
+	*result = Matrix(
 		1.f - 2.f * (yy + zz), 2.f * (xy - wz), 2.f * (xz + wy), 0.f,
 		2.f * (xy + wz), 1.f - 2.f * (zz + xx), 2.f * (yz - wx), 0.f,
 		2.f * (xz - wy), 2.f * (yz + wx), 1.f - 2.f * (yy + xx), 0.f,
@@ -637,9 +639,9 @@ constexpr Matrix Matrix::Scaling(const Vector3 &scale) noexcept
 	);
 }
 
-constexpr void Matrix::Scaling(const Vector3& scale, Matrix& result) noexcept
+constexpr void Matrix::Scaling(const Vector3& scale, Matrix* result) noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		scale.x,       0.f,     0.f, 0.f,
 			  0.f, scale.y,     0.f, 0.f,
 			  0.f,     0.f, scale.z, 0.f,
@@ -649,7 +651,7 @@ constexpr void Matrix::Scaling(const Vector3& scale, Matrix& result) noexcept
 
 constexpr Matrix Matrix::Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale) noexcept { return Trs(translation, Rotation(rotation), scale); }
 
-constexpr void Matrix::Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale, Matrix& result) noexcept { Trs(translation, Rotation(rotation), scale, result); }
+constexpr void Matrix::Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale, Matrix* result) noexcept { Trs(translation, Rotation(rotation), scale, result); }
 
 constexpr Matrix Matrix::Orthographic(const float left, const float right, const float bottom, const float top, const float near, const float far)
 {
@@ -664,12 +666,12 @@ constexpr Matrix Matrix::Orthographic(const float left, const float right, const
 	);
 }
 
-constexpr void Matrix::Orthographic(const float left, const float right, const float bottom, const float top, const float near, const float far, Matrix& result)
+constexpr void Matrix::Orthographic(const float left, const float right, const float bottom, const float top, const float near, const float far, Matrix* result)
 {
 	if (near > far) [[unlikely]]
 		throw std::invalid_argument("Near must be smaller than far.");
 	
-	result = Matrix(
+	*result = Matrix(
 		2.f / (right - left), 0.f, 0.f, -((right + left) / (right - left)),
 		0.f, 2.f / (top - bottom), 0.f, -((top + bottom) / (top - bottom)),
 		0.f, 0.f, -2.f / (far - near), -((far + near) / (far - near)),
@@ -721,7 +723,7 @@ constexpr bool Matrix::IsAntisymmetric() const noexcept
 
 constexpr Vector4 Matrix::Diagonal() const noexcept { return Vector4(m00, m11, m22, m33); }
 
-constexpr void Matrix::Diagonal(Vector4& result) const noexcept { result = Vector4(m00, m11, m22, m33); }
+constexpr void Matrix::Diagonal(Vector4* result) const noexcept { *result = Vector4(m00, m11, m22, m33); }
 
 constexpr float Matrix::Trace() const noexcept { return m00 + m11 + m22 + m33; }
 
@@ -752,9 +754,9 @@ constexpr Matrix Matrix::Transposed() const noexcept
 	);
 }
 
-constexpr void Matrix::Transposed(Matrix& result) const noexcept
+constexpr void Matrix::Transposed(Matrix* result) const noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		m00, m10, m20, m30,
 		m01, m11, m21, m31,
 		m02, m12, m22, m32,
@@ -765,11 +767,11 @@ constexpr void Matrix::Transposed(Matrix& result) const noexcept
 constexpr Matrix Matrix::Inverted() const
 {
 	Matrix result;
-	Inverted(result);
+	Inverted(&result);
 	return result;
 }
 
-constexpr void Matrix::Inverted(Matrix& result) const
+constexpr void Matrix::Inverted(Matrix* result) const
 {
     if (Determinant() == 0.f) [[unlikely]]
         throw std::invalid_argument("Matrix isn't invertible");
@@ -802,7 +804,7 @@ constexpr void Matrix::Inverted(Matrix& result) const
     const float val38 = m10 * m22 - m12 * m20;
     const float val39 = m10 * m21 - m11 * m20;
 
-	result = Matrix(
+	*result = Matrix(
 		val23 * val27,
 		-(m01 * val17 - m02 * val18 + m03 * val19) * val27,
 		(m01 * val28 - m02 * val29 + m03 * val30) * val27,
@@ -971,14 +973,14 @@ constexpr Matrix Matrix::Trs(const Vector3& translation, const Matrix& rotation,
 	);
 
 	Matrix temp;
-	Scaling(scale, temp);
+	Scaling(scale, &temp);
 
 	return result * rotation * temp;
 }
 
-constexpr void Matrix::Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale, Matrix& result) noexcept
+constexpr void Matrix::Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale, Matrix* result) noexcept
 {
-	result = Matrix(
+	*result = Matrix(
 		1.f, 0.f, 0.f, translation.x,
 		0.f, 1.f, 0.f, translation.y,
 		0.f, 0.f, 1.f, translation.z,
@@ -986,9 +988,9 @@ constexpr void Matrix::Trs(const Vector3& translation, const Matrix& rotation, c
 	);
 
 	Matrix temp;
-	Scaling(scale, temp);
+	Scaling(scale, &temp);
 
-	result = result * rotation * temp;
+	*result = *result * rotation * temp;
 }
 
 #ifdef MATH_DEFINE_FORMATTER
