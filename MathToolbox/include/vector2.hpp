@@ -330,6 +330,9 @@ struct std::formatter<Vector2>
 
 	template<class FmtContext>
 	typename FmtContext::iterator format(Vector2 v, FmtContext& ctx) const;
+    
+private:
+    std::string m_Format;
 };
 
 template<class ParseContext>
@@ -338,18 +341,19 @@ constexpr typename ParseContext::iterator std::formatter<Vector2, char>::parse(P
 	auto it = ctx.begin();
 	if (it == ctx.end())
 		return it;
- 
-	if (*it != '}')
-		throw std::format_error("Invalid format args for Vector2.");
- 
+
+    while (*it != '}' && it != ctx.end())
+        m_Format += *it++;
+    
 	return it;
 }
 
 template<class FmtContext>
-typename FmtContext::iterator std::formatter<Vector2>::format(Vector2 v, FmtContext &ctx) const {
+typename FmtContext::iterator std::formatter<Vector2>::format(Vector2 v, FmtContext &ctx) const
+{
     std::ostringstream out;
 
-    out << v;
+    out << std::vformat("{:" + m_Format + "} ; {:" + m_Format + '}', std::make_format_args(v.x, v.y));
 
     return std::ranges::copy(std::move(out).str(), ctx.out()).out;
 }

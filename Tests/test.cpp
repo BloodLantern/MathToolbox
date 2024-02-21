@@ -104,24 +104,31 @@ namespace TestVector2
     {
         EXPECT_EQ(UnitX + UnitY, vec2(1.f));
         EXPECT_EQ(UnitX - UnitX, vec2(0.f));
-        
+
         EXPECT_EQ(UnitX * 2.f, vec2(2.f, 0.f));
         EXPECT_EQ(vec2(1.f) * vec2(2.f, 0.5f), vec2(2.f, 0.5f));
-        
+
         EXPECT_EQ(UnitX / 2.f, vec2(0.5f, 0.f));
         EXPECT_EQ(vec2(1.f) / vec2(2.f, 0.5f), vec2(0.5f, 2.f));
 
         vec2 temp = UnitX;
         EXPECT_EQ(temp += UnitY, vec2(1.f));
         EXPECT_EQ(temp -= UnitX, UnitY);
-        
+
         temp = vec2(1.f);
         EXPECT_EQ(temp *= 2.f, vec2(2.f));
         EXPECT_EQ(temp *= vec2(2.f, 0.5f), vec2(4.f, 1.f));
-        
+
         EXPECT_EQ(temp /= 2.f, vec2(2.f, 0.5f));
         EXPECT_EQ(temp /= vec2(2.f, 0.5f), vec2(1.f));
     }
+
+#ifdef MATH_DEFINE_FORMATTER
+    TEST(Vector2, Formatting)
+    {
+        EXPECT_EQ(std::format("{0:06.3f}", UnitX), "01.000 ; 00.000");
+    }
+#endif
 }
 
 namespace TestVector2i
@@ -189,6 +196,13 @@ namespace TestVector2i
         EXPECT_EQ(temp *= 2, vec2i(2));
         EXPECT_EQ(temp *= vec2i(2, 0), vec2i(4, 0));
     }
+
+#ifdef MATH_DEFINE_FORMATTER
+    TEST(Vector2i, Formatting)
+    {
+        EXPECT_EQ(std::format("{0:02d}", UnitX), "01 ; 00");
+    }
+#endif
 }
 
 namespace TestVector3
@@ -268,6 +282,13 @@ namespace TestVector3
         EXPECT_EQ(temp /= 2.f, vec3(2.f, 0.5f, 0.f));
         EXPECT_EQ(temp /= vec3(2.f, 0.5f, 1.f), vec3(1.f, 1.f, 0.f));
     }
+
+#ifdef MATH_DEFINE_FORMATTER
+    TEST(Vector3, Formatting)
+    {
+        EXPECT_EQ(std::format("{0:06.3f}", UnitX), "01.000 ; 00.000 ; 00.000");
+    }
+#endif
 }
 
 namespace TestVector4
@@ -353,6 +374,13 @@ namespace TestVector4
         EXPECT_EQ(temp /= 2.f, vec4(2.f, 0.5f, 0.f, 0.f));
         EXPECT_EQ(temp /= vec4(2.f, 0.5f, 1.f, 1.f), vec4(1.f, 1.f, 0.f, 0.f));
     }
+
+#ifdef MATH_DEFINE_FORMATTER
+    TEST(Vector4, Formatting)
+    {
+        EXPECT_EQ(std::format("{0:06.3f}", UnitX), "01.000 ; 00.000 ; 00.000 ; 00.000");
+    }
+#endif
 }
 
 namespace TestQuaternion
@@ -463,6 +491,13 @@ namespace TestQuaternion
         temp = quat(1.f);
         EXPECT_EQ(temp /= 2.f, quat(0.5f));
     }
+
+#ifdef MATH_DEFINE_FORMATTER
+    TEST(Quaternion, Formatting)
+    {
+        EXPECT_EQ(std::format("{0:06.3f}", UnitX), "01.000 ; 00.000 ; 00.000 ; 00.000");
+    }
+#endif
 }
 
 namespace TestMatrix
@@ -582,6 +617,14 @@ namespace TestMatrix
         EXPECT_THROW(Zero.At(4, 4), std::out_of_range);
         EXPECT_NO_THROW(Zero.At(1, 2));
     }
+
+#ifdef MATH_DEFINE_FORMATTER
+    TEST(Matrix, Formatting)
+    {
+        EXPECT_EQ(std::format("{0:06.3f}", Identity), "[ 01.000 ; 00.000 ; 00.000 ; 00.000 ] [ 00.000 ; 01.000 ; 00.000 ; 00.000 ] [ 00.000 ; 00.000 ; 01.000 ; 00.000 ] [ 00.000 ; 00.000 ; 00.000 ; 01.000 ]");
+        EXPECT_EQ(std::format("{0:m06.3f}", Identity), "[ 01.000 ; 00.000 ; 00.000 ; 00.000 ]\n[ 00.000 ; 01.000 ; 00.000 ; 00.000 ]\n[ 00.000 ; 00.000 ; 01.000 ; 00.000 ]\n[ 00.000 ; 00.000 ; 00.000 ; 01.000 ]");
+    }
+#endif
 }
 
 #pragma warning(pop)

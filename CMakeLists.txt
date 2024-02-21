@@ -14,19 +14,17 @@ endif ()
 
 add_compile_options(/MP)
 
-if (CMAKE_CONFIGURATION_TYPES)
-    list(APPEND CMAKE_CONFIGURATION_TYPES DebugDllExport)
-    list(APPEND CMAKE_CONFIGURATION_TYPES ReleaseDllExport)
-    set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
-            "Add the configurations that we need"
-            FORCE)
-endif ()
-
 set(COMMON_CXX_FLAGS "")
 
 if (DEFINE_FORMATTER)
-    list(APPEND COMMON_CXX_FLAGS "/DMATH_DEFINE_FORMATTER")
+    string(APPEND COMMON_CXX_FLAGS "/DMATH_DEFINE_FORMATTER ")
 endif ()
+
+if (DLL_EXPORT)
+    string(APPEND COMMON_CXX_FLAGS "/DMATH_TOOLBOX_DLL_EXPORT ")
+endif ()
+
+message(DEBUG "CXX Flags: " ${COMMON_CXX_FLAGS})
 
 set(CMAKE_CXX_FLAGS_DEBUG ${COMMON_CXX_FLAGS} CACHE STRING
         "Flags used by the C++ compiler during Debug builds."
@@ -52,46 +50,6 @@ set(CMAKE_EXE_LINKER_FLAGS_RELEASE "" CACHE STRING
         FORCE)
 set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "" CACHE STRING
         "Flags used by the shared libraries linker during Release builds."
-        FORCE)
-
-if (DLL_EXPORT)
-    list(APPEND COMMON_CXX_FLAGS "/DMATH_DEFINE_FORMATTER")
-endif ()
-
-set(CMAKE_CXX_FLAGS_DEBUGDLLEXPORT ${COMMON_CXX_FLAGS} CACHE STRING
-        "Flags used by the C++ compiler during DebugDllExport builds."
-        FORCE)
-set(CMAKE_C_FLAGS_DEBUGDLLEXPORT "" CACHE STRING
-        "Flags used by the C compiler during DebugDllExport builds."
-        FORCE)
-set(CMAKE_EXE_LINKER_FLAGS_DEBUGDLLEXPORT "" CACHE STRING
-        "Flags used for linking binaries during DebugDllExport builds."
-        FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS_DEBUGDLLEXPORT "" CACHE STRING
-        "Flags used by the shared libraries linker during DebugDllExport builds."
-        FORCE)
-
-set(CMAKE_CXX_FLAGS_RELEASEDLLEXPORT ${COMMON_CXX_FLAGS} CACHE STRING
-        "Flags used by the C++ compiler during ReleaseDllExport builds."
-        FORCE)
-set(CMAKE_C_FLAGS_RELEASEDLLEXPORT "" CACHE STRING
-        "Flags used by the C compiler during ReleaseDllExport builds."
-        FORCE)
-set(CMAKE_EXE_LINKER_FLAGS_RELEASEDLLEXPORT "" CACHE STRING
-        "Flags used for linking binaries during ReleaseDllExport builds."
-        FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS_RELEASEDLLEXPORT "" CACHE STRING
-        "Flags used by the shared libraries linker during ReleaseDllExport builds."
-        FORCE)
-
-mark_as_advanced(
-        CMAKE_CXX_FLAGS_MAINTAINER
-        CMAKE_C_FLAGS_MAINTAINER
-        CMAKE_EXE_LINKER_FLAGS_MAINTAINER
-        CMAKE_SHARED_LINKER_FLAGS_MAINTAINER)
-# Update the documentation string of CMAKE_BUILD_TYPE for GUIs
-set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING
-        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel Maintainer."
         FORCE)
 
 add_subdirectory(MathToolbox)

@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef MATH_DEFINE_FORMATTER
+#include <format>
+#include <sstream>
+#endif
+
 #include "calc.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
@@ -975,6 +980,64 @@ constexpr void Matrix::Trs(const Vector3& translation, const Matrix& rotation, c
 
 	result = result * rotation * temp;
 }
+
+#ifdef MATH_DEFINE_FORMATTER
+template<>
+struct std::formatter<Matrix>
+{
+    template<class ParseContext>
+    constexpr typename ParseContext::iterator parse(ParseContext& ctx);
+
+    template<class FmtContext>
+    typename FmtContext::iterator format(Matrix m, FmtContext& ctx) const;
+
+private:
+    std::string m_Format;
+    bool m_Multiline = false;
+};
+
+template<class ParseContext>
+constexpr typename ParseContext::iterator std::formatter<Matrix, char>::parse(ParseContext& ctx)
+{
+    auto it = ctx.begin();
+    if (it == ctx.end())
+        return it;
+
+    if (*it == 'm')
+    {
+        m_Multiline = true;
+        it++;
+    }
+
+    while (*it != '}' && it != ctx.end())
+        m_Format += *it++;
+
+    return it;
+}
+
+template<class FmtContext>
+typename FmtContext::iterator std::formatter<Matrix>::format(Matrix m, FmtContext &ctx) const
+{
+    std::ostringstream out;
+    
+    const char separator = m_Multiline ? '\n' : ' ';
+
+    out << std::vformat(
+            "[ {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ]" + separator
+            + "[ {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ]" + separator
+            + "[ {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ]" + separator
+            + "[ {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ]",
+            std::make_format_args(
+                    m.m00, m.m01, m.m02, m.m03,
+                    m.m10, m.m11, m.m12, m.m13,
+                    m.m20, m.m21, m.m22, m.m23,
+                    m.m30, m.m31, m.m32, m.m33
+            )
+    );
+
+    return std::ranges::copy(std::move(out).str(), ctx.out()).out;
+}
+#endif
 
 using mat4 = Matrix;
 using mat = Matrix;

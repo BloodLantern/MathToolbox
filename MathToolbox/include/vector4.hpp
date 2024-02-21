@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef MATH_DEFINE_FORMATTER
+#include <format>
+#include <sstream>
+#endif
+
 #include "calc.hpp"
 #include "vector2.hpp"
 #include "vector3.hpp"
@@ -351,5 +356,43 @@ std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept;
 constexpr Vector4 Vector4::Lerp(const Vector4& value, const Vector4& target, const float t) noexcept { return value + (target - value) * t; }
 
 constexpr void Vector4::Lerp(const Vector4& value, const Vector4& target, const float t, Vector4& result) noexcept { result = value + (target - value) * t; }
+
+#ifdef MATH_DEFINE_FORMATTER
+template<>
+struct std::formatter<Vector4>
+{
+    template<class ParseContext>
+    constexpr typename ParseContext::iterator parse(ParseContext& ctx);
+
+    template<class FmtContext>
+    typename FmtContext::iterator format(Vector4 v, FmtContext& ctx) const;
+
+private:
+    std::string m_Format;
+};
+
+template<class ParseContext>
+constexpr typename ParseContext::iterator std::formatter<Vector4, char>::parse(ParseContext& ctx)
+{
+    auto it = ctx.begin();
+    if (it == ctx.end())
+        return it;
+
+    while (*it != '}' && it != ctx.end())
+        m_Format += *it++;
+
+    return it;
+}
+
+template<class FmtContext>
+typename FmtContext::iterator std::formatter<Vector4>::format(Vector4 v, FmtContext &ctx) const
+{
+    std::ostringstream out;
+
+    out << std::vformat("{:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + '}', std::make_format_args(v.x, v.y, v.z, v.w));
+
+    return std::ranges::copy(std::move(out).str(), ctx.out()).out;
+}
+#endif
 
 using vec4 = Vector4;

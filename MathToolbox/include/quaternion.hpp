@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef MATH_DEFINE_FORMATTER
+#include <format>
+#include <sstream>
+#endif
+
 #include "calc.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
@@ -530,5 +535,43 @@ constexpr void Quaternion::Invert(Quaternion* result) const noexcept
 constexpr Vector3 Quaternion::Rotate(const Vector3& point, const Quaternion& rotation) noexcept { return (rotation * point * rotation.Conjugate()).imaginary; }
 
 constexpr void Quaternion::Rotate(const Vector3& point, const Quaternion& rotation, Vector3* result) noexcept { *result = (rotation * point * rotation.Conjugate()).imaginary; }
+
+#ifdef MATH_DEFINE_FORMATTER
+template<>
+struct std::formatter<Quaternion>
+{
+    template<class ParseContext>
+    constexpr typename ParseContext::iterator parse(ParseContext& ctx);
+
+    template<class FmtContext>
+    typename FmtContext::iterator format(Quaternion q, FmtContext& ctx) const;
+
+private:
+    std::string m_Format;
+};
+
+template<class ParseContext>
+constexpr typename ParseContext::iterator std::formatter<Quaternion, char>::parse(ParseContext& ctx)
+{
+    auto it = ctx.begin();
+    if (it == ctx.end())
+        return it;
+
+    while (*it != '}' && it != ctx.end())
+        m_Format += *it++;
+
+    return it;
+}
+
+template<class FmtContext>
+typename FmtContext::iterator std::formatter<Quaternion>::format(Quaternion q, FmtContext &ctx) const
+{
+    std::ostringstream out;
+
+    out << std::vformat("{:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + "} ; {:" + m_Format + '}', std::make_format_args(q.X(), q.Y(), q.Z(), q.W()));
+
+    return std::ranges::copy(std::move(out).str(), ctx.out()).out;
+}
+#endif
 
 using quat = Quaternion;

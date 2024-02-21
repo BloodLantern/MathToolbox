@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef MATH_DEFINE_FORMATTER
+#include <format>
+#include <sstream>
+#endif
+
 #include "calc.hpp"
 #include "vector2.hpp"
 
@@ -251,5 +256,43 @@ constexpr bool operator==(const Vector2i a, const Vector2i b) noexcept { return 
 constexpr bool operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }
 
 std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
+
+#ifdef MATH_DEFINE_FORMATTER
+template<>
+struct std::formatter<Vector2i>
+{
+    template<class ParseContext>
+    constexpr typename ParseContext::iterator parse(ParseContext& ctx);
+
+    template<class FmtContext>
+    typename FmtContext::iterator format(Vector2i v, FmtContext& ctx) const;
+
+private:
+    std::string m_Format;
+};
+
+template<class ParseContext>
+constexpr typename ParseContext::iterator std::formatter<Vector2i, char>::parse(ParseContext& ctx)
+{
+    auto it = ctx.begin();
+    if (it == ctx.end())
+        return it;
+
+    while (*it != '}' && it != ctx.end())
+        m_Format += *it++;
+
+    return it;
+}
+
+template<class FmtContext>
+typename FmtContext::iterator std::formatter<Vector2i>::format(Vector2i v, FmtContext &ctx) const
+{
+    std::ostringstream out;
+
+    out << std::vformat("{:" + m_Format + "} ; {:" + m_Format + '}', std::make_format_args(v.x, v.y));
+
+    return std::ranges::copy(std::move(out).str(), ctx.out()).out;
+}
+#endif
 
 using vec2i = Vector2i;
