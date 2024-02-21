@@ -846,6 +846,7 @@ constexpr Vector4 Matrix::operator[](const unsigned char col)
 	return Vector4(Raw() + static_cast<ptrdiff_t>(col) * 4);
 }
 
+[[nodiscard]]
 constexpr Matrix operator-(const Matrix& matrix) noexcept
 {
 	return Matrix(
@@ -856,6 +857,7 @@ constexpr Matrix operator-(const Matrix& matrix) noexcept
 	);
 }
 
+[[nodiscard]]
 constexpr Matrix operator+(const Matrix& m1, const Matrix& m2) noexcept
 {
 	return Matrix(
@@ -866,8 +868,10 @@ constexpr Matrix operator+(const Matrix& m1, const Matrix& m2) noexcept
 	);
 }
 
+[[nodiscard]]
 constexpr Matrix operator-(const Matrix& m1, const Matrix& m2) noexcept { return m1 + -m2; }
 
+[[nodiscard]]
 constexpr Matrix operator*(const Matrix& m, const float scalar) noexcept
 {
 	return Matrix(
@@ -878,6 +882,10 @@ constexpr Matrix operator*(const Matrix& m, const float scalar) noexcept
 	);
 }
 
+[[nodiscard]]
+constexpr Matrix operator*(const float factor, const Matrix m) noexcept { return m * factor; }
+
+[[nodiscard]]
 constexpr Vector3 operator*(const Matrix& m, const Vector3& v) noexcept
 {
     return Vector3(
@@ -887,6 +895,7 @@ constexpr Vector3 operator*(const Matrix& m, const Vector3& v) noexcept
     );
 }
 
+[[nodiscard]]
 constexpr Vector4 operator*(const Matrix& m, const Vector4& v) noexcept
 {
 	return Vector4(
@@ -897,6 +906,7 @@ constexpr Vector4 operator*(const Matrix& m, const Vector4& v) noexcept
 	);
 }
 
+[[nodiscard]]
 constexpr Matrix operator*(const Matrix& m1, const Matrix& m2) noexcept
 {
 	return Matrix(

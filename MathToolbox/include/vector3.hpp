@@ -243,93 +243,44 @@ constexpr float& Vector3::operator[](const size_t i)
 		throw std::out_of_range("Vector3 subscript out of range");
 }
 
+[[nodiscard]]
 constexpr Vector3 operator+(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x + b.x, a.y + b.y, a.z + b.z); }
 
+[[nodiscard]]
 constexpr Vector3 operator-(const Vector3& a) noexcept { return Vector3(-a.x, -a.y, -a.z); }
 
+[[nodiscard]]
 constexpr Vector3 operator-(const Vector3& a, const Vector3& b) noexcept { return a + -b; }
 
+[[nodiscard]]
 constexpr Vector3 operator*(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x * b.x, a.y * b.y, a.z * b.z); }
 
+[[nodiscard]]
 constexpr Vector3 operator*(const Vector3& v, const float factor) noexcept { return Vector3(v.x * factor, v.y * factor, v.z * factor); }
 
+[[nodiscard]]
+constexpr Vector3 operator*(const float factor, const Vector3 v) noexcept { return v * factor; }
+
+[[nodiscard]]
 constexpr Vector3 operator/(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x / b.x, a.y / b.y, a.z / b.z); }
 
+[[nodiscard]]
 constexpr Vector3 operator/(const Vector3& v, const float factor) noexcept { const float invFactor = 1.f / factor; return Vector3(v.x * invFactor, v.y * invFactor, v.z * invFactor); }
 
-constexpr Vector3& operator+=(Vector3& a, const Vector3& b) noexcept
-{
-	a.x += b.x;
-	a.y += b.y;
-	a.z += b.z;
-	
-	return a;
-}
+[[nodiscard]]
+constexpr Vector2 operator/(const float factor, const Vector2 v) noexcept { return Vector2(v.x / factor, v.y / factor); }
 
-constexpr Vector3& operator+=(Vector3& v, const float factor) noexcept
-{
-	v.x += factor;
-	v.y += factor;
-	v.z += factor;
-	
-	return v;
-}
+constexpr Vector3& operator+=(Vector3& a, const Vector3& b) noexcept { return a = a + b; }
 
-constexpr Vector3 &operator-=(Vector3 &a, const Vector3& b) noexcept
-{
-	a.x -= b.x;
-	a.y -= b.y;
-	a.z -= b.z;
-	
-	return a;
-}
+constexpr Vector3 &operator-=(Vector3 &a, const Vector3& b) noexcept { return a = a - b; }
 
-constexpr Vector3& operator-=(Vector3& v, const float factor) noexcept
-{
-	v.x -= factor;
-	v.y -= factor;
-	v.z -= factor;
-	
-	return v;
-}
+constexpr Vector3& operator*=(Vector3& a, const Vector3& b) noexcept { return a = a * b; }
 
-constexpr Vector3& operator*=(Vector3& a, const Vector3& b) noexcept
-{
-	a.x *= b.x;
-	a.y *= b.y;
-	a.z *= b.z;
-	
-	return a;
-}
+constexpr Vector3& operator*=(Vector3& v, const float factor) noexcept { return v = v * factor; }
 
-constexpr Vector3& operator*=(Vector3& v, const float factor) noexcept
-{
-	v.x *= factor;
-	v.y *= factor;
-	v.z *= factor;
-	
-	return v;
-}
+constexpr Vector3 &operator/=(Vector3 &a, const Vector3& b) noexcept { return a = a / b; }
 
-constexpr Vector3 &operator/=(Vector3 &a, const Vector3& b) noexcept
-{
-	a.x /= b.x;
-	a.y /= b.y;
-	a.z /= b.z;
-	
-	return a;
-}
-
-constexpr Vector3& operator/=(Vector3& v, const float factor) noexcept
-{
-	const float invFactor = 1.f / factor;
-	
-	v.x *= invFactor;
-	v.y *= invFactor;
-	v.z *= invFactor;
-	
-	return v;
-}
+constexpr Vector3& operator/=(Vector3& v, const float factor) noexcept { return v = v / factor; }
 
 /// <summary>
 ///	Checks if two Vector3 are considered equal using <code>Calc::Equals</code>.

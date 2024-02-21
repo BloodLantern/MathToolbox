@@ -457,12 +457,16 @@ constexpr Quaternion::operator Vector3() const noexcept { return imaginary; }
 
 constexpr Quaternion::operator Vector4() const noexcept { return Vector4(imaginary.x, imaginary.y, imaginary.z, real); }
 
+[[nodiscard]]
 constexpr Quaternion operator+(const Quaternion& a, const Quaternion& b) noexcept { return Quaternion(a.imaginary + b.imaginary, a.real + b.real); }
 
+[[nodiscard]]
 constexpr Quaternion operator-(const Quaternion& a) noexcept { return Quaternion(-a.imaginary, -a.real); }
 
+[[nodiscard]]
 constexpr Quaternion operator-(const Quaternion& a, const Quaternion& b) noexcept { return Quaternion(a + -b); }
 
+[[nodiscard]]
 constexpr Quaternion operator*(const Quaternion& a, const Quaternion& b) noexcept
 {
 	Quaternion result;
@@ -482,10 +486,16 @@ constexpr Quaternion operator*(const Quaternion& a, const Quaternion& b) noexcep
 	return result;
 }
 
+[[nodiscard]]
 constexpr Quaternion operator*(const Quaternion& q, const Vector3& v) noexcept { return q * Quaternion(v, 1.f); }
 
-constexpr Quaternion operator*(const Quaternion& v, const float factor) noexcept { return Quaternion(v.imaginary * factor, v.real * factor); }
+[[nodiscard]]
+constexpr Quaternion operator*(const Quaternion& q, const float factor) noexcept { return Quaternion(q.imaginary * factor, q.real * factor); }
 
+[[nodiscard]]
+constexpr Quaternion operator*(const float factor, const Quaternion q) noexcept { return q * factor; }
+
+[[nodiscard]]
 constexpr Quaternion operator/(const Quaternion& v, const float factor) noexcept { return Quaternion(v.imaginary / factor, v.real / factor); }
 
 constexpr Quaternion& operator+=(Quaternion& a, const Quaternion& b) noexcept { return a = a + b; }
@@ -494,9 +504,9 @@ constexpr Quaternion& operator-=(Quaternion& a, const Quaternion& b) noexcept { 
 
 constexpr Quaternion& operator*=(Quaternion& a, const Quaternion& b) noexcept { return a = a * b; }
 
-constexpr Quaternion& operator*=(Quaternion& v, const float factor) noexcept { return v = v * factor; }
+constexpr Quaternion& operator*=(Quaternion& q, const float factor) noexcept { return q = q * factor; }
 
-constexpr Quaternion& operator/=(Quaternion& v, const float factor) noexcept { return v = v / factor; }
+constexpr Quaternion& operator/=(Quaternion& q, const float factor) noexcept { return q = q / factor; }
 
 /// <summary>
 ///	Checks if two Quaternions are considered equal using <code>Calc::Equals</code>.

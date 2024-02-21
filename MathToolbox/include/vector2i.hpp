@@ -181,67 +181,37 @@ constexpr int& Vector2i::operator[](const size_t i)
 		throw std::out_of_range("Vector2i subscript out of range");
 }
 
+[[nodiscard]]
 constexpr Vector2i operator+(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x + b.x, a.y + b.y); }
 
+[[nodiscard]]
 constexpr Vector2i operator-(const Vector2i a) noexcept { return Vector2i(-a.x, -a.y); }
 
+[[nodiscard]]
 constexpr Vector2i operator-(const Vector2i a, const Vector2i b) noexcept { return a + -b; }
 
+[[nodiscard]]
 constexpr Vector2i operator*(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x * b.x, a.y * b.y); }
 
+[[nodiscard]]
 constexpr Vector2i operator*(const Vector2i v, const int factor) noexcept { return Vector2i(v.x * factor, v.y * factor); }
 
+[[nodiscard]]
+constexpr Vector2i operator*(const int factor, const Vector2i v) noexcept { return v * factor; }
+
+[[nodiscard]]
 constexpr Vector2 operator/(const Vector2i a, const Vector2i b) noexcept { return Vector2(static_cast<float>(a.x) / static_cast<float>(b.x), static_cast<float>(a.y) / static_cast<float>(b.y)); }
 
+[[nodiscard]]
 constexpr Vector2 operator/(const Vector2i v, const float factor) noexcept { return Vector2(static_cast<float>(v.x) / factor, static_cast<float>(v.y) / factor); }
 
-constexpr Vector2i& operator+=(Vector2i& a, const Vector2i b) noexcept
-{
-	a.x += b.x;
-	a.y += b.y;
-	
-	return a;
-}
+constexpr Vector2i& operator+=(Vector2i& a, const Vector2i b) noexcept { return a = a + b; }
 
-constexpr Vector2i& operator+=(Vector2i& v, const int factor) noexcept
-{
-	v.x += factor;
-	v.y += factor;
-	
-	return v;
-}
+constexpr Vector2i &operator-=(Vector2i &a, const Vector2i b) noexcept { return a = a - b; }
 
-constexpr Vector2i &operator-=(Vector2i &a, const Vector2i b) noexcept
-{
-	a.x -= b.x;
-	a.y -= b.y;
-	
-	return a;
-}
+constexpr Vector2i& operator*=(Vector2i& a, const Vector2i b) noexcept { return a = a * b; }
 
-constexpr Vector2i& operator-=(Vector2i& v, const int factor) noexcept
-{
-	v.x -= factor;
-	v.y -= factor;
-	
-	return v;
-}
-
-constexpr Vector2i& operator*=(Vector2i& a, const Vector2i b) noexcept
-{
-	a.x *= b.x;
-	a.y *= b.y;
-	
-	return a;
-}
-
-constexpr Vector2i& operator*=(Vector2i& v, const int factor) noexcept
-{
-	v.x *= factor;
-	v.y *= factor;
-	
-	return v;
-}
+constexpr Vector2i& operator*=(Vector2i& v, const int factor) noexcept { return v = v * factor; }
 
 /// <summary>
 ///	Checks if two Vector2i are considered equal using <code>Calc::Equals</code>.

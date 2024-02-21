@@ -237,101 +237,41 @@ constexpr float& Vector4::operator[](const size_t i)
 		throw std::out_of_range("Vector4 subscript out of range");
 }
 
+[[nodiscard]]
 constexpr Vector4 operator+(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w); }
 
+[[nodiscard]]
 constexpr Vector4 operator-(const Vector4& a) noexcept { return Vector4(-a.x, -a.y, -a.z, -a.w); }
 
+[[nodiscard]]
 constexpr Vector4 operator-(const Vector4& a, const Vector4& b) noexcept { return a + -b; }
 
+[[nodiscard]]
 constexpr Vector4 operator*(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w); }
 
+[[nodiscard]]
 constexpr Vector4 operator*(const Vector4& v, const float factor) noexcept { return Vector4(v.x * factor, v.y * factor, v.z * factor, v.w * factor); }
 
+[[nodiscard]]
+constexpr Vector4 operator*(const float factor, const Vector4 v) noexcept { return v * factor; }
+
+[[nodiscard]]
 constexpr Vector4 operator/(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w); }
 
+[[nodiscard]]
 constexpr Vector4 operator/(const Vector4& v, const float factor) noexcept { const float invFactor = 1.f / factor; return Vector4(v.x * invFactor, v.y * invFactor, v.z * invFactor, v.w * invFactor); }
 
-constexpr Vector4& operator+=(Vector4& a, const Vector4& b) noexcept
-{
-	a.x += b.x;
-	a.y += b.y;
-    a.z += b.z;
-    a.w += b.w;
-	
-	return a;
-}
+constexpr Vector4& operator+=(Vector4& a, const Vector4& b) noexcept { return a = a + b; }
 
-constexpr Vector4& operator+=(Vector4& v, const float factor) noexcept
-{
-	v.x += factor;
-	v.y += factor;
-    v.z += factor;
-    v.w += factor;
-	
-	return v;
-}
+constexpr Vector4 &operator-=(Vector4 &a, const Vector4& b) noexcept { return a = a - b; }
 
-constexpr Vector4 &operator-=(Vector4 &a, const Vector4& b) noexcept
-{
-	a.x -= b.x;
-	a.y -= b.y;
-    a.z -= b.z;
-    a.w -= b.w;
-	
-	return a;
-}
+constexpr Vector4& operator*=(Vector4& a, const Vector4& b) noexcept { return a = a * b; }
 
-constexpr Vector4& operator-=(Vector4& v, const float factor) noexcept
-{
-	v.x -= factor;
-	v.y -= factor;
-    v.z -= factor;
-    v.w -= factor;
-	
-	return v;
-}
+constexpr Vector4& operator*=(Vector4& v, const float factor) noexcept { return v = v * factor; }
 
-constexpr Vector4& operator*=(Vector4& a, const Vector4& b) noexcept
-{
-	a.x *= b.x;
-	a.y *= b.y;
-    a.z *= b.z;
-    a.w *= b.w;
-	
-	return a;
-}
+constexpr Vector4 &operator/=(Vector4 &a, const Vector4& b) noexcept { return a = a / b; }
 
-constexpr Vector4& operator*=(Vector4& v, const float factor) noexcept
-{
-	v.x *= factor;
-	v.y *= factor;
-    v.z *= factor;
-    v.w *= factor;
-	
-	return v;
-}
-
-constexpr Vector4 &operator/=(Vector4 &a, const Vector4& b) noexcept
-{
-	a.x /= b.x;
-	a.y /= b.y;
-    a.z /= b.z;
-    a.w /= b.w;
-	
-	return a;
-}
-
-constexpr Vector4& operator/=(Vector4& v, const float factor) noexcept
-{
-	const float invFactor = 1.f / factor;
-	
-	v.x *= invFactor;
-	v.y *= invFactor;
-    v.z *= invFactor;
-    v.w *= invFactor;
-	
-	return v;
-}
+constexpr Vector4& operator/=(Vector4& v, const float factor) noexcept { return v = v / factor; }
 
 /// <summary>
 ///	Checks if two Vector4 are considered equal using <code>Calc::Equals</code>.

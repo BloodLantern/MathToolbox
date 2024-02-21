@@ -507,7 +507,7 @@ namespace TestMatrix
 
     constexpr vec3 One(1.f);
     const mat RotationHalfCircleZ = mat::RotationZ(Calc::PiOver2);
-    const mat Trs = mat::Trs(One, RotationHalfCircleZ, 2.f);
+    const mat Trs = mat::Trs(One, RotationHalfCircleZ, vec3(2.f));
 
     constexpr mat Symmetric(
         1.f, 2.f, 3.f, 4.f,
@@ -569,7 +569,7 @@ namespace TestMatrix
 
         EXPECT_EQ(t * t, mat::Translation(vec3(2.f)));
 
-        constexpr mat4 s = mat::Scaling(-5.f);
+        constexpr mat4 s = mat::Scaling(vec3(-5.f));
 
         constexpr mat4 ts = t * s;
 

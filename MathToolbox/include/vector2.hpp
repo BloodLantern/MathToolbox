@@ -192,9 +192,9 @@ constexpr float Vector2::Cross(const Vector2 a, const Vector2 b) noexcept { retu
 
 constexpr float Vector2::Determinant(const Vector2 a, const Vector2 b) noexcept { return a.x * b.y - b.x * a.y; }
 
-constexpr const float* Vector2::Raw() const noexcept { return &x; }
+constexpr const float* Vector2::Raw() const noexcept { return& x; }
 
-constexpr float* Vector2::Raw() noexcept { return &x; }
+constexpr float* Vector2::Raw() noexcept { return& x; }
 
 constexpr float Vector2::SquaredLength() const noexcept { return SQ(x) + SQ(y); }
 
@@ -230,76 +230,27 @@ constexpr Vector2 operator*(const Vector2 a, const Vector2 b) noexcept { return 
 constexpr Vector2 operator*(const Vector2 v, const float factor) noexcept { return Vector2(v.x * factor, v.y * factor); }
 
 [[nodiscard]]
+constexpr Vector2 operator*(const float factor, const Vector2 v) noexcept { return v * factor; }
+
+[[nodiscard]]
 constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x / b.x, a.y / b.y); }
 
 [[nodiscard]]
 constexpr Vector2 operator/(const Vector2 v, const float factor) noexcept { const float invFactor = 1.f / factor; return Vector2(v.x * invFactor, v.y * invFactor); }
 
-constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept
-{
-	a.x += b.x;
-	a.y += b.y;
-	
-	return a;
-}
+constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept { return a = a + b; }
 
-constexpr Vector2& operator+=(Vector2& v, const float factor) noexcept
-{
-	v.x += factor;
-	v.y += factor;
-	
-	return v;
-}
+constexpr Vector2& operator-=(Vector2& a, const Vector2 b) noexcept { return a = a - b; }
 
-constexpr Vector2 &operator-=(Vector2 &a, const Vector2 b) noexcept
-{
-	a.x -= b.x;
-	a.y -= b.y;
-	
-	return a;
-}
+constexpr Vector2& operator*=(Vector2& a, const Vector2 b) noexcept { return a = a * b; }
 
-constexpr Vector2& operator-=(Vector2& v, const float factor) noexcept
-{
-	v.x -= factor;
-	v.y -= factor;
-	
-	return v;
-}
+constexpr Vector2& operator*=(Vector2& v, const float factor) noexcept { return v = v * factor; }
 
-constexpr Vector2& operator*=(Vector2& a, const Vector2 b) noexcept
-{
-	a.x *= b.x;
-	a.y *= b.y;
-	
-	return a;
-}
+constexpr Vector2& operator*=(const float factor, Vector2& v) noexcept { return v = v * factor; }
 
-constexpr Vector2& operator*=(Vector2& v, const float factor) noexcept
-{
-	v.x *= factor;
-	v.y *= factor;
-	
-	return v;
-}
+constexpr Vector2& operator/=(Vector2& a, const Vector2 b) noexcept { return a = a / b; }
 
-constexpr Vector2 &operator/=(Vector2 &a, const Vector2 b) noexcept
-{
-	a.x /= b.x;
-	a.y /= b.y;
-	
-	return a;
-}
-
-constexpr Vector2& operator/=(Vector2& v, const float factor) noexcept
-{
-	const float invFactor = 1.f / factor;
-	
-	v.x *= invFactor;
-	v.y *= invFactor;
-	
-	return v;
-}
+constexpr Vector2& operator/=(Vector2& v, const float factor) noexcept { return v = v / factor; }
 
 /// <summary>
 ///	Checks if two Vector2 are considered equal using <see cref="Calc::Equals"/>.
@@ -349,7 +300,7 @@ constexpr typename ParseContext::iterator std::formatter<Vector2, char>::parse(P
 }
 
 template<class FmtContext>
-typename FmtContext::iterator std::formatter<Vector2>::format(Vector2 v, FmtContext &ctx) const
+typename FmtContext::iterator std::formatter<Vector2>::format(Vector2 v, FmtContext& ctx) const
 {
     std::ostringstream out;
 
