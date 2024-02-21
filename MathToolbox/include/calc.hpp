@@ -136,6 +136,9 @@ constexpr float Calc::Sign(const float number) noexcept { return number < 0.f ? 
 
 constexpr float Calc::Abs(const float number) noexcept { return number < 0.f ? -number : number; }
 
+// Undef windows macro to be able to use std::min without conflicts
+#undef min
+
 constexpr void Calc::Approach(float &value, const float target, const float step) noexcept
 {
 	// If the target value hasn't been reached yet

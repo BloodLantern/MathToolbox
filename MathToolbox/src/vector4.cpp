@@ -1,6 +1,5 @@
 #include "vector4.hpp"
 
-#include <cassert>
 #include <format>
 
 #include "calc.hpp"

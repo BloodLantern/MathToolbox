@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 option(BUILD_TESTS "Build unit tests" OFF)
 option(DLL_EXPORT "Add dllexport to declarations" OFF)
+option(DEFINE_FORMATTER "Define std::formatter implementations" OFF)
 
 if (NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     message(FATAL_ERROR "This project currently only supports MSVC")
@@ -13,15 +14,51 @@ endif ()
 
 add_compile_options(/MP)
 
-if(CMAKE_CONFIGURATION_TYPES)
+if (CMAKE_CONFIGURATION_TYPES)
     list(APPEND CMAKE_CONFIGURATION_TYPES DebugDllExport)
     list(APPEND CMAKE_CONFIGURATION_TYPES ReleaseDllExport)
     set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
             "Add the configurations that we need"
             FORCE)
-endif()
+endif ()
 
-set(CMAKE_CXX_FLAGS_DEBUGDLLEXPORT "/DMATH_TOOLBOX_DLL_EXPORT" CACHE STRING
+set(COMMON_CXX_FLAGS "")
+
+if (DEFINE_FORMATTER)
+    list(APPEND COMMON_CXX_FLAGS "/DMATH_DEFINE_FORMATTER")
+endif ()
+
+set(CMAKE_CXX_FLAGS_DEBUG ${COMMON_CXX_FLAGS} CACHE STRING
+        "Flags used by the C++ compiler during Debug builds."
+        FORCE)
+set(CMAKE_C_FLAGS_DEBUG "" CACHE STRING
+        "Flags used by the C compiler during Debug builds."
+        FORCE)
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG "" CACHE STRING
+        "Flags used for linking binaries during Debug builds."
+        FORCE)
+set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "" CACHE STRING
+        "Flags used by the shared libraries linker during Debug builds."
+        FORCE)
+
+set(CMAKE_CXX_FLAGS_RELEASE ${COMMON_CXX_FLAGS} CACHE STRING
+        "Flags used by the C++ compiler during Release builds."
+        FORCE)
+set(CMAKE_C_FLAGS_RELEASE "" CACHE STRING
+        "Flags used by the C compiler during Release builds."
+        FORCE)
+set(CMAKE_EXE_LINKER_FLAGS_RELEASE "" CACHE STRING
+        "Flags used for linking binaries during Release builds."
+        FORCE)
+set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "" CACHE STRING
+        "Flags used by the shared libraries linker during Release builds."
+        FORCE)
+
+if (DLL_EXPORT)
+    list(APPEND COMMON_CXX_FLAGS "/DMATH_DEFINE_FORMATTER")
+endif ()
+
+set(CMAKE_CXX_FLAGS_DEBUGDLLEXPORT ${COMMON_CXX_FLAGS} CACHE STRING
         "Flags used by the C++ compiler during DebugDllExport builds."
         FORCE)
 set(CMAKE_C_FLAGS_DEBUGDLLEXPORT "" CACHE STRING
@@ -34,7 +71,7 @@ set(CMAKE_SHARED_LINKER_FLAGS_DEBUGDLLEXPORT "" CACHE STRING
         "Flags used by the shared libraries linker during DebugDllExport builds."
         FORCE)
 
-set(CMAKE_CXX_FLAGS_RELEASEDLLEXPORT "/DMATH_TOOLBOX_DLL_EXPORT" CACHE STRING
+set(CMAKE_CXX_FLAGS_RELEASEDLLEXPORT ${COMMON_CXX_FLAGS} CACHE STRING
         "Flags used by the C++ compiler during ReleaseDllExport builds."
         FORCE)
 set(CMAKE_C_FLAGS_RELEASEDLLEXPORT "" CACHE STRING

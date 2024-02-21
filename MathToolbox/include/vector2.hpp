@@ -1,6 +1,11 @@
 #pragma once
 
-#include <ostream>
+#ifdef MATH_DEFINE_FORMATTER
+#include <format>
+#include <sstream>
+#endif
+
+#include <stdexcept>
 
 #include "calc.hpp"
 
@@ -315,5 +320,39 @@ constexpr bool operator!=(const Vector2 a, const Vector2 b) noexcept { return !(
 std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 
 constexpr Vector2 Vector2::Lerp(const Vector2 value, const Vector2 target, const float t) noexcept { return value + (target - value) * t; }
+
+#ifdef MATH_DEFINE_FORMATTER
+template<>
+struct std::formatter<Vector2>
+{
+	template<class ParseContext>
+	constexpr typename ParseContext::iterator parse(ParseContext& ctx);
+
+	template<class FmtContext>
+	typename FmtContext::iterator format(Vector2 v, FmtContext& ctx) const;
+};
+
+template<class ParseContext>
+constexpr typename ParseContext::iterator std::formatter<Vector2, char>::parse(ParseContext& ctx)
+{
+	auto it = ctx.begin();
+	if (it == ctx.end())
+		return it;
+ 
+	if (*it != '}')
+		throw std::format_error("Invalid format args for Vector2.");
+ 
+	return it;
+}
+
+template<class FmtContext>
+typename FmtContext::iterator std::formatter<Vector2>::format(Vector2 v, FmtContext &ctx) const {
+    std::ostringstream out;
+
+    out << v;
+
+    return std::ranges::copy(std::move(out).str(), ctx.out()).out;
+}
+#endif
 
 using vec2 = Vector2;

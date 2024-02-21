@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include "calc.hpp"
 #include "vector3.hpp"
 
 Matrix Matrix::Rotation(const float angle, const Vector3& axis) noexcept

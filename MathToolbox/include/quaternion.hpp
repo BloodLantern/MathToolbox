@@ -1,7 +1,5 @@
 #pragma once
 
-#include <ostream>
-
 #include "calc.hpp"
 #include "vector3.hpp"
 #include "vector4.hpp"
