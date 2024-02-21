@@ -55,7 +55,7 @@ public:
 	/// <summary>
 	/// Constructs a Vector4 with all its components set to 'xyzw'.
 	/// </summary>
-	constexpr Vector4(float xyzw) noexcept;
+	constexpr explicit Vector4(float xyzw) noexcept;
 	
 	/// <summary>
 	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.

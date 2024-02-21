@@ -55,7 +55,7 @@ public:
 	/// <summary>
 	/// Constructs a Vector2i with both its components set to 'xy'.
 	/// </summary>
-	constexpr Vector2i(int xy);
+	constexpr explicit Vector2i(int xy);
 	
 	/// <summary>
 	/// Constructs a Vector2i with its components set to the data pointed by <code>data</code>.

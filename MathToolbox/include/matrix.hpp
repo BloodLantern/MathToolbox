@@ -296,7 +296,7 @@ public:
     /// <summary>
     /// Creates a Matrix with all its values set to this default value.
     /// </summary>
-	explicit constexpr Matrix(float defaultValue) noexcept;
+	constexpr explicit Matrix(float defaultValue) noexcept;
 	
 	/// <summary>
 	/// Constructs a Matrix with its components set to the data pointed by <c>data</c>.

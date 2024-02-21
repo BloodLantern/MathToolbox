@@ -256,11 +256,11 @@ public:
 	/// <summary>
 	///	Construct a Quaternion from a Vector4.
 	/// </summary>
-	constexpr Quaternion(const Vector4& values) noexcept;
+	constexpr explicit Quaternion(const Vector4& values) noexcept;
 	
 	constexpr explicit Quaternion(const Vector3& imaginary, float real = 1.f) noexcept;
 	
-	constexpr Quaternion(float xyzw) noexcept;
+	constexpr explicit Quaternion(float xyzw) noexcept;
 	
 	/// <summary>
 	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.

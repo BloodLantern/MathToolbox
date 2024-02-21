@@ -90,7 +90,7 @@ public:
 	/// Constructs a Vector3 with both its components set to 'xy'.
 	/// </summary>
 	/// <param name="xyz">The value to set this vector's x, y and z components to.</param>
-	constexpr Vector3(float xyz) noexcept;
+	constexpr explicit Vector3(float xyz) noexcept;
 	
 	/// <summary>
 	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.

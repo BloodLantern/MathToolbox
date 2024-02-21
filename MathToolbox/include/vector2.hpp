@@ -71,7 +71,7 @@ public:
 	/// Constructs a Vector2 with both its components set to 'xy'.
 	/// </summary>
 	/// <param name="xy">The value to set this vector's x and y components to.</param>
-	constexpr Vector2(float xy) noexcept;
+	constexpr explicit Vector2(float xy) noexcept;
 	
 	/// <summary>
 	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.

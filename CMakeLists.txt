@@ -16,41 +16,19 @@ add_compile_options(/MP)
 
 set(COMMON_CXX_FLAGS "")
 
-if (DEFINE_FORMATTER)
-    string(APPEND COMMON_CXX_FLAGS "/DMATH_DEFINE_FORMATTER ")
+if (${DEFINE_FORMATTER})
+    string(APPEND COMMON_CXX_FLAGS " /DMATH_DEFINE_FORMATTER")
 endif ()
 
-if (DLL_EXPORT)
-    string(APPEND COMMON_CXX_FLAGS "/DMATH_TOOLBOX_DLL_EXPORT ")
+if (${DLL_EXPORT})
+    string(APPEND COMMON_CXX_FLAGS " /DMATH_TOOLBOX_DLL_EXPORT")
 endif ()
 
 message(DEBUG "CXX Flags: " ${COMMON_CXX_FLAGS})
 
-set(CMAKE_CXX_FLAGS_DEBUG ${COMMON_CXX_FLAGS} CACHE STRING
-        "Flags used by the C++ compiler during Debug builds."
-        FORCE)
-set(CMAKE_C_FLAGS_DEBUG "" CACHE STRING
-        "Flags used by the C compiler during Debug builds."
-        FORCE)
-set(CMAKE_EXE_LINKER_FLAGS_DEBUG "" CACHE STRING
-        "Flags used for linking binaries during Debug builds."
-        FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "" CACHE STRING
-        "Flags used by the shared libraries linker during Debug builds."
-        FORCE)
+string(APPEND CMAKE_CXX_FLAGS_DEBUG ${COMMON_CXX_FLAGS})
 
-set(CMAKE_CXX_FLAGS_RELEASE ${COMMON_CXX_FLAGS} CACHE STRING
-        "Flags used by the C++ compiler during Release builds."
-        FORCE)
-set(CMAKE_C_FLAGS_RELEASE "" CACHE STRING
-        "Flags used by the C compiler during Release builds."
-        FORCE)
-set(CMAKE_EXE_LINKER_FLAGS_RELEASE "" CACHE STRING
-        "Flags used for linking binaries during Release builds."
-        FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "" CACHE STRING
-        "Flags used by the shared libraries linker during Release builds."
-        FORCE)
+string(APPEND CMAKE_CXX_FLAGS_RELEASE ${COMMON_CXX_FLAGS})
 
 add_subdirectory(MathToolbox)
 
