@@ -151,7 +151,7 @@ constexpr void Calc::Approach(float &value, const float target, const float step
 
 constexpr float Calc::YoYo(const float value) noexcept { return value <= 0.5f ? value * 2.f : 1.f - (value - 0.5f) * 2.f; }
 
-constexpr bool Calc::OnInterval(float value, float lastValue, float interval) { return (int) (lastValue / interval) != (int) (value / interval); }
+constexpr bool Calc::OnInterval(float value, float lastValue, float interval) { return Calc::IsZero(interval) || ((int) (lastValue / interval) != (int) (value / interval)); }
 
 constexpr bool Calc::IsZero(const float value) noexcept { return IsZero(value, Zero); }
 
