@@ -17,96 +17,6 @@ float Easing::SineInOut(const float t)
     return 0.5f * (1.f + std::sin(Calc::Pi * (t - 0.5f)));
 }
 
-float Easing::QuadIn(const float t)
-{
-    return t * t;
-}
-
-float Easing::QuadOut(const float t)
-{
-    return t * (2.f - t);
-}
-
-float Easing::QuadInOut(const float t)
-{
-    return t < 0.5f ? 2.f * t * t : t * (4.f - 2.f * t) - 1.f;
-}
-
-float Easing::CubicIn(const float t)
-{
-    return t * t * t;
-}
-
-float Easing::CubicOut(float t)
-{
-    t--;
-    return 1.f + t * t * t;
-}
-
-float Easing::CubicInOut(const float t)
-{
-    float t2 = t - 1;
-    float t3 = t2 - 1;
-    return t < 0.5f ? 4.f * t * t * t : 1.f + t2 * (2.f * t3) * (2.f * t3);
-}
-
-float Easing::QuartIn(float t)
-{
-    t *= t;
-    return t * t;
-}
-
-float Easing::QuartOut(const float t)
-{
-    float t2 = t - 1;
-    t2 *= t2;
-    return 1.f - t2 * t2;
-}
-
-float Easing::QuartInOut(float t)
-{
-    if (t < 0.5f)
-    {
-        t *= t;
-        return 8.f * t * t;
-    }
-    else
-    {
-        t -= 1;
-        t = t * t;
-        return 1.f - 8.f * t * t;
-    }
-}
-
-float Easing::QuintIn(const float t)
-{
-    float t2 = t * t;
-    return t * t2 * t2;
-}
-
-float Easing::QuintOut(float t)
-{
-    t -= 1;
-    float t2 = t * t;
-    return 1.f + t * t2 * t2;
-}
-
-float Easing::QuintInOut(float t)
-{
-    float t2;
-    if (t < 0.5f)
-    {
-        t2 = t * t;
-        return 16.f * t * t2 * t2;
-    }
-    else
-    {
-        t -= 1;
-        t2 = t * t;
-        return 1.f + 16.f * t * t2 * t2;
-    }
-}
-
 float Easing::ExpoIn(const float t)
 {
     return (std::pow(2.f, 8.f * t) - 1.f) / 255.f;
@@ -131,47 +41,23 @@ float Easing::ExpoInOut(const float t)
 
 float Easing::CircIn(const float t)
 {
-    return 1.f - sqrt(1.f - t);
+    return 1.f - std::sqrt(1.f - t);
 }
 
 float Easing::CircOut(const float t)
 {
-    return sqrt(t);
+    return std::sqrt(t);
 }
 
 float Easing::CircInOut(const float t)
 {
     if (t < 0.5f)
     {
-        return (1.f - sqrt(1.f - 2.f * t)) * 0.5f;
+        return (1.f - std::sqrt(1.f - 2.f * t)) * 0.5f;
     }
     else
     {
-        return (1.f + sqrt(2.f * t - 1.f)) * 0.5f;
-    }
-}
-
-float Easing::BackIn(const float t)
-{
-    return t * t * (2.70158f * t - 1.70158f);
-}
-
-float Easing::BackOut(float t)
-{
-    t -= 1;
-    return 1.f + t * t * (2.70158f * t + 1.70158f);
-}
-
-float Easing::BackInOut(float t)
-{
-    if (t < 0.5f)
-    {
-        return t * t * (7.f * t - 2.5f) * 2.f;
-    }
-    else
-    {
-        t -= 1;
-        return 1.f + t * t * 2.f * (7.f * t + 2.5f);
+        return (1.f + std::sqrt(2.f * t - 1.f)) * 0.5f;
     }
 }
 
