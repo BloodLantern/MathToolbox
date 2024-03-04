@@ -13,17 +13,13 @@
 class Vector3;
 class Vector4;
 
-/// <summary>
-/// The Vector2i class represents either a two-dimensional vector or a point.
-/// </summary>
+/// @brief The Vector2i class represents either a two-dimensional vector or a point32_t.
 class MATH_TOOLBOX Vector2i
 {
 public:
-	int x = 0, y = 0;
+	int32_t x = 0, y = 0;
 
-	/// <summary>
-	///	Equivalent to calling the default constructor.
-	/// </summary>
+	/// @brief Equivalent to calling the default constructor.
 	[[nodiscard]]
 	static constexpr Vector2i Zero() noexcept;
 
@@ -33,102 +29,80 @@ public:
 	[[nodiscard]]
 	static constexpr Vector2i UnitY() noexcept;
 	
-	/// <summary>
-	/// Returns a · b.
-	/// </summary>
+	/// @brief Returns a · b.
 	[[nodiscard]]
-	static constexpr float Dot(Vector2i a, Vector2i b) noexcept;
+	static constexpr float_t Dot(Vector2i a, Vector2i b) noexcept;
 	
-	/// <summary>
-	/// Returns a x b.
+	/// @brief Returns a x b.
+	/// 
 	/// For a Vector2i this is only the determinant.
-	/// </summary>
 	[[nodiscard]]
-	static constexpr float Cross(Vector2i a, Vector2i b) noexcept;
+	static constexpr float_t Cross(Vector2i a, Vector2i b) noexcept;
 	
-	/// <summary>
-	/// Returns the determinant of 'a' and 'b'.
-	/// </summary>
+	/// @brief Returns the determinant of 'a' and 'b'.
 	[[nodiscard]]
-	static constexpr float Determinant(Vector2i a, Vector2i b) noexcept;
+	static constexpr float_t Determinant(Vector2i a, Vector2i b) noexcept;
 
 	constexpr Vector2i() = default;
 
-	/// <summary>
-	/// Constructs a Vector2i with both its components set to 'xy'.
-	/// </summary>
-	constexpr explicit Vector2i(int xy);
+	/// @brief Constructs a Vector2i with both its components set to 'xy'.
+	constexpr explicit Vector2i(int32_t xy);
 	
-	/// <summary>
-	/// Constructs a Vector2i with its components set to the data pointed by <code>data</code>.
-	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 2 int values.
-	/// </summary>
-	/// <param name="data">The data where the values for this vector's components are located.</param>
-	constexpr explicit Vector2i(const int* data) noexcept;
+	/// @brief Constructs a Vector2i with its components set to the data point32_ted by @c data.
+	/// 
+	/// This constructor assumes that @c data is a valid pointer pointing to at least 2 @c int32_t values.
+	/// 
+	/// @param data The data where the values for this vector's components are located.
+	constexpr explicit Vector2i(const int32_t* data) noexcept;
 
-	constexpr Vector2i(int x, int y);
+	constexpr Vector2i(int32_t x, int32_t y);
 
-	/// <summary>
-	///	Gets a pointer to the first component of this vector.
-	/// </summary>
-	/// <returns>A pointer to the first component of this vector.</returns>
+	/// @brief 	Gets a point32_ter to the first component of this vector.
+	/// @returns A point32_ter to the first component of this vector.
 	[[nodiscard]]
-	constexpr const int* Raw() const noexcept;
+	constexpr const int32_t* Raw() const noexcept;
 
-	/// <summary>
-	///	Gets a pointer to the first component of this vector.
-	/// </summary>
-	/// <returns>A pointer to the first component of this vector.</returns>
+	/// @brief 	Gets a point32_ter to the first component of this vector.
+	/// 
+	/// @returns A point32_ter to the first component of this vector.
 	[[nodiscard]]
-	constexpr int* Raw() noexcept;
+	constexpr int32_t* Raw() noexcept;
 
-	/// <summary>
-	/// Returns the length of the vector.
-	/// </summary>
+	/// @brief Returns the length of the vector.
 	[[nodiscard]]
-	float Length() const noexcept;
+	float_t Length() const noexcept;
 	
-	/// <summary>
-	/// Returns the squared length of the vector.
-	/// </summary>
+	/// @brief Returns the squared length of the vector.
 	[[nodiscard]]
-	constexpr float SquaredLength() const noexcept;
+	constexpr float_t SquaredLength() const noexcept;
 	
-	/// <summary>
-	/// Returns a normalized vector.
-	/// </summary>
-	/// <returns>A vector with the same direction but a length of one.</returns>
+	/// @brief Returns a normalized vector.
+	/// 
+	/// @returns A vector with the same direction but a length of one.
 	[[nodiscard]]
 	Vector2 Normalized() const;
 	
-	/// <summary>
-	/// Returns the normal vector to this one.
-	/// </summary>
-	/// <returns>A vector with the same length but a normal direction.</returns>
+	/// @brief Returns the normal vector to this one.
+	/// 
+	/// @returns A vector with the same length but a normal direction.
 	[[nodiscard]]
 	Vector2 Normal() const;
 
-	/// <summary>
-	///	Retrieves this vector's component at index i.
-	/// </summary>
-	/// <param name="i">
-	/// The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...
-	/// </param>
-	/// <returns>The value of the component at index i.</returns>
+	/// @brief 	Retrieves this vector's component at index i.
+	/// 
+	/// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
+	/// 
+	/// @returns The value of the component at index i.
 	[[nodiscard]]
-	constexpr int operator[](size_t i) const;
+	constexpr int32_t operator[](size_t i) const;
 	
-	/// <summary>
-	///	Retrieves this vector's component at index i.
-	/// </summary>
-	/// <param name="i">
-	/// The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...
-	/// </param>
-	/// <returns>The value of the component at index i.</returns>
+	/// @brief 	Retrieves this vector's component at index i.
+	/// 
+	/// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
+	/// 
+	/// @returns The value of the component at index i.
 	[[nodiscard]]
-	constexpr int& operator[](size_t i);
+	constexpr int32_t& operator[](size_t i);
 	
     explicit operator Vector2() const;
 	
@@ -143,11 +117,11 @@ static_assert(std::is_move_constructible_v<Vector2i>, "Class Vector2i must be mo
 static_assert(std::is_copy_assignable_v<Vector2i>, "Class Vector2i must be copy assignable.");
 static_assert(std::is_move_assignable_v<Vector2i>, "Class Vector2i must be move assignable.");
 
-constexpr Vector2i::Vector2i(const int xy): x(xy), y(xy) {}
+constexpr Vector2i::Vector2i(const int32_t xy): x(xy), y(xy) {}
 
-constexpr Vector2i::Vector2i(const int* const data) noexcept : x(data[0]), y(data[1]) {}
+constexpr Vector2i::Vector2i(const int32_t* const data) noexcept : x(data[0]), y(data[1]) {}
 
-constexpr Vector2i::Vector2i(const int x, const int y): x(x), y(y) {}
+constexpr Vector2i::Vector2i(const int32_t x, const int32_t y): x(x), y(y) {}
 
 constexpr Vector2i Vector2i::Zero() noexcept { return Vector2i(); }
 
@@ -155,19 +129,19 @@ constexpr Vector2i Vector2i::UnitX() noexcept { return Vector2i(1, 0); }
 
 constexpr Vector2i Vector2i::UnitY() noexcept { return Vector2i(0, 1); }
 
-constexpr float Vector2i::Dot(const Vector2i a, const Vector2i b) noexcept { return static_cast<float>(a.x * b.x + a.y * b.y); }
+constexpr float_t Vector2i::Dot(const Vector2i a, const Vector2i b) noexcept { return static_cast<float_t>(a.x * b.x + a.y * b.y); }
 
-constexpr float Vector2i::Cross(const Vector2i a, const Vector2i b) noexcept { return Determinant(a, b); }
+constexpr float_t Vector2i::Cross(const Vector2i a, const Vector2i b) noexcept { return Determinant(a, b); }
 
-constexpr float Vector2i::Determinant(const Vector2i a, const Vector2i b) noexcept { return static_cast<float>(a.x * b.y - b.x * a.y); }
+constexpr float_t Vector2i::Determinant(const Vector2i a, const Vector2i b) noexcept { return static_cast<float_t>(a.x * b.y - b.x * a.y); }
 
-constexpr const int* Vector2i::Raw() const noexcept { return &x; }
+constexpr const int32_t* Vector2i::Raw() const noexcept { return &x; }
 
-constexpr int* Vector2i::Raw() noexcept { return &x; }
+constexpr int32_t* Vector2i::Raw() noexcept { return &x; }
 
-constexpr float Vector2i::SquaredLength() const noexcept { return static_cast<float>(x * x + y * y); }
+constexpr float_t Vector2i::SquaredLength() const noexcept { return static_cast<float_t>(x * x + y * y); }
 
-constexpr int Vector2i::operator[](const size_t i) const
+constexpr int32_t Vector2i::operator[](const size_t i) const
 {
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
@@ -175,7 +149,7 @@ constexpr int Vector2i::operator[](const size_t i) const
 		throw std::out_of_range("Vector2i subscript out of range");
 }
 
-constexpr int& Vector2i::operator[](const size_t i)
+constexpr int32_t& Vector2i::operator[](const size_t i)
 {
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
@@ -196,16 +170,16 @@ constexpr Vector2i operator-(const Vector2i a, const Vector2i b) noexcept { retu
 constexpr Vector2i operator*(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x * b.x, a.y * b.y); }
 
 [[nodiscard]]
-constexpr Vector2i operator*(const Vector2i v, const int factor) noexcept { return Vector2i(v.x * factor, v.y * factor); }
+constexpr Vector2i operator*(const Vector2i v, const int32_t factor) noexcept { return Vector2i(v.x * factor, v.y * factor); }
 
 [[nodiscard]]
-constexpr Vector2i operator*(const int factor, const Vector2i v) noexcept { return v * factor; }
+constexpr Vector2i operator*(const int32_t factor, const Vector2i v) noexcept { return v * factor; }
 
 [[nodiscard]]
-constexpr Vector2 operator/(const Vector2i a, const Vector2i b) noexcept { return Vector2(static_cast<float>(a.x) / static_cast<float>(b.x), static_cast<float>(a.y) / static_cast<float>(b.y)); }
+constexpr Vector2 operator/(const Vector2i a, const Vector2i b) noexcept { return Vector2(static_cast<float_t>(a.x) / static_cast<float_t>(b.x), static_cast<float_t>(a.y) / static_cast<float_t>(b.y)); }
 
 [[nodiscard]]
-constexpr Vector2 operator/(const Vector2i v, const float factor) noexcept { return Vector2(static_cast<float>(v.x) / factor, static_cast<float>(v.y) / factor); }
+constexpr Vector2 operator/(const Vector2i v, const float_t factor) noexcept { return Vector2(static_cast<float_t>(v.x) / factor, static_cast<float_t>(v.y) / factor); }
 
 constexpr Vector2i& operator+=(Vector2i& a, const Vector2i b) noexcept { return a = a + b; }
 
@@ -213,38 +187,34 @@ constexpr Vector2i &operator-=(Vector2i &a, const Vector2i b) noexcept { return 
 
 constexpr Vector2i& operator*=(Vector2i& a, const Vector2i b) noexcept { return a = a * b; }
 
-constexpr Vector2i& operator*=(Vector2i& v, const int factor) noexcept { return v = v * factor; }
+constexpr Vector2i& operator*=(Vector2i& v, const int32_t factor) noexcept { return v = v * factor; }
 
-/// <summary>
-///	Checks if two Vector2i are considered equal using <code>Calc::Equals</code>.
-/// </summary>
+/// @brief Checks if two Vector2i are considered equal using @c Calc::Equals.
 [[nodiscard]]
-constexpr bool operator==(const Vector2i a, const Vector2i b) noexcept { return a.x == b.x && a.y == b.y; }
+constexpr bool_t operator==(const Vector2i a, const Vector2i b) noexcept { return a.x == b.x && a.y == b.y; }
 
-/// <summary>
-///	Checks if two Vector2i are considered different using <code>Calc::Equals</code>.
-/// </summary>
+/// @brief Checks if two Vector2i are considered different using @c Calc::Equals.
 [[nodiscard]]
-constexpr bool operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }
+constexpr bool_t operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }
 
 std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
 
 #ifdef MATH_DEFINE_FORMATTER
-template<>
+template <>
 struct std::formatter<Vector2i>
 {
-    template<class ParseContext>
+    template <class ParseContext>
     constexpr typename ParseContext::iterator parse(ParseContext& ctx);
 
-    template<class FmtContext>
+    template <class FmtContext>
     typename FmtContext::iterator format(Vector2i v, FmtContext& ctx) const;
 
 private:
     std::string m_Format;
 };
 
-template<class ParseContext>
-constexpr typename ParseContext::iterator std::formatter<Vector2i, char>::parse(ParseContext& ctx)
+template <class ParseContext>
+constexpr typename ParseContext::iterator std::formatter<Vector2i, char_t>::parse(ParseContext& ctx)
 {
     auto it = ctx.begin();
     if (it == ctx.end())
@@ -256,7 +226,7 @@ constexpr typename ParseContext::iterator std::formatter<Vector2i, char>::parse(
     return it;
 }
 
-template<class FmtContext>
+template <class FmtContext>
 typename FmtContext::iterator std::formatter<Vector2i>::format(Vector2i v, FmtContext &ctx) const
 {
     std::ostringstream out;

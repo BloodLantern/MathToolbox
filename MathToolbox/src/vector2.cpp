@@ -6,19 +6,19 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 
-float Vector2::Length() const noexcept
+float_t Vector2::Length() const noexcept
 {
 	return std::sqrt(SquaredLength());
 }
 
 Vector2 Vector2::Normalized() const noexcept
 {
-	const float length = Length();
+	const float_t length = Length();
 	if (Calc::IsZero(length))
 		return Zero();
 
     __assume(length != 0.f);
-	const float invLength = 1.f / length;
+	const float_t invLength = 1.f / length;
 	return Vector2(x * invLength, y * invLength);
 }
 
@@ -41,7 +41,7 @@ bool Vector2::IsNaN() const noexcept
 
 Vector2::operator Vector2i() const noexcept
 {
-	return Vector2i(static_cast<int>(std::round(x)), static_cast<int>(std::round(y)));
+	return Vector2i(static_cast<int32_t>(std::round(x)), static_cast<int32_t>(std::round(y)));
 }
 
 Vector2::operator Vector3() const noexcept

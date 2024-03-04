@@ -5,158 +5,126 @@
 
 #include "definitions.hpp"
 
-/// \file calc.hpp
-/// <summary>
-/// A collection of general-use constants and useful functions.
-/// </summary>
+/// @file calc.hpp
+/// @brief A collection of general-use constants and useful functions.
 
 #ifndef ZERO
-/// <summary>
-/// The value to set <see cref="Calc::Zero"/> to. Can be overridden by
-/// defining it with a different value before including this file.
-/// </summary>
-/// <remarks>
+/// @brief The value to set @ref Calc::Zero to.
+///
+/// Can be overridden by defining it with a different value before including this file.
+///
 ///	This macro is undefined at the end of this file. To access this value,
-///	the <see cref="Calc::Zero"/> constant should be used instead.
-/// </remarks>
+///	the @ref Calc::Zero constant should be used instead.
 #define ZERO 1e-6f
 #endif
 
-/// \namespace Calc
-/// <summary>
-///	This namespace contains mathematical constants and
-///	useful functions/macros.
-/// </summary>
+/// @namespace Calc
+/// @brief This namespace contains mathematical constants and useful functions/macros.
 namespace Calc
 {
-	/// <summary>
-    /// The value under which a number is considered to be zero.
-	/// </summary>
-	constexpr float Zero = ZERO;
+	/// @brief The value under which a number is considered to be zero.
+	constexpr float_t Zero = ZERO;
 	
-	/// <summary>
-	///	Shorthand for writing <c>std::numbers::pi_v<float></c>.
-	/// </summary>
-	constexpr float Pi = std::numbers::pi_v<float>;
+	/// @brief Shorthand for writing <c>std::numbers::pi_v<float_t></c>.
+	constexpr float_t Pi = std::numbers::pi_v<float_t>;
 	
-	/// <summary>
-	///	Shorthand for writing <c>Calc::Pi / 2.f</c>.
-	/// </summary>
-	constexpr float PiOver2 = Pi / 2.f;
+	/// @brief Shorthand for writing <c>Calc::Pi / 2.f</c>.
+	constexpr float_t PiOver2 = Pi / 2.f;
 	
-	/// <summary>
-	///	Shorthand for writing <c>Calc::Pi / 2.f</c>.
-	/// </summary>
-	constexpr float PiOver4 = Pi / 4.f;
+	/// @brief Shorthand for writing <c>Calc::Pi / 2.f</c>.
+	constexpr float_t PiOver4 = Pi / 4.f;
 	
-	/// <summary>
-	///	Value used to convert from degrees to radians.
-	/// </summary>
-	constexpr float Deg2Rad = Pi / 180.f;
+	/// @brief Value used to convert from degrees to radians.
+	constexpr float_t Deg2Rad = Pi / 180.f;
 	
-	/// <summary>
-	///	Value used to convert from radians to degrees.
-	/// </summary>
-	constexpr float Rad2Deg = 1.f / Deg2Rad;
+	/// @brief Value used to convert from radians to degrees.
+	constexpr float_t Rad2Deg = 1.f / Deg2Rad;
 
-    /// <summary>
-    /// Returns -1 if x is less than 0, 1 if x is greater than 0
-    /// and 0 if x is equal to 0.
-    /// </summary>
-    /// <param name="number">The number to get the sign of.</param>
-    /// <returns>-1 if the value is negative, 1 if it is positive. 0 Otherwise.</returns>
+    /// @brief Returns -1 if x is less than 0, 1 if x is greater than 0 and 0 if x is equal to 0.
+    /// 
+    /// @param number The number to get the sign of.
+    /// @returns -1 if the value is negative, 1 if it is positive. 0 Otherwise.
     [[nodiscard]]
-	MATH_TOOLBOX constexpr float Sign(float number) noexcept;
+	MATH_TOOLBOX constexpr float_t Sign(float_t number) noexcept;
 
-	/// <summary>
-	///	A constexpr version of the <c>std::abs</c> function.
-	/// </summary>
-	/// <param name="number">The number to get the absolute value of.</param>
-	/// <returns>The absolute value of <paramref name="number"/>.</returns>
+	/// @brief	A constexpr version of the <c>std::abs</c> function.
+	/// 
+	/// @param number The number to get the absolute value of.
+	/// @returns The absolute value of @p number.
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr float Abs(float number) noexcept;
+	MATH_TOOLBOX constexpr float_t Abs(float_t number) noexcept;
 
-	/// <summary>
-	/// Approaches the target value by the given step size without ever
-	/// exceeding it.
-	/// </summary>
-	/// <param name="value">The value to change.</param>
-	/// <param name="target">The target value.</param>
-	/// <param name="step">The step size.</param>
-	MATH_TOOLBOX constexpr void Approach(float& value, float target, float step) noexcept;
+	/// @brief Approaches the target value by the given step size without ever exceeding it.
+	/// 
+	/// @param value The value to change.
+	/// @param target The target value.
+	/// @param step The step size.
+	MATH_TOOLBOX constexpr void Approach(float_t& value, float_t target, float_t step) noexcept;
 
-	/// <summary>
-	/// Given a value between 0 and 1, returns a value going from 0 to 1
-	/// and to 0 again.
-	/// </summary>
-	/// <param name="value"></param>
-	/// <returns>A value between 0 and 1, closer to 1 if the input value is close to 0.5.</returns>
+	/// @brief Given a value between 0 and 1, returns a value going from 0 to 1 and to 0 again.
+	/// 
+	/// @param value The YoYo value.
+	/// @returns A value between 0 and 1, closer to 1 if the input value is close to 0.5.
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr float YoYo(float value) noexcept;
+	MATH_TOOLBOX constexpr float_t YoYo(float_t value) noexcept;
 
-	/// <summary>
-	///	Returns true on an interval.
-	/// </summary>
-	/// <param name="value">The current time value.</param>
-	/// <param name="lastValue">The last time value. (last call)</param>
-	/// <param name="interval">The interval.</param>
+	/// @brief Returns true on an interval.
+	/// 
+	/// @param value The current time value.
+	/// @param lastValue The last time value. (last call)
+	/// @param interval The interval.
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr bool OnInterval(float value, float lastValue, float interval);
+	MATH_TOOLBOX constexpr bool_t OnInterval(float_t value, float_t lastValue, float_t interval);
 
-	/// <summary>
-	/// Checks if a value is less than what is considered to be zero, e.g. if its absolute
-	/// value is smaller than <see cref="Calc::Zero"/>.
-	/// </summary>
-	/// <param name="value">The value to check.</param>
-	/// <returns>Whether the value is considered to be zero.</returns>
+	/// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <see cref="Calc::Zero"/>.
+	/// 
+	/// @param value The value to check.
+	/// @returns Whether the value is considered to be zero.
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr bool IsZero(float value) noexcept;
+	MATH_TOOLBOX constexpr bool_t IsZero(float_t value) noexcept;
 
-	/// <summary>
-	/// Checks if a value is less than what is considered to be zero, e.g. if its absolute
-	/// value is smaller than <paramref name="zero"/>.
-	/// </summary>
-	/// <param name="value">The value to check.</param>
-	/// <param name="zero">The value under which a number is considered to be zero.</param>
-	/// <returns>Whether the value is considered to be zero.</returns>
+	/// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <paramref name="zero"/>.
+	/// 
+	/// @param value The value to check.
+	/// @param zero The value under which a number is considered to be zero.
+	/// @returns Whether the value is considered to be zero.
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr bool IsZero(float value, float zero) noexcept;
+	MATH_TOOLBOX constexpr bool_t IsZero(float_t value, float_t zero) noexcept;
 
-	/// <summary>
-	/// Checks if two values are considered equal using <see cref="IsZero(float)"/>.
-	/// </summary>
-	/// <param name="a">The first value.</param>
-	/// <param name="b">The second value.</param>
-	/// <returns>Whether the values are considered equal.</returns>
+	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// 
+	/// @param a The first value.
+	/// @param b The second value.
+	/// @returns Whether the values are considered equal.
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr bool Equals(float a, float b) noexcept;
+	MATH_TOOLBOX constexpr bool_t Equals(float_t a, float_t b) noexcept;
 }
 
-constexpr float Calc::Sign(const float number) noexcept { return number < 0.f ? -1.f : 1.f; }
+constexpr float_t Calc::Sign(const float_t number) noexcept { return number < 0.f ? -1.f : 1.f; }
 
-constexpr float Calc::Abs(const float number) noexcept { return number < 0.f ? -number : number; }
+constexpr float_t Calc::Abs(const float_t number) noexcept { return number < 0.f ? -number : number; }
 
 // Undef windows macro to be able to use std::min without conflicts
 #undef min
 
-constexpr void Calc::Approach(float &value, const float target, const float step) noexcept
+constexpr void Calc::Approach(float_t &value, const float_t target, const float_t step) noexcept
 {
 	// If the target value hasn't been reached yet
 	if (!Equals(value, target))
 	{
-		const float difference = target - value;
+		const float_t difference = target - value;
 		value += std::min(step, Abs(difference)) * Sign(difference);
 	}
 }
 
-constexpr float Calc::YoYo(const float value) noexcept { return value <= 0.5f ? value * 2.f : 1.f - (value - 0.5f) * 2.f; }
+constexpr float_t Calc::YoYo(const float_t value) noexcept { return value <= 0.5f ? value * 2.f : 1.f - (value - 0.5f) * 2.f; }
 
-constexpr bool Calc::OnInterval(float value, float lastValue, float interval) { return (int) (lastValue / interval) != (int) (value / interval); }
+constexpr bool_t Calc::OnInterval(float_t value, float_t lastValue, float_t interval) { return (int) (lastValue / interval) != (int) (value / interval); }
 
-constexpr bool Calc::IsZero(const float value) noexcept { return IsZero(value, Zero); }
+constexpr bool_t Calc::IsZero(const float_t value) noexcept { return IsZero(value, Zero); }
 
-constexpr bool Calc::IsZero(const float value, const float zero) noexcept { return Abs(value) <= zero; }
+constexpr bool_t Calc::IsZero(const float_t value, const float_t zero) noexcept { return Abs(value) <= zero; }
 
-constexpr bool Calc::Equals(const float a, const float b) noexcept { return IsZero(a - b); }
+constexpr bool_t Calc::Equals(const float_t a, const float_t b) noexcept { return IsZero(a - b); }
 
 #undef ZERO

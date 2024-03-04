@@ -4,42 +4,42 @@
 
 #include "vector3.hpp"
 
-Matrix Matrix::Rotation(const float angle, const Vector3& axis) noexcept
+Matrix Matrix::Rotation(const float_t angle, const Vector3& axis) noexcept
 {
     return Rotation(std::cos(angle), std::sin(angle), axis);
 }
 
-void Matrix::Rotation(const float angle, const Vector3& axis, Matrix* result) noexcept
+void Matrix::Rotation(const float_t angle, const Vector3& axis, Matrix* result) noexcept
 {
     Rotation(std::cos(angle), std::sin(angle), axis, result);
 }
 
-Matrix Matrix::RotationX(const float angle) noexcept
+Matrix Matrix::RotationX(const float_t angle) noexcept
 {
     return RotationX(std::cos(angle), std::sin(angle));
 }
 
-void Matrix::RotationX(const float angle, Matrix* result) noexcept
+void Matrix::RotationX(const float_t angle, Matrix* result) noexcept
 {
     RotationX(std::cos(angle), std::sin(angle), result);
 }
 
-Matrix Matrix::RotationY(const float angle) noexcept
+Matrix Matrix::RotationY(const float_t angle) noexcept
 {
     return RotationY(std::cos(angle), std::sin(angle));
 }
 
-void Matrix::RotationY(const float angle, Matrix* result) noexcept
+void Matrix::RotationY(const float_t angle, Matrix* result) noexcept
 {
     RotationY(std::cos(angle), std::sin(angle), result);
 }
 
-Matrix Matrix::RotationZ(const float angle) noexcept
+Matrix Matrix::RotationZ(const float_t angle) noexcept
 {
     return RotationZ(std::cos(angle), std::sin(angle));
 }
 
-void Matrix::RotationZ(const float angle, Matrix* result) noexcept
+void Matrix::RotationZ(const float_t angle, Matrix* result) noexcept
 {
     RotationZ(std::cos(angle), std::sin(angle), result);
 }
@@ -61,9 +61,9 @@ void Matrix::Rotation(const Vector3& rotation, Matrix* result) noexcept
     *result *= temp;
 }
 
-Matrix Matrix::Rotation(const float cos, const float sin, const Vector3& axis) noexcept
+Matrix Matrix::Rotation(const float_t cos, const float_t sin, const Vector3& axis) noexcept
 {
-    const float c2 = 1.f - cos;
+    const float_t c2 = 1.f - cos;
     Vector3 v = axis.Normalized();
 
     return Matrix(
@@ -74,9 +74,9 @@ Matrix Matrix::Rotation(const float cos, const float sin, const Vector3& axis) n
     );
 }
 
-void Matrix::Rotation(const float cos, const float sin, const Vector3& axis, Matrix* result) noexcept
+void Matrix::Rotation(const float_t cos, const float_t sin, const Vector3& axis, Matrix* result) noexcept
 {
-    const float c2 = 1.f - cos;
+    const float_t c2 = 1.f - cos;
     Vector3 v = axis.Normalized();
 
     *result = Matrix(
@@ -97,12 +97,12 @@ void Matrix::Trs(const Vector3& translation, const Vector3& rotation, const Vect
     Trs(translation, Rotation(rotation), scale, result);
 }
 
-Matrix Matrix::Trs(const Vector3& translation, const float rotationAngle, const Vector3& rotationAxis, const Vector3& scale) noexcept
+Matrix Matrix::Trs(const Vector3& translation, const float_t rotationAngle, const Vector3& rotationAxis, const Vector3& scale) noexcept
 {
     return Trs(translation, Rotation(rotationAngle, rotationAxis), scale);
 }
 
-void Matrix::Trs(const Vector3& translation, const float rotationAngle, const Vector3& rotationAxis, const Vector3& scale, Matrix* result) noexcept
+void Matrix::Trs(const Vector3& translation, const float_t rotationAngle, const Vector3& rotationAxis, const Vector3& scale, Matrix* result) noexcept
 {
     Trs(translation, Rotation(rotationAngle, rotationAxis), scale, result);
 }
@@ -125,15 +125,16 @@ void Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up
         cameraUp.x, cameraUp.y, cameraUp.z, 0.f,
         cameraForward.x, cameraForward.y, cameraForward.z, 0.f,
         0.f, 0.f, 0.f, 1.f
-    ) * Matrix::Translation(eye);
+    ) * Translation(eye);
 }
 
-Matrix Matrix::Perspective(const float fov, const float aspectRatio, const float near, const float far)
+Matrix Matrix::Perspective(const float_t fov, const float_t aspectRatio, const float_t near, const float_t far)
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
-    const float range = near - far;
-    const float tanHalfFov = std::tan(fov / 2);
+    
+    const float_t range = near - far;
+    const float_t tanHalfFov = std::tan(fov / 2);
 
     return Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
@@ -143,12 +144,13 @@ Matrix Matrix::Perspective(const float fov, const float aspectRatio, const float
     );
 }
 
-void Matrix::Perspective(const float fov, const float aspectRatio, const float near, const float far, Matrix* result)
+void Matrix::Perspective(const float_t fov, const float_t aspectRatio, const float_t near, const float_t far, Matrix* result)
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
-    const float range = near - far;
-    const float tanHalfFov = std::tan(fov / 2);
+    
+    const float_t range = near - far;
+    const float_t tanHalfFov = std::tan(fov / 2);
 
     *result = Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
@@ -172,7 +174,7 @@ Matrix::operator Vector4() const noexcept
     return Vector4(m00, m01, m02, m03);
 }
 
-std::ostream &operator<<(std::ostream &out, const Matrix &m)
+std::ostream& operator<<(std::ostream &out, const Matrix &m)
 {
     return out << "{ { " << m.m00 << ' ' << m.m01 << ' ' << m.m02 << ' ' << m.m03 << " } { "
                         << m.m10 << ' ' << m.m11 << ' ' << m.m12 << ' ' << m.m13 << " } { "

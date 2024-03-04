@@ -8,25 +8,25 @@
 #include "vector2.hpp"
 #include "vector4.hpp"
 
-float Vector3::Length() const noexcept
+float_t Vector3::Length() const noexcept
 {
 	return std::sqrt(SquaredLength());
 }
 
 Vector3 Vector3::Normalized() const noexcept
 {
-	const float length = Length();
+	const float_t length = Length();
 	if (Calc::IsZero(length))
 		return Zero();
 
 	__assume(length != 0.f);
-	const float invLength = 1.f / length;
+	const float_t invLength = 1.f / length;
 	return Vector3(x * invLength, y * invLength, z * invLength);
 }
 
 void Vector3::Normalized(Vector3* result) const noexcept
 {
-	const float length = Length();
+	const float_t length = Length();
 	if (Calc::IsZero(length))
 	{
 		*result = Zero();
@@ -34,7 +34,7 @@ void Vector3::Normalized(Vector3* result) const noexcept
 	}
 
 	__assume(length != 0.f);
-	const float invLength = 1.f / length;
+	const float_t invLength = 1.f / length;
 	*result = Vector3(x * invLength, y * invLength, z * invLength);
 }
 

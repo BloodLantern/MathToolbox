@@ -13,23 +13,17 @@
 class Vector4;
 class Matrix;
 
-/// <summary>
-/// The Vector3 class represents either a three-dimensional vector or a point.
-/// </summary>
+/// @brief The Vector3 class represents either a three-dimensional vector or a point.
 class MATH_TOOLBOX Vector3
 {
 public:
-	float x = 0.f, y = 0.f, z = 0.f;
+	float_t x = 0.f, y = 0.f, z = 0.f;
 
-	/// <summary>
-	///	Equivalent to calling the default constructor.
-	/// </summary>
+	/// @brief Equivalent to calling the default constructor.
 	[[nodiscard]]
 	static constexpr Vector3 Zero() noexcept;
 
-	/// <summary>
-	///	Equivalent to calling the default constructor.
-	/// </summary>
+	/// @brief Equivalent to calling the default constructor.
 	static constexpr void Zero(Vector3* result) noexcept;
 
 	[[nodiscard]]
@@ -47,142 +41,110 @@ public:
 
 	static constexpr void UnitZ(Vector3* result) noexcept;
 
-	/// <summary>
-	/// Returns a · b.
-	/// </summary>
+	/// @brief Returns a · b.
 	[[nodiscard]]
-	static constexpr float Dot(const Vector3& a, const Vector3& b) noexcept;
+	static constexpr float_t Dot(const Vector3& a, const Vector3& b) noexcept;
 
-	/// <summary>
-	/// Returns a x b.
-	/// </summary>
+	/// @brief Returns a x b.
 	[[nodiscard]]
 	static constexpr Vector3 Cross(const Vector3& a, const Vector3& b) noexcept;
 
-	/// <summary>
-	/// Returns a x b.
-	/// </summary>
+	/// @brief Returns a x b.
 	static constexpr void Cross(const Vector3& a, const Vector3& b, Vector3* result) noexcept;
 
-	/// <summary>
-	/// Lerp between two positions in a 3-dimensional space.
-	/// </summary>
-	/// <param name="value">The current position.</param>
-	/// <param name="target">The target position.</param>
-	/// <param name="t">The time to lerp.</param>
-	/// <returns>The lerp position.</returns>
+	/// @brief Lerp between two positions in a 3-dimensional space.
+	/// 
+	/// @param valueThe current position.
+	/// @param targetThe target position.
+	/// @param tThe time to lerp.
+	/// @returns The lerp position.
 	[[nodiscard]]
-	static constexpr Vector3 Lerp(const Vector3& value, const Vector3& target, float t) noexcept;
+	static constexpr Vector3 Lerp(const Vector3& value, const Vector3& target, float_t t) noexcept;
 
-	/// <summary>
-	/// Lerp between two positions in a 3-dimensional space.
-	/// </summary>
-	/// <param name="value">The current position.</param>
-	/// <param name="target">The target position.</param>
-	/// <param name="t">The time to lerp.</param>
-	/// <param name="result">The lerp position.</param>
-	static constexpr void Lerp(const Vector3& value, const Vector3& target, float t, Vector3* result) noexcept;
+	/// @brief Lerp between two positions in a 3-dimensional space.
+	/// 
+	/// @param valueThe current position.
+	/// @param targetThe target position.
+	/// @param tThe time to lerp.
+	/// @param resultThe lerp position.
+	static constexpr void Lerp(const Vector3& value, const Vector3& target, float_t t, Vector3* result) noexcept;
 
-	/// <summary>
-	/// Constructs a Vector3 with both its components set to 0.
-	/// </summary>
+	/// @brief Constructs a Vector3 with both its components set to 0.
 	constexpr Vector3() = default;
 	
-	/// <summary>
-	/// Constructs a Vector3 with both its components set to 'xy'.
-	/// </summary>
-	/// <param name="xyz">The value to set this vector's x, y and z components to.</param>
-	constexpr explicit Vector3(float xyz) noexcept;
+	/// @brief Constructs a Vector3 with both its components set to @p xyz.
+	/// 
+	/// @param xyzThe value to set this vector's x, y and z components to.
+	constexpr explicit Vector3(float_t xyz) noexcept;
 	
-	/// <summary>
-	/// Constructs a Vector2 with its components set to the data pointed by <code>data</code>.
-	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 2 float values.
-	/// </summary>
-	/// <param name="data">The data where the values for this vector's components are located.</param>
-	constexpr explicit Vector3(const float* data) noexcept;
+	/// @brief Constructs a Vector2 with its components set to the data pointed by @p data.
+	/// 
+	/// This constructor assumes that @p data is a valid pointer pointing to at least 2 @c float_t values.
+	/// 
+	/// @param dataThe data where the values for this vector's components are located.
+	constexpr explicit Vector3(const float_t* data) noexcept;
 
-	/// <summary>
-	/// Constructs a Vector3 with set component values.
-	/// </summary>
-	/// <param name="x">The value to set this vector's x components to.</param>
-	/// <param name="y">The value to set this vector's y components to.</param>
-	/// <param name="z">The value to set this vector's z components to.</param>
-	constexpr Vector3(float x, float y, float z) noexcept;
+	/// @brief Constructs a Vector3 with set component values.
+	/// 
+	/// @param xThe value to set this vector's x components to.
+	/// @param yThe value to set this vector's y components to.
+	/// @param zThe value to set this vector's z components to.
+	constexpr Vector3(float_t x, float_t y, float_t z) noexcept;
 
-	/// <summary>
-	///	Gets a pointer to the first component of this vector.
-	/// </summary>
-	/// <returns>A pointer to the first component of this vector.</returns>
+	/// @brief Gets a pointer to the first component of this vector.
+	/// 
+	/// @returns A pointer to the first component of this vector.
 	[[nodiscard]]
-	constexpr const float* Raw() const noexcept;
+	constexpr const float_t* Raw() const noexcept;
 
-	/// <summary>
-	///	Gets a pointer to the first component of this vector.
-	/// </summary>
-	/// <returns>A pointer to the first component of this vector.</returns>
+	/// @brief Gets a pointer to the first component of this vector.
+	/// 
+	/// @returns A pointer to the first component of this vector.
 	[[nodiscard]]
-	constexpr float* Raw() noexcept;
+	constexpr float_t* Raw() noexcept;
 
-	/// <summary>
-	/// Returns the length of the vector.
-	/// </summary>
+	/// @brief Returns the length of the vector.
 	[[nodiscard]]
-	float Length() const noexcept;
+	float_t Length() const noexcept;
 	
-	/// <summary>
-	/// Returns the squared length of the vector.
-	/// </summary>
+	/// @brief Returns the squared length of the vector.
 	[[nodiscard]]
-	constexpr float SquaredLength() const noexcept;
+	constexpr float_t SquaredLength() const noexcept;
 
-	/// <summary>
-	/// Returns a normalized vector.
-	/// </summary>
-	/// <returns>A vector with the same direction but a length of one.</returns>
+	/// @brief Returns a normalized vector.
+	/// 
+	/// @returns A vector with the same direction but a length of one.
 	[[nodiscard]]
 	Vector3 Normalized() const noexcept;
 
-	/// <summary>
-	/// Returns a normalized vector.
-	/// </summary>
-	/// <param name="result">
-	/// A vector to store the result which is one with the same direction but a length of one.
-	/// </param>
+	/// @brief Returns a normalized vector.
+	/// 
+	/// @param result A vector to store the result which is one with the same direction but a length of one.
 	void Normalized(Vector3* result) const noexcept;
 
-	/// <summary>
-	///	Check whether all of this vector's components are infinite.
-	/// </summary>
+	/// @brief Check whether all of this vector's components are infinite.
 	[[nodiscard]]
-	bool IsInfinity() const noexcept;
+	bool_t IsInfinity() const noexcept;
 
-	/// <summary>
-	///	Check whether all of this vector's components are NaN.
-	/// </summary>
+	/// @brief Check whether all of this vector's components are NaN.
 	[[nodiscard]]
-	bool IsNaN() const noexcept;
+	bool_t IsNaN() const noexcept;
 
-	/// <summary>
-	///	Retrieves this vector's component at index i.
-	/// </summary>
-	/// <param name="i">
-	/// The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...
-	/// </param>
-	/// <returns>The value of the component at index i.</returns>
+	/// @brief Retrieves this vector's component at index i.
+	///
+	/// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
+	/// 
+	/// @returns The value of the component at index i.
 	[[nodiscard]]
-	constexpr float operator[](size_t i) const;
+	constexpr float_t operator[](size_t i) const;
 
-	/// <summary>
-	///	Retrieves this vector's component at index i.
-	/// </summary>
-	/// <param name="i">
-	/// The index of the component to get. It would be 0
-	/// for x, 1 for y, etc...
-	/// </param>
-	/// <returns>The value of the component at index i.</returns>
+	/// @brief Retrieves this vector's component at index i.
+	///
+	/// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
+	/// 
+	/// @returns The value of the component at index i.
 	[[nodiscard]]
-	constexpr float& operator[](size_t i);
+	constexpr float_t& operator[](size_t i);
 	
     explicit operator Vector2() const noexcept;
 	
@@ -195,11 +157,11 @@ static_assert(std::is_move_constructible_v<Vector3>, "Class Vector3 must be move
 static_assert(std::is_copy_assignable_v<Vector3>, "Class Vector3 must be copy assignable.");
 static_assert(std::is_move_assignable_v<Vector3>, "Class Vector3 must be move assignable.");
 
-constexpr Vector3::Vector3(const float xyz) noexcept : x(xyz), y(xyz), z(xyz) {}
+constexpr Vector3::Vector3(const float_t xyz) noexcept : x(xyz), y(xyz), z(xyz) {}
 
-constexpr Vector3::Vector3(const float* const data) noexcept : x(data[0]), y(data[1]), z(data[2]) {}
+constexpr Vector3::Vector3(const float_t* const data) noexcept : x(data[0]), y(data[1]), z(data[2]) {}
 
-constexpr Vector3::Vector3(const float x, const float y, const float z) noexcept : x(x), y(y), z(z) {}
+constexpr Vector3::Vector3(const float_t x, const float_t y, const float_t z) noexcept : x(x), y(y), z(z) {}
 
 constexpr Vector3 Vector3::Zero() noexcept { return Vector3(); }
 
@@ -217,32 +179,32 @@ constexpr Vector3 Vector3::UnitZ() noexcept { return Vector3(0.f, 0.f, 1.f); }
 
 constexpr void Vector3::UnitZ(Vector3* result) noexcept { *result = Vector3(0.f, 0.f, 1.f); }
 
-constexpr float Vector3::Dot(const Vector3& a, const Vector3& b) noexcept { return a.x * b.x + a.y * b.y + a.z * b.z; }
+constexpr float_t Vector3::Dot(const Vector3& a, const Vector3& b) noexcept { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
 constexpr Vector3 Vector3::Cross(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
 
 constexpr void Vector3::Cross(const Vector3& a, const Vector3& b, Vector3* result) noexcept { *result = Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
 
-constexpr const float* Vector3::Raw() const noexcept { return &x; }
+constexpr const float_t* Vector3::Raw() const noexcept { return &x; }
 
-constexpr float* Vector3::Raw() noexcept { return &x; }
+constexpr float_t* Vector3::Raw() noexcept { return &x; }
 
-constexpr float Vector3::SquaredLength() const noexcept { return SQ(x) + SQ(y) + SQ(z); }
+constexpr float_t Vector3::SquaredLength() const noexcept { return SQ(x) + SQ(y) + SQ(z); }
 
-constexpr float Vector3::operator[](const size_t i) const
+constexpr float_t Vector3::operator[](const size_t i) const
 {
 	if (i < 3) [[likely]]
 		return *(Raw() + i);
 	[[unlikely]]
-		throw std::out_of_range("Vector3 subscript out of range");
+	throw std::out_of_range("Vector3 subscript out of range");
 }
 
-constexpr float& Vector3::operator[](const size_t i)
+constexpr float_t& Vector3::operator[](const size_t i)
 {
 	if (i < 3) [[likely]]
 		return *(Raw() + i);
 	[[unlikely]]
-		throw std::out_of_range("Vector3 subscript out of range");
+	throw std::out_of_range("Vector3 subscript out of range");
 }
 
 [[nodiscard]]
@@ -258,19 +220,19 @@ constexpr Vector3 operator-(const Vector3& a, const Vector3& b) noexcept { retur
 constexpr Vector3 operator*(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x * b.x, a.y * b.y, a.z * b.z); }
 
 [[nodiscard]]
-constexpr Vector3 operator*(const Vector3& v, const float factor) noexcept { return Vector3(v.x * factor, v.y * factor, v.z * factor); }
+constexpr Vector3 operator*(const Vector3& v, const float_t factor) noexcept { return Vector3(v.x * factor, v.y * factor, v.z * factor); }
 
 [[nodiscard]]
-constexpr Vector3 operator*(const float factor, const Vector3 v) noexcept { return v * factor; }
+constexpr Vector3 operator*(const float_t factor, const Vector3 v) noexcept { return v * factor; }
 
 [[nodiscard]]
 constexpr Vector3 operator/(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x / b.x, a.y / b.y, a.z / b.z); }
 
 [[nodiscard]]
-constexpr Vector3 operator/(const Vector3& v, const float factor) noexcept { const float invFactor = 1.f / factor; return Vector3(v.x * invFactor, v.y * invFactor, v.z * invFactor); }
+constexpr Vector3 operator/(const Vector3& v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return Vector3(v.x * invFactor, v.y * invFactor, v.z * invFactor); }
 
 [[nodiscard]]
-constexpr Vector2 operator/(const float factor, const Vector2 v) noexcept { return Vector2(v.x / factor, v.y / factor); }
+constexpr Vector2 operator/(const float_t factor, const Vector2 v) noexcept { return Vector2(v.x / factor, v.y / factor); }
 
 constexpr Vector3& operator+=(Vector3& a, const Vector3& b) noexcept { return a = a + b; }
 
@@ -278,51 +240,47 @@ constexpr Vector3 &operator-=(Vector3 &a, const Vector3& b) noexcept { return a 
 
 constexpr Vector3& operator*=(Vector3& a, const Vector3& b) noexcept { return a = a * b; }
 
-constexpr Vector3& operator*=(Vector3& v, const float factor) noexcept { return v = v * factor; }
+constexpr Vector3& operator*=(Vector3& v, const float_t factor) noexcept { return v = v * factor; }
 
 constexpr Vector3 &operator/=(Vector3 &a, const Vector3& b) noexcept { return a = a / b; }
 
-constexpr Vector3& operator/=(Vector3& v, const float factor) noexcept { return v = v / factor; }
+constexpr Vector3& operator/=(Vector3& v, const float_t factor) noexcept { return v = v / factor; }
 
-/// <summary>
-///	Checks if two Vector3 are considered equal using <code>Calc::Equals</code>.
-/// </summary>
+/// @brief Checks if two Vector3 are considered equal using @ref Calc::Equals.
 [[nodiscard]]
-constexpr bool operator==(const Vector3 a, const Vector3 b) noexcept
+constexpr bool_t operator==(const Vector3 a, const Vector3 b) noexcept
 {
 	return Calc::Equals(a.x, b.x)
 		&& Calc::Equals(a.y, b.y)
 		&& Calc::Equals(a.z, b.z);
 }
 
-/// <summary>
-///	Checks if two Vector3 are considered different using <code>Calc::Equals</code>.
-/// </summary>
+/// @brief Checks if two Vector3 are considered different using @ref Calc::Equals.
 [[nodiscard]]
-constexpr bool operator!=(const Vector3 a, const Vector3 b) noexcept { return !(a == b); }
+constexpr bool_t operator!=(const Vector3 a, const Vector3 b) noexcept { return !(a == b); }
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
 
-constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, const float t) noexcept { return value + (target - value) * t; }
+constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, const float_t t) noexcept { return value + (target - value) * t; }
 
-constexpr void Vector3::Lerp(const Vector3& value, const Vector3& target, const float t, Vector3* result) noexcept { *result = value + (target - value) * t; }
+constexpr void Vector3::Lerp(const Vector3& value, const Vector3& target, const float_t t, Vector3* result) noexcept { *result = value + (target - value) * t; }
 
 #ifdef MATH_DEFINE_FORMATTER
-template<>
+template <>
 struct std::formatter<Vector3>
 {
-    template<class ParseContext>
+    template <class ParseContext>
     constexpr typename ParseContext::iterator parse(ParseContext& ctx);
 
-    template<class FmtContext>
+    template <class FmtContext>
     typename FmtContext::iterator format(Vector3 v, FmtContext& ctx) const;
 
 private:
     std::string m_Format;
 };
 
-template<class ParseContext>
-constexpr typename ParseContext::iterator std::formatter<Vector3, char>::parse(ParseContext& ctx)
+template <class ParseContext>
+constexpr typename ParseContext::iterator std::formatter<Vector3, char_t>::parse(ParseContext& ctx)
 {
     auto it = ctx.begin();
     if (it == ctx.end())
@@ -334,7 +292,7 @@ constexpr typename ParseContext::iterator std::formatter<Vector3, char>::parse(P
     return it;
 }
 
-template<class FmtContext>
+template <class FmtContext>
 typename FmtContext::iterator std::formatter<Vector3>::format(Vector3 v, FmtContext &ctx) const
 {
     std::ostringstream out;
