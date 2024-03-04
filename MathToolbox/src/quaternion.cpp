@@ -246,19 +246,6 @@ bool_t Quaternion::IsNaN() const noexcept
 		&& std::isnan(real);
 }
 
-bool_t operator==(const Quaternion a, const Quaternion b)
-{
-	return Calc::Equals(a.imaginary.x, b.imaginary.x)
-		&& Calc::Equals(a.imaginary.y, b.imaginary.y)
-		&& Calc::Equals(a.imaginary.z, b.imaginary.z)
-		&& Calc::Equals(a.real, b.real);
-}
-
-bool_t operator!=(const Quaternion a, const Quaternion b)
-{
-	return !(a == b);
-}
-
 std::ostream& operator<<(std::ostream& out, const Quaternion& q)
 {
 	return out << std::format("{{{:.3f} {:.3f} {:.3f} {:.3f}}}", q.imaginary.x, q.imaginary.y, q.imaginary.z, q.real);

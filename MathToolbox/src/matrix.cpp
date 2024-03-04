@@ -116,7 +116,7 @@ Matrix Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& 
 
 void Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix* result) noexcept
 {
-    const Vector3 cameraForward = (center - eye).Normalized();
+    const Vector3 cameraForward = -(center - eye).Normalized();
     const Vector3 cameraRight = Vector3::Cross(up, cameraForward).Normalized();
     const Vector3 cameraUp = Vector3::Cross(cameraForward, cameraRight);
 
@@ -125,7 +125,7 @@ void Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up
         cameraUp.x, cameraUp.y, cameraUp.z, 0.f,
         cameraForward.x, cameraForward.y, cameraForward.z, 0.f,
         0.f, 0.f, 0.f, 1.f
-    ) * Translation(eye);
+    ) * Translation(-eye);
 }
 
 Matrix Matrix::Perspective(const float_t fov, const float_t aspectRatio, const float_t near, const float_t far)

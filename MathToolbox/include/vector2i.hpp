@@ -197,7 +197,7 @@ constexpr bool_t operator==(const Vector2i a, const Vector2i b) noexcept { retur
 [[nodiscard]]
 constexpr bool_t operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }
 
-std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
+MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
 
 #ifdef MATH_DEFINE_FORMATTER
 template <>

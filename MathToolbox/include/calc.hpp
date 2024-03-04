@@ -119,7 +119,7 @@ constexpr void Calc::Approach(float_t &value, const float_t target, const float_
 
 constexpr float_t Calc::YoYo(const float_t value) noexcept { return value <= 0.5f ? value * 2.f : 1.f - (value - 0.5f) * 2.f; }
 
-constexpr bool_t Calc::OnInterval(float_t value, float_t lastValue, float_t interval) { return (int) (lastValue / interval) != (int) (value / interval); }
+constexpr bool_t Calc::OnInterval(float_t value, float_t lastValue, float_t interval) { return Calc::IsZero(interval) || (int) (lastValue / interval) != (int) (value / interval); }
 
 constexpr bool_t Calc::IsZero(const float_t value) noexcept { return IsZero(value, Zero); }
 
