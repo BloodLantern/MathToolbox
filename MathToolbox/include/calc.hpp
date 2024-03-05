@@ -25,16 +25,16 @@ namespace Calc
 	/// @brief The value under which a number is considered to be zero.
 	constexpr float_t Zero = ZERO;
 	
-	/// @brief Shorthand for writing @c std::numbers::pi_v<float_t>.
+	/// @brief Shorthand for writing <c>std::numbers::pi_v<float_t></c>.
 	constexpr float_t Pi = std::numbers::pi_v<float_t>;
 	
-	/// @brief Shorthand for writing @c Calc::Pi * 2.f.
+	/// @brief Shorthand for writing <c>Calc::Pi * 2.f</c>.
 	constexpr float_t PiTimes2 = Pi * 2.f;
 	
-	/// @brief Shorthand for writing @c Calc::Pi / 2.f.
+	/// @brief Shorthand for writing <c>Calc::Pi / 2.f</c>.
 	constexpr float_t PiOver2 = Pi / 2.f;
 	
-	/// @brief Shorthand for writing @c Calc::Pi / 2.f.
+	/// @brief Shorthand for writing <c>Calc::Pi / 2.f</c>.
 	constexpr float_t PiOver4 = Pi / 4.f;
 	
 	/// @brief Value used to convert from degrees to radians.
@@ -50,7 +50,7 @@ namespace Calc
     [[nodiscard]]
 	MATH_TOOLBOX constexpr float_t Sign(float_t number) noexcept;
 
-	/// @brief	A constexpr version of the @c std::abs function.
+	/// @brief	A constexpr version of the <c>std::abs</c> function.
 	/// 
 	/// @param number The number to get the absolute value of.
 	/// @returns The absolute value of @p number.

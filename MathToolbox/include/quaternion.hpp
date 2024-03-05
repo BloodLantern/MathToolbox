@@ -24,14 +24,14 @@ public:
 	/// @brief Equivalent to calling the default constructor.
 	/// 
 	/// @returns A Quaternion with everything set to 0.
-	/// @see @ref Quaternion()
+	/// @see Quaternion()
 	[[nodiscard]]
 	static constexpr Quaternion Zero() noexcept;
 
 	/// @brief Equivalent to calling the default constructor.
 	/// 
 	/// @param result The output value.
-	/// @see @ref Zero()
+	/// @see Zero()
 	static constexpr void Zero(Quaternion* result) noexcept;
 
 	/// @brief Create a constant Quaternion of value @c { x = 1, y = 0, z = 0, w = 0 }.
@@ -43,7 +43,7 @@ public:
 	/// @brief Create a constant Quaternion of value @c { x = 1, y = 0, z = 0, w = 0 }.
 	/// 
 	/// @param result The output value.
-	/// @see @ref UnitX()
+	/// @see UnitX()
 	static constexpr void UnitX(Quaternion* result) noexcept;
 	
 	/// @brief Create a constant Quaternion of value @c { x = 0, y = 1, z = 0, w = 0 }.
@@ -55,7 +55,7 @@ public:
 	/// @brief Create a constant Quaternion of value @c { x = 0, y = 1, z = 0, w = 0 }.
 	/// 
 	/// @param result The output value.
-	/// @see @ref UnitY()
+	/// @see UnitY()
 	static constexpr void UnitY(Quaternion* result) noexcept;
 	
 	/// @brief Create a constant Quaternion of value @c { x = 0, y = 0, z = 1, w = 0 }.
@@ -67,7 +67,7 @@ public:
 	/// @brief Create a constant Quaternion of value @c { x = 0, y = 0, z = 1, w = 0 }.
 	/// 
 	/// @param result The output value.
-	/// @see @ref UnitZ()
+	/// @see UnitZ()
 	static constexpr void UnitZ(Quaternion* result) noexcept;
 	
 	/// @brief Create a constant Quaternion of value @c { x = 0, y = 0, z = 0, w = 1 }.
@@ -79,7 +79,7 @@ public:
 	/// @brief Create a constant Quaternion of value @c { x = 0, y = 0, z = 0, w = 1 }.
 	/// 
 	/// @param result The output value.
-	/// @see @ref UnitW()
+	/// @see UnitW()
 	static constexpr void UnitW(Quaternion* result) noexcept;
 
 	/// @brief Equivalent to calling @ref UnitW().
@@ -91,7 +91,7 @@ public:
 	/// @brief Equivalent to calling @ref Quaternion::UnitW().
 	/// 
 	/// @param result The output value.
-	/// @see @ref UnitW(Quaternion&)
+	/// @see UnitW(Quaternion*)
 	static constexpr void Identity(Quaternion* result) noexcept;
 
 	/// @brief Create a rotation Quaternion from an axis-angle rotation.
@@ -107,7 +107,7 @@ public:
 	/// @param axis The axis around which the rotation occurs.
 	/// @param angle The rotation angle.
 	/// @param result The output value.
-	/// @see @ref FromAxisAngle(const Vector3&, float_t)
+	/// @see FromAxisAngle(const Vector3&, float_t)
 	static void FromAxisAngle(const Vector3& axis, float_t angle, Quaternion* result) noexcept;
 	
 	/// @brief Create a rotation Quaternion from an axis-angle rotation.
@@ -121,7 +121,7 @@ public:
 	/// 
 	/// @param rotation The euler rotation vector.
 	/// @param result The output value.
-	/// @see @ref FromEuler(const Vector3&)
+	/// @see FromEuler(const Vector3&)
 	static void FromEuler(const Vector3& rotation, Quaternion* result) noexcept;
 	
 	/// @brief Create a rotation Quaternion from an axis-angle rotation.
@@ -135,7 +135,7 @@ public:
 	/// 
 	/// @param rotation The rotation Matrix.
 	/// @param result The output value.
-	/// @see @ref FromRotationMatrix(const Matrix&)
+	/// @see FromRotationMatrix(const Matrix&)
 	static void FromRotationMatrix(const Matrix& rotation, Quaternion* result) noexcept;
 	
 	/// @brief Converts a Quaternion to an euler-angle Vector3.
@@ -149,14 +149,14 @@ public:
 	/// 
 	/// @param rotation The rotation quaternion.
 	/// @param result The output value.
-	/// @see @ref ToEuler(const Vector3&)
+	/// @see ToEuler(const Quaternion&)
 	static void ToEuler(const Quaternion& rotation, Vector3* result) noexcept;
 
 	/// @brief Compute the dot product of two Quaternions.
 	/// 
 	/// @param a The left-hand side argument.
 	/// @param b The right-hand side argument.
-	/// @returns The result of <paramref name="a"/> · <paramref name="b"/>.
+	/// @returns The result of @p a · @p b.
 	[[nodiscard]]
 	static constexpr float_t Dot(const Quaternion& a, const Quaternion& b) noexcept;
 	
@@ -175,7 +175,7 @@ public:
 	/// @param target The target position.
 	/// @param t The time to lerp.
 	/// @param result The output value.
-	/// @see @ref Lerp(const Quaternion&, const Quaternion&, float_t)
+	/// @see Lerp(const Quaternion&, const Quaternion&, float_t)
 	static void Lerp(const Quaternion& value, const Quaternion& target, float_t t, Quaternion* result) noexcept;
 	
 	/// @brief Compute the spherical linear interpolation between two Quaternions.
@@ -194,7 +194,7 @@ public:
 	/// @param t The time to slerp.
 	/// @param result The output value.
 	/// 
-	/// @see @ref Slerp(const Quaternion&, const Quaternion&, float_t)
+	/// @see Slerp(const Quaternion&, const Quaternion&, float_t)
 	static void Slerp(const Quaternion& value, const Quaternion& target, float_t t, Quaternion* result) noexcept;
 	
 	/// @brief Rotate a point using a rotation quaternion.
@@ -221,7 +221,7 @@ public:
 	/// @param rotation The target position.
 	/// @param result The output value.
 	/// 
-	/// @see @ref Rotate(const Vector3&, const Quaternion&)
+	/// @see Rotate(const Vector3&, const Quaternion&)
 	static constexpr void Rotate(const Vector3& point, const Quaternion& rotation, Vector3* result) noexcept;
 
 	/// @brief Construct a Quaternion with everything set to @c 0.
@@ -238,7 +238,7 @@ public:
 	/// 
 	/// This constructor assumes that <code>data</code> is a valid pointer pointing to at least 2 float_t values.
 	/// 
-	/// @param dataThe data where the values for this vector's components are located.
+	/// @param data The data where the values for this vector's components are located.
 	constexpr explicit Quaternion(const float_t* data) noexcept;
 	
 	constexpr Quaternion(float_t x, float_t y, float_t z, float_t w) noexcept;

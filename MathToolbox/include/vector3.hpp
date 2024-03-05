@@ -54,19 +54,19 @@ public:
 
 	/// @brief Lerp between two positions in a 3-dimensional space.
 	/// 
-	/// @param valueThe current position.
-	/// @param targetThe target position.
-	/// @param tThe time to lerp.
+	/// @param value The current position.
+	/// @param target The target position.
+	/// @param t The time to lerp.
 	/// @returns The lerp position.
 	[[nodiscard]]
 	static constexpr Vector3 Lerp(const Vector3& value, const Vector3& target, float_t t) noexcept;
 
 	/// @brief Lerp between two positions in a 3-dimensional space.
 	/// 
-	/// @param valueThe current position.
-	/// @param targetThe target position.
-	/// @param tThe time to lerp.
-	/// @param resultThe lerp position.
+	/// @param value The current position.
+	/// @param target The target position.
+	/// @param t The time to lerp.
+	/// @param result The lerp position.
 	static constexpr void Lerp(const Vector3& value, const Vector3& target, float_t t, Vector3* result) noexcept;
 
 	/// @brief Constructs a Vector3 with both its components set to 0.
@@ -74,21 +74,21 @@ public:
 	
 	/// @brief Constructs a Vector3 with both its components set to @p xyz.
 	/// 
-	/// @param xyzThe value to set this vector's x, y and z components to.
+	/// @param xyz The value to set this vector's x, y and z components to.
 	constexpr explicit Vector3(float_t xyz) noexcept;
 	
 	/// @brief Constructs a Vector2 with its components set to the data pointed by @p data.
 	/// 
 	/// This constructor assumes that @p data is a valid pointer pointing to at least 2 @c float_t values.
 	/// 
-	/// @param dataThe data where the values for this vector's components are located.
+	/// @param data The data where the values for this vector's components are located.
 	constexpr explicit Vector3(const float_t* data) noexcept;
 
 	/// @brief Constructs a Vector3 with set component values.
 	/// 
-	/// @param xThe value to set this vector's x components to.
-	/// @param yThe value to set this vector's y components to.
-	/// @param zThe value to set this vector's z components to.
+	/// @param x The value to set this vector's x components to.
+	/// @param y The value to set this vector's y components to.
+	/// @param z The value to set this vector's z components to.
 	constexpr Vector3(float_t x, float_t y, float_t z) noexcept;
 
 	/// @brief Gets a pointer to the first component of this vector.

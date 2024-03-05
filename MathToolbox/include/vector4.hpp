@@ -124,7 +124,6 @@ public:
 	/// @param target The target position.
 	/// @param t The time to lerp.
 	/// @param result The lerp position.
-	/// @returns The lerp position.
 	static constexpr void Lerp(const Vector4& value, const Vector4& target, float_t t, Vector4* result) noexcept;
 
 	/// @brief Retrieves this vector's component at index i.

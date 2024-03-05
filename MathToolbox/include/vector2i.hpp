@@ -13,7 +13,7 @@
 class Vector3;
 class Vector4;
 
-/// @brief The Vector2i class represents either a two-dimensional vector or a point32_t.
+/// @brief The Vector2i class represents either a two-dimensional vector or a point.
 class MATH_TOOLBOX Vector2i
 {
 public:

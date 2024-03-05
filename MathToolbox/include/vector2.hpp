@@ -47,7 +47,7 @@ public:
 	/// @brief Lerp between two positions in a 2-dimensional space.
 	/// 
 	/// @param value The current position.
-	/// @param t The target position.
+	/// @param target The target position.
 	/// @param t The time to lerp.
 	/// @returns The lerp position.
 	[[nodiscard]]
