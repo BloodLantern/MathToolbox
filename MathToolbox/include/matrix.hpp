@@ -281,7 +281,7 @@ public:
     /// @param skew Skew result
     /// @param perspective Perspective result
     /// @return @c false if the operation failed
-    MATH_TOOLBOX bool_t Decompose(Vector3* translation, Quaternion* orientation, Vector3* scale, Vector3* skew, Vector4* perspective);
+    bool_t Decompose(Vector3* translation, Quaternion* orientation, Vector3* scale, Vector3* skew, Vector4* perspective);
 
     /// @brief Creates a Matrix with all its values set to 0.
     constexpr Matrix() = default;
