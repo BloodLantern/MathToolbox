@@ -11,6 +11,7 @@
 
 #include "calc.hpp"
 
+#include "matrix3.hpp"
 #include "matrix.hpp"
 
 #include "vector2.hpp"

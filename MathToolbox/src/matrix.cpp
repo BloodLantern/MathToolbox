@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include "vector3.hpp"
-
 Matrix Matrix::Rotation(const float_t angle, const Vector3& axis) noexcept
 {
     return Rotation(std::cos(angle), std::sin(angle), axis);
@@ -167,11 +165,6 @@ void Matrix::DebugPrint() const noexcept
         << m01 << ' ' << m11 << ' ' << m21 << ' ' << m31 << " }\n{ "
         << m02 << ' ' << m12 << ' ' << m22 << ' ' << m32 << " }\n{ "
         << m03 << ' ' << m13 << ' ' << m23 << ' ' << m33 << " }\n";
-}
-
-Matrix::operator Vector4() const noexcept
-{
-    return Vector4(m00, m01, m02, m03);
 }
 
 std::ostream& operator<<(std::ostream &out, const Matrix &m)

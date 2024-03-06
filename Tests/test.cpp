@@ -347,11 +347,6 @@ namespace TestVector4
         EXPECT_TRUE((Zero / 0.f).IsNaN());
     }
 
-    TEST(Vector4, CastToMatrixBackToVector4)
-    {
-        EXPECT_EQ(X4, static_cast<vec4>(static_cast<mat4>(X4)));
-    }
-
     TEST(Vector4, Operators)
     {
         EXPECT_EQ(UnitX + UnitY, vec4(1.f, 1.f, 0.f, 0.f));
@@ -496,6 +491,117 @@ namespace TestQuaternion
     TEST(Quaternion, Formatting)
     {
         EXPECT_EQ(std::format("{0:06.3f}", UnitX), "01.000 ; 00.000 ; 00.000 ; 00.000");
+    }
+#endif
+}
+
+namespace TestMatrix3
+{
+    constexpr mat3 Zero = mat3();
+    constexpr mat3 Identity = mat3::Identity();
+
+    constexpr vec3 One(1.f);
+    const mat3 RotationHalfCircleZ = mat3::RotationZ(Calc::PiOver2);
+
+    constexpr mat3 Symmetric(
+            1.f, 2.f, 3.f,
+            2.f, 4.f, 5.f,
+            3.f, 5.f, 6.f
+    );
+    constexpr mat3 Antisymmetric(
+            1.f, 2.f, 3.f,
+            -2.f, 4.f, 5.f,
+            -3.f, -5.f, 6.f
+    );
+
+    constexpr vec3 OneTwoThree(1.f, 2.f, 3.f);
+
+    TEST(Matrix3, Constants)
+    {
+        EXPECT_EQ(Identity, mat3(1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 1.f));
+    }
+
+    TEST(Matrix3, CheckFunctions)
+    {
+        EXPECT_TRUE(Identity.IsDiagonal());
+        EXPECT_FALSE(RotationHalfCircleZ.IsDiagonal());
+
+        EXPECT_TRUE(Identity.IsIdentity());
+        EXPECT_FALSE(Zero.IsIdentity());
+        EXPECT_FALSE(RotationHalfCircleZ.IsIdentity());
+
+        EXPECT_TRUE(Zero.IsNull());
+        EXPECT_FALSE(RotationHalfCircleZ.IsNull());
+
+        EXPECT_TRUE(Identity.IsSymmetric());
+        EXPECT_TRUE(Symmetric.IsSymmetric());
+        EXPECT_FALSE(Antisymmetric.IsSymmetric());
+
+        EXPECT_TRUE(Identity.IsAntisymmetric());
+        EXPECT_TRUE(Antisymmetric.IsAntisymmetric());
+        EXPECT_FALSE(Symmetric.IsAntisymmetric());
+    }
+
+    TEST(Matrix3, SmallFunctions)
+    {
+        EXPECT_EQ(Identity.Diagonal(), vec3(1.f));
+
+        EXPECT_EQ(Identity.Determinant(), 1.f);
+        EXPECT_EQ(RotationHalfCircleZ.Determinant(), 1.f);
+        EXPECT_EQ(Zero.Determinant(), 0.f);
+
+        EXPECT_EQ(Identity, Identity.Transposed());
+    }
+
+    TEST(Matrix3, Multiplication)
+    {
+        mat3 a = mat3::Scaling(vec3(2.f));
+
+        EXPECT_EQ(a * a, mat3::Scaling(vec3(4.f)));
+
+        constexpr mat3 b = mat3::Scaling(vec3(-5.f));
+
+        mat3 ab = a * b;
+
+        EXPECT_EQ(ab * One, vec3(-10.f));
+    }
+
+    TEST(Matrix3, Inversion)
+    {
+        EXPECT_EQ(RotationHalfCircleZ * RotationHalfCircleZ.Inverted(), Identity);
+
+        constexpr mat3 temp(
+            1.f, 1.f, 0.f,
+            1.f, 1.f, 0.f,
+            0.f, 0.f, 0.f
+        );
+
+        EXPECT_THROW(temp.Inverted(), std::invalid_argument);
+    }
+
+    TEST(Matrix3, Rotation)
+    {
+        EXPECT_EQ(mat3::RotationZ(Calc::PiOver2) * vec3::UnitX(), vec3::UnitY());
+    }
+
+    TEST(Matrix3, Scaling)
+    {
+        EXPECT_EQ(mat3::Scaling(OneTwoThree) * One, OneTwoThree);
+    }
+
+    TEST(Matrix3, Subscript)
+    {
+        EXPECT_THROW(Zero.At(3, 0), std::out_of_range);
+        EXPECT_THROW(Zero.At(0, 3), std::out_of_range);
+        EXPECT_THROW(Zero.At(3, 3), std::out_of_range);
+        EXPECT_NO_THROW(Zero.At(1, 2));
+    }
+
+#ifdef MATH_DEFINE_FORMATTER
+    TEST(Matrix3, Formatting)
+    {
+        EXPECT_EQ(std::format("{0:06.3f}", Identity), "[ 01.000 ; 00.000 ; 00.000 ] [ 00.000 ; 01.000 ; 00.000 ] [ 00.000 ; 00.000 ; 01.000 ]");
+        EXPECT_EQ(std::format("{0:m06.3f}", Identity), "[ 01.000 ; 00.000 ; 00.000 ]\n[ 00.000 ; 01.000 ; 00.000 ]\n[ 00.000 ; 00.000 ; 01.000 ]");
     }
 #endif
 }

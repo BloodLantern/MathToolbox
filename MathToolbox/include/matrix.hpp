@@ -235,7 +235,7 @@ public:
 	
 	/// @brief Constructs a Matrix with its components set to the data pointed by @c data.
 	/// 
-	/// This constructor assumes that @c data is a valid pointer pointing to at least 16 float_t values.
+	/// This constructor assumes that @c data is a valid pointer pointing to at least 16 @c float_t values.
 	/// 
 	/// @param data The data where the values for this matrix's components are located.
 	constexpr explicit Matrix(const float_t* data) noexcept;
@@ -347,9 +347,6 @@ public:
 	/// @returns The column vector at index @c col.
 	[[nodiscard]]
 	constexpr Vector4 operator[](uint8_t col) const;
-
-	/// @brief Converts this Matrix to a Vector4 by retrieving its first column.
-    explicit operator Vector4() const noexcept;
 };
 
 static_assert(std::is_default_constructible_v<Matrix>, "Class Matrix must be default constructible.");
@@ -725,16 +722,18 @@ constexpr float_t Matrix::At(const uint8_t col, const uint8_t row) const
 {
 	if (col < 4 && row < 4) [[likely]]
 		return *(Raw() + (col * 4 + row));
+    
 	[[unlikely]]
-		throw std::out_of_range("Matrix subscript out of range");
+    throw std::out_of_range("Matrix subscript out of range");
 }
 
 constexpr float_t& Matrix::At(const uint8_t col, const uint8_t row)
 {
 	if (col < 4 && row < 4) [[likely]]
 		return *(Raw() + (col * 4 + row));
+    
 	[[unlikely]]
-		throw std::out_of_range("Matrix subscript out of range");
+    throw std::out_of_range("Matrix subscript out of range");
 }
 
 constexpr Vector4 Matrix::operator[](const uint8_t col) const
@@ -810,14 +809,17 @@ constexpr Matrix operator*(const Matrix& m1, const Matrix& m2) noexcept
         m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21 + m1.m03 * m2.m31,
         m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22 + m1.m03 * m2.m32,
         m1.m00 * m2.m03 + m1.m01 * m2.m13 + m1.m02 * m2.m23 + m1.m03 * m2.m33,
+        
         m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20 + m1.m13 * m2.m30,
         m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21 + m1.m13 * m2.m31,
         m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22 + m1.m13 * m2.m32,
         m1.m10 * m2.m03 + m1.m11 * m2.m13 + m1.m12 * m2.m23 + m1.m13 * m2.m33,
+        
         m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20 + m1.m23 * m2.m30,
         m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21 + m1.m23 * m2.m31,
         m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22 + m1.m23 * m2.m32,
         m1.m20 * m2.m03 + m1.m21 * m2.m13 + m1.m22 * m2.m23 + m1.m23 * m2.m33,
+        
         m1.m30 * m2.m00 + m1.m31 * m2.m10 + m1.m32 * m2.m20 + m1.m33 * m2.m30,
         m1.m30 * m2.m01 + m1.m31 * m2.m11 + m1.m32 * m2.m21 + m1.m33 * m2.m31,
         m1.m30 * m2.m02 + m1.m31 * m2.m12 + m1.m32 * m2.m22 + m1.m33 * m2.m32,

@@ -8,6 +8,7 @@ target_sources(
         ${CMAKE_CURRENT_SOURCE_DIR}/src/calc.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/easing.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/matrix.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/matrix3.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/quaternion.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/vector2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/vector2i.cpp
