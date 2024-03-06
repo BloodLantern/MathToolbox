@@ -47,14 +47,6 @@ This is a vector in 2 dimensions but for integer values.
 This can be useful when working with resolutions, or more generally when using exact pixel coordinates.
 All those types are defined in the global namespace so that they are very easy and quick to use.
 
-The defined types also all have aliases for quick use, which are listed below:
-- `Vector2` -> `vec2`
-- `Vector2i` -> `vec2i`
-- `Vector3` -> `vec3`
-- `Vector4` -> `vec4`
-- `Quaternion` -> `quat`
-- `Matrix` -> `mat4` -> `mat`
-
 In the `Calc` namespace, mathematical constants and some useful, general use functions are defined.
 
 Most types and functions have documentation in their respective header files so you can always check them if needed.

@@ -283,5 +283,3 @@ typename FmtContext::iterator std::formatter<Vector2>::format(Vector2 v, FmtCont
     return std::ranges::copy(std::move(out).str(), ctx.out()).out;
 }
 #endif
-
-using vec2 = Vector2;

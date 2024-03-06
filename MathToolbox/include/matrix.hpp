@@ -985,6 +985,3 @@ typename FmtContext::iterator std::formatter<Matrix>::format(Matrix m, FmtContex
     return std::ranges::copy(std::move(out).str(), ctx.out()).out;
 }
 #endif
-
-using mat4 = Matrix;
-using mat = Matrix;

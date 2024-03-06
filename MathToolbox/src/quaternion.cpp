@@ -14,7 +14,7 @@ Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float_t angle) n
 
 void Quaternion::FromAxisAngle(const Vector3& axis, const float_t angle, Quaternion* result) noexcept
 {
-	const vec3 normalizedAxis = axis.Normalized();
+	const Vector3 normalizedAxis = axis.Normalized();
 	const float_t halfAngle = angle * 0.5f;
 	const float_t s = std::sin(halfAngle);
 	const float_t c = std::cos(halfAngle);
@@ -63,7 +63,7 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion* result) 
 		float_t s = std::sqrt(trace + 1.f);
 		result->W() = s * 0.5f;
 		s = 0.5f / s;
-		result->imaginary = vec3(
+		result->imaginary = Vector3(
 			(rotation.m21 - rotation.m12) * s,
 			(rotation.m02 - rotation.m20) * s,
 			(rotation.m10 - rotation.m01) * s
@@ -75,7 +75,7 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion* result) 
 		{
 			const float_t s = std::sqrt(1.f + rotation.m00 - rotation.m11 - rotation.m22);
 			const float_t invS = 0.5f / s;
-			*result = quat(
+			*result = Quaternion(
 				0.5f * s,
 				(rotation.m10 + rotation.m01) * invS,
 				(rotation.m20 + rotation.m02) * invS,
@@ -86,7 +86,7 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion* result) 
 		{
 			const float_t s = std::sqrt(1.f + rotation.m11 - rotation.m00 - rotation.m22);
 			const float_t invS = 0.5f / s;
-			*result = quat(
+			*result = Quaternion(
 				(rotation.m01 + rotation.m10) * invS,
 				0.5f * s,
 				(rotation.m12 + rotation.m21) * invS,
@@ -97,7 +97,7 @@ void Quaternion::FromRotationMatrix(const Matrix& rotation, Quaternion* result) 
 		{
 			const float_t s = std::sqrt(1.f + rotation.m22 - rotation.m00 - rotation.m11);
 			const float_t invS = 0.5f / s;
-			*result = quat(
+			*result = Quaternion(
 				(rotation.m02 + rotation.m20) * invS,
 				(rotation.m12 + rotation.m21) * invS,
 				0.5f * s,

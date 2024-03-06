@@ -721,5 +721,3 @@ private:
     bool_t m_Multiline = false;
 };
 #endif
-
-using mat3 = Matrix3;

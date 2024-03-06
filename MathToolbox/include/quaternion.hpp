@@ -568,5 +568,3 @@ typename FmtContext::iterator std::formatter<Quaternion>::format(Quaternion q, F
     return std::ranges::copy(std::move(out).str(), ctx.out()).out;
 }
 #endif
-
-using quat = Quaternion;
