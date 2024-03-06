@@ -19,7 +19,9 @@
 #define MATH_TOOLBOX
 #endif
 
+/// @private
 typedef bool bool_t;
+/// @private
 typedef char char_t;
 
 /// @brief Expands to the square of a value.

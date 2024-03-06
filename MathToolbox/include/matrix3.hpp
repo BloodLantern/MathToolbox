@@ -17,9 +17,32 @@
 class MATH_TOOLBOX Matrix3
 {
 public:
-    float_t m00 = 0.f; float_t m10 = 0.f; float_t m20 = 0.f;
-    float_t m01 = 0.f; float_t m11 = 0.f; float_t m21 = 0.f;
-    float_t m02 = 0.f; float_t m12 = 0.f; float_t m22 = 0.f;
+    /// @brief The component at position [0, 0] of a Matrix3.
+    float_t m00 = 0.f;
+    
+    /// @brief The component at position [1, 0] of a Matrix3.
+    float_t m10 = 0.f;
+    
+    /// @brief The component at position [2, 0] of a Matrix3.
+    float_t m20 = 0.f;
+    
+    /// @brief The component at position [0, 1] of a Matrix3.
+    float_t m01 = 0.f;
+    
+    /// @brief The component at position [1, 1] of a Matrix3.
+    float_t m11 = 0.f;
+    
+    /// @brief The component at position [2, 1] of a Matrix3.
+    float_t m21 = 0.f;
+    
+    /// @brief The component at position [0, 2] of a Matrix3.
+    float_t m02 = 0.f;
+    
+    /// @brief The component at position [1, 2] of a Matrix3.
+    float_t m12 = 0.f;
+    
+    /// @brief The component at position [2, 2] of a Matrix3.
+    float_t m22 = 0.f;
 
     /// @brief Returns the identity %Matrix.
     /// 

@@ -229,9 +229,11 @@ public:
 	
 	/// @brief Construct a Quaternion from a Vector4.
 	constexpr explicit Quaternion(const Vector4& values) noexcept;
-	
+
+    /// @brief Construct a Quaternion from an imaginary and a real part.
 	constexpr explicit Quaternion(const Vector3& imaginary, float_t real = 1.f) noexcept;
-	
+
+    /// @brief Construct a Quaternion with all its values set to @p xyzw.
 	constexpr explicit Quaternion(float_t xyzw) noexcept;
 	
 	/// @brief  Constructs a Vector2 with its components set to the data pointed by <code>data</code>.
@@ -240,7 +242,8 @@ public:
 	/// 
 	/// @param data The data where the values for this vector's components are located.
 	constexpr explicit Quaternion(const float_t* data) noexcept;
-	
+
+    /// @brief Construct a Quaternion from 4 @c float_t values.
 	constexpr Quaternion(float_t x, float_t y, float_t z, float_t w) noexcept;
 
 	/// @brief Gets a pointer to the first component of this vector.
@@ -255,43 +258,61 @@ public:
 	[[nodiscard]]
 	constexpr float_t* Raw() noexcept;
 
+    /// @brief Returns a copy of the @c x component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t X() const noexcept;
-	
+
+    /// @brief Returns a copy of the @c y component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t Y() const noexcept;
-	
+
+    /// @brief Returns a copy of the @c z component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t Z() const noexcept;
-	
+
+    /// @brief Returns a copy of the @c w component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t W() const noexcept;
 
+    /// @brief Returns a reference to the @c x component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t& X() noexcept;
-	
+
+    /// @brief Returns a reference to the @c y component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t& Y() noexcept;
-	
+
+    /// @brief Returns a reference to the @c z component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t& Z() noexcept;
-	
+
+    /// @brief Returns a reference to the @c w component of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t& W() noexcept;
 
+    /// @brief Computes the conjugate of this Quaternion.
+    ///
+    /// The conjugate of a Quaternion is one with the opposite of its imaginary part. 
 	[[nodiscard]]
 	constexpr Quaternion Conjugate() const noexcept;
 
+    /// @brief Computes the conjugate of this Quaternion.
+    ///
+    /// The conjugate of a Quaternion is one with the opposite of its imaginary part.
 	constexpr void Conjugate(Quaternion* result) const noexcept;
 
+    /// @brief Returns a normalized version of this Quaternion.
 	[[nodiscard]]
 	Quaternion Normalized() const noexcept;
 
+    /// @brief Returns a normalized version of this Quaternion.
 	void Normalized(Quaternion* result) const noexcept;
 	
+    /// @brief Returns the length of this Quaternion.
 	[[nodiscard]]
 	float_t Length() const noexcept;
-	
+
+    /// @brief Returns the squared length of this Quaternion.
 	[[nodiscard]]
 	constexpr float_t SquaredLength() const noexcept;
 
@@ -302,11 +323,13 @@ public:
 	/// @brief Check whether all of this vector's components are NaN.
 	[[nodiscard]]
 	bool_t IsNaN() const noexcept;
-	
+    
+    /// @brief Returns an inverted version of this Quaternion.
 	[[nodiscard]]
-	constexpr Quaternion Invert() const noexcept;
-	
-	constexpr void Invert(Quaternion* result) const noexcept;
+	constexpr Quaternion Inverted() const noexcept;
+
+    /// @brief Returns an inverted version of this Quaternion.
+	constexpr void Inverted(Quaternion* result) const noexcept;
 
 	/// @brief Retrieves this vector's component at index i.
 	/// 
@@ -322,8 +345,10 @@ public:
 	[[nodiscard]]
 	constexpr float_t& operator[](size_t i);
 	
+    /// @brief Converts this Quaternion to a Vector3 by returning its imaginary part.
 	constexpr explicit operator Vector3() const noexcept;
-	
+
+    /// @brief Converts this Quaternion to a Vector4.
 	constexpr explicit operator Vector4() const noexcept;
 };
 
@@ -482,14 +507,14 @@ constexpr bool operator!=(Quaternion a, Quaternion b) { return !(a == b); }
 
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Quaternion& q);
 
-constexpr Quaternion Quaternion::Invert() const noexcept
+constexpr Quaternion Quaternion::Inverted() const noexcept
 {
 	Quaternion result;
-	Invert(&result);
+    Inverted(&result);
 	return result;
 }
 
-constexpr void Quaternion::Invert(Quaternion* result) const noexcept
+constexpr void Quaternion::Inverted(Quaternion* result) const noexcept
 {
 	const float_t sqLength = SquaredLength();
 	

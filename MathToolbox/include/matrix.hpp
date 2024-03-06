@@ -18,10 +18,53 @@
 class MATH_TOOLBOX Matrix
 {
 public:
-	float_t m00 = 0.f; float_t m10 = 0.f; float_t m20 = 0.f; float_t m30 = 0.f;
-	float_t m01 = 0.f; float_t m11 = 0.f; float_t m21 = 0.f; float_t m31 = 0.f;
-	float_t m02 = 0.f; float_t m12 = 0.f; float_t m22 = 0.f; float_t m32 = 0.f;
-	float_t m03 = 0.f; float_t m13 = 0.f; float_t m23 = 0.f; float_t m33 = 0.f;
+    /// @brief The component at position [0, 0] of a Matrix.
+	float_t m00 = 0.f;
+    
+    /// @brief The component at position [1, 0] of a Matrix.
+    float_t m10 = 0.f;
+    
+    /// @brief The component at position [2, 0] of a Matrix.
+    float_t m20 = 0.f;
+    
+    /// @brief The component at position [3, 0] of a Matrix.
+    float_t m30 = 0.f;
+    
+    /// @brief The component at position [0, 1] of a Matrix.
+	float_t m01 = 0.f;
+    
+    /// @brief The component at position [1, 1] of a Matrix.
+    float_t m11 = 0.f;
+    
+    /// @brief The component at position [2, 1] of a Matrix.
+    float_t m21 = 0.f;
+    
+    /// @brief The component at position [3, 1] of a Matrix.
+    float_t m31 = 0.f;
+    
+    /// @brief The component at position [0, 2] of a Matrix.
+	float_t m02 = 0.f;
+    
+    /// @brief The component at position [1, 2] of a Matrix.
+    float_t m12 = 0.f;
+    
+    /// @brief The component at position [2, 2] of a Matrix.
+    float_t m22 = 0.f;
+    
+    /// @brief The component at position [3, 2] of a Matrix.
+    float_t m32 = 0.f;
+    
+    /// @brief The component at position [0, 3] of a Matrix.
+	float_t m03 = 0.f;
+    
+    /// @brief The component at position [1, 3] of a Matrix.
+    float_t m13 = 0.f;
+    
+    /// @brief The component at position [2, 3] of a Matrix.
+    float_t m23 = 0.f;
+    
+    /// @brief The component at position [3, 3] of a Matrix.
+    float_t m33 = 0.f;
 	
 	/// @brief Returns the identity Matrix.
 	/// 

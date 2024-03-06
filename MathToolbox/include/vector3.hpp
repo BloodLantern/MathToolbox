@@ -17,7 +17,14 @@ class Matrix;
 class MATH_TOOLBOX Vector3
 {
 public:
-	float_t x = 0.f, y = 0.f, z = 0.f;
+    /// @brief The @c x component of this Vector3.
+    float_t x = 0.f;
+    
+    /// @brief The @c y component of this Vector3.
+    float_t y = 0.f;
+    
+    /// @brief The @c z component of this Vector3.
+    float_t z = 0.f;
 
 	/// @brief Equivalent to calling the default constructor.
 	[[nodiscard]]
@@ -26,19 +33,25 @@ public:
 	/// @brief Equivalent to calling the default constructor.
 	static constexpr void Zero(Vector3* result) noexcept;
 
+    /// @brief Returns a Vector3 with @c x @c = @c 1, @c y @c = @c 0, @c z @c = @c 0.
 	[[nodiscard]]
 	static constexpr Vector3 UnitX() noexcept;
 
+    /// @brief Returns a Vector3 with @c x @c = @c 1, @c y @c = @c 0, @c z @c = @c 0.
 	static constexpr void UnitX(Vector3* result) noexcept;
 
+    /// @brief Returns a Vector3 with @c x @c = @c 0, @c y @c = @c 1, @c z @c = @c 0.
 	[[nodiscard]]
 	static constexpr Vector3 UnitY() noexcept;
 
+    /// @brief Returns a Vector3 with @c x @c = @c 0, @c y @c = @c 1, @c z @c = @c 0.
 	static constexpr void UnitY(Vector3* result) noexcept;
 
+    /// @brief Returns a Vector3 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 1.
 	[[nodiscard]]
 	static constexpr Vector3 UnitZ() noexcept;
 
+    /// @brief Returns a Vector3 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 1.
 	static constexpr void UnitZ(Vector3* result) noexcept;
 
 	/// @brief Returns a · b.
@@ -146,8 +159,10 @@ public:
 	[[nodiscard]]
 	constexpr float_t& operator[](size_t i);
 	
+    /// @brief Converts this Vector3 to a Vector2.
     explicit operator Vector2() const noexcept;
-	
+
+    /// @brief Converts this Vector3 to a Vector4 by giving it a @c z value of @c 0 and a @c w value of @c 1.
 	explicit operator Vector4() const noexcept;
 };
 

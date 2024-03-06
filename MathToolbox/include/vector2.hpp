@@ -18,15 +18,21 @@ class Vector4;
 class MATH_TOOLBOX Vector2
 {
 public:
-	float_t x = 0.f, y = 0.f;
+    /// @brief The @c x component of this Vector2.
+	float_t x = 0.f;
+    
+    /// @brief The @c y component of this Vector2.
+    float_t y = 0.f;
 
 	/// @brief Equivalent to calling the default constructor.
 	[[nodiscard]]
 	static constexpr Vector2 Zero() noexcept;
 
+    /// @brief Returns a Vector2 with @c x @c = @c 1, @c y @c = @c 0.
 	[[nodiscard]]
 	static constexpr Vector2 UnitX() noexcept;
 
+    /// @brief Returns a Vector2 with @c x @c = @c 0, @c y @c = @c 1.
 	[[nodiscard]]
 	static constexpr Vector2 UnitY() noexcept;
 
@@ -70,8 +76,8 @@ public:
 
 	/// @brief Constructs a Vector2 with set component values.
 	/// 
-	/// @param x The value to set this vector's x components to.
-	/// @param y The value to set this vector's y components to.
+	/// @param x The value to set this vector's x component to.
+	/// @param y The value to set this vector's y component to.
 	constexpr Vector2(float_t x, float_t y) noexcept;
 
 	/// @brief	Gets a pointer to the first component of this vector.
@@ -130,10 +136,13 @@ public:
 	[[nodiscard]]
 	constexpr float_t& operator[](size_t i);
 
+    /// @brief Converts this Vector2 to a Vector2i by casting its components to @c int32_t.
 	explicit operator Vector2i() const noexcept;
 	
+    /// @brief Converts this Vector2 to a Vector3 by giving it a @c z value of @c 0.
 	explicit operator Vector3() const noexcept;
-	
+
+    /// @brief Converts this Vector2 to a Vector4 by giving it a @c z value of @c 0 and a @c w value of @c 1.
 	explicit operator Vector4() const noexcept;
 };
 

@@ -17,7 +17,14 @@ class Matrix;
 class MATH_TOOLBOX Vector4
 {
 public:
-	float_t x = 0.f, y = 0.f, z = 0.f, w = 0.f;
+    /// @brief The @c x component of this Vector4.
+    float_t x = 0.f;
+    /// @brief The @c y component of this Vector4.
+    float_t y = 0.f;
+    /// @brief The @c z component of this Vector4.
+    float_t z = 0.f;
+    /// @brief The @c w component of this Vector4.
+    float_t w = 0.f;
 
 	/// @brief Equivalent to calling the default constructor.
 	[[nodiscard]]
@@ -26,26 +33,35 @@ public:
 	/// @brief Equivalent to calling the default constructor.
 	static constexpr void Zero(Vector4* result) noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 1, @c y @c = @c 0, @c z @c = @c 0, @c w @c = @c 0.
 	[[nodiscard]]
 	static constexpr Vector4 UnitX() noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 1, @c y @c = @c 0, @c z @c = @c 0, @c w @c = @c 0.
 	static constexpr void UnitX(Vector4* result) noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 0, @c y @c = @c 1, @c z @c = @c 0, @c w @c = @c 0.
 	[[nodiscard]]
 	static constexpr Vector4 UnitY() noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 0, @c y @c = @c 1, @c z @c = @c 0, @c w @c = @c 0.
 	static constexpr void UnitY(Vector4* result) noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 1, @c w @c = @c 0.
 	[[nodiscard]]
 	static constexpr Vector4 UnitZ() noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 1, @c w @c = @c 0.
 	static constexpr void UnitZ(Vector4* result) noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 0, @c w @c = @c 1.
 	[[nodiscard]]
 	static constexpr Vector4 UnitW() noexcept;
 
+    /// @brief Returns a Vector4 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 0, @c w @c = @c 1.
 	static constexpr void UnitW(Vector4* result) noexcept;
 
+    /// @brief Constructs a Vector4 with everything set to @c 0.
 	constexpr Vector4() = default;
 
 	/// @brief Constructs a Vector4 with all its components set to @p xyzw.
@@ -142,10 +158,13 @@ public:
 	[[nodiscard]]
 	constexpr float_t& operator[](size_t i);
 	
+    /// @brief Converts this Vector4 to a Vector2.
 	explicit operator Vector2() const noexcept;
-	
+
+    /// @brief Converts this Vector4 to a Vector3.
     explicit operator Vector3() const noexcept;
-	
+
+    /// @brief Converts this Vector4 to an @ref Matrix::Identity "identity" Matrix with its first column vector set to this one.
 	explicit operator Matrix() const noexcept;
 };
 

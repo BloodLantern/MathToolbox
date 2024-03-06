@@ -17,15 +17,21 @@ class Vector4;
 class MATH_TOOLBOX Vector2i
 {
 public:
-	int32_t x = 0, y = 0;
+    /// @brief The @c x component of this Vector2i.
+	int32_t x = 0;
+    
+    /// @brief The @c y component of this Vector2i.
+    int32_t y = 0;
 
 	/// @brief Equivalent to calling the default constructor.
 	[[nodiscard]]
 	static constexpr Vector2i Zero() noexcept;
 
+    /// @brief Returns a Vector2i with @c x @c = @c 1, @c y @c = @c 0.
 	[[nodiscard]]
 	static constexpr Vector2i UnitX() noexcept;
 
+    /// @brief Returns a Vector2i with @c x @c = @c 0, @c y @c = @c 1.
 	[[nodiscard]]
 	static constexpr Vector2i UnitY() noexcept;
 	
@@ -55,16 +61,20 @@ public:
 	/// @param data The data where the values for this vector's components are located.
 	constexpr explicit Vector2i(const int32_t* data) noexcept;
 
+    /// @brief Constructs a Vector2i with set component values.
+    /// 
+    /// @param x The value to set this vector's x component to.
+    /// @param y The value to set this vector's y component to.
 	constexpr Vector2i(int32_t x, int32_t y);
 
-	/// @brief 	Gets a point32_ter to the first component of this vector.
-	/// @returns A point32_ter to the first component of this vector.
+	/// @brief 	Gets a pointer to the first component of this vector.
+	/// @returns A pointer to the first component of this vector.
 	[[nodiscard]]
 	constexpr const int32_t* Raw() const noexcept;
 
-	/// @brief 	Gets a point32_ter to the first component of this vector.
+	/// @brief 	Gets a pointer to the first component of this vector.
 	/// 
-	/// @returns A point32_ter to the first component of this vector.
+	/// @returns A pointer to the first component of this vector.
 	[[nodiscard]]
 	constexpr int32_t* Raw() noexcept;
 
@@ -103,11 +113,14 @@ public:
 	/// @returns The value of the component at index i.
 	[[nodiscard]]
 	constexpr int32_t& operator[](size_t i);
-	
+
+    /// @brief Converts this Vector2i to a Vector2.
     explicit operator Vector2() const;
-	
+
+    /// @brief Converts this Vector2i to a Vector3 by giving it a @c z value of @c 0.
     explicit operator Vector3() const;
-	
+
+    /// @brief Converts this Vector2i to a Vector4 by giving it a @c z value of @c 0 and a @c w value of @c 1.
     explicit operator Vector4() const;
 };
 

@@ -458,7 +458,7 @@ namespace TestQuaternion
 
     TEST(Quaternion, Inversion)
     {
-        EXPECT_EQ(quat::Rotate(RotatedUnitX, RotationHalfCircleZ.Invert()), vec3::UnitX());
+        EXPECT_EQ(quat::Rotate(RotatedUnitX, RotationHalfCircleZ.Inverted()), vec3::UnitX());
     }
 
     TEST(Quaternion, Operators)
