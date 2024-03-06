@@ -808,7 +808,7 @@ constexpr float_t& Matrix::At(const size_t row, const size_t col)
 
 constexpr Vector4 Matrix::operator[](const size_t col) const
 {
-    return Vector4(*(Raw() + static_cast<ptrdiff_t>(col) * 4));
+    return Vector4(Raw() + static_cast<ptrdiff_t>(col) * 4);
 }
 
 constexpr Vector4& Matrix::operator[](const size_t col)
