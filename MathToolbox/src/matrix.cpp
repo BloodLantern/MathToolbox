@@ -158,6 +158,141 @@ void Matrix::Perspective(const float_t fov, const float_t aspectRatio, const flo
     );
 }
 
+bool_t Matrix::Decompose(
+    Vector3* const translation,
+    Quaternion* const orientation,
+    Vector3* const scale,
+    Vector3* const skew,
+    Vector4* const perspective
+)
+{
+    Matrix localMatrix(*this);
+
+    if (Calc::IsZero(localMatrix.m33))
+        return false;
+
+    // Normalize the matrix.
+    const float_t invm33 = 1.f / localMatrix.m33;
+    float_t* const matrix = localMatrix.Raw();
+
+    for (uint32_t i = 0; i < 16; i++)
+        matrix[i] *= invm33;
+
+    Matrix perspectiveMatrix(localMatrix);
+    perspectiveMatrix.m30 = 0.f;
+    perspectiveMatrix.m31 = 0.f;
+    perspectiveMatrix.m32 = 0.f;
+    perspectiveMatrix.m33 = 1.f;
+
+    if (Calc::IsZero(perspectiveMatrix.Determinant(), 0.f))
+        return false;
+
+    // First, isolate perspective. This is the messiest.
+    if (Calc::IsZero(localMatrix.m30, 0.f) ||
+        Calc::IsZero(localMatrix.m31, 0.f) ||
+        Calc::IsZero(localMatrix.m32, 0.f))
+    {
+        // rightHandSide is the right hand side of the equation.
+        Vector4 rightHandSide(localMatrix.m03, localMatrix.m13, localMatrix.m23, localMatrix.m33);
+
+        Matrix inversePerspectiveMatrix = perspectiveMatrix.Inverted();
+        Matrix transposedInversePerspectiveMatrix = inversePerspectiveMatrix.Transposed();
+
+        *perspective = transposedInversePerspectiveMatrix * rightHandSide;
+
+        // Clear the perspective partition
+        localMatrix.m30 = localMatrix.m13 = localMatrix.m23 = 0.f;
+        localMatrix.m33 = 1.f;
+    }
+    else
+    {
+        *perspective = Vector4(0.f, 0.f, 0.f, 1.f);
+    }
+
+    // Next take care of translation (easy).
+    *translation = Vector3(localMatrix[3]);
+    Vector4& localMatrixColumn4 = reinterpret_cast<Vector4&>(localMatrix.m03);
+    localMatrixColumn4 = Vector4(0.f, 0.f, 0.f, localMatrix.m33);
+
+    // Now get scale and shear.
+    Matrix3 row = static_cast<Matrix3>(localMatrix);
+
+    // Compute X scale factor and normalize first row.
+    scale->x = row[0].Length();
+
+    row[0] = row[0].Rescaled(1.f);
+
+    // Compute XY shear factor and make 2nd row orthogonal to 1st.
+    skew->z = Vector3::Dot(row[0], row[1]);
+    row[1] = Vector3::Combine(row[1], row[0], 1.f, -skew->z);
+
+    // Now, compute Y scale and normalize 2nd row.
+    scale->y = row[1].Length();
+    row[1] = row[1].Rescaled(1.f);
+    skew->z /= scale->y;
+
+    // Compute XZ and YZ shears, orthogonalize 3rd row.
+    skew->y = Vector3::Dot(row[0], row[2]);
+    row[2] = Vector3::Combine(row[2], row[0], 1.f, -skew->y);
+    skew->x = Vector3::Dot(row[1], row[2]);
+    row[2] = Vector3::Combine(row[2], row[1], 1.f, -skew->x);
+
+    // Next, get Z scale and normalize 3rd row.
+    scale->z = row[2].Length();
+    row[2] = row[2].Rescaled(1.f);
+    skew->y /= scale->z;
+    skew->x /= scale->z;
+
+    // At this point, the matrix (in rows[]) is orthonormal.
+    // Check for a coordinate system flip.  If the determinant
+    // is -1, then negate the matrix and the scaling factors.
+    Vector3 pdum3 = Vector3::Cross(row[1], row[2]);
+    if (Vector3::Dot(row[0], pdum3) < 0)
+    {
+        for(uint32_t i = 0; i < 3; i++)
+        {
+            scale[i] *= -1.f;
+            row[i] *= -1.f;
+        }
+    }
+
+    int32_t i, j, k = 0;
+    float_t root = 0.f;
+    const float_t trace = row[0].x + row[1].y + row[2].z;
+
+    if (trace > 0.f)
+    {
+        root = sqrt(trace + 1.0f);
+        orientation->W() = 0.5f * root;
+        root = 0.5f / root;
+        orientation->X() = root * (row[1].z - row[2].y);
+        orientation->Y() = root * (row[2].x - row[0].z);
+        orientation->Z() = root * (row[0].y - row[1].x);
+    }
+    else
+    {
+        static int32_t next[3] = {1, 2, 0};
+        i = 0;
+        if (row[1].y > row[0].x)
+            i = 1;
+        if (row[2].z > row[i][i])
+            i = 2;
+        j = next[i];
+        k = next[j];
+
+        root = sqrt(row[i][i] - row[j][j] - row[k][k] + 1.0f);
+
+        Quaternion& ref = *orientation;
+        ref[i] = 0.5f * root;
+        root = 0.5f / root;
+        ref[j] = root * (row[i][j] + row[j][i]);
+        ref[k] = root * (row[i][k] + row[k][i]);
+        ref.W() = root * (row[j][k] - row[k][j]);
+    }
+
+    return true;
+}
+
 void Matrix::DebugPrint() const noexcept
 {
     std::cout << "{ "

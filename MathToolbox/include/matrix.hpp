@@ -11,6 +11,7 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 #include "quaternion.hpp"
+#include "matrix3.hpp"
 
 /// @brief The Matrix class represents a 4x4 array mainly used for mathematical operations.
 /// 
@@ -270,6 +271,18 @@ public:
 	///	Anything closer than @c near or further than @c far is discarded.
 	static constexpr void Orthographic(float_t left, float_t right, float_t bottom, float_t top, float_t near, float_t far, Matrix* result);
 
+    /// @brief Decomposes this Matrix (assuming this is a model matrix) into its components.
+    ///
+    /// This is a heavy operation, try to avoid using this each frame.
+    ///
+    /// @param translation Translation result
+    /// @param orientation Rotation result
+    /// @param scale Scaling result
+    /// @param skew Skew result
+    /// @param perspective Perspective result
+    /// @return @c false if the operation failed
+    MATH_TOOLBOX bool_t Decompose(Vector3* translation, Quaternion* orientation, Vector3* scale, Vector3* skew, Vector4* perspective);
+
     /// @brief Creates a Matrix with all its values set to 0.
     constexpr Matrix() = default;
 
@@ -367,29 +380,43 @@ public:
 
 	/// @brief Retrieves this matrix's value at position @c [col, row].
 	/// 
-	/// @param col The index of the row to get.
-	/// @param row The index of the column to get.
-	/// @returns The value at position @c [col, row].
-	[[nodiscard]]
-	constexpr float_t At(uint8_t col, uint8_t row) const;
-    
-	/// @brief Retrieves this matrix's row at position @c [col, row].
-	/// 
-	/// @param col The index of the row to get.
-	/// @param row The index of the column to get.
-	/// @returns The value at position @c [col, row].
-	[[nodiscard]]
-	constexpr float_t& At(uint8_t col, uint8_t row);
-    
-	/// @brief	Retrieves this matrix's column vector at position @c col.
-	/// 
-	///	If you want to get a value of this matrix, consider using <see cref="At(uint8_t, uint8_t)"/>
-	///	instead, as it is optimized for direct-value access.
-	///	
+	/// @param row The index of the col to get.
 	/// @param col The index of the column to get.
-	/// @returns The column vector at index @c col.
+	/// @returns The value at position @c [col, row].
 	[[nodiscard]]
-	constexpr Vector4 operator[](uint8_t col) const;
+	constexpr float_t At(size_t row, size_t col) const;
+    
+	/// @brief Retrieves this matrix's col at position @c [col, row].
+	/// 
+	/// @param row The index of the col to get.
+	/// @param col The index of the column to get.
+	/// @returns The value at position @c [col, row].
+	[[nodiscard]]
+	constexpr float_t& At(size_t row, size_t col);
+
+    /// @brief Retrieves this matrix's column vector at position @c col.
+    /// 
+    ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
+    ///	instead, as it is optimized for direct-value access.
+    ///	
+    /// @param col The index of the column to get.
+    /// @returns The column vector at index @c col.
+    [[nodiscard]]
+    constexpr Vector4 operator[](size_t col) const;
+
+    /// @brief Retrieves this matrix's column vector at position @c col.
+    /// 
+    ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
+    ///	instead, as it is optimized for direct-value access.
+    ///	
+    /// @param col The index of the column to get.
+    /// @returns The column vector at index @c col.
+    [[nodiscard]]
+    constexpr Vector4& operator[](size_t col);
+    
+    /// @brief Converts this Matrix to a Matrix3 by cropping its last row and column.
+    [[nodiscard]]
+    constexpr explicit operator Matrix3() const;
 };
 
 static_assert(std::is_default_constructible_v<Matrix>, "Class Matrix must be default constructible.");
@@ -761,27 +788,42 @@ constexpr void Matrix::Inverted(Matrix* result) const
 	);
 }
 
-constexpr float_t Matrix::At(const uint8_t col, const uint8_t row) const
+constexpr float_t Matrix::At(const size_t row, const size_t col) const
 {
-	if (col < 4 && row < 4) [[likely]]
-		return *(Raw() + (col * 4 + row));
+	if (row < 4 && col < 4) [[likely]]
+        return Raw()[row * 4 + col];
     
 	[[unlikely]]
     throw std::out_of_range("Matrix subscript out of range");
 }
 
-constexpr float_t& Matrix::At(const uint8_t col, const uint8_t row)
+constexpr float_t& Matrix::At(const size_t row, const size_t col)
 {
-	if (col < 4 && row < 4) [[likely]]
-		return *(Raw() + (col * 4 + row));
+	if (row < 4 && col < 4) [[likely]]
+        return Raw()[row * 4 + col];
     
 	[[unlikely]]
     throw std::out_of_range("Matrix subscript out of range");
 }
 
-constexpr Vector4 Matrix::operator[](const uint8_t col) const
+constexpr Vector4 Matrix::operator[](const size_t col) const
 {
-	return Vector4(Raw() + static_cast<ptrdiff_t>(col) * 4);
+    return Vector4(*(Raw() + static_cast<ptrdiff_t>(col) * 4));
+}
+
+constexpr Vector4& Matrix::operator[](const size_t col)
+{
+    // Pointer arithmetic magic to get around not being able to use reinterpret_cast
+    return *static_cast<Vector4*>(static_cast<void*>(Raw() + static_cast<ptrdiff_t>(col) * 4));
+}
+
+constexpr Matrix::operator Matrix3() const
+{
+    return Matrix3(
+        m00, m01, m02,
+        m10, m11, m12,
+        m20, m21, m22
+    );
 }
 
 [[nodiscard]]

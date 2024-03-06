@@ -279,29 +279,43 @@ public:
 
     /// @brief Retrieves this matrix's value at position @c [col, row].
     /// 
-    /// @param col The index of the row to get.
-    /// @param row The index of the column to get.
+    /// @param row The index of the col to get.
+    /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
     [[nodiscard]]
-    constexpr float_t At(uint8_t col, uint8_t row) const;
+    constexpr float_t At(size_t row, size_t col) const;
 
-    /// @brief Retrieves this matrix's row at position @c [col, row].
+    /// @brief Retrieves this matrix's col at position @c [col, row].
     /// 
-    /// @param col The index of the row to get.
-    /// @param row The index of the column to get.
+    /// @param row The index of the col to get.
+    /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
     [[nodiscard]]
-    constexpr float_t& At(uint8_t col, uint8_t row);
+    constexpr float_t& At(size_t row, size_t col);
 
     /// @brief	Retrieves this matrix's column vector at position @c col.
     /// 
-    ///	If you want to get a value of this matrix, consider using <see cref="At(uint8_t, uint8_t)"/>
+    ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
     ///	
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
-    constexpr Vector3 operator[](uint8_t col) const;
+    constexpr Vector3 operator[](size_t col) const;
+
+    /// @brief	Retrieves this matrix's column vector at position @c col.
+    /// 
+    ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
+    ///	instead, as it is optimized for direct-value access.
+    ///	
+    /// @param col The index of the column to get.
+    /// @returns The column vector at index @c col.
+    [[nodiscard]]
+    constexpr Vector3& operator[](size_t col);
+
+    /// @brief Converts this Matrix3 to a Matrix, homogenizing the new row and column.
+    [[nodiscard]]
+    explicit operator Matrix() const;
 };
 
 static_assert(std::is_default_constructible_v<Matrix3>, "Class Matrix3 must be default constructible.");
@@ -560,27 +574,33 @@ constexpr void Matrix3::Inverted(Matrix3* result) const
     );
 }
 
-constexpr float_t Matrix3::At(const uint8_t col, const uint8_t row) const
+constexpr float_t Matrix3::At(const size_t row, const size_t col) const
 {
-    if (col < 3 && row < 3) [[likely]]
-        return *(Raw() + (col * 3 + row));
+    if (row < 3 && col < 3) [[likely]]
+        return Raw()[col * 3 + row];
     
     [[unlikely]]
     throw std::out_of_range("Matrix3 subscript out of range");
 }
 
-constexpr float_t& Matrix3::At(const uint8_t col, const uint8_t row)
+constexpr float_t& Matrix3::At(const size_t row, const size_t col)
 {
-    if (col < 3 && row < 3) [[likely]]
-        return *(Raw() + (col * 3 + row));
+    if (row < 3 && col < 3) [[likely]]
+        return Raw()[col * 3 + row];
     
     [[unlikely]]
     throw std::out_of_range("Matrix3 subscript out of range");
 }
 
-constexpr Vector3 Matrix3::operator[](const uint8_t col) const
+constexpr Vector3 Matrix3::operator[](const size_t col) const
 {
     return Vector3(Raw() + static_cast<ptrdiff_t>(col) * 3);
+}
+
+constexpr Vector3& Matrix3::operator[](const size_t col)
+{
+    // Pointer arithmetic magic to get around not being able to use reinterpret_cast
+    return *static_cast<Vector3*>(static_cast<void*>(Raw() + static_cast<ptrdiff_t>(col) * 3));
 }
 
 [[nodiscard]]

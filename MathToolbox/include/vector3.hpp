@@ -82,6 +82,15 @@ public:
 	/// @param result The lerp position.
 	static constexpr void Lerp(const Vector3& value, const Vector3& target, float_t t, Vector3* result) noexcept;
 
+    /// @brief Combines 2 Vector3
+    /// @param a First vector
+    /// @param b Second vector
+    /// @param aScale First vector scale
+    /// @param bScale Second vector scale
+    /// @result Result
+    [[nodiscard]]
+    constexpr static Vector3 Combine(const Vector3& a, const Vector3& b, float_t aScale, float_t bScale) noexcept;
+
 	/// @brief Constructs a Vector3 with both its components set to 0.
 	constexpr Vector3() = default;
 	
@@ -119,6 +128,14 @@ public:
 	/// @brief Returns the length of the vector.
 	[[nodiscard]]
 	float_t Length() const noexcept;
+
+    /// @brief Creates a rescaled version of this Vector3.
+    ///
+    /// @param newLength The new length to give to the Vector3.
+    ///
+    /// @see Length
+    [[nodiscard]]
+    Vector3 Rescaled(float_t newLength) noexcept;
 	
 	/// @brief Returns the squared length of the vector.
 	[[nodiscard]]
@@ -279,6 +296,8 @@ MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Vector3& v) noexc
 constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, const float_t t) noexcept { return value + (target - value) * t; }
 
 constexpr void Vector3::Lerp(const Vector3& value, const Vector3& target, const float_t t, Vector3* result) noexcept { *result = value + (target - value) * t; }
+
+constexpr Vector3 Vector3::Combine(const Vector3& a, const Vector3& b, const float_t aScale, const float_t bScale) noexcept { return (a * aScale) + (b * bScale); }
 
 #ifdef MATH_DEFINE_FORMATTER
 template <>

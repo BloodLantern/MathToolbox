@@ -13,6 +13,11 @@ float_t Vector3::Length() const noexcept
 	return std::sqrt(SquaredLength());
 }
 
+Vector3::operator Vector4() const noexcept
+{
+    return Vector4(x, y, z, 1.f);
+}
+
 Vector3 Vector3::Normalized() const noexcept
 {
 	const float_t length = Length();
@@ -57,9 +62,9 @@ Vector3::operator Vector2() const noexcept
 	return Vector2(x, y);
 }
 
-Vector3::operator Vector4() const noexcept
+Vector3 Vector3::Rescaled(float_t newLength) noexcept
 {
-	return Vector4(x, y, z, 1.f);
+    return *this * newLength / Length();
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept
