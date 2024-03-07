@@ -11,6 +11,9 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 
+/// @file matrix.hpp
+/// @brief Defines the Vector4 class.
+
 class Matrix;
 
 /// @brief The Vector4 class represents either a four-dimensional vector or a point.

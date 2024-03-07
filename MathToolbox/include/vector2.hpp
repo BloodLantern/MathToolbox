@@ -10,6 +10,9 @@
 
 #include "calc.hpp"
 
+/// @file matrix.hpp
+/// @brief Defines the Vector2 class.
+
 class Vector2i;
 class Vector3;
 class Vector4;

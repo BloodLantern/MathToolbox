@@ -13,6 +13,9 @@
 #include "quaternion.hpp"
 #include "matrix3.hpp"
 
+/// @file matrix.hpp
+/// @brief Defines the Matrix class.
+
 /// @brief The Matrix class represents a 4x4 array mainly used for mathematical operations.
 /// 
 /// Matrices are stored using the column-major convention.
