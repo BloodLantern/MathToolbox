@@ -227,40 +227,56 @@ constexpr float_t& Vector4::operator[](const size_t i)
 		throw std::out_of_range("Vector4 subscript out of range");
 }
 
+/// @brief Adds two Vector4 together.
 [[nodiscard]]
 constexpr Vector4 operator+(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w); }
 
+/// @brief Returns the opposite of a Vector4.
+///
+/// This effectively means replacing all values of this Vector4 with their opposite.
 [[nodiscard]]
 constexpr Vector4 operator-(const Vector4& a) noexcept { return Vector4(-a.x, -a.y, -a.z, -a.w); }
 
+/// @brief Subtracts a Vector4 from another one.
 [[nodiscard]]
 constexpr Vector4 operator-(const Vector4& a, const Vector4& b) noexcept { return a + -b; }
 
+/// @brief Multiplies two Vector4 component-wise.
 [[nodiscard]]
 constexpr Vector4 operator*(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w); }
 
+/// @brief Multiplies a Vector4 by a @p factor.
 [[nodiscard]]
 constexpr Vector4 operator*(const Vector4& v, const float_t factor) noexcept { return Vector4(v.x * factor, v.y * factor, v.z * factor, v.w * factor); }
 
+/// @brief Multiplies a Vector4 by a @p factor.
 [[nodiscard]]
 constexpr Vector4 operator*(const float_t factor, const Vector4 v) noexcept { return v * factor; }
 
+/// @brief Divides a Vector4 by another one.
 [[nodiscard]]
 constexpr Vector4 operator/(const Vector4& a, const Vector4& b) noexcept { return Vector4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w); }
 
+/// @brief Divides a Vector4 by a @p factor.
 [[nodiscard]]
 constexpr Vector4 operator/(const Vector4& v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return Vector4(v.x * invFactor, v.y * invFactor, v.z * invFactor, v.w * invFactor); }
 
+/// @brief Adds two Vector4 according to @ref operator+(const Vector4&, const Vector4&), placing the result in @p a.
 constexpr Vector4& operator+=(Vector4& a, const Vector4& b) noexcept { return a = a + b; }
 
+/// @brief Subtracts a Vector4 from another one according to @ref operator-(const Vector4&, const Vector4&), placing the result in @p a.
 constexpr Vector4 &operator-=(Vector4 &a, const Vector4& b) noexcept { return a = a - b; }
 
+/// @brief Multiplies two Vector4 component-wise according to @ref operator*(const Vector4&, const Vector4&), placing the result in @p a.
 constexpr Vector4& operator*=(Vector4& a, const Vector4& b) noexcept { return a = a * b; }
 
+/// @brief Multiplies a Vector4 by a @p factor according to @ref operator*(const Vector4&, const float_t), placing the result in @p v.
 constexpr Vector4& operator*=(Vector4& v, const float_t factor) noexcept { return v = v * factor; }
 
+/// @brief Divides two Vector4 component-wise according to @ref operator/(const Vector4&, const Vector4&), placing the result in @p a.
 constexpr Vector4 &operator/=(Vector4 &a, const Vector4& b) noexcept { return a = a / b; }
 
+/// @brief Divides a Vector4 by a @p factor according to @ref operator/(const Vector4&, const float_t), placing the result in @p v.
 constexpr Vector4& operator/=(Vector4& v, const float_t factor) noexcept { return v = v / factor; }
 
 /// @brief Checks if two Vector4 are considered equal using <code>Calc::Equals</code>.
@@ -277,6 +293,7 @@ constexpr bool_t operator==(const Vector4 a, const Vector4 b) noexcept
 [[nodiscard]]
 constexpr bool_t operator!=(const Vector4 a, const Vector4 b) noexcept { return !(a == b); }
 
+/// @brief Streams a Vector4 into @p out, printing its values one by one on a single line.
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept;
 
 constexpr Vector4 Vector4::Lerp(const Vector4& value, const Vector4& target, const float_t t) noexcept { return value + (target - value) * t; }

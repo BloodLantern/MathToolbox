@@ -606,6 +606,9 @@ constexpr Vector3& Matrix3::operator[](const size_t col)
     return *static_cast<Vector3*>(static_cast<void*>(Raw() + static_cast<ptrdiff_t>(col) * 3));
 }
 
+/// @brief Returns the opposite of a Matrix3.
+///
+/// This effectively means replacing all values of this Matrix3 with their opposite.
 [[nodiscard]]
 constexpr Matrix3 operator-(const Matrix3& matrix) noexcept
 {
@@ -616,6 +619,7 @@ constexpr Matrix3 operator-(const Matrix3& matrix) noexcept
     );
 }
 
+/// @brief Adds the values of two @ref Matrix3 "3x3 Matrices" one by one.
 [[nodiscard]]
 constexpr Matrix3 operator+(const Matrix3& m1, const Matrix3& m2) noexcept
 {
@@ -626,9 +630,11 @@ constexpr Matrix3 operator+(const Matrix3& m1, const Matrix3& m2) noexcept
     );
 }
 
+/// @brief Subtracts the values of two @ref Matrix "Matrices" one by one.
 [[nodiscard]]
 constexpr Matrix3 operator-(const Matrix3& m1, const Matrix3& m2) noexcept { return m1 + -m2; }
 
+/// @brief Multiplies all values of a Matrix by a @p scalar.
 [[nodiscard]]
 constexpr Matrix3 operator*(const Matrix3& m, const float_t scalar) noexcept
 {
@@ -639,9 +645,11 @@ constexpr Matrix3 operator*(const Matrix3& m, const float_t scalar) noexcept
     );
 }
 
+/// @brief Multiplies all values of a Matrix by a @p scalar.
 [[nodiscard]]
 constexpr Matrix3 operator*(const float_t factor, const Matrix3 m) noexcept { return m * factor; }
 
+/// @brief Multiplies a Vector3 by a Matrix.
 [[nodiscard]]
 constexpr Vector3 operator*(const Matrix3& m, const Vector3& v) noexcept
 {
@@ -652,6 +660,7 @@ constexpr Vector3 operator*(const Matrix3& m, const Vector3& v) noexcept
     );
 }
 
+/// @brief Multiplies two @ref Matrix "Matrices".
 [[nodiscard]]
 constexpr Matrix3 operator*(const Matrix3& m1, const Matrix3& m2) noexcept
 {
@@ -670,14 +679,19 @@ constexpr Matrix3 operator*(const Matrix3& m1, const Matrix3& m2) noexcept
     );
 }
 
+/// @brief Adds two @ref Matrix "Matrices" according to @ref operator+(const Matrix&, const Matrix&), placing the result in @p m1.
 constexpr Matrix3& operator+=(Matrix3& m1, const Matrix3& m2) noexcept { return m1 = m1 + m2; }
 
+/// @brief Subtracts two @ref Matrix "Matrices" according to @ref operator-(const Matrix&, const Matrix&), placing the result in @p m1.
 constexpr Matrix3& operator-=(Matrix3& m1, const Matrix3& m2) noexcept { return m1 = m1 - m2; }
 
+/// @brief Multiplies a Matrix by a @p scalar according to @ref operator*(const Matrix&, const float_t), placing the result in @p m.
 constexpr Matrix3& operator*=(Matrix3& m, const float_t scalar) noexcept { return m = m * scalar; }
 
+/// @brief Multiplies a Matrix by a Vector3 according to @ref operator*(const Matrix&, const Vector3&), placing the result in @p m.
 constexpr Vector3& operator*=(const Matrix3& m, Vector3& v) noexcept { return v = m * v; }
 
+/// @brief Multiplies two @ref Matrix "Matrices" according to @ref operator*(const Matrix&, const Matrix&), placing the result in @p m1.
 constexpr Matrix3& operator*=(Matrix3& m1, const Matrix3& m2) noexcept { return m1 = m1 * m2; }
 
 /// @brief	Checks if two Matrices are considered equal using @c Calc::Equals.
@@ -693,6 +707,9 @@ constexpr bool_t operator==(const Matrix3& a, const Matrix3& b)
 [[nodiscard]]
 constexpr bool_t operator!=(const Matrix3& a, const Matrix3& b) { return !(a == b); }
 
+/// @brief Streams a Matrix into @p out, printing its values one by one on a single line.
+///
+/// If you instead want a multiline print, you can use Matrix::DebugPrint.
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Matrix3& m);
 
 #ifdef MATH_DEFINE_FORMATTER

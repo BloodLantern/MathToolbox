@@ -184,7 +184,7 @@ constexpr float_t Vector2::operator[](const size_t i) const
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
 	[[unlikely]]
-		throw std::out_of_range("Vector2 subscript out of range");
+    throw std::out_of_range("Vector2 subscript out of range");
 }
 
 constexpr float_t& Vector2::operator[](const size_t i)
@@ -192,45 +192,59 @@ constexpr float_t& Vector2::operator[](const size_t i)
 	if (i < 2) [[likely]]
 		return *(Raw() + i);
 	[[unlikely]]
-		throw std::out_of_range("Vector2 subscript out of range");
+    throw std::out_of_range("Vector2 subscript out of range");
 }
 
+/// @brief Adds two Vector2 together.
 [[nodiscard]]
 constexpr Vector2 operator+(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x + b.x, a.y + b.y); }
 
+/// @brief Returns the opposite of a Vector2.
+///
+/// This effectively means replacing all values of this Vector2 with their opposite.
 [[nodiscard]]
 constexpr Vector2 operator-(const Vector2 a) noexcept { return Vector2(-a.x, -a.y); }
 
+/// @brief Subtracts a Vector2 from another one.
 [[nodiscard]]
 constexpr Vector2 operator-(const Vector2 a, const Vector2 b) noexcept { return a + -b; }
 
+/// @brief Multiplies two Vector2 component-wise.
 [[nodiscard]]
 constexpr Vector2 operator*(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x * b.x, a.y * b.y); }
 
+/// @brief Multiplies a Vector2 by a @p factor.
 [[nodiscard]]
 constexpr Vector2 operator*(const Vector2 v, const float_t factor) noexcept { return Vector2(v.x * factor, v.y * factor); }
 
+/// @brief Multiplies a Vector2 by a @p factor.
 [[nodiscard]]
 constexpr Vector2 operator*(const float_t factor, const Vector2 v) noexcept { return v * factor; }
 
+/// @brief Divides a Vector2 by another one.
 [[nodiscard]]
 constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x / b.x, a.y / b.y); }
 
+/// @brief Divides a Vector2 by a @p factor.
 [[nodiscard]]
 constexpr Vector2 operator/(const Vector2 v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return Vector2(v.x * invFactor, v.y * invFactor); }
 
+/// @brief Adds two Vector2 according to @ref operator+(const Vector2, const Vector2), placing the result in @p a.
 constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept { return a = a + b; }
 
+/// @brief Subtracts a Vector2 from another one according to @ref operator-(const Vector2, const Vector2), placing the result in @p a.
 constexpr Vector2& operator-=(Vector2& a, const Vector2 b) noexcept { return a = a - b; }
 
+/// @brief Multiplies two Vector2 component-wise according to @ref operator*(const Vector2, const Vector2), placing the result in @p a.
 constexpr Vector2& operator*=(Vector2& a, const Vector2 b) noexcept { return a = a * b; }
 
+/// @brief Multiplies a Vector2 by a @p factor according to @ref operator*(const Vector2, const float_t), placing the result in @p v.
 constexpr Vector2& operator*=(Vector2& v, const float_t factor) noexcept { return v = v * factor; }
 
-constexpr Vector2& operator*=(const float_t factor, Vector2& v) noexcept { return v = v * factor; }
-
+/// @brief Divides two Vector2 component-wise according to @ref operator/(const Vector2, const Vector2), placing the result in @p a.
 constexpr Vector2& operator/=(Vector2& a, const Vector2 b) noexcept { return a = a / b; }
 
+/// @brief Divides a Vector2 by a @p factor according to @ref operator/(const Vector2, const float_t), placing the result in @p v.
 constexpr Vector2& operator/=(Vector2& v, const float_t factor) noexcept { return v = v / factor; }
 
 /// @brief Checks if two Vector2 are considered equal using @ref Calc::Equals.
@@ -245,6 +259,7 @@ constexpr bool_t operator==(const Vector2 a, const Vector2 b) noexcept
 [[nodiscard]]
 constexpr bool_t operator!=(const Vector2 a, const Vector2 b) noexcept { return !(a == b); }
 
+/// @brief Streams a Vector2 into @p out, printing its values one by one on a single line.
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 
 constexpr Vector2 Vector2::Lerp(const Vector2 value, const Vector2 target, const float_t t) noexcept { return value + (target - value) * t; }

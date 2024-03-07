@@ -173,36 +173,50 @@ constexpr int32_t& Vector2i::operator[](const size_t i)
 		throw std::out_of_range("Vector2i subscript out of range");
 }
 
+/// @brief Adds two Vector2i together.
 [[nodiscard]]
 constexpr Vector2i operator+(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x + b.x, a.y + b.y); }
 
+/// @brief Returns the opposite of a Vector2i.
+///
+/// This effectively means replacing all values of this Vector2i with their opposite.
 [[nodiscard]]
 constexpr Vector2i operator-(const Vector2i a) noexcept { return Vector2i(-a.x, -a.y); }
 
+/// @brief Subtracts a Vector2i from another one.
 [[nodiscard]]
 constexpr Vector2i operator-(const Vector2i a, const Vector2i b) noexcept { return a + -b; }
 
+/// @brief Multiplies two Vector2i component-wise.
 [[nodiscard]]
 constexpr Vector2i operator*(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x * b.x, a.y * b.y); }
 
+/// @brief Multiplies a Vector2i by a @p factor.
 [[nodiscard]]
 constexpr Vector2i operator*(const Vector2i v, const int32_t factor) noexcept { return Vector2i(v.x * factor, v.y * factor); }
 
+/// @brief Multiplies a Vector2i by a @p factor.
 [[nodiscard]]
 constexpr Vector2i operator*(const int32_t factor, const Vector2i v) noexcept { return v * factor; }
 
+/// @brief Divides a Vector2i by another one.
 [[nodiscard]]
 constexpr Vector2 operator/(const Vector2i a, const Vector2i b) noexcept { return Vector2(static_cast<float_t>(a.x) / static_cast<float_t>(b.x), static_cast<float_t>(a.y) / static_cast<float_t>(b.y)); }
 
+/// @brief Divides a Vector2i by a @p factor.
 [[nodiscard]]
 constexpr Vector2 operator/(const Vector2i v, const float_t factor) noexcept { return Vector2(static_cast<float_t>(v.x) / factor, static_cast<float_t>(v.y) / factor); }
 
+/// @brief Adds two Vector2i according to @ref operator+(const Vector2i, const Vector2i), placing the result in @p a.
 constexpr Vector2i& operator+=(Vector2i& a, const Vector2i b) noexcept { return a = a + b; }
 
+/// @brief Subtracts a Vector2i from another one according to @ref operator-(const Vector2i, const Vector2i), placing the result in @p a.
 constexpr Vector2i &operator-=(Vector2i &a, const Vector2i b) noexcept { return a = a - b; }
 
+/// @brief Multiplies two Vector2i component-wise according to @ref operator*(const Vector2i, const Vector2i), placing the result in @p a.
 constexpr Vector2i& operator*=(Vector2i& a, const Vector2i b) noexcept { return a = a * b; }
 
+/// @brief Multiplies a Vector2i by a @p factor according to @ref operator*(const Vector2i, const int32_t), placing the result in @p v.
 constexpr Vector2i& operator*=(Vector2i& v, const int32_t factor) noexcept { return v = v * factor; }
 
 /// @brief Checks if two Vector2i are considered equal using @c Calc::Equals.
@@ -213,6 +227,7 @@ constexpr bool_t operator==(const Vector2i a, const Vector2i b) noexcept { retur
 [[nodiscard]]
 constexpr bool_t operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }
 
+/// @brief Streams a Vector2i into @p out, printing its values one by one on a single line.
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
 
 #ifdef MATH_DEFINE_FORMATTER
