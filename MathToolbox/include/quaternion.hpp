@@ -11,7 +11,7 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 
-/// @file matrix.hpp
+/// @file quaternion.hpp
 /// @brief Defines the Quaternion class.
 
 /// @brief The Quaternion class represents a 4-dimensional vector mainly used for mathematical calculations revolving around rotations.

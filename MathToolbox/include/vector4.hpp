@@ -11,7 +11,7 @@
 #include "vector2.hpp"
 #include "vector3.hpp"
 
-/// @file matrix.hpp
+/// @file vector4.hpp
 /// @brief Defines the Vector4 class.
 
 class Matrix;

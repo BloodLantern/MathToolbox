@@ -10,7 +10,7 @@
 #include "calc.hpp"
 #include "vector2.hpp"
 
-/// @file matrix.hpp
+/// @file vector3.hpp
 /// @brief Defines the Vector3 class.
 
 class Vector4;

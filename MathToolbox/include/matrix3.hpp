@@ -11,7 +11,7 @@
 #include "vector3.hpp"
 #include "quaternion.hpp"
 
-/// @file matrix.hpp
+/// @file matrix3.hpp
 /// @brief Defines the Matrix3 class.
 
 /// @brief The Matrix3 class represents a 3x3 array mainly used for mathematical operations.
