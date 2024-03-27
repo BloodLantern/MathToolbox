@@ -10,6 +10,9 @@
 #include "calc.hpp"
 #include "vector2.hpp"
 
+/// @file vector3.hpp
+/// @brief Defines the Vector3 class.
+
 class Vector4;
 class Matrix;
 
@@ -239,43 +242,56 @@ constexpr float_t& Vector3::operator[](const size_t i)
 	throw std::out_of_range("Vector3 subscript out of range");
 }
 
+/// @brief Adds two Vector3 together.
 [[nodiscard]]
 constexpr Vector3 operator+(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x + b.x, a.y + b.y, a.z + b.z); }
 
+/// @brief Returns the opposite of a Vector3.
+///
+/// This effectively means replacing all values of this Vector3 with their opposite.
 [[nodiscard]]
 constexpr Vector3 operator-(const Vector3& a) noexcept { return Vector3(-a.x, -a.y, -a.z); }
 
+/// @brief Subtracts a Vector3 from another one.
 [[nodiscard]]
 constexpr Vector3 operator-(const Vector3& a, const Vector3& b) noexcept { return a + -b; }
 
+/// @brief Multiplies two Vector3 component-wise.
 [[nodiscard]]
 constexpr Vector3 operator*(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x * b.x, a.y * b.y, a.z * b.z); }
 
+/// @brief Multiplies a Vector3 by a @p factor.
 [[nodiscard]]
 constexpr Vector3 operator*(const Vector3& v, const float_t factor) noexcept { return Vector3(v.x * factor, v.y * factor, v.z * factor); }
 
+/// @brief Multiplies a Vector3 by a @p factor.
 [[nodiscard]]
 constexpr Vector3 operator*(const float_t factor, const Vector3 v) noexcept { return v * factor; }
 
+/// @brief Divides a Vector3 by another one.
 [[nodiscard]]
 constexpr Vector3 operator/(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x / b.x, a.y / b.y, a.z / b.z); }
 
+/// @brief Divides a Vector3 by a @p factor.
 [[nodiscard]]
 constexpr Vector3 operator/(const Vector3& v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return Vector3(v.x * invFactor, v.y * invFactor, v.z * invFactor); }
 
-[[nodiscard]]
-constexpr Vector2 operator/(const float_t factor, const Vector2 v) noexcept { return Vector2(v.x / factor, v.y / factor); }
-
+/// @brief Adds two Vector3 according to @ref operator+(const Vector3&, const Vector3&), placing the result in @p a.
 constexpr Vector3& operator+=(Vector3& a, const Vector3& b) noexcept { return a = a + b; }
 
+/// @brief Subtracts a Vector3 from another one according to @ref operator-(const Vector3&, const Vector3&), placing the result in @p a.
 constexpr Vector3 &operator-=(Vector3 &a, const Vector3& b) noexcept { return a = a - b; }
 
+/// @brief Multiplies two Vector3 component-wise according to @ref operator*(const Vector3&, const Vector3&), placing the result in @p a.
 constexpr Vector3& operator*=(Vector3& a, const Vector3& b) noexcept { return a = a * b; }
 
+/// @brief Multiplies a Vector3 by a @p factor according to @ref operator*(const Vector3&, const float_t), placing the result in @p v.
 constexpr Vector3& operator*=(Vector3& v, const float_t factor) noexcept { return v = v * factor; }
 
+/// @brief Divides two Vector3 component-wise according to @ref operator/(const Vector3&, const Vector3&), placing the result in @p a.
 constexpr Vector3 &operator/=(Vector3 &a, const Vector3& b) noexcept { return a = a / b; }
 
+/// @brief Divides a Vector3 by a @p factor according to @ref operator/(const Vector3&, const float_t), placing the result in @p v.
 constexpr Vector3& operator/=(Vector3& v, const float_t factor) noexcept { return v = v / factor; }
 
 /// @brief Checks if two Vector3 are considered equal using @ref Calc::Equals.
@@ -291,6 +307,7 @@ constexpr bool_t operator==(const Vector3 a, const Vector3 b) noexcept
 [[nodiscard]]
 constexpr bool_t operator!=(const Vector3 a, const Vector3 b) noexcept { return !(a == b); }
 
+/// @brief Streams a Vector3 into @p out, printing its values one by one on a single line.
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
 
 constexpr Vector3 Vector3::Lerp(const Vector3& value, const Vector3& target, const float_t t) noexcept { return value + (target - value) * t; }

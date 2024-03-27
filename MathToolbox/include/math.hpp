@@ -11,6 +11,8 @@
 
 #include "calc.hpp"
 
+#include "easing.hpp"
+
 #include "matrix3.hpp"
 #include "matrix.hpp"
 

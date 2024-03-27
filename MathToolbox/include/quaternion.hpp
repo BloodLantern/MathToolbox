@@ -11,6 +11,9 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 
+/// @file quaternion.hpp
+/// @brief Defines the Quaternion class.
+
 /// @brief The Quaternion class represents a 4-dimensional vector mainly used for mathematical calculations revolving around rotations.
 class MATH_TOOLBOX Quaternion
 {
@@ -440,15 +443,21 @@ constexpr Quaternion::operator Vector3() const noexcept { return imaginary; }
 
 constexpr Quaternion::operator Vector4() const noexcept { return Vector4(imaginary.x, imaginary.y, imaginary.z, real); }
 
+/// @brief Adds two @ref Quaternion "Quaternions" together.
 [[nodiscard]]
 constexpr Quaternion operator+(const Quaternion& a, const Quaternion& b) noexcept { return Quaternion(a.imaginary + b.imaginary, a.real + b.real); }
 
+/// @brief Returns the opposite of a Quaternion.
+///
+/// This effectively means replacing all values of this Quaternion with their opposite.
 [[nodiscard]]
 constexpr Quaternion operator-(const Quaternion& a) noexcept { return Quaternion(-a.imaginary, -a.real); }
 
+/// @brief Subtracts a Quaternion from another one.
 [[nodiscard]]
 constexpr Quaternion operator-(const Quaternion& a, const Quaternion& b) noexcept { return Quaternion(a + -b); }
 
+/// @brief Multiplies two @ref Quaternion "Quaternions" together.
 [[nodiscard]]
 constexpr Quaternion operator*(const Quaternion& a, const Quaternion& b) noexcept
 {
@@ -469,26 +478,35 @@ constexpr Quaternion operator*(const Quaternion& a, const Quaternion& b) noexcep
 	return result;
 }
 
+/// @brief Multiplies a Quaternion with a Vector3.
 [[nodiscard]]
 constexpr Quaternion operator*(const Quaternion& q, const Vector3& v) noexcept { return q * Quaternion(v, 1.f); }
 
+/// @brief Multiplies a Quaternion by a @p factor.
 [[nodiscard]]
 constexpr Quaternion operator*(const Quaternion& q, const float_t factor) noexcept { return Quaternion(q.imaginary * factor, q.real * factor); }
 
+/// @brief Multiplies a Quaternion by a @p factor.
 [[nodiscard]]
 constexpr Quaternion operator*(const float_t factor, const Quaternion q) noexcept { return q * factor; }
 
+/// @brief Divides a Quaternion by a @p factor.
 [[nodiscard]]
 constexpr Quaternion operator/(const Quaternion& v, const float_t factor) noexcept { return Quaternion(v.imaginary / factor, v.real / factor); }
 
+/// @brief Adds two @ref Quaternion "Quaternions" according to @ref operator+(const Quaternion&, const Quaternion&), placing the result in @p a.
 constexpr Quaternion& operator+=(Quaternion& a, const Quaternion& b) noexcept { return a = a + b; }
 
+/// @brief Subtracts two @ref Quaternion "Quaternions" according to @ref operator-(const Quaternion&, const Quaternion&), placing the result in @p a.
 constexpr Quaternion& operator-=(Quaternion& a, const Quaternion& b) noexcept { return a = a - b; }
 
+/// @brief Multiplies two @ref Quaternion "Quaternions" according to @ref operator*(const Quaternion&, const Quaternion&), placing the result in @p a.
 constexpr Quaternion& operator*=(Quaternion& a, const Quaternion& b) noexcept { return a = a * b; }
 
+/// @brief Multiplies a Quaternion by a factor according to @ref operator*(const Quaternion&, const float_t), placing the result in @p a.
 constexpr Quaternion& operator*=(Quaternion& q, const float_t factor) noexcept { return q = q * factor; }
 
+/// @brief Divides a Quaternion by a factor according to @ref operator/(const Quaternion&, const float_t), placing the result in @p a.
 constexpr Quaternion& operator/=(Quaternion& q, const float_t factor) noexcept { return q = q / factor; }
 
 /// @brief Checks if two Quaternions are considered equal using @ref Calc::Equals.
@@ -505,6 +523,7 @@ constexpr bool operator==(Quaternion a, Quaternion b)
 [[nodiscard]]
 constexpr bool operator!=(Quaternion a, Quaternion b) { return !(a == b); }
 
+/// @brief Streams a Quaternion into @p out, printing its values one by one on a single line.
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Quaternion& q);
 
 constexpr Quaternion Quaternion::Inverted() const noexcept
