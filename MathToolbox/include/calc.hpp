@@ -50,12 +50,19 @@ namespace Calc
     [[nodiscard]]
 	MATH_TOOLBOX constexpr float_t Sign(float_t number) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::abs</c> function.
-	/// 
-	/// @param number The number to get the absolute value of.
-	/// @returns The absolute value of @p number.
-	[[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Abs(float_t number) noexcept;
+    /// @brief	A constexpr version of the <c>std::abs</c> function.
+    /// 
+    /// @param number The number to get the absolute value of.
+    /// @returns The absolute value of @p number.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t Abs(float_t number) noexcept;
+
+    /// @brief	A constexpr version of the <c>std::round</c> function.
+    /// 
+    /// @param number The number to round to the nearest integer value.
+    /// @returns The rounded value of @p number.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t Round(float_t number) noexcept;
 
 	/// @brief Approaches the target value by the given step size without ever exceeding it.
 	/// 
@@ -106,6 +113,14 @@ namespace Calc
 constexpr float_t Calc::Sign(const float_t number) noexcept { return number < 0.f ? -1.f : 1.f; }
 
 constexpr float_t Calc::Abs(const float_t number) noexcept { return number < 0.f ? -number : number; }
+
+constexpr float_t Calc::Round(const float_t number) noexcept
+{
+    const int32_t lower = static_cast<int32_t>(number);
+    const int32_t upper = static_cast<int32_t>(number + 0.5f);
+    
+    return static_cast<float_t>(lower < upper ? upper : lower);
+}
 
 // Undef windows macro to be able to use std::min without conflicts
 #undef min
