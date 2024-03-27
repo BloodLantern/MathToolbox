@@ -57,12 +57,20 @@ namespace Calc
     [[nodiscard]]
     MATH_TOOLBOX constexpr float_t Abs(float_t number) noexcept;
 
-    /// @brief	A constexpr version of the <c>std::round</c> function.
-    /// 
-    /// @param number The number to round to the nearest integer value.
-    /// @returns The rounded value of @p number.
-    [[nodiscard]]
-    MATH_TOOLBOX constexpr float_t Round(float_t number) noexcept;
+	/// @brief	A constexpr version of the <c>std::round</c> function.
+	/// 
+	/// @param number The number to round to the nearest integer value.
+	/// @returns The rounded value of @p number.
+	[[nodiscard]]
+	MATH_TOOLBOX constexpr float_t Round(float_t number) noexcept;
+
+	/// @brief	A constexpr version of the <c>std::fmodf</c> function.
+	/// 
+	/// @param a The left-hand side of the modulo.
+	/// @param b The right-hand side of the modulo.
+	/// @returns The modulo of @p a by @p b.
+	[[nodiscard]]
+	MATH_TOOLBOX constexpr float_t Modulo(float_t a, float_t b) noexcept;
 
 	/// @brief Approaches the target value by the given step size without ever exceeding it.
 	/// 
@@ -116,11 +124,13 @@ constexpr float_t Calc::Abs(const float_t number) noexcept { return number < 0.f
 
 constexpr float_t Calc::Round(const float_t number) noexcept
 {
-    const int32_t lower = static_cast<int32_t>(number);
-    const int32_t upper = static_cast<int32_t>(number + 0.5f);
-    
-    return static_cast<float_t>(lower < upper ? upper : lower);
+	const int32_t lower = static_cast<int32_t>(number);
+	const int32_t upper = static_cast<int32_t>(number + 0.5f);
+
+	return static_cast<float_t>(lower < upper ? upper : lower);
 }
+
+constexpr float_t Calc::Modulo(const float_t a, const float_t b) noexcept { return a - static_cast<float_t>(static_cast<int64_t>(a / b)) * b; }
 
 // Undef windows macro to be able to use std::min without conflicts
 #undef min
