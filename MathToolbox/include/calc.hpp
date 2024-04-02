@@ -94,20 +94,35 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr bool_t OnInterval(float_t value, float_t lastValue, float_t interval);
 
-	/// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <see cref="Calc::Zero"/>.
-	/// 
-	/// @param value The value to check.
-	/// @returns Whether the value is considered to be zero.
-	[[nodiscard]]
-	MATH_TOOLBOX constexpr bool_t IsZero(float_t value) noexcept;
+    /// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <see cref="Calc::Zero"/>.
+    /// 
+    /// @param value The value to check.
+    /// @returns Whether the value is considered to be zero.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr bool_t IsZero(float_t value) noexcept;
 
-	/// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <paramref name="zero"/>.
-	/// 
-	/// @param value The value to check.
-	/// @param zero The value under which a number is considered to be zero.
-	/// @returns Whether the value is considered to be zero.
-	[[nodiscard]]
-	MATH_TOOLBOX constexpr bool_t IsZero(float_t value, float_t zero) noexcept;
+    /// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <paramref name="zero"/>.
+    /// 
+    /// @param value The value to check.
+    /// @param zero The value under which a number is considered to be zero.
+    /// @returns Whether the value is considered to be zero.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr bool_t IsZero(float_t value, float_t zero) noexcept;
+
+    /// @brief If a value is considered zero using IsZero(float_t), returns 0. Otherwise, returns the given value.
+    /// 
+    /// @param value The value to check.
+    /// @returns Whether the value is considered to be zero.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t MakeZero(float_t value) noexcept;
+
+    /// @brief If a value is considered zero using IsZero(float_t, float_t), returns 0. Otherwise, returns the given value.
+    /// 
+    /// @param value The value to check.
+    /// @param zero The value under which a number is considered to be zero.
+    /// @returns Whether the value is considered to be zero.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t MakeZero(float_t value, float_t zero) noexcept;
 
 	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
 	/// 
@@ -152,6 +167,10 @@ constexpr bool_t Calc::OnInterval(float_t value, float_t lastValue, float_t inte
 constexpr bool_t Calc::IsZero(const float_t value) noexcept { return IsZero(value, Zero); }
 
 constexpr bool_t Calc::IsZero(const float_t value, const float_t zero) noexcept { return Abs(value) <= zero; }
+
+constexpr float_t Calc::MakeZero(const float_t value) noexcept { return MakeZero(value, Zero); }
+
+constexpr float_t Calc::MakeZero(const float_t value, const float_t zero) noexcept { return IsZero(value, zero) ? 0.f : value; }
 
 constexpr bool_t Calc::Equals(const float_t a, const float_t b) noexcept { return IsZero(a - b); }
 
