@@ -57,12 +57,26 @@ namespace Calc
     [[nodiscard]]
     MATH_TOOLBOX constexpr float_t Abs(float_t number) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::round</c> function.
-	/// 
-	/// @param number The number to round to the nearest integer value.
-	/// @returns The rounded value of @p number.
-	[[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Round(float_t number) noexcept;
+    /// @brief	A constexpr version of the <c>std::round</c> function.
+    /// 
+    /// @param number The number to round to the nearest integer value.
+    /// @returns The rounded value of @p number.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t Round(float_t number) noexcept;
+
+    /// @brief	A constexpr version of the <c>std::floor</c> function.
+    /// 
+    /// @param number The number to floor.
+    /// @returns The floor value of @p number.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t Floor(float_t number) noexcept;
+
+    /// @brief	A constexpr version of the <c>std::ceil</c> function.
+    /// 
+    /// @param number The number to ceil.
+    /// @returns The ceil value of @p number.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t Ceil(float_t number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::fmodf</c> function.
 	/// 
@@ -139,11 +153,15 @@ constexpr float_t Calc::Abs(const float_t number) noexcept { return number < 0.f
 
 constexpr float_t Calc::Round(const float_t number) noexcept
 {
-	const int32_t lower = static_cast<int32_t>(number);
-	const int32_t upper = static_cast<int32_t>(number + 0.5f);
+    const int32_t lower = static_cast<int32_t>(number);
+    const int32_t upper = static_cast<int32_t>(number + 0.5f);
 
-	return static_cast<float_t>(lower < upper ? upper : lower);
+    return static_cast<float_t>(lower < upper ? upper : lower);
 }
+
+constexpr float_t Calc::Floor(const float_t number) noexcept { return Round(number - 0.5f); }
+
+constexpr float_t Calc::Ceil(const float_t number) noexcept { return Round(number + 0.5f); }
 
 constexpr float_t Calc::Modulo(const float_t a, const float_t b) noexcept { return a - static_cast<float_t>(static_cast<int64_t>(a / b)) * b; }
 
