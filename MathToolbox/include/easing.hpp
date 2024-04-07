@@ -248,8 +248,8 @@ constexpr float Easing::CubicOut(float t)
 
 constexpr float Easing::CubicInOut(const float t)
 {
-    MATH_TOOLBOX float t2 = t - 1;
-    MATH_TOOLBOX float t3 = t2 - 1;
+    float t2 = t - 1;
+    float t3 = t2 - 1;
     return t < 0.5f ? 4.f * t * t * t : 1.f + t2 * (2.f * t3) * (2.f * t3);
 }
 
@@ -261,7 +261,7 @@ constexpr float Easing::QuartIn(float t)
 
 constexpr float Easing::QuartOut(const float t)
 {
-    MATH_TOOLBOX float t2 = t - 1;
+    float t2 = t - 1;
     t2 *= t2;
     return 1.f - t2 * t2;
 }
@@ -283,20 +283,20 @@ constexpr float Easing::QuartInOut(float t)
 
 constexpr float Easing::QuintIn(const float t)
 {
-    MATH_TOOLBOX float t2 = t * t;
+    float t2 = t * t;
     return t * t2 * t2;
 }
 
 constexpr float Easing::QuintOut(float t)
 {
     t -= 1;
-    MATH_TOOLBOX float t2 = t * t;
+    float t2 = t * t;
     return 1.f + t * t2 * t2;
 }
 
 constexpr float Easing::QuintInOut(float t)
 {
-    MATH_TOOLBOX float t2;
+    float t2;
     if (t < 0.5f)
     {
         t2 = t * t;
