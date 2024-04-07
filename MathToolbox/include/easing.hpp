@@ -14,21 +14,21 @@ namespace Easing
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float SineIn(float t);
+    float SineIn(float t);
 
     /// @brief The <a href="https://easings.net/#easeOutSine">SineOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float SineOut(float t);
+    float SineOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInOutSine">SineInOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float SineInOut(float t);
+    float SineInOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInQuad">QuadIn</a> easing function.
     ///
@@ -119,42 +119,42 @@ namespace Easing
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float ExpoIn(float t);
+    float ExpoIn(float t);
 
     /// @brief The <a href="https://easings.net/#easeOutExpo">ExpoOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float ExpoOut(float t);
+    float ExpoOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInOutExpo">ExpoInOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float ExpoInOut(float t);
+    float ExpoInOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInCirc">CircIn</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float CircIn(float t);
+    float CircIn(float t);
 
     /// @brief The <a href="https://easings.net/#easeOutCirc">CircOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float CircOut(float t);
+    float CircOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInOutCirc">CircInOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float CircInOut(float t);
+    float CircInOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInBack">BackIn</a> easing function.
     ///
@@ -182,42 +182,42 @@ namespace Easing
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float ElasticIn(float t);
+    float ElasticIn(float t);
 
     /// @brief The <a href="https://easings.net/#easeOutElastic">ElasticOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float ElasticOut(float t);
+    float ElasticOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInOutElastic">ElasticInOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float ElasticInOut(float t);
+    float ElasticInOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInBounce">BounceIn</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float BounceIn(float t);
+    float BounceIn(float t);
 
     /// @brief The <a href="https://easings.net/#easeOutBounce">BounceOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float BounceOut(float t);
+    float BounceOut(float t);
 
     /// @brief The <a href="https://easings.net/#easeInOutBounce">BounceInOut</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
     /// @return The transformed time.
     [[nodiscard]]
-    MATH_TOOLBOX float BounceInOut(float t);
+    float BounceInOut(float t);
 }
 
 constexpr float Easing::QuadIn(const float t)
