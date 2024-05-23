@@ -934,12 +934,6 @@ constexpr Matrix& operator-=(Matrix& m1, const Matrix& m2) noexcept { return m1 
 /// @brief Multiplies a Matrix by a @p scalar according to @ref operator*(const Matrix&, const float_t), placing the result in @p m.
 constexpr Matrix& operator*=(Matrix& m, const float_t scalar) noexcept { return m = m * scalar; }
 
-/// @brief Multiplies a Matrix by a Vector3 according to @ref operator*(const Matrix&, const Vector3&), placing the result in @p m.
-constexpr Vector3& operator*=(const Matrix& m, Vector3& v) noexcept { return v = m * v; }
-
-/// @brief Multiplies a Matrix by a Vector4 according to @ref operator*(const Matrix&, const Vector4&), placing the result in @p m.
-constexpr Vector4 &operator*=(const Matrix& m, Vector4& v) noexcept { return v = m * v; }
-
 /// @brief Multiplies two @ref Matrix "Matrices" according to @ref operator*(const Matrix&, const Matrix&), placing the result in @p m1.
 constexpr Matrix& operator*=(Matrix& m1, const Matrix& m2) noexcept { return m1 = m1 * m2; }
 
