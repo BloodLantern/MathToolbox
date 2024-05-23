@@ -119,27 +119,18 @@ void Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up
     const Vector3 u(Vector3::Cross(s, f));
 	
     *result = Matrix(
-        s.x, s.y, s.z, 0.f,
-        u.x, u.y, u.z, 0.f,
-        -f.x, -f.y, -f.z, 0.f,
-        -Vector3::Dot(s, eye), -Vector3::Dot(u, eye), Vector3::Dot(f, eye), 1.f
+        s.x, s.y, s.z, -Vector3::Dot(s, eye),
+        u.x, u.y, u.z, -Vector3::Dot(u, eye),
+        -f.x, -f.y, -f.z, Vector3::Dot(f, eye),
+        0.f, 0.f, 0.f, 1.f
     );
 }
 
 Matrix Matrix::Perspective(const float_t fov, const float_t aspectRatio, const float_t near, const float_t far)
 {
-    if (near > far) [[unlikely]]
-        throw std::invalid_argument("Near must be smaller than far.");
-    
-    const float_t range = far - near;
-    const float_t tanHalfFov = std::tan(fov / 2);
-
-    return Matrix(
-        1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
-        0.f, 1.f / tanHalfFov, 0.f, 0.f,
-        0.f, 0.f, -(far + near) / range, -(2.f * far * near) / range,
-        0.f, 0.f, 1.f, 0.f
-    );
+    Matrix result;
+    Perspective(fov, aspectRatio, near, far, &result);
+    return result;
 }
 
 void Matrix::Perspective(const float_t fov, const float_t aspectRatio, const float_t near, const float_t far, Matrix* result)
@@ -147,14 +138,14 @@ void Matrix::Perspective(const float_t fov, const float_t aspectRatio, const flo
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
     
-    const float_t range = near - far;
-    const float_t tanHalfFov = std::tan(fov / 2);
+    const float_t range = far - near;
+    const float_t tanHalfFov = std::tan(fov / 2.f);
 
     *result = Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
         0.f, 1.f / tanHalfFov, 0.f, 0.f,
-        0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
-        0.f, 0.f, 1.f, 0.f
+        0.f, 0.f, -(far + near) / range, -(2.f * far * near) / range,
+        0.f, 0.f, -1.f, 0.f
     );
 }
 
