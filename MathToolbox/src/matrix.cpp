@@ -114,16 +114,16 @@ Matrix Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& 
 
 void Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix* result) noexcept
 {
-    const Vector3 cameraForward = -(center - eye).Normalized();
-    const Vector3 cameraRight = Vector3::Cross(up, cameraForward).Normalized();
-    const Vector3 cameraUp = Vector3::Cross(cameraForward, cameraRight);
-
+    const Vector3 f((center - eye).Normalized());
+    const Vector3 s(Vector3::Cross(f, up).Normalized());
+    const Vector3 u(Vector3::Cross(s, f));
+	
     *result = Matrix(
-        cameraRight.x, cameraRight.y, cameraRight.z, 0.f,
-        cameraUp.x, cameraUp.y, cameraUp.z, 0.f,
-        cameraForward.x, cameraForward.y, cameraForward.z, 0.f,
-        0.f, 0.f, 0.f, 1.f
-    ) * Translation(-eye);
+        s.x, s.y, s.z, 0.f,
+        u.x, u.y, u.z, 0.f,
+        -f.x, -f.y, -f.z, 0.f,
+        -Vector3::Dot(s, eye), -Vector3::Dot(u, eye), Vector3::Dot(f, eye), 1.f
+    );
 }
 
 Matrix Matrix::Perspective(const float_t fov, const float_t aspectRatio, const float_t near, const float_t far)
@@ -131,13 +131,13 @@ Matrix Matrix::Perspective(const float_t fov, const float_t aspectRatio, const f
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
     
-    const float_t range = near - far;
+    const float_t range = far - near;
     const float_t tanHalfFov = std::tan(fov / 2);
 
     return Matrix(
         1.f / (tanHalfFov * aspectRatio), 0.f, 0.f, 0.f,
         0.f, 1.f / tanHalfFov, 0.f, 0.f,
-        0.f, 0.f, (-near - far) / range, 2.f * far * near / range,
+        0.f, 0.f, -(far + near) / range, -(2.f * far * near) / range,
         0.f, 0.f, 1.f, 0.f
     );
 }
