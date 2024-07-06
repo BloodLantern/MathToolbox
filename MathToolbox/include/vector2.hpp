@@ -39,6 +39,10 @@ public:
 	[[nodiscard]]
 	static constexpr Vector2 UnitY() noexcept;
 
+    /// @brief Returns a Vector2 with both its components set to @c 1.
+	[[nodiscard]]
+	static constexpr Vector2 One() noexcept;
+
 	/// @brief Returns a · b.
 	[[nodiscard]]
 	static constexpr float_t Dot(Vector2 a, Vector2 b) noexcept;
@@ -49,9 +53,13 @@ public:
 	[[nodiscard]]
 	static constexpr float_t Cross(Vector2 a, Vector2 b) noexcept;
 
-	/// @brief Returns the determinant of 'a' and 'b'.
-	[[nodiscard]]
-	static constexpr float_t Determinant(Vector2 a, Vector2 b) noexcept;
+    /// @brief Returns the determinant of 'a' and 'b'.
+    [[nodiscard]]
+    static constexpr float_t Determinant(Vector2 a, Vector2 b) noexcept;
+
+    /// @brief Clamps the given @p value between @p min and @p max.
+    [[nodiscard]]
+    static constexpr Vector2 Clamp(Vector2 value, Vector2 min, Vector2 max) noexcept;
 
 	/// @brief Lerp between two positions in a 2-dimensional space.
 	/// 
@@ -167,11 +175,18 @@ constexpr Vector2 Vector2::UnitX() noexcept { return Vector2(1.f, 0.f); }
 
 constexpr Vector2 Vector2::UnitY() noexcept { return Vector2(0.f, 1.f); }
 
+constexpr Vector2 Vector2::One() noexcept { return Vector2(1); }
+
 constexpr float_t Vector2::Dot(const Vector2 a, const Vector2 b) noexcept { return a.x * b.x + a.y * b.y; }
 
 constexpr float_t Vector2::Cross(const Vector2 a, const Vector2 b) noexcept { return Determinant(a, b); }
 
 constexpr float_t Vector2::Determinant(const Vector2 a, const Vector2 b) noexcept { return a.x * b.y - b.x * a.y; }
+
+constexpr Vector2 Vector2::Clamp(Vector2 value, Vector2 min, Vector2 max) noexcept
+{
+    return Vector2(std::clamp(value.x, min.x, max.x), std::clamp(value.y, min.y, max.y));
+}
 
 constexpr const float_t* Vector2::Raw() const noexcept { return& x; }
 

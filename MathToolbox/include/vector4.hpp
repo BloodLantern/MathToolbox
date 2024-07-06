@@ -64,6 +64,14 @@ public:
     /// @brief Returns a Vector4 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 0, @c w @c = @c 1.
 	static constexpr void UnitW(Vector4* result) noexcept;
 
+    /// @brief Returns a Vector4 with all of its components set to @c 1.
+	[[nodiscard]]
+	static constexpr Vector4 One() noexcept;
+
+    /// @brief Returns a Vector4 with all of its components set to @c 1.
+	[[nodiscard]]
+	static constexpr void One(Vector4* result) noexcept;
+
     /// @brief Constructs a Vector4 with everything set to @c 0.
 	constexpr Vector4() = default;
 
@@ -127,6 +135,10 @@ public:
 	/// @brief Returns a · b.
 	[[nodiscard]]
 	static constexpr float_t Dot(const Vector4& a, const Vector4& b) noexcept;
+
+    /// @brief Clamps the given @p value between @p min and @p max.
+    [[nodiscard]]
+    static constexpr Vector4 Clamp(Vector4 value, Vector4 min, Vector4 max) noexcept;
 
 	/// @brief Lerp between two positions in a 4-dimensional space.
 	/// 
@@ -203,6 +215,10 @@ constexpr Vector4 Vector4::UnitW() noexcept { return Vector4(0.f, 0.f, 0.f, 1.f)
 
 constexpr void Vector4::UnitW(Vector4* result) noexcept { *result = Vector4(0.f, 0.f, 0.f, 1.f); }
 
+constexpr Vector4 Vector4::One() noexcept { return Vector4(1); }
+
+constexpr void Vector4::One(Vector4* result) noexcept { *result = Vector4(1); }
+
 constexpr const float_t* Vector4::Raw() const noexcept { return &x; }
 
 constexpr float_t* Vector4::Raw() noexcept { return &x; }
@@ -210,6 +226,11 @@ constexpr float_t* Vector4::Raw() noexcept { return &x; }
 constexpr float_t Vector4::SquaredLength() const noexcept { return SQ(x) + SQ(y) + SQ(z) + SQ(w); }
 
 constexpr float_t Vector4::Dot(const Vector4& a, const Vector4& b) noexcept {	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w; }
+
+constexpr Vector4 Vector4::Clamp(Vector4 value, Vector4 min, Vector4 max) noexcept
+{
+    return Vector4(std::clamp(value.x, min.x, max.x), std::clamp(value.y, min.y, max.y), std::clamp(value.z, min.z, max.z), std::clamp(value.w, min.w, max.w));
+}
 
 constexpr float_t Vector4::operator[](const size_t i) const
 {

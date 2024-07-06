@@ -37,6 +37,10 @@ public:
     /// @brief Returns a Vector2i with @c x @c = @c 0, @c y @c = @c 1.
 	[[nodiscard]]
 	static constexpr Vector2i UnitY() noexcept;
+
+    /// @brief Returns a Vector2i with both its components set to @c 1.
+	[[nodiscard]]
+	static constexpr Vector2i One() noexcept;
 	
 	/// @brief Returns a · b.
 	[[nodiscard]]
@@ -51,6 +55,10 @@ public:
 	/// @brief Returns the determinant of 'a' and 'b'.
 	[[nodiscard]]
 	static constexpr float_t Determinant(Vector2i a, Vector2i b) noexcept;
+
+    /// @brief Clamps the given @p value between @p min and @p max.
+    [[nodiscard]]
+    static constexpr Vector2i Clamp(Vector2i value, Vector2i min, Vector2i max) noexcept;
 
 	constexpr Vector2i() = default;
 
@@ -145,11 +153,18 @@ constexpr Vector2i Vector2i::UnitX() noexcept { return Vector2i(1, 0); }
 
 constexpr Vector2i Vector2i::UnitY() noexcept { return Vector2i(0, 1); }
 
+constexpr Vector2i Vector2i::One() noexcept { return Vector2i(1); }
+
 constexpr float_t Vector2i::Dot(const Vector2i a, const Vector2i b) noexcept { return static_cast<float_t>(a.x * b.x + a.y * b.y); }
 
 constexpr float_t Vector2i::Cross(const Vector2i a, const Vector2i b) noexcept { return Determinant(a, b); }
 
 constexpr float_t Vector2i::Determinant(const Vector2i a, const Vector2i b) noexcept { return static_cast<float_t>(a.x * b.y - b.x * a.y); }
+
+constexpr Vector2i Vector2i::Clamp(Vector2i value, Vector2i min, Vector2i max) noexcept
+{
+    return Vector2i(std::clamp(value.x, min.x, max.x), std::clamp(value.y, min.y, max.y));
+}
 
 constexpr const int32_t* Vector2i::Raw() const noexcept { return &x; }
 

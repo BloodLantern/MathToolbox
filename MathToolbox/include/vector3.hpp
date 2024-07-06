@@ -57,6 +57,14 @@ public:
     /// @brief Returns a Vector3 with @c x @c = @c 0, @c y @c = @c 0, @c z @c = @c 1.
 	static constexpr void UnitZ(Vector3* result) noexcept;
 
+    /// @brief Returns a Vector3 with all of its components set to @c 1.
+	[[nodiscard]]
+	static constexpr Vector3 One() noexcept;
+
+    /// @brief Returns a Vector3 with all of its components set to @c 1.
+	[[nodiscard]]
+	static constexpr void One(Vector3* result) noexcept;
+
 	/// @brief Returns a · b.
 	[[nodiscard]]
 	static constexpr float_t Dot(const Vector3& a, const Vector3& b) noexcept;
@@ -67,6 +75,10 @@ public:
 
 	/// @brief Returns a x b.
 	static constexpr void Cross(const Vector3& a, const Vector3& b, Vector3* result) noexcept;
+
+    /// @brief Clamps the given @p value between @p min and @p max.
+    [[nodiscard]]
+    static constexpr Vector3 Clamp(Vector3 value, Vector3 min, Vector3 max) noexcept;
 
 	/// @brief Lerp between two positions in a 3-dimensional space.
 	/// 
@@ -214,11 +226,20 @@ constexpr Vector3 Vector3::UnitZ() noexcept { return Vector3(0.f, 0.f, 1.f); }
 
 constexpr void Vector3::UnitZ(Vector3* result) noexcept { *result = Vector3(0.f, 0.f, 1.f); }
 
+constexpr Vector3 Vector3::One() noexcept { return Vector3(1); }
+
+constexpr void Vector3::One(Vector3* result) noexcept { *result = Vector3(1); }
+
 constexpr float_t Vector3::Dot(const Vector3& a, const Vector3& b) noexcept { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
 constexpr Vector3 Vector3::Cross(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
 
 constexpr void Vector3::Cross(const Vector3& a, const Vector3& b, Vector3* result) noexcept { *result = Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
+
+constexpr Vector3 Vector3::Clamp(Vector3 value, Vector3 min, Vector3 max) noexcept
+{
+    return Vector3(std::clamp(value.x, min.x, max.x), std::clamp(value.y, min.y, max.y), std::clamp(value.z, min.z, max.z));
+}
 
 constexpr const float_t* Vector3::Raw() const noexcept { return &x; }
 
