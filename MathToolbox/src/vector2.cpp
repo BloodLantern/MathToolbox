@@ -22,10 +22,11 @@ Vector2 Vector2::Normalized() const noexcept
 	return Vector2(x * invLength, y * invLength);
 }
 
-Vector2 Vector2::Normal() const noexcept
-{
-	return Vector2(y, -x).Normalized();
-}
+Vector2 Vector2::Normal() const noexcept { return Vector2(y, -x).Normalized(); }
+
+Vector2 Vector2::Rotated(const float_t angle) const noexcept { return Rotated(std::cos(angle), std::sin(angle)); }
+
+Vector2 Vector2::Rotated(const float_t c, const float_t s) const noexcept { return Vector2(x * c - y * s, x * s + y * c); }
 
 bool Vector2::IsInfinity() const noexcept
 {
