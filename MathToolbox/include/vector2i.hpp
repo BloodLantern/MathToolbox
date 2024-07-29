@@ -126,7 +126,7 @@ public:
 	constexpr int32_t& operator[](size_t i);
 
     /// @brief Converts this Vector2i to a Vector2.
-    explicit operator Vector2() const;
+    operator Vector2() const;
 
     /// @brief Converts this Vector2i to a Vector3 by giving it a @c z value of @c 0.
     explicit operator Vector3() const;
@@ -213,6 +213,14 @@ constexpr Vector2i operator*(const Vector2i v, const int32_t factor) noexcept { 
 /// @brief Multiplies a Vector2i by a @p factor.
 [[nodiscard]]
 constexpr Vector2i operator*(const int32_t factor, const Vector2i v) noexcept { return v * factor; }
+
+/// @brief Multiplies a Vector2i by a @p factor.
+[[nodiscard]]
+constexpr Vector2 operator*(const Vector2i v, const float_t factor) noexcept { return Vector2(v.x * factor, v.y * factor); }
+
+/// @brief Multiplies a Vector2i by a @p factor.
+[[nodiscard]]
+constexpr Vector2 operator*(const float_t factor, const Vector2i v) noexcept { return v * factor; }
 
 /// @brief Divides a Vector2i by another one.
 [[nodiscard]]
