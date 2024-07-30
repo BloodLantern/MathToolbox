@@ -651,7 +651,7 @@ constexpr Matrix3 operator*(const float_t factor, const Matrix3 m) noexcept { re
 
 /// @brief Multiplies a Vector2 by a Matrix.
 [[nodiscard]]
-constexpr Vector2 operator*(const Matrix& m, const Vector2& v) noexcept
+constexpr Vector2 operator*(const Matrix3& m, const Vector2& v) noexcept
 {
     return Vector2(
         v.x * m.m00 + v.y * m.m01 + m.m02,
