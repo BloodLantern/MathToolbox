@@ -875,6 +875,16 @@ constexpr Matrix operator*(const Matrix& m, const float_t scalar) noexcept
 [[nodiscard]]
 constexpr Matrix operator*(const float_t factor, const Matrix m) noexcept { return m * factor; }
 
+/// @brief Multiplies a Vector2 by a Matrix.
+[[nodiscard]]
+constexpr Vector2 operator*(const Matrix& m, const Vector2& v) noexcept
+{
+	return Vector2(
+		v.x * m.m00 + v.y * m.m01 + m.m02 + m.m03,
+		v.x * m.m10 + v.y * m.m11 + m.m12 + m.m13
+	);
+}
+
 /// @brief Multiplies a Vector3 by a Matrix.
 [[nodiscard]]
 constexpr Vector3 operator*(const Matrix& m, const Vector3& v) noexcept
