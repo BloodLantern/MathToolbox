@@ -848,10 +848,10 @@ constexpr Matrix operator-(const Matrix& matrix) noexcept
 constexpr Matrix operator+(const Matrix& m1, const Matrix& m2) noexcept
 {
 	return Matrix(
-		m1.m00 + m2.m00, m1.m01 + m2.m01, m1.m02 + m2.m02, m1.m03 + m2.m03,
-		m1.m10 + m2.m10, m1.m11 + m2.m11, m1.m12 + m2.m12, m1.m13 + m2.m13,
-		m1.m20 + m2.m20, m1.m21 + m2.m21, m1.m22 + m2.m22, m1.m23 + m2.m23,
-		m1.m30 + m2.m30, m1.m31 + m2.m31, m1.m32 + m2.m32, m1.m33 + m2.m33
+		m1.m00 * m2.m00, m1.m01 * m2.m01, m1.m02 * m2.m02, m1.m03 * m2.m03,
+		m1.m10 * m2.m10, m1.m11 * m2.m11, m1.m12 * m2.m12, m1.m13 * m2.m13,
+		m1.m20 * m2.m20, m1.m21 * m2.m21, m1.m22 * m2.m22, m1.m23 * m2.m23,
+		m1.m30 * m2.m30, m1.m31 * m2.m31, m1.m32 * m2.m32, m1.m33 * m2.m33
 	);
 }
 
@@ -873,7 +873,7 @@ constexpr Matrix operator*(const Matrix& m, const float_t scalar) noexcept
 
 /// @brief Multiplies all values of a Matrix by a @p scalar.
 [[nodiscard]]
-constexpr Matrix operator*(const float_t factor, const Matrix m) noexcept { return m * factor; }
+constexpr Matrix operator*(const float_t factor, const Matrix& m) noexcept { return m * factor; }
 
 /// @brief Multiplies a Vector2 by a Matrix.
 [[nodiscard]]
@@ -889,11 +889,11 @@ constexpr Vector2 operator*(const Matrix& m, const Vector2& v) noexcept
 [[nodiscard]]
 constexpr Vector3 operator*(const Matrix& m, const Vector3& v) noexcept
 {
-    return Vector3(
-    	v.x * m.m00 + v.y * m.m01 + v.z * m.m02 + m.m03,
-    	v.x * m.m10 + v.y * m.m11 + v.z * m.m12 + m.m13,
-    	v.x * m.m20 + v.y * m.m21 + v.z * m.m22 + m.m23
-    );
+	return Vector3(
+		v.x * m.m00 + v.y * m.m01 + v.z * m.m02 + m.m03,
+		v.x * m.m10 + v.y * m.m11 + v.z * m.m12 + m.m13,
+		v.x * m.m20 + v.y * m.m21 + v.z * m.m22 + m.m23
+	);
 }
 
 /// @brief Multiplies a Vector4 by a Matrix.

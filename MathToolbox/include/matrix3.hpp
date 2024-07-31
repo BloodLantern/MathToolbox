@@ -630,7 +630,7 @@ constexpr Matrix3 operator+(const Matrix3& m1, const Matrix3& m2) noexcept
     );
 }
 
-/// @brief Subtracts the values of two @ref Matrix "Matrices" one by one.
+/// @brief Subtracts the values of two @ref Matrix3 "Matrices" one by one.
 [[nodiscard]]
 constexpr Matrix3 operator-(const Matrix3& m1, const Matrix3& m2) noexcept { return m1 + -m2; }
 
@@ -639,9 +639,9 @@ constexpr Matrix3 operator-(const Matrix3& m1, const Matrix3& m2) noexcept { ret
 constexpr Matrix3 operator*(const Matrix3& m, const float_t scalar) noexcept
 {
     return Matrix3(
-            m.m00 + scalar, m.m01 + scalar, m.m02 + scalar,
-            m.m10 + scalar, m.m11 + scalar, m.m12 + scalar,
-            m.m20 + scalar, m.m21 + scalar, m.m22 + scalar
+        m.m00 * scalar, m.m01 * scalar, m.m02 * scalar,
+        m.m10 * scalar, m.m11 * scalar, m.m12 * scalar,
+        m.m20 * scalar, m.m21 * scalar, m.m22 * scalar
     );
 }
 
@@ -649,7 +649,7 @@ constexpr Matrix3 operator*(const Matrix3& m, const float_t scalar) noexcept
 [[nodiscard]]
 constexpr Matrix3 operator*(const float_t factor, const Matrix3 m) noexcept { return m * factor; }
 
-/// @brief Multiplies a Vector2 by a Matrix.
+/// @brief Multiplies a Vector2 by a Matrix3.
 [[nodiscard]]
 constexpr Vector2 operator*(const Matrix3& m, const Vector2& v) noexcept
 {
@@ -659,18 +659,18 @@ constexpr Vector2 operator*(const Matrix3& m, const Vector2& v) noexcept
     );
 }
 
-/// @brief Multiplies a Vector3 by a Matrix.
+/// @brief Multiplies a Vector3 by a Matrix3.
 [[nodiscard]]
 constexpr Vector3 operator*(const Matrix3& m, const Vector3& v) noexcept
 {
     return Vector3(
-        v.x * m.m00 + v.y * m.m01 + v.z * m.m02,
-        v.x * m.m10 + v.y * m.m11 + v.z * m.m12,
-        v.x * m.m20 + v.y * m.m21 + v.z * m.m22
+            v.x * m.m00 + v.y * m.m01 + v.z * m.m02,
+            v.x * m.m10 + v.y * m.m11 + v.z * m.m12,
+            v.x * m.m20 + v.y * m.m21 + v.z * m.m22
     );
 }
 
-/// @brief Multiplies two @ref Matrix "Matrices".
+/// @brief Multiplies two @ref Matrix3 "Matrices".
 [[nodiscard]]
 constexpr Matrix3 operator*(const Matrix3& m1, const Matrix3& m2) noexcept
 {
@@ -689,10 +689,10 @@ constexpr Matrix3 operator*(const Matrix3& m1, const Matrix3& m2) noexcept
     );
 }
 
-/// @brief Adds two @ref Matrix "Matrices" according to @ref operator+(const Matrix&, const Matrix&), placing the result in @p m1.
+/// @brief Adds two @ref Matrix3 "Matrices" according to @ref operator+(const Matrix&, const Matrix&), placing the result in @p m1.
 constexpr Matrix3& operator+=(Matrix3& m1, const Matrix3& m2) noexcept { return m1 = m1 + m2; }
 
-/// @brief Subtracts two @ref Matrix "Matrices" according to @ref operator-(const Matrix&, const Matrix&), placing the result in @p m1.
+/// @brief Subtracts two @ref Matrix3 "Matrices" according to @ref operator-(const Matrix&, const Matrix&), placing the result in @p m1.
 constexpr Matrix3& operator-=(Matrix3& m1, const Matrix3& m2) noexcept { return m1 = m1 - m2; }
 
 /// @brief Multiplies a Matrix by a @p scalar according to @ref operator*(const Matrix&, const float_t), placing the result in @p m.
@@ -701,7 +701,7 @@ constexpr Matrix3& operator*=(Matrix3& m, const float_t scalar) noexcept { retur
 /// @brief Multiplies a Matrix by a Vector3 according to @ref operator*(const Matrix&, const Vector3&), placing the result in @p m.
 constexpr Vector3& operator*=(const Matrix3& m, Vector3& v) noexcept { return v = m * v; }
 
-/// @brief Multiplies two @ref Matrix "Matrices" according to @ref operator*(const Matrix&, const Matrix&), placing the result in @p m1.
+/// @brief Multiplies two @ref Matrix3 "Matrices" according to @ref operator*(const Matrix&, const Matrix&), placing the result in @p m1.
 constexpr Matrix3& operator*=(Matrix3& m1, const Matrix3& m2) noexcept { return m1 = m1 * m2; }
 
 /// @brief	Checks if two Matrices are considered equal using @c Calc::Equals.
