@@ -1,9 +1,9 @@
-#include "quaternion.hpp"
+#include "Maths/quaternion.hpp"
 
 #include <format>
 
-#include "calc.hpp"
-#include "matrix.hpp"
+#include "Maths/calc.hpp"
+#include "Maths/matrix.hpp"
 
 Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float_t angle) noexcept
 {

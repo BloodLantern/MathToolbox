@@ -1,14 +1,11 @@
-#include <gtest/gtest.h>
+#include "pch.hpp"
 
 // ReSharper disable CppNoDiscardExpression
-#include <chrono>
-#include <functional>
-#include <numeric>
 
-#include "math.hpp"
+#include "Maths/math.hpp"
 
 #pragma warning(push)
-#pragma warning(disable: 4834)
+#pragma warning(disable: 4834) // discarding return value of function with 'nodiscard' attribute
 
 namespace TestCalc
 {

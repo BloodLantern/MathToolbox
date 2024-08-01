@@ -1,11 +1,11 @@
-#include "vector4.hpp"
+#include "Maths/vector4.hpp"
 
 #include <format>
 
-#include "calc.hpp"
-#include "matrix.hpp"
-#include "vector2.hpp"
-#include "vector3.hpp"
+#include "Maths/calc.hpp"
+#include "Maths/matrix.hpp"
+#include "Maths/vector2.hpp"
+#include "Maths/vector3.hpp"
 
 float Vector4::Length() const noexcept
 {

@@ -1,15 +1,13 @@
 #pragma once
 
-#ifdef MATH_DEFINE_FORMATTER
 #include <format>
 #include <sstream>
-#endif
 
 #include <ostream>
 
-#include "calc.hpp"
-#include "vector2.hpp"
-#include "vector3.hpp"
+#include "Maths/calc.hpp"
+#include "Maths/vector2.hpp"
+#include "Maths/vector3.hpp"
 
 /// @file vector4.hpp
 /// @brief Defines the Vector4 class.
@@ -321,7 +319,6 @@ constexpr Vector4 Vector4::Lerp(const Vector4& value, const Vector4& target, con
 
 constexpr void Vector4::Lerp(const Vector4& value, const Vector4& target, const float_t t, Vector4* result) noexcept { *result = value + (target - value) * t; }
 
-#ifdef MATH_DEFINE_FORMATTER
 template <>
 struct std::formatter<Vector4>
 {
@@ -357,4 +354,3 @@ typename FmtContext::iterator std::formatter<Vector4>::format(Vector4 v, FmtCont
 
     return std::ranges::copy(std::move(out).str(), ctx.out()).out;
 }
-#endif

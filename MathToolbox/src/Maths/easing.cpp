@@ -1,4 +1,4 @@
-#include "easing.hpp"
+#include "Maths/easing.hpp"
 
 #include <cmath>
 

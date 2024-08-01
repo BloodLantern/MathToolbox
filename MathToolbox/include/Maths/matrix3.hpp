@@ -1,15 +1,13 @@
 #pragma once
 
-#ifdef MATH_DEFINE_FORMATTER
 #include <format>
 #include <sstream>
-#endif
 
 #include <ostream>
 
-#include "calc.hpp"
-#include "vector3.hpp"
-#include "quaternion.hpp"
+#include "Maths/calc.hpp"
+#include "Maths/vector3.hpp"
+#include "Maths/quaternion.hpp"
 
 /// @file matrix3.hpp
 /// @brief Defines the Matrix3 class.
@@ -722,7 +720,6 @@ constexpr bool_t operator!=(const Matrix3& a, const Matrix3& b) { return !(a == 
 /// If you instead want a multiline print, you can use Matrix::DebugPrint.
 MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Matrix3& m);
 
-#ifdef MATH_DEFINE_FORMATTER
 template <>
 struct std::formatter<Matrix3>
 {
@@ -770,4 +767,3 @@ private:
     std::string m_Format;
     bool_t m_Multiline = false;
 };
-#endif

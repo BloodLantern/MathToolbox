@@ -1,15 +1,13 @@
 #pragma once
 
-#ifdef MATH_DEFINE_FORMATTER
 #include <format>
 #include <sstream>
-#endif
 
 #include <ostream>
 
-#include "calc.hpp"
-#include "vector3.hpp"
-#include "vector4.hpp"
+#include "Maths/calc.hpp"
+#include "Maths/vector3.hpp"
+#include "Maths/vector4.hpp"
 
 /// @file quaternion.hpp
 /// @brief Defines the Quaternion class.
@@ -550,7 +548,6 @@ constexpr Vector3 Quaternion::Rotate(const Vector3& point, const Quaternion& rot
 
 constexpr void Quaternion::Rotate(const Vector3& point, const Quaternion& rotation, Vector3* result) noexcept { *result = (rotation * point * rotation.Conjugate()).imaginary; }
 
-#ifdef MATH_DEFINE_FORMATTER
 template <>
 struct std::formatter<Quaternion>
 {
@@ -586,4 +583,3 @@ typename FmtContext::iterator std::formatter<Quaternion>::format(Quaternion q, F
 
     return std::ranges::copy(std::move(out).str(), ctx.out()).out;
 }
-#endif
