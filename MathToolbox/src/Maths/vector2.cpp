@@ -2,6 +2,7 @@
 
 #include <format>
 
+#include "Maths/calc.hpp"
 #include "Maths/vector2i.hpp"
 #include "Maths/vector3.hpp"
 #include "Maths/vector4.hpp"
