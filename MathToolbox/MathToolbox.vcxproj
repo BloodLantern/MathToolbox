@@ -83,6 +83,7 @@
     <ClInclude Include="include\Maths\easing.hpp" />
     <ClInclude Include="include\Maths\math.hpp" />
     <ClInclude Include="include\Maths\matrix.hpp" />
+    <ClInclude Include="include\Maths\matrix2.hpp" />
     <ClInclude Include="include\Maths\matrix3.hpp" />
     <ClInclude Include="include\Maths\quaternion.hpp" />
     <ClInclude Include="include\Maths\vector2.hpp" />
@@ -94,6 +95,7 @@
     <ClCompile Include="src\Maths\calc.cpp" />
     <ClCompile Include="src\Maths\easing.cpp" />
     <ClCompile Include="src\Maths\matrix.cpp" />
+    <ClCompile Include="src\Maths\matrix2.cpp" />
     <ClCompile Include="src\Maths\matrix3.cpp" />
     <ClCompile Include="src\Maths\quaternion.cpp" />
     <ClCompile Include="src\Maths\vector2.cpp" />
