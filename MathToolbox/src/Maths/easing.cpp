@@ -1,6 +1,6 @@
 #include "Maths/easing.hpp"
 
-#include <cmath>
+#include "Maths/calc.hpp"
 
 float_t Easing::SineIn(const float_t t)
 {

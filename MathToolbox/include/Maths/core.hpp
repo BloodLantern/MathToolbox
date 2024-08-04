@@ -3,10 +3,12 @@
 #include <cmath>
 #include <cstdint>
 
-/// @file definitions.hpp
+/// @file core.hpp
 /// @brief File containing various macros used in the library.
 /// 
 /// When building a DLL using this library, define <c>MATH_TOOLBOX_DLL_EXPORT</c>. When using a DLL that was built using this library, instead define <c>MATH_TOOLBOX_DLL_IMPORT</c>.
+
+//#define MATH_TOOLBOX_DLL_EXPORT
 
 /// @brief Macro preceding all declarations of this library. Used when integrating this library in a DLL.
 ///

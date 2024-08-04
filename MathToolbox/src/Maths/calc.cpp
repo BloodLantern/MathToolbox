@@ -4,24 +4,6 @@
 #include "Maths/matrix2.hpp"
 #include "Maths/matrix3.hpp"
 #include "Maths/quaternion.hpp"
-#include "Maths/vector2.hpp"
-#include "Maths/vector3.hpp"
-#include "Maths/vector4.hpp"
-
-bool_t Calc::Equals(const Vector2 a, const Vector2 b) noexcept
-{
-    return Equals(a.x, b.x) && Equals(a.y, b.y);
-}
-
-bool_t Calc::Equals(const Vector3& a, const Vector3& b) noexcept
-{
-    return Equals(a.x, b.x) && Equals(a.y, b.y) && Equals(a.z, b.z);
-}
-
-bool_t Calc::Equals(const Vector4& a, const Vector4& b) noexcept
-{
-    return Equals(a.x, b.x) && Equals(a.y, b.y) && Equals(a.z, b.z) && Equals(a.w, b.w);
-}
 
 bool_t Calc::Equals(const Matrix2& a, const Matrix2& b) noexcept
 {

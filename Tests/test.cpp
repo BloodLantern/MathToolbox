@@ -80,7 +80,7 @@ namespace TestVector2
 
     TEST(Vector2, Lerp)
     {
-        EXPECT_TRUE(Calc::Equals(Vector2::Lerp(Vector2::Zero(), Vector2(1.f), 0.5f), Vector2(0.5f)));
+        EXPECT_TRUE(Calc::Equals(Calc::Lerp(Vector2::Zero(), Vector2(1.f), 0.5f), Vector2(0.5f)));
     }
     
     TEST(Vector2, SubscriptOutOfRangeThrow)
@@ -235,7 +235,7 @@ namespace TestVector3
 
     TEST(Vector3, Lerp)
     {
-        EXPECT_TRUE(Calc::Equals(Vector3::Lerp(Vector3::Zero(), Vector3(1.f), 0.5f), Vector3(0.5f)));
+        EXPECT_TRUE(Calc::Equals(Calc::Lerp(Vector3::Zero(), Vector3(1.f), 0.5f), Vector3(0.5f)));
     }
 
     TEST(Vector3, SubscriptOutOfRangeThrow)
@@ -320,7 +320,7 @@ namespace TestVector4
 
     TEST(Vector4, Lerp)
     {
-        EXPECT_TRUE(Calc::Equals(Vector4::Lerp(Vector4::Zero(), Vector4(1.f), 0.5f), Vector4(0.5f)));
+        EXPECT_TRUE(Calc::Equals(Calc::Lerp(Vector4::Zero(), Vector4(1.f), 0.5f), Vector4(0.5f)));
     }
     
     TEST(Vector4, SubscriptOutOfRangeThrow)

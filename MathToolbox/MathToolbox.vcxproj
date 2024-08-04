@@ -86,7 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Maths\calc.hpp" />
-    <ClInclude Include="include\Maths\definitions.hpp" />
+    <ClInclude Include="include\Maths\core.hpp" />
     <ClInclude Include="include\Maths\easing.hpp" />
     <ClInclude Include="include\Maths\math.hpp" />
     <ClInclude Include="include\Maths\matrix.hpp" />
