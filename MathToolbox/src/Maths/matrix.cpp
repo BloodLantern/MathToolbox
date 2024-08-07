@@ -164,7 +164,7 @@ bool_t Matrix::Decompose(
 
     // Normalize the matrix.
     const float_t invm33 = 1.f / localMatrix.m33;
-    float_t* const matrix = localMatrix.Raw();
+    float_t* const matrix = localMatrix.Data();
 
     for (uint32_t i = 0; i < 16; i++)
         matrix[i] *= invm33;
