@@ -155,8 +155,10 @@ bool_t Matrix::Decompose(
     Vector3* const scale,
     Vector3* const skew,
     Vector4* const perspective
-)
+) const
 {
+    // Function from glm
+    
     Matrix localMatrix(*this);
 
     if (Calc::IsZero(localMatrix.m33))

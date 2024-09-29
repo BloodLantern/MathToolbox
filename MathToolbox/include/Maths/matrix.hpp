@@ -272,18 +272,6 @@ public:
     ///	Anything closer than @c near or further than @c far is discarded.
     static constexpr void Orthographic(float_t left, float_t right, float_t bottom, float_t top, float_t near, float_t far, Matrix* result);
 
-    /// @brief Decomposes this Matrix (assuming this is a model matrix) into its components.
-    ///
-    /// This is a heavy operation, try to avoid using this each frame.
-    ///
-    /// @param translation Translation result
-    /// @param orientation Rotation result
-    /// @param scale Scaling result
-    /// @param skew Skew result
-    /// @param perspective Perspective result
-    /// @return @c false if the operation failed
-    bool_t Decompose(Vector3* translation, Quaternion* orientation, Vector3* scale, Vector3* skew, Vector4* perspective);
-
     /// @brief Creates a Matrix with all its values set to 0.
     constexpr Matrix() = default;
 
@@ -378,6 +366,18 @@ public:
 
     /// @brief Computes the invert of this Matrix, e.g. @c *this * Inverted() == Identity() is true.
     constexpr void Inverted(Matrix* result) const;
+
+    /// @brief Decomposes this Matrix (assuming this is a model matrix) into its components.
+    ///
+    /// This is a heavy operation, try to avoid using this each frame.
+    ///
+    /// @param translation Translation result
+    /// @param orientation Rotation result
+    /// @param scale Scaling result
+    /// @param skew Skew result
+    /// @param perspective Perspective result
+    /// @return @c false if the operation failed
+    bool_t Decompose(Vector3* translation, Quaternion* orientation, Vector3* scale, Vector3* skew, Vector4* perspective) const;
 
     /// @brief Retrieves this matrix's value at position @c [col, row].
     /// 
@@ -520,7 +520,7 @@ constexpr Matrix operator*(const float_t factor, const Matrix& m) noexcept { ret
 
 /// @brief Multiplies a Vector2 by a Matrix.
 [[nodiscard]]
-constexpr Vector2 operator*(const Matrix& m, const Vector2& v) noexcept
+constexpr Vector2 operator*(const Matrix& m, Vector2 v) noexcept
 {
     return Vector2(
         v.x * m.m00 + v.y * m.m01 + m.m02 + m.m03,
