@@ -104,7 +104,7 @@ public:
 
     /// @brief Returns the normal vector to this one.
     /// 
-    /// @returns A vector with the same length but a normal direction.
+    /// @returns A vector with a perpendical direction and a length of 1.
     [[nodiscard]]
     Vector2 Normal() const noexcept;
 
