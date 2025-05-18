@@ -1,8 +1,8 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 // ReSharper disable CppNoDiscardExpression
 
-#include "Maths/math.hpp"
+import Math;
 
 #pragma warning(push)
 #pragma warning(disable: 4834) // discarding return value of function with 'nodiscard' attribute
@@ -45,14 +45,14 @@ namespace TestVector2
     TEST(Vector2, Constants)
     {
         EXPECT_TRUE(Calc::Equals(Zero, Vector2()));
-    
+
         EXPECT_TRUE(Calc::Equals(UnitX, Vector2(1.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitY, Vector2(0.f, 1.f)));
     }
 
     constexpr Vector2 X4(4.f, 0.f);
     constexpr Vector2 Y4(0.f, 4.f);
-    
+
     TEST(Vector2, LengthAndNormalization)
     {
         EXPECT_EQ(X4.SquaredLength(), 16.f);
@@ -60,7 +60,7 @@ namespace TestVector2
 
         EXPECT_EQ(Zero.SquaredLength(), 0.f);
         EXPECT_EQ(Zero.Length(), 0.f);
-    
+
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
     }
@@ -82,7 +82,7 @@ namespace TestVector2
     {
         EXPECT_TRUE(Calc::Equals(Calc::Lerp(Vector2::Zero(), Vector2(1.f), 0.5f), Vector2(0.5f)));
     }
-    
+
     TEST(Vector2, SubscriptOutOfRangeThrow)
     {
         EXPECT_THROW(UnitX[2], std::out_of_range);
@@ -136,12 +136,12 @@ namespace TestVector2i
 
     TEST(Vector2i, Constants)
     {
-        EXPECT_TRUE(Calc::Equals(Vector2i::Zero(), Vector2i()));
-    
-        EXPECT_TRUE(Calc::Equals(UnitX, Vector2i(1, 0)));
-        EXPECT_TRUE(Calc::Equals(UnitY, Vector2i(0, 1)));
+        EXPECT_EQ(Vector2i::Zero(), Vector2i());
+
+        EXPECT_EQ(UnitX, Vector2i(1, 0));
+        EXPECT_EQ(UnitY, Vector2i(0, 1));
     }
-    
+
     TEST(Vector2i, LengthAndNormalization)
     {
         EXPECT_EQ(X4.SquaredLength(), 16);
@@ -149,7 +149,7 @@ namespace TestVector2i
 
         EXPECT_EQ(Zero.SquaredLength(), 0.f);
         EXPECT_EQ(Zero.Length(), 0.f);
-    
+
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1);
         EXPECT_EQ(Y4.Normalized().Length(), 1);
     }
@@ -166,7 +166,7 @@ namespace TestVector2i
         EXPECT_EQ(Vector2i::Dot(UnitX, UnitX), 1.f);
         EXPECT_EQ(Vector2i::Dot(UnitX, -UnitX), -1.f);
     }
-    
+
     TEST(Vector2i, SubscriptOutOfRangeThrow)
     {
         EXPECT_THROW(UnitX[2], std::out_of_range);
@@ -174,19 +174,19 @@ namespace TestVector2i
 
     TEST(Vector2i, Operators)
     {
-        EXPECT_TRUE(Calc::Equals(UnitX + UnitY, Vector2i(1)));
-        EXPECT_TRUE(Calc::Equals(UnitX - UnitX, Vector2i(0)));
-        
-        EXPECT_TRUE(Calc::Equals(UnitX * 2, Vector2i(2, 0)));
-        EXPECT_TRUE(Calc::Equals(Vector2i(1) * Vector2i(2, 0), Vector2i(2, 0)));
+        EXPECT_EQ(UnitX + UnitY, Vector2i(1));
+        EXPECT_EQ(UnitX - UnitX, Vector2i(0));
+
+        EXPECT_EQ(UnitX * 2, Vector2i(2, 0));
+        EXPECT_EQ(Vector2i(1) * Vector2i(2, 0), Vector2i(2, 0));
 
         Vector2i temp = UnitX;
-        EXPECT_TRUE(Calc::Equals(temp += UnitY, Vector2i(1)));
-        EXPECT_TRUE(Calc::Equals(temp -= UnitX, UnitY));
-        
+        EXPECT_EQ(temp += UnitY, Vector2i(1));
+        EXPECT_EQ(temp -= UnitX, UnitY);
+
         temp = Vector2i(1);
-        EXPECT_TRUE(Calc::Equals(temp *= 2, Vector2i(2)));
-        EXPECT_TRUE(Calc::Equals(temp *= Vector2i(2, 0), Vector2i(4, 0)));
+        EXPECT_EQ(temp *= 2, Vector2i(2));
+        EXPECT_EQ(temp *= Vector2i(2, 0), Vector2i(4, 0));
     }
 
     TEST(Vector2i, Formatting)
@@ -208,7 +208,7 @@ namespace TestVector3
     TEST(Vector3, Constants)
     {
         EXPECT_TRUE(Calc::Equals(Vector3::Zero(), Vector3()));
-    
+
         EXPECT_TRUE(Calc::Equals(UnitX, Vector3(1.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitY, Vector3(0.f, 1.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitZ, Vector3(0.f, 0.f, 1.f)));
@@ -221,7 +221,7 @@ namespace TestVector3
 
         EXPECT_EQ(Zero.SquaredLength(), 0.f);
         EXPECT_EQ(Zero.Length(), 0.f);
-    
+
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
     }
@@ -254,21 +254,21 @@ namespace TestVector3
     {
         EXPECT_TRUE(Calc::Equals(UnitX + UnitY, Vector3(1.f, 1.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitX - UnitX, Vector3(0.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(UnitX * 2.f, Vector3(2.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(Vector3(1.f) * Vector3(2.f, 0.5f, 0.f), Vector3(2.f, 0.5f, 0.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(UnitX / 2.f, Vector3(0.5f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(Vector3(1.f) / Vector3(2.f, 0.5f, 1.f), Vector3(0.5f, 2.f, 1.f)));
 
         Vector3 temp = UnitX;
         EXPECT_TRUE(Calc::Equals(temp += UnitY, Vector3(1.f, 1.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(temp -= UnitX, UnitY));
-        
+
         temp = Vector3(1.f);
         EXPECT_TRUE(Calc::Equals(temp *= 2.f, Vector3(2.f)));
         EXPECT_TRUE(Calc::Equals(temp *= Vector3(2.f, 0.5f, 0.f), Vector3(4.f, 1.f, 0.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(temp /= 2.f, Vector3(2.f, 0.5f, 0.f)));
         EXPECT_TRUE(Calc::Equals(temp /= Vector3(2.f, 0.5f, 1.f), Vector3(1.f, 1.f, 0.f)));
     }
@@ -293,7 +293,7 @@ namespace TestVector4
     TEST(Vector4, Constants)
     {
         EXPECT_TRUE(Calc::Equals(Vector4::Zero(), Vector4()));
-    
+
         EXPECT_TRUE(Calc::Equals(UnitX, Vector4(1.f, 0.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitY, Vector4(0.f, 1.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitZ, Vector4(0.f, 0.f, 1.f, 0.f)));
@@ -306,7 +306,7 @@ namespace TestVector4
 
         EXPECT_EQ(Zero.SquaredLength(), 0.f);
         EXPECT_EQ(Zero.Length(), 0.f);
-    
+
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
     }
@@ -322,7 +322,7 @@ namespace TestVector4
     {
         EXPECT_TRUE(Calc::Equals(Calc::Lerp(Vector4::Zero(), Vector4(1.f), 0.5f), Vector4(0.5f)));
     }
-    
+
     TEST(Vector4, SubscriptOutOfRangeThrow)
     {
         EXPECT_THROW(UnitX[4], std::out_of_range);
@@ -339,21 +339,21 @@ namespace TestVector4
     {
         EXPECT_TRUE(Calc::Equals(UnitX + UnitY, Vector4(1.f, 1.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitX - UnitX, Vector4(0.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(UnitX * 2.f, Vector4(2.f, 0.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(Vector4(1.f) * Vector4(2.f, 0.5f, 0.f, 0.f), Vector4(2.f, 0.5f, 0.f, 0.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(UnitX / 2.f, Vector4(0.5f, 0.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(Vector4(1.f) / Vector4(2.f, 0.5f, 1.f, 1.f), Vector4(0.5f, 2.f, 1.f, 1.f)));
 
         Vector4 temp = UnitX;
         EXPECT_TRUE(Calc::Equals(temp += UnitY, Vector4(1.f, 1.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(temp -= UnitX, UnitY));
-        
+
         temp = Vector4(1.f);
         EXPECT_TRUE(Calc::Equals(temp *= 2.f, Vector4(2.f)));
         EXPECT_TRUE(Calc::Equals(temp *= Vector4(2.f, 0.5f, 0.f, 0.f), Vector4(4.f, 1.f, 0.f, 0.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(temp /= 2.f, Vector4(2.f, 0.5f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(temp /= Vector4(2.f, 0.5f, 1.f, 1.f), Vector4(1.f, 1.f, 0.f, 0.f)));
     }
@@ -381,12 +381,12 @@ namespace TestQuaternion
     TEST(Quaternion, Constants)
     {
         EXPECT_TRUE(Calc::Equals(Quaternion::Zero(), Quaternion()));
-    
+
         EXPECT_TRUE(Calc::Equals(UnitX, Quaternion(1.f, 0.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitY, Quaternion(0.f, 1.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitZ, Quaternion(0.f, 0.f, 1.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitW, Quaternion(0.f, 0.f, 0.f, 1.f)));
-    
+
         EXPECT_TRUE(Calc::Equals(UnitW, Quaternion::Identity()));
     }
 
@@ -397,7 +397,7 @@ namespace TestQuaternion
 
         EXPECT_EQ(Zero.SquaredLength(), 0.f);
         EXPECT_EQ(Zero.Length(), 0.f);
-    
+
         EXPECT_EQ(X4.Normalized().SquaredLength(), 1.f);
         EXPECT_EQ(Y4.Normalized().Length(), 1.f);
     }
@@ -435,9 +435,9 @@ namespace TestQuaternion
     TEST(Quaternion, Rotation)
     {
         EXPECT_TRUE(Calc::Equals(RotatedUnitX, Vector3::UnitY()));
-        
+
         EXPECT_TRUE(Calc::Equals(Quaternion(RotatedUnitX), RotationHalfCircleZ * Vector3::UnitX() * RotationHalfCircleZ.Conjugate()));
-        
+
         EXPECT_TRUE(Calc::Equals(RotationHalfCircleZ, Quaternion::FromEuler(Vector3(0.f, 0.f, Calc::PiOver2))));
         EXPECT_TRUE(Calc::Equals(RotationHalfCircleZ, Quaternion::FromRotationMatrix(Matrix::RotationZ(Calc::PiOver2))));
     }
@@ -451,24 +451,24 @@ namespace TestQuaternion
     {
         EXPECT_TRUE(Calc::Equals(UnitX + UnitY, Quaternion(1.f, 1.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(UnitX - UnitX, Quaternion(0.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(UnitX * 2.f, Quaternion(2.f, 0.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(Quaternion(2.f, 3.f, 4.f, 1.f) * Quaternion(6.f, 7.f, 8.f, 5.f), Quaternion(12.f, 30.f, 24.f, -60.f)));
         EXPECT_TRUE(Calc::Equals(Quaternion(6.f, 7.f, 8.f, 5.f) * Quaternion(2.f, 3.f, 4.f, 1.f), Quaternion(20.f, 14.f, 32.f, -60.f)));
-        
+
         EXPECT_TRUE(Calc::Equals(UnitX / 2.f, Quaternion(0.5f, 0.f, 0.f, 0.f)));
 
         Quaternion temp = UnitX;
         EXPECT_TRUE(Calc::Equals(temp += UnitY, Quaternion(1.f, 1.f, 0.f, 0.f)));
         EXPECT_TRUE(Calc::Equals(temp -= UnitX, UnitY));
-        
+
         temp = Quaternion(1.f);
         EXPECT_TRUE(Calc::Equals(temp *= 2.f, Quaternion(2.f)));
         temp = Quaternion(2.f, 3.f, 4.f, 1.f);
         EXPECT_TRUE(Calc::Equals(temp *= Quaternion(6.f, 7.f, 8.f, 5.f), Quaternion(12.f, 30.f, 24.f, -60.f)));
         temp = Quaternion(6.f, 7.f, 8.f, 5.f);
         EXPECT_TRUE(Calc::Equals(temp *= Quaternion(2.f, 3.f, 4.f, 1.f), Quaternion(20.f, 14.f, 32.f, -60.f)));
-        
+
         temp = Quaternion(1.f);
         EXPECT_TRUE(Calc::Equals(temp /= 2.f, Quaternion(0.5f)));
     }
@@ -734,12 +734,12 @@ namespace TestMatrix
 
         EXPECT_TRUE(Zero.IsNull());
         EXPECT_FALSE(Trs.IsNull());
-            
+
         EXPECT_TRUE(Identity.IsSymmetric());
         EXPECT_TRUE(Symmetric.IsSymmetric());
         EXPECT_FALSE(Antisymmetric.IsSymmetric());
         EXPECT_FALSE(Trs.IsSymmetric());
-            
+
         EXPECT_TRUE(Identity.IsAntisymmetric());
         EXPECT_TRUE(Antisymmetric.IsAntisymmetric());
         EXPECT_FALSE(Symmetric.IsAntisymmetric());
@@ -749,7 +749,7 @@ namespace TestMatrix
     TEST(Matrix, SmallFunctions)
     {
         EXPECT_TRUE(Calc::Equals(Identity.Diagonal(), Vector4(1.f)));
-            
+
         EXPECT_EQ(Identity.Determinant(), 1.f);
         EXPECT_EQ(Trs.Determinant(), 8.f);
         EXPECT_EQ(Zero.Determinant(), 0.f);

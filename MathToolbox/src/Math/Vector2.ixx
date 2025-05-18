@@ -1,27 +1,22 @@
-#pragma once
+module;
 
-#include <format>
-#include <sstream>
+#include "Math/Core.hpp"
 
-#include <ostream>
-#include <stdexcept>
+export module Math:Vector2;
 
-#include "Maths/core.hpp"
+import std;
+import :Types;
+import :Forward;
 
-/// @file vector2.hpp
-/// @brief Defines the Vector2 class.
+/// @file Vector2.ixx
+/// @brief Defines the Vector2 struct.
 
-class Vector2i;
-class Vector3;
-class Vector4;
-
-/// @brief The Vector2 class represents either a two-dimensional vector or a point.
-class MATH_TOOLBOX Vector2
+/// @brief The Vector2 struct represents either a two-dimensional vector or a point.
+export struct MATH_API Vector2
 {
-public:
     /// @brief The @c x component of this Vector2.
     float_t x = 0.f;
-    
+
     /// @brief The @c y component of this Vector2.
     float_t y = 0.f;
 
@@ -41,49 +36,50 @@ public:
     [[nodiscard]]
     static constexpr Vector2 One() noexcept;
 
-    /// @brief Returns a · b.
+    /// @brief Returns @p a · @p b.
     [[nodiscard]]
     static constexpr float_t Dot(Vector2 a, Vector2 b) noexcept;
 
-    /// @brief Returns a x b.
-    /// 
+    /// @brief Returns @p a x @p b.
+    ///
     /// For a Vector2, this is simply the determinant.
     [[nodiscard]]
     static constexpr float_t Cross(Vector2 a, Vector2 b) noexcept;
 
-    /// @brief Returns the determinant of 'a' and 'b'.
+    /// @brief Returns the determinant of @p a and @p b.
     [[nodiscard]]
     static constexpr float_t Determinant(Vector2 a, Vector2 b) noexcept;
 
     /// @brief Constructs a Vector2 with both its components set to 0.
     constexpr Vector2() = default;
-    
+
+    // ReSharper disable once CppNonExplicitConvertingConstructor
     /// @brief Constructs a Vector2 with both its components set to @p xy.
-    /// 
+    ///
     /// @param xy The value to set this vector's x and y components to.
-    constexpr explicit Vector2(float_t xy) noexcept;
-    
+    explicit constexpr Vector2(float_t xy) noexcept;
+
     /// @brief Constructs a Vector2 with its components set to the data pointed by @p data.
-    /// 
-    /// This constructor assumes that @p data is a valid pointer pointing to at least 2 @c float_t values.
-    /// 
+    ///
+    /// This constructor assumes that @p data is a valid pointer pointing to at least two @c float_t values.
+    ///
     /// @param data The data where the values for this vector's components are located.
     constexpr explicit Vector2(const float_t* data) noexcept;
 
     /// @brief Constructs a Vector2 with set component values.
-    /// 
-    /// @param x The value to set this vector's x component to.
-    /// @param y The value to set this vector's y component to.
+    ///
+    /// @param x The value to set this vector's x to.
+    /// @param y The value to set this vector's y to.
     constexpr Vector2(float_t x, float_t y) noexcept;
 
     /// @brief	Gets a pointer to the first component of this vector.
-    /// 
+    ///
     /// @returns A pointer to the first component of this vector.
     [[nodiscard]]
     constexpr const float_t* Data() const noexcept;
 
     /// @brief 	Gets a pointer to the first component of this vector.
-    /// 
+    ///
     /// @returns A pointer to the first component of this vector.
     [[nodiscard]]
     constexpr float_t* Data() noexcept;
@@ -91,19 +87,21 @@ public:
     /// @brief Returns the length of the vector.
     [[nodiscard]]
     float_t Length() const noexcept;
-    
+
     /// @brief Returns the squared length of the vector.
     [[nodiscard]]
     constexpr float_t SquaredLength() const noexcept;
 
     /// @brief Returns a normalized vector.
-    /// 
+    ///
     /// @returns A vector with the same direction but a length of one.
     [[nodiscard]]
     Vector2 Normalized() const noexcept;
 
+    // TODO - Add a NormalizedSafe functions for all vector types
+
     /// @brief Returns the normal vector to this one.
-    /// 
+    ///
     /// @returns A vector with the same length but a normal direction.
     [[nodiscard]]
     Vector2 Normal() const noexcept;
@@ -125,36 +123,87 @@ public:
     bool_t IsNaN() const noexcept;
 
     /// @brief 	Retrieves this vector's component at index i.
-    /// 
+    ///
     /// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
-    /// 
+    ///
     /// @returns The value of the component at index i.
     [[nodiscard]]
     constexpr float_t operator[](size_t i) const;
 
     /// @brief 	Retrieves this vector's component at index i.
-    /// 
+    ///
     /// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
-    /// 
+    ///
     /// @returns The value of the component at index i.
     [[nodiscard]]
     constexpr float_t& operator[](size_t i);
 
     /// @brief Converts this Vector2 to a Vector2i by casting its components to @c int32_t.
     explicit operator Vector2i() const noexcept;
-    
+
     /// @brief Converts this Vector2 to a Vector3 by giving it a @c z value of @c 0.
     explicit operator Vector3() const noexcept;
 
     /// @brief Converts this Vector2 to a Vector4 by giving it a @c z value of @c 0 and a @c w value of @c 1.
     explicit operator Vector4() const noexcept;
+
+    /// @brief Adds two Vector2 together.
+    constexpr friend Vector2 operator+(Vector2 a, Vector2 b) noexcept;
+
+    /// @brief Returns the opposite of a Vector2.
+    constexpr friend Vector2 operator-(Vector2 a) noexcept;
+
+    /// @brief Subtracts a Vector2 from another one.
+    constexpr friend Vector2 operator-(Vector2 a, Vector2 b) noexcept;
+
+    /// @brief Multiplies two Vector2 component-wise.
+    constexpr friend Vector2 operator*(Vector2 a, Vector2 b) noexcept;
+
+    /// @brief Multiplies a Vector2 by a @p factor.
+    constexpr friend Vector2 operator*(Vector2 v, float_t factor) noexcept;
+
+    /// @brief Multiplies a Vector2 by a @p factor.
+    constexpr friend Vector2 operator*(float_t factor, Vector2 v) noexcept;
+
+    /// @brief Divides a Vector2 by another one.
+    constexpr friend Vector2 operator/(Vector2 a, Vector2 b) noexcept;
+
+    /// @brief Divides a Vector2 by a @p factor.
+    constexpr friend Vector2 operator/(Vector2 v, float_t factor) noexcept;
+
+    /// @brief Adds two Vector2 according to @c operator+(const Vector2, const Vector2), placing the result in @p a.
+    constexpr friend Vector2& operator+=(Vector2& a, Vector2 b) noexcept;
+
+    /// @brief Subtracts a Vector2 from another one according to @c operator-(const Vector2, const Vector2), placing the result in @p a.
+    constexpr friend Vector2& operator-=(Vector2& a, Vector2 b) noexcept;
+
+    /// @brief Multiplies two Vector2 component-wise, according to @c operator*(const Vector2, const Vector2), placing the result in @p a.
+    constexpr friend Vector2& operator*=(Vector2& a, Vector2 b) noexcept;
+
+    /// @brief Multiplies a Vector2 by a @p factor according to @c operator*(const Vector2, const float_t), placing the result in @p v.
+    constexpr friend Vector2& operator*=(Vector2& v, float_t factor) noexcept;
+
+    /// @brief Divides two Vector2 component-wise, according to @c operator/(const Vector2, const Vector2), placing the result in @p a.
+    constexpr friend Vector2& operator/=(Vector2& a, Vector2 b) noexcept;
+
+    /// @brief Divides a Vector2 by a @p factor according to @c operator/(const Vector2, const float_t), placing the result in @p v.
+    constexpr friend Vector2& operator/=(Vector2& v, float_t factor) noexcept;
+
+    /// @brief Checks if two Vector2 are equal.
+    constexpr friend bool_t operator==(Vector2 a, Vector2 b) noexcept;
+
+    /// @brief Checks if two Vector2 are different.
+    constexpr friend bool_t operator!=(Vector2 a, Vector2 b) noexcept;
+
+    /// @brief Streams a Vector2 into @p out, printing its values one by one on a single line.
+    friend std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 };
 
-static_assert(std::is_default_constructible_v<Vector2>, "Class Vector2 must be default constructible.");
-static_assert(std::is_copy_constructible_v<Vector2>, "Class Vector2 must be copy constructible.");
-static_assert(std::is_move_constructible_v<Vector2>, "Class Vector2 must be move constructible.");
-static_assert(std::is_copy_assignable_v<Vector2>, "Class Vector2 must be copy assignable.");
-static_assert(std::is_move_assignable_v<Vector2>, "Class Vector2 must be move assignable.");
+static_assert(std::is_default_constructible_v<Vector2>, "Struct Vector2 must be default constructible.");
+static_assert(std::is_copy_constructible_v<Vector2>, "Struct Vector2 must be copy constructible.");
+static_assert(std::is_move_constructible_v<Vector2>, "Struct Vector2 must be move constructible.");
+static_assert(std::is_copy_assignable_v<Vector2>, "Struct Vector2 must be copy assignable.");
+static_assert(std::is_move_assignable_v<Vector2>, "Struct Vector2 must be move assignable.");
 
 constexpr Vector2::Vector2(const float_t xy) noexcept : x(xy), y(xy) {}
 
@@ -198,74 +247,47 @@ constexpr float_t& Vector2::operator[](const size_t i)
     throw std::out_of_range("Vector2 subscript out of range");
 }
 
-/// @brief Adds two Vector2 together.
-[[nodiscard]]
-constexpr Vector2 operator+(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x + b.x, a.y + b.y); }
+export [[nodiscard]] constexpr Vector2 operator+(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x + b.x, a.y + b.y); }
 
-/// @brief Returns the opposite of a Vector2.
-///
-/// This effectively means replacing all values of this Vector2 with their opposite.
-[[nodiscard]]
-constexpr Vector2 operator-(const Vector2 a) noexcept { return Vector2(-a.x, -a.y); }
+export [[nodiscard]] constexpr Vector2 operator-(const Vector2 a) noexcept { return Vector2(-a.x, -a.y); }
 
-/// @brief Subtracts a Vector2 from another one.
-[[nodiscard]]
-constexpr Vector2 operator-(const Vector2 a, const Vector2 b) noexcept { return a + -b; }
+export [[nodiscard]] constexpr Vector2 operator-(const Vector2 a, const Vector2 b) noexcept { return a + -b; }
 
-/// @brief Multiplies two Vector2 component-wise.
-[[nodiscard]]
-constexpr Vector2 operator*(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x * b.x, a.y * b.y); }
+export [[nodiscard]] constexpr Vector2 operator*(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x * b.x, a.y * b.y); }
 
-/// @brief Multiplies a Vector2 by a @p factor.
-[[nodiscard]]
-constexpr Vector2 operator*(const Vector2 v, const float_t factor) noexcept { return Vector2(v.x * factor, v.y * factor); }
+export [[nodiscard]] constexpr Vector2 operator*(const Vector2 v, const float_t factor) noexcept { return Vector2(v.x * factor, v.y * factor); }
 
-/// @brief Multiplies a Vector2 by a @p factor.
-[[nodiscard]]
-constexpr Vector2 operator*(const float_t factor, const Vector2 v) noexcept { return v * factor; }
+export [[nodiscard]] constexpr Vector2 operator*(const float_t factor, const Vector2 v) noexcept { return v * factor; }
 
-/// @brief Divides a Vector2 by another one.
-[[nodiscard]]
-constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x / b.x, a.y / b.y); }
+export [[nodiscard]] constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x / b.x, a.y / b.y); }
 
-/// @brief Divides a Vector2 by a @p factor.
-[[nodiscard]]
-constexpr Vector2 operator/(const Vector2 v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return Vector2(v.x * invFactor, v.y * invFactor); }
+export [[nodiscard]] constexpr Vector2 operator/(const Vector2 v, const float_t factor) noexcept
+{
+    const float_t invFactor = 1.f / factor;
+    return Vector2(v.x * invFactor, v.y * invFactor);
+}
 
-/// @brief Adds two Vector2 according to @ref operator+(const Vector2, const Vector2), placing the result in @p a.
-constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept { return a = a + b; }
+export constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept { return a = a + b; }
 
-/// @brief Subtracts a Vector2 from another one according to @ref operator-(const Vector2, const Vector2), placing the result in @p a.
-constexpr Vector2& operator-=(Vector2& a, const Vector2 b) noexcept { return a = a - b; }
+export constexpr Vector2& operator-=(Vector2& a, const Vector2 b) noexcept { return a = a - b; }
 
-/// @brief Multiplies two Vector2 component-wise according to @ref operator*(const Vector2, const Vector2), placing the result in @p a.
-constexpr Vector2& operator*=(Vector2& a, const Vector2 b) noexcept { return a = a * b; }
+export constexpr Vector2& operator*=(Vector2& a, const Vector2 b) noexcept { return a = a * b; }
 
-/// @brief Multiplies a Vector2 by a @p factor according to @ref operator*(const Vector2, const float_t), placing the result in @p v.
-constexpr Vector2& operator*=(Vector2& v, const float_t factor) noexcept { return v = v * factor; }
+export constexpr Vector2& operator*=(Vector2& v, const float_t factor) noexcept { return v = v * factor; }
 
-/// @brief Divides two Vector2 component-wise according to @ref operator/(const Vector2, const Vector2), placing the result in @p a.
-constexpr Vector2& operator/=(Vector2& a, const Vector2 b) noexcept { return a = a / b; }
+export constexpr Vector2& operator/=(Vector2& a, const Vector2 b) noexcept { return a = a / b; }
 
-/// @brief Divides a Vector2 by a @p factor according to @ref operator/(const Vector2, const float_t), placing the result in @p v.
-constexpr Vector2& operator/=(Vector2& v, const float_t factor) noexcept { return v = v / factor; }
+export constexpr Vector2& operator/=(Vector2& v, const float_t factor) noexcept { return v = v / factor; }
 
-/// @brief Checks if two Vector2 are equal.
-[[nodiscard]]
-constexpr bool_t operator==(const Vector2 a, const Vector2 b) noexcept
+export [[nodiscard]] constexpr bool_t operator==(const Vector2 a, const Vector2 b) noexcept
 {
     return a.x == b.x
         && a.y == b.y;
 }
 
-/// @brief Checks if two Vector2 are different.
-[[nodiscard]]
-constexpr bool_t operator!=(const Vector2 a, const Vector2 b) noexcept { return !(a == b); }
+export [[nodiscard]] constexpr bool_t operator!=(const Vector2 a, const Vector2 b) noexcept { return !(a == b); }
 
-/// @brief Streams a Vector2 into @p out, printing its values one by one on a single line.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
-
-template <>
+export template<>
 struct std::formatter<Vector2>
 {
     template <class ParseContext>
@@ -273,7 +295,7 @@ struct std::formatter<Vector2>
 
     template <class FmtContext>
     typename FmtContext::iterator format(Vector2 v, FmtContext& ctx) const;
-    
+
 private:
     std::string m_Format;
 };
@@ -287,7 +309,7 @@ constexpr typename ParseContext::iterator std::formatter<Vector2, char_t>::parse
 
     while (*it != '}' && it != ctx.end())
         m_Format += *it++;
-    
+
     return it;
 }
 

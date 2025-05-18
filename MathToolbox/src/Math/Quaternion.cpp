@@ -1,9 +1,10 @@
-#include "Maths/quaternion.hpp"
+module Math:Quaternion;
 
-#include <format>
-
-#include "Maths/calc.hpp"
-#include "Maths/matrix.hpp"
+import std;
+import :Types;
+import :Vector3;
+import :Matrix;
+import :Calc;
 
 Quaternion Quaternion::FromAxisAngle(const Vector3& axis, const float_t angle) noexcept
 {
@@ -117,7 +118,7 @@ Vector3 Quaternion::ToEuler(const Quaternion& rotation) noexcept
 void Quaternion::ToEuler(const Quaternion& rotation, Vector3* result) noexcept
 {
 	// Code from https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Source_code_2
-	
+
 	// roll (x-axis rotation)
 	const float_t sinrCosp = 2.f * (rotation.W() * rotation.X() + rotation.Y() * rotation.Z());
 	const float_t cosrCosp = 1.f - 2.f * (rotation.X() * rotation.X() + rotation.Y() * rotation.Y());

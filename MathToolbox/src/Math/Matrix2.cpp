@@ -1,6 +1,9 @@
-#include "Maths/matrix2.hpp"
+module Math:Matrix2;
 
-#include <iostream>
+import std;
+import :Types;
+import :Matrix;
+import :Matrix3;
 
 Matrix2 Matrix2::RotationZ(const float_t angle) noexcept
 {

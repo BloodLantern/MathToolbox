@@ -1,39 +1,37 @@
-#include "Maths/vector4.hpp"
+module Math:Vector4;
 
-#include <format>
+import std;
+import :Types;
+import :Vector2;
+import :Vector3;
+import :Matrix;
+import :Calc;
 
-#include "Maths/calc.hpp"
-#include "Maths/matrix.hpp"
-#include "Maths/vector2.hpp"
-#include "Maths/vector3.hpp"
-
-float Vector4::Length() const noexcept
+float_t Vector4::Length() const noexcept
 {
 	return std::sqrt(SquaredLength());
 }
 
 Vector4 Vector4::Normalized() const noexcept
 {
-	const float length = Length();
+	const float_t length = Length();
 	if (Calc::IsZero(length))
 		return Zero();
 
-	__assume(length != 0.f);
-	const float invLength = 1.f / length;
+	const float_t invLength = 1.f / length;
 	return Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
 }
 
 void Vector4::Normalized(Vector4* result) const noexcept
 {
-	const float length = Length();
+	const float_t length = Length();
 	if (Calc::IsZero(length))
 	{
 		*result = Zero();
 		return;
 	}
 
-	__assume(length != 0.f);
-	const float invLength = 1.f / length;
+	const float_t invLength = 1.f / length;
 	*result = Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
 }
 
@@ -61,16 +59,6 @@ Vector4::operator Vector2() const noexcept
 Vector4::operator Vector3() const noexcept
 {
 	return Vector3(x, y, z);
-}
-
-Vector4::operator Matrix() const noexcept
-{
-	return Matrix(
-		x, 0, 0, 0,
-		y, 1, 0, 0,
-		z, 0, 1, 0,
-        w, 0, 0, 1
-	);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept

@@ -1,11 +1,12 @@
-#include "Maths/vector2.hpp"
+module Math:Vector2;
 
-#include <format>
-
-#include "Maths/calc.hpp"
-#include "Maths/vector2i.hpp"
-#include "Maths/vector3.hpp"
-#include "Maths/vector4.hpp"
+import std;
+import :Types;
+import :Forward;
+import :Vector2i;
+import :Vector3;
+import :Vector4;
+import :Calc;
 
 float_t Vector2::Length() const noexcept
 {
@@ -18,7 +19,6 @@ Vector2 Vector2::Normalized() const noexcept
 	if (Calc::IsZero(length))
 		return Zero();
 
-    __assume(length != 0.f);
 	const float_t invLength = 1.f / length;
 	return Vector2(x * invLength, y * invLength);
 }

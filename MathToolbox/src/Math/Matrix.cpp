@@ -1,6 +1,15 @@
-#include "Maths/matrix.hpp"
+module;
 
-#include <iostream>
+#include "Math/Core.hpp"
+
+module Math:Matrix;
+
+import std;
+import :Types;
+import :Vector3;
+import :Vector4;
+import :Quaternion;
+import :Calc;
 
 Matrix Matrix::Rotation(const float_t angle, const Vector3& axis) noexcept
 {
@@ -117,7 +126,7 @@ void Matrix::LookAt(const Vector3& eye, const Vector3& center, const Vector3& up
     const Vector3 f((center - eye).Normalized());
     const Vector3 s(Vector3::Cross(f, up).Normalized());
     const Vector3 u(Vector3::Cross(s, f));
-	
+
     *result = Matrix(
         s.x, s.y, s.z, -Vector3::Dot(s, eye),
         u.x, u.y, u.z, -Vector3::Dot(u, eye),
@@ -137,7 +146,7 @@ void Matrix::Perspective(const float_t fov, const float_t aspectRatio, const flo
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
-    
+
     const float_t range = far - near;
     const float_t tanHalfFov = std::tan(fov / 2.f);
 
@@ -158,7 +167,7 @@ bool_t Matrix::Decompose(
 ) const
 {
     // Function from glm
-    
+
     Matrix localMatrix(*this);
 
     if (Calc::IsZero(localMatrix.m33))
@@ -273,7 +282,7 @@ bool_t Matrix::Decompose(
         j = next[i];
         k = next[j];
 
-        root = sqrt(row[i][i] - row[j][j] - row[k][k] + 1.0f);
+        root = std::sqrt(row[i][i] - row[j][j] - row[k][k] + 1.0f);
 
         Quaternion& ref = *orientation;
         ref[i] = 0.5f * root;

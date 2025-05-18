@@ -1,68 +1,67 @@
-#pragma once
+module;
 
-#include <format>
-#include <sstream>
+#include "Math/Core.hpp"
 
-#include <ostream>
+export module Math:Matrix2;
 
-#include "Maths/calc.hpp"
-#include "Maths/matrix.hpp"
-#include "Maths/matrix3.hpp"
-#include "Maths/vector2.hpp"
+import std;
+import :Types;
+import :Vector2;
+import :Vector3;
+import :Calc;
 
-/// @file matrix3.hpp
-/// @brief Defines the Matrix2 class.
+/// @file Matrix3.ixx
+/// @brief Defines the Matrix2 struct.
 
-/// @brief The Matrix2 class represents a 3x3 array mainly used for mathematical operations.
-/// 
+/// @brief The Matrix2 struct represents a 3x3 array mainly used for mathematical operations.
+///
 /// Matrices are stored using the column-major convention.
-class MATH_TOOLBOX Matrix2
+export struct MATH_API Matrix2
 {
-public:
     /// @brief The component at position [0, 0] of a Matrix2.
     float_t m00 = 0.f;
-    
+
     /// @brief The component at position [1, 0] of a Matrix2.
     float_t m10 = 0.f;
-    
+
     /// @brief The component at position [0, 1] of a Matrix2.
     float_t m01 = 0.f;
-    
+
     /// @brief The component at position [1, 1] of a Matrix2.
     float_t m11 = 0.f;
 
     /// @brief Returns the identity %Matrix.
-    /// 
+    ///
     /// The identity %Matrix is one with its diagonal set to one and everything else set to zero.
     [[nodiscard]]
     static constexpr Matrix2 Identity() noexcept;
 
     /// @brief Returns the identity %Matrix.
-    /// 
+    ///
     /// The identity %Matrix is one with its diagonal set to one and everything else set to zero.
     static constexpr void Identity(Matrix2* result) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix2 RotationZ(float_t angle) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationZ(float_t angle, Matrix2* result) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix2 RotationZ(float_t cos, float_t sin) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
@@ -82,9 +81,9 @@ public:
     constexpr explicit Matrix2(float_t defaultValue) noexcept;
 
     /// @brief Constructs a Matrix2 with its components set to the data pointed by @c data.
-    /// 
+    ///
     /// This constructor assumes that @c data is a valid pointer pointing to at least 4 @c float_t values.
-    /// 
+    ///
     /// @param data The data where the values for this matrix's components are located.
     constexpr explicit Matrix2(const float_t* data) noexcept;
 
@@ -101,13 +100,13 @@ public:
     ) noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix2.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix2.
     [[nodiscard]]
     constexpr const float_t* Data() const noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix2.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix2.
     [[nodiscard]]
     constexpr float_t* Data() noexcept;
@@ -120,7 +119,7 @@ public:
     constexpr bool_t IsDiagonal() const noexcept;
 
     /// @brief Returns whether the Matrix2 is the identity matrix.
-    /// 
+    ///
     /// If this returns true, Matrix2::Identity() == *this should be true.
     [[nodiscard]]
     constexpr bool_t IsIdentity() const noexcept;
@@ -167,7 +166,7 @@ public:
     constexpr void Inverted(Matrix2* result) const;
 
     /// @brief Retrieves this matrix's value at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
@@ -175,7 +174,7 @@ public:
     constexpr float_t At(size_t row, size_t col) const;
 
     /// @brief Retrieves this matrix's col at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
@@ -183,20 +182,20 @@ public:
     constexpr float_t& At(size_t row, size_t col);
 
     /// @brief	Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
     constexpr Vector3 operator[](size_t col) const;
 
     /// @brief	Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
@@ -209,13 +208,60 @@ public:
     /// @brief Converts this Matrix2 to a Matrix, homogenizing the new row and column.
     [[nodiscard]]
     explicit operator Matrix() const;
+
+    /// @brief Returns the opposite of a Matrix2.
+    constexpr friend Matrix2 operator-(const Matrix2& matrix) noexcept;
+
+    /// @brief Adds the values of two @ref Matrix2 "3x3 Matrices" one by one.
+    constexpr friend Matrix2 operator+(const Matrix2& m1, const Matrix2& m2) noexcept;
+
+    /// @brief Subtracts the values of two @ref Matrix2 "Matrices" one by one.
+    constexpr friend Matrix2 operator-(const Matrix2& m1, const Matrix2& m2) noexcept;
+
+    /// @brief Multiplies all values of a Matrix by a @p scalar.
+    constexpr friend Matrix2 operator*(const Matrix2& m, float_t scalar) noexcept;
+
+    /// @brief Multiplies all values of a Matrix by a @p scalar.
+    constexpr friend Matrix2 operator*(float_t factor, const Matrix2& m) noexcept;
+
+    /// @brief Multiplies a Vector2 by a Matrix2.
+    constexpr friend Vector2 operator*(const Matrix2& m, Vector2 v) noexcept;
+
+    /// @brief Multiplies two @ref Matrix2 "Matrices".
+    constexpr friend Matrix2 operator*(const Matrix2& m1, const Matrix2& m2) noexcept;
+
+    /// @brief Adds two @ref Matrix2 "Matrices" according to @ref operator+(const Matrix&, const Matrix&), placing the result in @p m1.
+    constexpr friend Matrix2& operator+=(Matrix2& m1, const Matrix2& m2) noexcept;
+
+    /// @brief Subtracts two @ref Matrix2 "Matrices" according to @ref operator-(const Matrix&, const Matrix&), placing the result in @p m1.
+    constexpr friend Matrix2& operator-=(Matrix2& m1, const Matrix2& m2) noexcept;
+
+    /// @brief Multiplies a Matrix by a @p scalar according to @ref operator*(const Matrix&, const float_t), placing the result in @p m.
+    constexpr friend Matrix2& operator*=(Matrix2& m, float_t scalar) noexcept;
+
+    /// @brief Multiplies a Matrix by a Vector2 according to @ref operator*(const Matrix&, const Vector2&), placing the result in @p m.
+    constexpr friend Vector2& operator*=(const Matrix2& m, Vector2& v) noexcept;
+
+    /// @brief Multiplies two @ref Matrix2 "Matrices" according to @ref operator*(const Matrix&, const Matrix&), placing the result in @p m1.
+    constexpr friend Matrix2& operator*=(Matrix2& m1, const Matrix2& m2) noexcept;
+
+    /// @brief	Checks if two Matrices are equal.
+    constexpr friend bool_t operator==(const Matrix2& a, const Matrix2& b) noexcept;
+
+    /// @brief Checks if two Matrices are different.
+    constexpr friend bool_t operator!=(const Matrix2& a, const Matrix2& b) noexcept;
+
+    /// @brief Streams a Matrix2 into @p out, printing its values one by one on a single line.
+    ///
+    /// If you instead want a multiline print, you can use Matrix::DebugPrint.
+    friend std::ostream& operator<<(std::ostream& out, const Matrix2& m);
 };
 
-static_assert(std::is_default_constructible_v<Matrix2>, "Class Matrix2 must be default constructible.");
-static_assert(std::is_copy_constructible_v<Matrix2>, "Class Matrix2 must be copy constructible.");
-static_assert(std::is_move_constructible_v<Matrix2>, "Class Matrix2 must be move constructible.");
-static_assert(std::is_copy_assignable_v<Matrix2>, "Class Matrix2 must be copy assignable.");
-static_assert(std::is_move_assignable_v<Matrix2>, "Class Matrix2 must be move assignable.");
+static_assert(std::is_default_constructible_v<Matrix2>, "Struct Matrix2 must be default constructible.");
+static_assert(std::is_copy_constructible_v<Matrix2>, "Struct Matrix2 must be copy constructible.");
+static_assert(std::is_move_constructible_v<Matrix2>, "Struct Matrix2 must be move constructible.");
+static_assert(std::is_copy_assignable_v<Matrix2>, "Struct Matrix2 must be copy assignable.");
+static_assert(std::is_move_assignable_v<Matrix2>, "Struct Matrix2 must be move assignable.");
 
 constexpr Matrix2::Matrix2(const float_t defaultValue) noexcept
     : m00(defaultValue), m10(defaultValue)
@@ -243,96 +289,6 @@ constexpr Matrix2::Matrix2(
     , m01(m01), m11(m11)
 {
 }
-
-/// @brief Returns the opposite of a Matrix2.
-///
-/// This effectively means replacing all values of this Matrix2 with their opposite.
-[[nodiscard]]
-constexpr Matrix2 operator-(const Matrix2& matrix) noexcept
-{
-    return Matrix2(
-        -matrix.m00, -matrix.m01,
-        -matrix.m10, -matrix.m11
-    );
-}
-
-/// @brief Adds the values of two @ref Matrix2 "3x3 Matrices" one by one.
-[[nodiscard]]
-constexpr Matrix2 operator+(const Matrix2& m1, const Matrix2& m2) noexcept
-{
-    return Matrix2(
-        m1.m00 + m2.m00, m1.m01 + m2.m01,
-        m1.m10 + m2.m10, m1.m11 + m2.m11
-    );
-}
-
-/// @brief Subtracts the values of two @ref Matrix2 "Matrices" one by one.
-[[nodiscard]]
-constexpr Matrix2 operator-(const Matrix2& m1, const Matrix2& m2) noexcept { return m1 + -m2; }
-
-/// @brief Multiplies all values of a Matrix by a @p scalar.
-[[nodiscard]]
-constexpr Matrix2 operator*(const Matrix2& m, const float_t scalar) noexcept
-{
-    return Matrix2(
-        m.m00 * scalar, m.m01 * scalar,
-        m.m10 * scalar, m.m11 * scalar
-    );
-}
-
-/// @brief Multiplies all values of a Matrix by a @p scalar.
-[[nodiscard]]
-constexpr Matrix2 operator*(const float_t factor, const Matrix2 m) noexcept { return m * factor; }
-
-/// @brief Multiplies a Vector2 by a Matrix2.
-[[nodiscard]]
-constexpr Vector2 operator*(const Matrix2& m, Vector2 v) noexcept
-{
-    return Vector2(
-        v.x * m.m00 + v.y * m.m01,
-        v.x * m.m10 + v.y * m.m11
-    );
-}
-
-/// @brief Multiplies two @ref Matrix2 "Matrices".
-[[nodiscard]]
-constexpr Matrix2 operator*(const Matrix2& m1, const Matrix2& m2) noexcept
-{
-    return Matrix2(
-        m1.m00 * m2.m00 + m1.m01 * m2.m10,
-        m1.m00 * m2.m01 + m1.m01 * m2.m11,
-        
-        m1.m10 * m2.m00 + m1.m11 * m2.m10,
-        m1.m10 * m2.m01 + m1.m11 * m2.m11
-    );
-}
-
-/// @brief Adds two @ref Matrix2 "Matrices" according to @ref operator+(const Matrix&, const Matrix&), placing the result in @p m1.
-constexpr Matrix2& operator+=(Matrix2& m1, const Matrix2& m2) noexcept { return m1 = m1 + m2; }
-
-/// @brief Subtracts two @ref Matrix2 "Matrices" according to @ref operator-(const Matrix&, const Matrix&), placing the result in @p m1.
-constexpr Matrix2& operator-=(Matrix2& m1, const Matrix2& m2) noexcept { return m1 = m1 - m2; }
-
-/// @brief Multiplies a Matrix by a @p scalar according to @ref operator*(const Matrix&, const float_t), placing the result in @p m.
-constexpr Matrix2& operator*=(Matrix2& m, const float_t scalar) noexcept { return m = m * scalar; }
-
-/// @brief Multiplies a Matrix by a Vector2 according to @ref operator*(const Matrix&, const Vector2&), placing the result in @p m.
-constexpr Vector2& operator*=(const Matrix2& m, Vector2& v) noexcept { return v = m * v; }
-
-/// @brief Multiplies two @ref Matrix2 "Matrices" according to @ref operator*(const Matrix&, const Matrix&), placing the result in @p m1.
-constexpr Matrix2& operator*=(Matrix2& m1, const Matrix2& m2) noexcept { return m1 = m1 * m2; }
-
-/// @brief	Checks if two Matrices are equal.
-[[nodiscard]]
-constexpr bool_t operator==(const Matrix2& a, const Matrix2& b)
-{
-    return a.m00 == b.m00 && a.m01 == b.m01
-        && a.m10 == b.m10 && a.m11 == b.m11;
-}
-
-/// @brief Checks if two Matrices are different.
-[[nodiscard]]
-constexpr bool_t operator!=(const Matrix2& a, const Matrix2& b) { return !(a == b); }
 
 constexpr Matrix2 Matrix2::Identity() noexcept
 {
@@ -454,7 +410,7 @@ constexpr Matrix2 Matrix2::Inverted() const
 constexpr void Matrix2::Inverted(Matrix2* result) const
 {
     const float_t determinant = Determinant();
-    
+
     if (determinant == 0.f) [[unlikely]]
         throw std::invalid_argument("Matrix2 isn't invertible");
 
@@ -465,7 +421,7 @@ constexpr float_t Matrix2::At(const size_t row, const size_t col) const
 {
     if (row < 2 && col < 2) [[likely]]
         return Data()[col * 2 + row];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix2 subscript out of range");
 }
@@ -474,28 +430,88 @@ constexpr float_t& Matrix2::At(const size_t row, const size_t col)
 {
     if (row < 2 && col < 2) [[likely]]
         return Data()[col * 2 + row];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix2 subscript out of range");
 }
 
 constexpr Vector3 Matrix2::operator[](const size_t col) const
 {
-    return Vector3(Data() + static_cast<ptrdiff_t>(col) * 2);
+    return Vector3(Data() + static_cast<int64_t>(col) * 2);
 }
 
 constexpr Vector3& Matrix2::operator[](const size_t col)
 {
     // Pointer arithmetic magic to get around not being able to use reinterpret_cast
-    return *static_cast<Vector3*>(static_cast<void*>(Data() + static_cast<ptrdiff_t>(col) * 2));
+    return *static_cast<Vector3*>(static_cast<void*>(Data() + static_cast<int64_t>(col) * 2));
 }
 
-/// @brief Streams a Matrix2 into @p out, printing its values one by one on a single line.
-///
-/// If you instead want a multiline print, you can use Matrix::DebugPrint.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Matrix2& m);
+export [[nodiscard]] constexpr Matrix2 operator-(const Matrix2& matrix) noexcept
+{
+    return Matrix2(
+        -matrix.m00, -matrix.m01,
+        -matrix.m10, -matrix.m11
+    );
+}
 
-template <>
+export [[nodiscard]] constexpr Matrix2 operator+(const Matrix2& m1, const Matrix2& m2) noexcept
+{
+    return Matrix2(
+        m1.m00 + m2.m00, m1.m01 + m2.m01,
+        m1.m10 + m2.m10, m1.m11 + m2.m11
+    );
+}
+
+export [[nodiscard]] constexpr Matrix2 operator-(const Matrix2& m1, const Matrix2& m2) noexcept { return m1 + -m2; }
+
+export [[nodiscard]] constexpr Matrix2 operator*(const Matrix2& m, const float_t scalar) noexcept
+{
+    return Matrix2(
+        m.m00 * scalar, m.m01 * scalar,
+        m.m10 * scalar, m.m11 * scalar
+    );
+}
+
+export [[nodiscard]] constexpr Matrix2 operator*(const float_t factor, const Matrix2& m) noexcept { return m * factor; }
+
+export [[nodiscard]] constexpr Vector2 operator*(const Matrix2& m, const Vector2 v) noexcept
+{
+    return Vector2(
+        v.x * m.m00 + v.y * m.m01,
+        v.x * m.m10 + v.y * m.m11
+    );
+}
+
+export [[nodiscard]] constexpr Matrix2 operator*(const Matrix2& m1, const Matrix2& m2) noexcept
+{
+    return Matrix2(
+        m1.m00 * m2.m00 + m1.m01 * m2.m10,
+        m1.m00 * m2.m01 + m1.m01 * m2.m11,
+
+        m1.m10 * m2.m00 + m1.m11 * m2.m10,
+        m1.m10 * m2.m01 + m1.m11 * m2.m11
+    );
+}
+
+export constexpr Matrix2& operator+=(Matrix2& m1, const Matrix2& m2) noexcept { return m1 = m1 + m2; }
+
+export constexpr Matrix2& operator-=(Matrix2& m1, const Matrix2& m2) noexcept { return m1 = m1 - m2; }
+
+export constexpr Matrix2& operator*=(Matrix2& m, const float_t scalar) noexcept { return m = m * scalar; }
+
+export constexpr Vector2& operator*=(const Matrix2& m, Vector2& v) noexcept { return v = m * v; }
+
+export constexpr Matrix2& operator*=(Matrix2& m1, const Matrix2& m2) noexcept { return m1 = m1 * m2; }
+
+export [[nodiscard]] constexpr bool_t operator==(const Matrix2& a, const Matrix2& b) noexcept
+{
+    return a.m00 == b.m00 && a.m01 == b.m01
+        && a.m10 == b.m10 && a.m11 == b.m11;
+}
+
+export [[nodiscard]] constexpr bool_t operator!=(const Matrix2& a, const Matrix2& b) noexcept { return !(a == b); }
+
+export template <>
 struct std::formatter<Matrix2>
 {
     template <class ParseContext>
