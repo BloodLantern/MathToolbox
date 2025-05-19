@@ -7,12 +7,15 @@
 /// @brief File containing various macros used in the library.
 ///
 /// When <b>NOT</b> building a DLL using this library, define @c MATH_NO_DLL.
+/// When building a DLL, instead define @c MATH_EXPORT.
 
 //#define MATH_NO_DLL
+//#define MATH_EXPORT
 
 /// @brief Macro preceding all declarations of this library. Used when integrating this library in a DLL.
 ///
 /// When <b>NOT</b> building a DLL using this library, define @c MATH_NO_DLL.
+/// When building a DLL, instead define @c MATH_EXPORT.
 #ifndef MATH_NO_DLL
     #ifdef MATH_EXPORT
         #define MATH_TOOLBOX __declspec(dllexport)
