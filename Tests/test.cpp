@@ -1,4 +1,4 @@
-#include "pch.hpp"
+#include "gtest/gtest.h"
 
 // ReSharper disable CppNoDiscardExpression
 
