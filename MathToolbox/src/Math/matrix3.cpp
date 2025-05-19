@@ -1,8 +1,8 @@
-#include "Maths/matrix3.hpp"
+#include "Math/matrix3.hpp"
 
 #include <iostream>
 
-#include "Maths/matrix.hpp"
+#include "Math/matrix.hpp"
 
 Matrix3 Matrix3::Rotation(const float_t angle, const Vector3& axis) noexcept
 {

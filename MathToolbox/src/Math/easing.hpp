@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maths/core.hpp"
+#include "Math/core.hpp"
 
 /// @file easing.hpp
 /// @brief Defines the Easing namespace in which the common <a href="https://easings.net">easing functions</a> are defined.
@@ -11,7 +11,7 @@ namespace Easing
 {
     /// @brief An Easer is a function that takes a value in the range [0, 1] and returns a new value in the same range.
     using Easer = float_t(*)(float_t);
-    
+
     /// @brief The <a href="https://easings.net/#easeInSine">SineIn</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.

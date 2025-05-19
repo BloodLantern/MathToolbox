@@ -6,7 +6,7 @@
 #include <ostream>
 #include <stdexcept>
 
-#include "Maths/core.hpp"
+#include "Math/core.hpp"
 
 /// @file vector2.hpp
 /// @brief Defines the Vector2 class.
@@ -21,7 +21,7 @@ class MATH_TOOLBOX Vector2
 public:
     /// @brief The @c x component of this Vector2.
     float_t x = 0.f;
-    
+
     /// @brief The @c y component of this Vector2.
     float_t y = 0.f;
 
@@ -46,7 +46,7 @@ public:
     static constexpr float_t Dot(Vector2 a, Vector2 b) noexcept;
 
     /// @brief Returns a x b.
-    /// 
+    ///
     /// For a Vector2, this is simply the determinant.
     [[nodiscard]]
     static constexpr float_t Cross(Vector2 a, Vector2 b) noexcept;
@@ -57,33 +57,33 @@ public:
 
     /// @brief Constructs a Vector2 with both its components set to 0.
     constexpr Vector2() = default;
-    
+
     /// @brief Constructs a Vector2 with both its components set to @p xy.
-    /// 
+    ///
     /// @param xy The value to set this vector's x and y components to.
     constexpr explicit Vector2(float_t xy) noexcept;
-    
+
     /// @brief Constructs a Vector2 with its components set to the data pointed by @p data.
-    /// 
+    ///
     /// This constructor assumes that @p data is a valid pointer pointing to at least 2 @c float_t values.
-    /// 
+    ///
     /// @param data The data where the values for this vector's components are located.
     constexpr explicit Vector2(const float_t* data) noexcept;
 
     /// @brief Constructs a Vector2 with set component values.
-    /// 
+    ///
     /// @param x The value to set this vector's x component to.
     /// @param y The value to set this vector's y component to.
     constexpr Vector2(float_t x, float_t y) noexcept;
 
     /// @brief	Gets a pointer to the first component of this vector.
-    /// 
+    ///
     /// @returns A pointer to the first component of this vector.
     [[nodiscard]]
     constexpr const float_t* Data() const noexcept;
 
     /// @brief 	Gets a pointer to the first component of this vector.
-    /// 
+    ///
     /// @returns A pointer to the first component of this vector.
     [[nodiscard]]
     constexpr float_t* Data() noexcept;
@@ -91,19 +91,19 @@ public:
     /// @brief Returns the length of the vector.
     [[nodiscard]]
     float_t Length() const noexcept;
-    
+
     /// @brief Returns the squared length of the vector.
     [[nodiscard]]
     constexpr float_t SquaredLength() const noexcept;
 
     /// @brief Returns a normalized vector.
-    /// 
+    ///
     /// @returns A vector with the same direction but a length of one.
     [[nodiscard]]
     Vector2 Normalized() const noexcept;
 
     /// @brief Returns the normal vector to this one.
-    /// 
+    ///
     /// @returns A vector with a perpendical direction and a length of 1.
     [[nodiscard]]
     Vector2 Normal() const noexcept;
@@ -125,24 +125,24 @@ public:
     bool_t IsNaN() const noexcept;
 
     /// @brief 	Retrieves this vector's component at index i.
-    /// 
+    ///
     /// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
-    /// 
+    ///
     /// @returns The value of the component at index i.
     [[nodiscard]]
     constexpr float_t operator[](size_t i) const;
 
     /// @brief 	Retrieves this vector's component at index i.
-    /// 
+    ///
     /// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
-    /// 
+    ///
     /// @returns The value of the component at index i.
     [[nodiscard]]
     constexpr float_t& operator[](size_t i);
 
     /// @brief Converts this Vector2 to a Vector2i by casting its components to @c int32_t.
     explicit operator Vector2i() const noexcept;
-    
+
     /// @brief Converts this Vector2 to a Vector3 by giving it a @c z value of @c 0.
     explicit operator Vector3() const noexcept;
 
@@ -273,7 +273,7 @@ struct std::formatter<Vector2>
 
     template <class FmtContext>
     typename FmtContext::iterator format(Vector2 v, FmtContext& ctx) const;
-    
+
 private:
     std::string m_Format;
 };
@@ -287,7 +287,7 @@ constexpr typename ParseContext::iterator std::formatter<Vector2, char_t>::parse
 
     while (*it != '}' && it != ctx.end())
         m_Format += *it++;
-    
+
     return it;
 }
 

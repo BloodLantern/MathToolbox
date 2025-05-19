@@ -1,11 +1,11 @@
-#include "Maths/vector2.hpp"
+#include "Math/vector2.hpp"
 
 #include <format>
 
-#include "Maths/calc.hpp"
-#include "Maths/vector2i.hpp"
-#include "Maths/vector3.hpp"
-#include "Maths/vector4.hpp"
+#include "Math/calc.hpp"
+#include "Math/vector2i.hpp"
+#include "Math/vector3.hpp"
+#include "Math/vector4.hpp"
 
 float_t Vector2::Length() const noexcept
 {

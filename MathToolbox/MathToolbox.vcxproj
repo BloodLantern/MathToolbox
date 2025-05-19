@@ -71,7 +71,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -87,7 +87,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -119,30 +119,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Maths\calc.hpp" />
-    <ClInclude Include="include\Maths\core.hpp" />
-    <ClInclude Include="include\Maths\easing.hpp" />
-    <ClInclude Include="include\Maths\math.hpp" />
-    <ClInclude Include="include\Maths\matrix.hpp" />
-    <ClInclude Include="include\Maths\matrix2.hpp" />
-    <ClInclude Include="include\Maths\matrix3.hpp" />
-    <ClInclude Include="include\Maths\quaternion.hpp" />
-    <ClInclude Include="include\Maths\vector2.hpp" />
-    <ClInclude Include="include\Maths\vector2i.hpp" />
-    <ClInclude Include="include\Maths\vector3.hpp" />
-    <ClInclude Include="include\Maths\vector4.hpp" />
+    <ClInclude Include="src\Math\calc.hpp" />
+    <ClInclude Include="src\Math\core.hpp" />
+    <ClInclude Include="src\Math\easing.hpp" />
+    <ClInclude Include="src\Math\math.hpp" />
+    <ClInclude Include="src\Math\matrix.hpp" />
+    <ClInclude Include="src\Math\matrix2.hpp" />
+    <ClInclude Include="src\Math\matrix3.hpp" />
+    <ClInclude Include="src\Math\quaternion.hpp" />
+    <ClInclude Include="src\Math\vector2.hpp" />
+    <ClInclude Include="src\Math\vector2i.hpp" />
+    <ClInclude Include="src\Math\vector3.hpp" />
+    <ClInclude Include="src\Math\vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Maths\calc.cpp" />
-    <ClCompile Include="src\Maths\easing.cpp" />
-    <ClCompile Include="src\Maths\matrix.cpp" />
-    <ClCompile Include="src\Maths\matrix2.cpp" />
-    <ClCompile Include="src\Maths\matrix3.cpp" />
-    <ClCompile Include="src\Maths\quaternion.cpp" />
-    <ClCompile Include="src\Maths\vector2.cpp" />
-    <ClCompile Include="src\Maths\vector2i.cpp" />
-    <ClCompile Include="src\Maths\vector3.cpp" />
-    <ClCompile Include="src\Maths\vector4.cpp" />
+    <ClCompile Include="src\Math\calc.cpp" />
+    <ClCompile Include="src\Math\easing.cpp" />
+    <ClCompile Include="src\Math\matrix.cpp" />
+    <ClCompile Include="src\Math\matrix2.cpp" />
+    <ClCompile Include="src\Math\matrix3.cpp" />
+    <ClCompile Include="src\Math\quaternion.cpp" />
+    <ClCompile Include="src\Math\vector2.cpp" />
+    <ClCompile Include="src\Math\vector2i.cpp" />
+    <ClCompile Include="src\Math\vector3.cpp" />
+    <ClCompile Include="src\Math\vector4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,8 +5,8 @@
 
 #include <ostream>
 
-#include "Maths/vector2.hpp"
-#include "Maths/vector3.hpp"
+#include "Math/vector2.hpp"
+#include "Math/vector3.hpp"
 
 /// @file vector4.hpp
 /// @brief Defines the Vector4 class.
@@ -73,16 +73,16 @@ public:
 
     /// @brief Constructs a Vector4 with all its components set to @p xyzw.
     constexpr explicit Vector4(float_t xyzw) noexcept;
-    
+
     /// @brief Constructs a Vector2 with its components set to the data pointed by @p data.
-    /// 
+    ///
     /// This constructor assumes that @p data is a valid pointer pointing to at least 2 @c float_t values.
-    /// 
+    ///
     /// @param data The data where the values for this vector's components are located.
     constexpr explicit Vector4(const float_t* data) noexcept;
 
     /// @brief Constructs a Vector3 with set component values.
-    /// 
+    ///
     /// @param x The value to set this vector's x components to.
     /// @param y The value to set this vector's y components to.
     /// @param z The value to set this vector's z components to.
@@ -90,13 +90,13 @@ public:
     constexpr Vector4(float_t x, float_t y, float_t z, float_t w) noexcept;
 
     /// @brief Gets a pointer to the first component of this vector.
-    /// 
+    ///
     /// @returns A pointer to the first component of this vector.
     [[nodiscard]]
     constexpr const float_t* Data() const noexcept;
 
     /// @brief Gets a pointer to the first component of this vector.
-    /// 
+    ///
     /// @returns A pointer to the first component of this vector.
     [[nodiscard]]
     constexpr float_t* Data() noexcept;
@@ -104,19 +104,19 @@ public:
     /// @brief Returns the length of the vector.
     [[nodiscard]]
     float_t Length() const noexcept;
-    
+
     /// @brief Returns the squared length of the vector.
     [[nodiscard]]
     constexpr float_t SquaredLength() const noexcept;
 
     /// @brief Returns a normalized vector.
-    /// 
+    ///
     /// @returns A vector with the same direction but a length of one.
     [[nodiscard]]
     Vector4 Normalized() const noexcept;
 
     /// @brief Returns a normalized vector.
-    /// 
+    ///
     /// @param result A vector to store the result which is one with the same direction but a length of one.
     void Normalized(Vector4* result) const noexcept;
 
@@ -135,19 +135,19 @@ public:
     /// @brief Retrieves this vector's component at index i.
     ///
     /// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
-    /// 
+    ///
     /// @returns The value of the component at index i.
     [[nodiscard]]
     constexpr float_t operator[](size_t i) const;
 
     /// @brief Retrieves this vector's component at index i.
-    /// 
+    ///
     /// @param i The index of the component to get. It would be 0 for x, 1 for y, etc...
-    /// 
+    ///
     /// @returns The value of the component at index i.
     [[nodiscard]]
     constexpr float_t& operator[](size_t i);
-    
+
     /// @brief Converts this Vector4 to a Vector2.
     explicit operator Vector2() const noexcept;
 

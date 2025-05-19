@@ -1,9 +1,9 @@
-#include "Maths/calc.hpp"
+#include "Math/calc.hpp"
 
-#include "Maths/matrix.hpp"
-#include "Maths/matrix2.hpp"
-#include "Maths/matrix3.hpp"
-#include "Maths/quaternion.hpp"
+#include "Math/matrix.hpp"
+#include "Math/matrix2.hpp"
+#include "Math/matrix3.hpp"
+#include "Math/quaternion.hpp"
 
 bool_t Calc::Equals(const Matrix2& a, const Matrix2& b) noexcept
 {

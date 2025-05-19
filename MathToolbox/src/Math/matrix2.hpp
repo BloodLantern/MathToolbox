@@ -5,64 +5,64 @@
 
 #include <ostream>
 
-#include "Maths/calc.hpp"
-#include "Maths/matrix.hpp"
-#include "Maths/matrix3.hpp"
-#include "Maths/vector2.hpp"
+#include "Math/calc.hpp"
+#include "Math/matrix.hpp"
+#include "Math/matrix3.hpp"
+#include "Math/vector2.hpp"
 
 /// @file matrix3.hpp
 /// @brief Defines the Matrix2 class.
 
 /// @brief The Matrix2 class represents a 3x3 array mainly used for mathematical operations.
-/// 
+///
 /// Matrices are stored using the column-major convention.
 class MATH_TOOLBOX Matrix2
 {
 public:
     /// @brief The component at position [0, 0] of a Matrix2.
     float_t m00 = 0.f;
-    
+
     /// @brief The component at position [1, 0] of a Matrix2.
     float_t m10 = 0.f;
-    
+
     /// @brief The component at position [0, 1] of a Matrix2.
     float_t m01 = 0.f;
-    
+
     /// @brief The component at position [1, 1] of a Matrix2.
     float_t m11 = 0.f;
 
     /// @brief Returns the identity %Matrix.
-    /// 
+    ///
     /// The identity %Matrix is one with its diagonal set to one and everything else set to zero.
     [[nodiscard]]
     static constexpr Matrix2 Identity() noexcept;
 
     /// @brief Returns the identity %Matrix.
-    /// 
+    ///
     /// The identity %Matrix is one with its diagonal set to one and everything else set to zero.
     static constexpr void Identity(Matrix2* result) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix2 RotationZ(float_t angle) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationZ(float_t angle, Matrix2* result) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix2 RotationZ(float_t cos, float_t sin) noexcept;
 
     /// @brief Creates a 2D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
@@ -82,9 +82,9 @@ public:
     constexpr explicit Matrix2(float_t defaultValue) noexcept;
 
     /// @brief Constructs a Matrix2 with its components set to the data pointed by @c data.
-    /// 
+    ///
     /// This constructor assumes that @c data is a valid pointer pointing to at least 4 @c float_t values.
-    /// 
+    ///
     /// @param data The data where the values for this matrix's components are located.
     constexpr explicit Matrix2(const float_t* data) noexcept;
 
@@ -101,13 +101,13 @@ public:
     ) noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix2.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix2.
     [[nodiscard]]
     constexpr const float_t* Data() const noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix2.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix2.
     [[nodiscard]]
     constexpr float_t* Data() noexcept;
@@ -120,7 +120,7 @@ public:
     constexpr bool_t IsDiagonal() const noexcept;
 
     /// @brief Returns whether the Matrix2 is the identity matrix.
-    /// 
+    ///
     /// If this returns true, Matrix2::Identity() == *this should be true.
     [[nodiscard]]
     constexpr bool_t IsIdentity() const noexcept;
@@ -167,7 +167,7 @@ public:
     constexpr void Inverted(Matrix2* result) const;
 
     /// @brief Retrieves this matrix's value at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
@@ -175,7 +175,7 @@ public:
     constexpr float_t At(size_t row, size_t col) const;
 
     /// @brief Retrieves this matrix's col at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
@@ -183,20 +183,20 @@ public:
     constexpr float_t& At(size_t row, size_t col);
 
     /// @brief	Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
     constexpr Vector3 operator[](size_t col) const;
 
     /// @brief	Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
@@ -301,7 +301,7 @@ constexpr Matrix2 operator*(const Matrix2& m1, const Matrix2& m2) noexcept
     return Matrix2(
         m1.m00 * m2.m00 + m1.m01 * m2.m10,
         m1.m00 * m2.m01 + m1.m01 * m2.m11,
-        
+
         m1.m10 * m2.m00 + m1.m11 * m2.m10,
         m1.m10 * m2.m01 + m1.m11 * m2.m11
     );
@@ -454,7 +454,7 @@ constexpr Matrix2 Matrix2::Inverted() const
 constexpr void Matrix2::Inverted(Matrix2* result) const
 {
     const float_t determinant = Determinant();
-    
+
     if (determinant == 0.f) [[unlikely]]
         throw std::invalid_argument("Matrix2 isn't invertible");
 
@@ -465,7 +465,7 @@ constexpr float_t Matrix2::At(const size_t row, const size_t col) const
 {
     if (row < 2 && col < 2) [[likely]]
         return Data()[col * 2 + row];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix2 subscript out of range");
 }
@@ -474,7 +474,7 @@ constexpr float_t& Matrix2::At(const size_t row, const size_t col)
 {
     if (row < 2 && col < 2) [[likely]]
         return Data()[col * 2 + row];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix2 subscript out of range");
 }

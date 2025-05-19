@@ -5,270 +5,270 @@
 
 #include <ostream>
 
-#include "Maths/calc.hpp"
-#include "Maths/vector3.hpp"
-#include "Maths/vector4.hpp"
-#include "Maths/quaternion.hpp"
-#include "Maths/matrix3.hpp"
+#include "Math/calc.hpp"
+#include "Math/vector3.hpp"
+#include "Math/vector4.hpp"
+#include "Math/quaternion.hpp"
+#include "Math/matrix3.hpp"
 
 /// @file matrix.hpp
 /// @brief Defines the Matrix class.
 
 /// @brief The Matrix class represents a 4x4 array mainly used for mathematical operations.
-/// 
+///
 /// Matrices are stored using the column-major convention.
 class MATH_TOOLBOX Matrix
 {
 public:
     /// @brief The component at position [0, 0] of a Matrix.
     float_t m00 = 0.f;
-    
+
     /// @brief The component at position [1, 0] of a Matrix.
     float_t m10 = 0.f;
-    
+
     /// @brief The component at position [2, 0] of a Matrix.
     float_t m20 = 0.f;
-    
+
     /// @brief The component at position [3, 0] of a Matrix.
     float_t m30 = 0.f;
-    
+
     /// @brief The component at position [0, 1] of a Matrix.
     float_t m01 = 0.f;
-    
+
     /// @brief The component at position [1, 1] of a Matrix.
     float_t m11 = 0.f;
-    
+
     /// @brief The component at position [2, 1] of a Matrix.
     float_t m21 = 0.f;
-    
+
     /// @brief The component at position [3, 1] of a Matrix.
     float_t m31 = 0.f;
-    
+
     /// @brief The component at position [0, 2] of a Matrix.
     float_t m02 = 0.f;
-    
+
     /// @brief The component at position [1, 2] of a Matrix.
     float_t m12 = 0.f;
-    
+
     /// @brief The component at position [2, 2] of a Matrix.
     float_t m22 = 0.f;
-    
+
     /// @brief The component at position [3, 2] of a Matrix.
     float_t m32 = 0.f;
-    
+
     /// @brief The component at position [0, 3] of a Matrix.
     float_t m03 = 0.f;
-    
+
     /// @brief The component at position [1, 3] of a Matrix.
     float_t m13 = 0.f;
-    
+
     /// @brief The component at position [2, 3] of a Matrix.
     float_t m23 = 0.f;
-    
+
     /// @brief The component at position [3, 3] of a Matrix.
     float_t m33 = 0.f;
-    
+
     /// @brief Returns the identity Matrix.
-    /// 
+    ///
     /// The identity Matrix is one with its diagonal set to one and everything else set to zero.
     [[nodiscard]]
     static constexpr Matrix Identity() noexcept;
-    
+
     /// @brief Returns the identity Matrix.
-    /// 
+    ///
     /// The identity Matrix is one with its diagonal set to one and everything else set to zero.
     static constexpr void Identity(Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D translation Matrix from the given angle for each of the x, y, and z axis.
     [[nodiscard]]
     static constexpr Matrix Translation(const Vector3& translation) noexcept;
-    
+
     /// @brief Creates a 3D translation Matrix from the given angle for each of the x, y, and z axis.
     static constexpr void Translation(const Vector3& translation, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix from the given angle and axis.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param axis The axis around which the rotation occurs.
     [[nodiscard]]
     static Matrix Rotation(float_t angle, const Vector3& axis) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix from the given angle and axis.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param axis The axis around which the rotation occurs.
     /// @param result The output of the function.
     static void Rotation(float_t angle, const Vector3& axis, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix RotationX(float_t angle) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationX(float_t angle, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix RotationX(float_t cos, float_t sin) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
     static constexpr void RotationX(float_t cos, float_t sin, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix RotationY(float_t angle) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationY(float_t angle, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix RotationY(float_t cos, float_t sin) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
     static constexpr void RotationY(float_t cos, float_t sin, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix RotationZ(float_t angle) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationZ(float_t angle, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix RotationZ(float_t cos, float_t sin) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
     static constexpr void RotationZ(float_t cos, float_t sin, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix from the given angle for each of the x, y, and z axis.
     [[nodiscard]]
     static Matrix Rotation(const Vector3& rotation) noexcept;
-    
+
     /// @brief Creates a 3D rotation Matrix from the given angle for each of the x, y, and z axis.
     static void Rotation(const Vector3& rotation, Matrix* result) noexcept;
 
     /// @brief	Creates a 3D rotation Matrix from the given rotation Quaternion.
     [[nodiscard]]
     static constexpr Matrix Rotation(const Quaternion& rotation) noexcept;
-    
+
     /// @brief	Creates a 3D rotation Matrix from the given rotation Quaternion.
     static constexpr void Rotation(const Quaternion& rotation, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D rotation matrix from the given cosine, sine and axis.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param axis The axis around which the rotation occurs.
     [[nodiscard]]
     static Matrix Rotation(float_t cos, float_t sin, const Vector3& axis) noexcept;
-    
+
     /// @brief Creates a 3D rotation matrix from the given cosine, sine and axis.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param axis The axis around which the rotation occurs.
     /// @param result The output of the function.
     static void Rotation(float_t cos, float_t sin, const Vector3& axis, Matrix* result) noexcept;
-    
+
     /// @brief Creates a 3D scaling matrix from the given Vector3.
     [[nodiscard]]
     static constexpr Matrix Scaling(const Vector3& scale) noexcept;
-    
+
     /// @brief Creates a 3D scaling matrix from the given Vector3.
     static constexpr void Scaling(const Vector3& scale, Matrix* result) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static Matrix Trs(const Vector3& translation, const Vector3& rotation, const Vector3& scale) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     static void Trs(const Vector3& translation, const Vector3& rotation, const Vector3& scale, Matrix* result) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static Matrix Trs(const Vector3& translation, float_t rotationAngle, const Vector3& rotationAxis, const Vector3& scale) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     static void Trs(const Vector3& translation, float_t rotationAngle, const Vector3& rotationAxis, const Vector3& scale, Matrix* result) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static constexpr Matrix Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     static constexpr void Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale, Matrix* result) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     [[nodiscard]]
     static constexpr Matrix Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale) noexcept;
-    
+
     /// @brief Creates a Translation-Rotation-Scaling (TRS) matrix from the given translation, rotation and scaling.
     static constexpr void Trs(const Vector3& translation, const Quaternion& rotation, const Vector3& scale, Matrix* result) noexcept;
 
     /// @brief Creates a view Matrix, looking from an @c eye to a @c center using an @c up vector.
     [[nodiscard]]
     static Matrix LookAt(const Vector3& eye, const Vector3& center, const Vector3& up) noexcept;
-    
+
     /// @brief Creates a view Matrix, looking from an @c eye to a @c center using an @c up vector.
     static void LookAt(const Vector3& eye, const Vector3& center, const Vector3& up, Matrix* result) noexcept;
 
     /// @brief Creates a perspective projection Matrix from the given @c fov (Field Of View) and aspect ratio.
-    /// 
+    ///
     ///	Anything closer than @c near or further than @c far is discarded.
     [[nodiscard]]
     static Matrix Perspective(float_t fov, float_t aspectRatio, float_t near, float_t far);
-    
+
     /// @brief Creates a perspective projection Matrix from the given @c fov (Field Of View) and aspect ratio.
-    /// 
+    ///
     ///	Anything closer than @c near or further than @c far is discarded.
     static void Perspective(float_t fov, float_t aspectRatio, float_t near, float_t far, Matrix* result);
 
     /// @brief Creates an orthographic projection Matrix from the given @c left, @c right, @c bottom, and @c top screen positions.
-    /// 
+    ///
     ///	Anything closer than @c near or further than @c far is discarded.
     [[nodiscard]]
     static constexpr Matrix Orthographic(float_t left, float_t right, float_t bottom, float_t top, float_t near, float_t far);
-    
+
     /// @brief Creates an orthographic projection Matrix from the given @c left, @c right, @c bottom, and @c top screen positions.
-    ///	
+    ///
     ///	Anything closer than @c near or further than @c far is discarded.
     static constexpr void Orthographic(float_t left, float_t right, float_t bottom, float_t top, float_t near, float_t far, Matrix* result);
 
@@ -277,11 +277,11 @@ public:
 
     /// @brief Creates a Matrix with all its values set to this default value.
     constexpr explicit Matrix(float_t defaultValue) noexcept;
-    
+
     /// @brief Constructs a Matrix with its components set to the data pointed by @c data.
-    /// 
+    ///
     /// This constructor assumes that @c data is a valid pointer pointing to at least 16 @c float_t values.
-    /// 
+    ///
     /// @param data The data where the values for this matrix's components are located.
     constexpr explicit Matrix(const float_t* data) noexcept;
 
@@ -302,13 +302,13 @@ public:
     ) noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix.
     [[nodiscard]]
     constexpr const float_t* Data() const noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix.
     [[nodiscard]]
     constexpr float_t* Data() noexcept;
@@ -319,44 +319,44 @@ public:
     /// @brief Returns whether the Matrix has everything except its diagonal set to zero.
     [[nodiscard]]
     constexpr bool_t IsDiagonal() const noexcept;
-    
+
     /// @brief Returns whether the Matrix is the identity matrix.
-    /// 
+    ///
     /// If this returns true, Matrix::Identity() == *this should be true.
     [[nodiscard]]
     constexpr bool_t IsIdentity() const noexcept;
-    
+
     /// @brief Returns whether this Matrix has everything set to zero.
     [[nodiscard]]
     constexpr bool_t IsNull() const noexcept;
-    
+
     /// @brief Returns whether the Matrix is symmetric by its diagonal elements.
     [[nodiscard]]
     constexpr bool_t IsSymmetric() const noexcept;
-    
+
     /// @brief Returns whether the Matrix is symmetric by its diagonal elements but one of the sides is the opposite of the other.
     [[nodiscard]]
     constexpr bool_t IsAntisymmetric() const noexcept;
-    
+
     /// @brief Returns the diagonal elements of the Matrix.
     [[nodiscard]]
     constexpr Vector4 Diagonal() const noexcept;
-    
+
     /// @brief Returns the diagonal elements of the Matrix.
     constexpr void Diagonal(Vector4* result) const noexcept;
-    
+
     /// @brief Returns the sum of the diagonal elements of the Matrix.
     [[nodiscard]]
     constexpr float_t Trace() const noexcept;
-    
+
     /// @brief Returns the determinant of this Matrix.
     [[nodiscard]]
     constexpr float_t Determinant() const noexcept;
-    
+
     /// @brief Switches the Matrix by its diagonal elements.
     [[nodiscard]]
     constexpr Matrix Transposed() const noexcept;
-    
+
     /// @brief Switches the Matrix by its diagonal elements.
     constexpr void Transposed(Matrix* result) const noexcept;
 
@@ -380,15 +380,15 @@ public:
     bool_t Decompose(Vector3* translation, Quaternion* orientation, Vector3* scale, Vector3* skew, Vector4* perspective) const;
 
     /// @brief Retrieves this matrix's value at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
     [[nodiscard]]
     constexpr float_t At(size_t row, size_t col) const;
-    
+
     /// @brief Retrieves this matrix's col at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
@@ -396,25 +396,25 @@ public:
     constexpr float_t& At(size_t row, size_t col);
 
     /// @brief Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
     constexpr Vector4 operator[](size_t col) const;
 
     /// @brief Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
     constexpr Vector4& operator[](size_t col);
-    
+
     /// @brief Converts this Matrix to a Matrix3 by cropping its last row and column.
     [[nodiscard]]
     constexpr explicit operator Matrix3() const;
@@ -560,17 +560,17 @@ constexpr Matrix operator*(const Matrix& m1, const Matrix& m2) noexcept
         m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21 + m1.m03 * m2.m31,
         m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22 + m1.m03 * m2.m32,
         m1.m00 * m2.m03 + m1.m01 * m2.m13 + m1.m02 * m2.m23 + m1.m03 * m2.m33,
-        
+
         m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20 + m1.m13 * m2.m30,
         m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21 + m1.m13 * m2.m31,
         m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22 + m1.m13 * m2.m32,
         m1.m10 * m2.m03 + m1.m11 * m2.m13 + m1.m12 * m2.m23 + m1.m13 * m2.m33,
-        
+
         m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20 + m1.m23 * m2.m30,
         m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21 + m1.m23 * m2.m31,
         m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22 + m1.m23 * m2.m32,
         m1.m20 * m2.m03 + m1.m21 * m2.m13 + m1.m22 * m2.m23 + m1.m23 * m2.m33,
-        
+
         m1.m30 * m2.m00 + m1.m31 * m2.m10 + m1.m32 * m2.m20 + m1.m33 * m2.m30,
         m1.m30 * m2.m01 + m1.m31 * m2.m11 + m1.m32 * m2.m21 + m1.m33 * m2.m31,
         m1.m30 * m2.m02 + m1.m31 * m2.m12 + m1.m32 * m2.m22 + m1.m33 * m2.m32,
@@ -760,7 +760,7 @@ constexpr Matrix Matrix::Orthographic(const float_t left, const float_t right, c
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
-    
+
     return Matrix(
         2.f / (right - left), 0.f, 0.f, -((right + left) / (right - left)),
         0.f, 2.f / (top - bottom), 0.f, -((top + bottom) / (top - bottom)),
@@ -773,7 +773,7 @@ constexpr void Matrix::Orthographic(const float_t left, const float_t right, con
 {
     if (near > far) [[unlikely]]
         throw std::invalid_argument("Near must be smaller than far.");
-    
+
     *result = Matrix(
         2.f / (right - left), 0.f, 0.f, -((right + left) / (right - left)),
         0.f, 2.f / (top - bottom), 0.f, -((top + bottom) / (top - bottom)),
@@ -798,7 +798,7 @@ constexpr bool_t Matrix::IsIdentity() const noexcept
 {
     if (!IsDiagonal())
         return false;
-    
+
     return Calc::Equals(m00, 1.f) && Calc::Equals(m11, 1.f) && Calc::Equals(m22, 1.f) && Calc::Equals(m33, 1.f);
 }
 
@@ -831,16 +831,16 @@ constexpr void Matrix::Diagonal(Vector4* result) const noexcept { *result = Vect
 constexpr float_t Matrix::Trace() const noexcept { return m00 + m11 + m22 + m33; }
 
 constexpr float_t Matrix::Determinant() const noexcept
-{ 
+{
     // Definition from MonoGame/XNA: https://github.com/MonoGame/MonoGame/blob/b30122c99597eaf81b81f32ab1d467a7b4185c73/MonoGame.Framework/Matrix.cs
-    
+
     const float_t det2233 = m22 * m33 - m32 * m23;
     const float_t det1233 = m12 * m33 - m32 * m13;
     const float_t det1223 = m12 * m23 - m22 * m13;
     const float_t det0233 = m02 * m33 - m32 * m03;
     const float_t det0223 = m02 * m23 - m22 * m03;
     const float_t det0213 = m02 * m13 - m12 * m03;
-    
+
     return m00 * (m11 * det2233 - m21 * det1233 + m31 * det1223)
         - m10 * (m01 * det2233 - m21 * det0233 + m31 * det0223)
         + m20 * (m01 * det1233 - m11 * det0233 + m31 * det0213)
@@ -878,9 +878,9 @@ constexpr void Matrix::Inverted(Matrix* result) const
 {
     if (Determinant() == 0.f) [[unlikely]]
         throw std::invalid_argument("Matrix isn't invertible");
-    
+
     // Definition from MonoGame/XNA: https://github.com/MonoGame/MonoGame/blob/b30122c99597eaf81b81f32ab1d467a7b4185c73/MonoGame.Framework/Matrix.cs
-        
+
     const float_t val17 = m22 * m33 - m23 * m32;
     const float_t val18 = m21 * m33 - m23 * m31;
     const float_t val19 = m21 * m32 - m22 * m31;
@@ -892,14 +892,14 @@ constexpr void Matrix::Inverted(Matrix* result) const
     const float_t val25 = m10 * val18 - m11 * val20 + m13 * val22;
     const float_t val26 = -(m10 * val19 - m11 * val21 + m12 * val22);
     const float_t val27 = 1.f / (m00 * val23 + m01 * val24 + m02 * val25 + m03 * val26);
-        
+
     const float_t val28 = m12 * m33 - m13 * m32;
     const float_t val29 = m11 * m33 - m13 * m31;
     const float_t val30 = m11 * m32 - m12 * m31;
     const float_t val31 = m10 * m33 - m13 * m30;
     const float_t val32 = m10 * m32 - m12 * m30;
     const float_t val33 = m10 * m31 - m11 * m30;
-        
+
     const float_t val34 = m12 * m23 - m13 * m22;
     const float_t val35 = m11 * m23 - m13 * m21;
     const float_t val36 = m11 * m22 - m12 * m21;
@@ -934,7 +934,7 @@ constexpr float_t Matrix::At(const size_t row, const size_t col) const
 {
     if (row < 4 && col < 4) [[likely]]
         return Data()[row * 4 + col];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix subscript out of range");
 }
@@ -943,7 +943,7 @@ constexpr float_t& Matrix::At(const size_t row, const size_t col)
 {
     if (row < 4 && col < 4) [[likely]]
         return Data()[row * 4 + col];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix subscript out of range");
 }
@@ -1031,7 +1031,7 @@ template <class FmtContext>
 typename FmtContext::iterator std::formatter<Matrix>::format(Matrix m, FmtContext &ctx) const
 {
     std::ostringstream out;
-    
+
     const char_t separator = m_Multiline ? '\n' : ' ';
 
     out << std::vformat(

@@ -5,144 +5,144 @@
 
 #include <ostream>
 
-#include "Maths/calc.hpp"
-#include "Maths/quaternion.hpp"
-#include "Maths/vector3.hpp"
+#include "Math/calc.hpp"
+#include "Math/quaternion.hpp"
+#include "Math/vector3.hpp"
 
 /// @file matrix3.hpp
 /// @brief Defines the Matrix3 class.
 
 /// @brief The Matrix3 class represents a 3x3 array mainly used for mathematical operations.
-/// 
+///
 /// Matrices are stored using the column-major convention.
 class MATH_TOOLBOX Matrix3
 {
 public:
     /// @brief The component at position [0, 0] of a Matrix3.
     float_t m00 = 0.f;
-    
+
     /// @brief The component at position [1, 0] of a Matrix3.
     float_t m10 = 0.f;
-    
+
     /// @brief The component at position [2, 0] of a Matrix3.
     float_t m20 = 0.f;
-    
+
     /// @brief The component at position [0, 1] of a Matrix3.
     float_t m01 = 0.f;
-    
+
     /// @brief The component at position [1, 1] of a Matrix3.
     float_t m11 = 0.f;
-    
+
     /// @brief The component at position [2, 1] of a Matrix3.
     float_t m21 = 0.f;
-    
+
     /// @brief The component at position [0, 2] of a Matrix3.
     float_t m02 = 0.f;
-    
+
     /// @brief The component at position [1, 2] of a Matrix3.
     float_t m12 = 0.f;
-    
+
     /// @brief The component at position [2, 2] of a Matrix3.
     float_t m22 = 0.f;
 
     /// @brief Returns the identity %Matrix.
-    /// 
+    ///
     /// The identity %Matrix is one with its diagonal set to one and everything else set to zero.
     [[nodiscard]]
     static constexpr Matrix3 Identity() noexcept;
 
     /// @brief Returns the identity %Matrix.
-    /// 
+    ///
     /// The identity %Matrix is one with its diagonal set to one and everything else set to zero.
     static constexpr void Identity(Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix from the given angle and axis.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param axis The axis around which the rotation occurs.
     [[nodiscard]]
     static Matrix3 Rotation(float_t angle, const Vector3& axis) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix from the given angle and axis.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param axis The axis around which the rotation occurs.
     /// @param result The output of the function.
     static void Rotation(float_t angle, const Vector3& axis, Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix3 RotationX(float_t angle) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationX(float_t angle, Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix3 RotationX(float_t cos, float_t sin) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the X axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
     static constexpr void RotationX(float_t cos, float_t sin, Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix3 RotationY(float_t angle) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationY(float_t angle, Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix3 RotationY(float_t cos, float_t sin) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Y axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
     static constexpr void RotationY(float_t cos, float_t sin, Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     [[nodiscard]]
     static Matrix3 RotationZ(float_t angle) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param angle The angle in radians.
     /// @param result The output of the function.
     static void RotationZ(float_t angle, Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     [[nodiscard]]
     static constexpr Matrix3 RotationZ(float_t cos, float_t sin) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix around the Z axis from the given angle.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param result The output of the function.
@@ -163,7 +163,7 @@ public:
     static constexpr void Rotation(const Quaternion& rotation, Matrix3* result) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix from the given cosine, sine and axis.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param axis The axis around which the rotation occurs.
@@ -171,7 +171,7 @@ public:
     static Matrix3 Rotation(float_t cos, float_t sin, const Vector3& axis) noexcept;
 
     /// @brief Creates a 3D rotation %Matrix from the given cosine, sine and axis.
-    /// 
+    ///
     /// @param cos The cosine of the angle in radians.
     /// @param sin The sine of the angle in radians.
     /// @param axis The axis around which the rotation occurs.
@@ -192,9 +192,9 @@ public:
     constexpr explicit Matrix3(float_t defaultValue) noexcept;
 
     /// @brief Constructs a Matrix3 with its components set to the data pointed by @c data.
-    /// 
+    ///
     /// This constructor assumes that @c data is a valid pointer pointing to at least 9 @c float_t values.
-    /// 
+    ///
     /// @param data The data where the values for this matrix's components are located.
     constexpr explicit Matrix3(const float_t* data) noexcept;
 
@@ -213,13 +213,13 @@ public:
     ) noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix3.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix3.
     [[nodiscard]]
     constexpr const float_t* Data() const noexcept;
 
     /// @brief Gets a pointer to the first value of this Matrix3.
-    /// 
+    ///
     /// @returns A pointer to the first value of this Matrix3.
     [[nodiscard]]
     constexpr float_t* Data() noexcept;
@@ -232,7 +232,7 @@ public:
     constexpr bool_t IsDiagonal() const noexcept;
 
     /// @brief Returns whether the Matrix3 is the identity matrix.
-    /// 
+    ///
     /// If this returns true, Matrix3::Identity() == *this should be true.
     [[nodiscard]]
     constexpr bool_t IsIdentity() const noexcept;
@@ -279,7 +279,7 @@ public:
     constexpr void Inverted(Matrix3* result) const;
 
     /// @brief Retrieves this matrix's value at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
@@ -287,7 +287,7 @@ public:
     constexpr float_t At(size_t row, size_t col) const;
 
     /// @brief Retrieves this matrix's col at position @c [col, row].
-    /// 
+    ///
     /// @param row The index of the col to get.
     /// @param col The index of the column to get.
     /// @returns The value at position @c [col, row].
@@ -295,20 +295,20 @@ public:
     constexpr float_t& At(size_t row, size_t col);
 
     /// @brief	Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
     constexpr Vector3 operator[](size_t col) const;
 
     /// @brief	Retrieves this matrix's column vector at position @c col.
-    /// 
+    ///
     ///	If you want to get a value of this matrix, consider using <see cref="At(size_t, size_t)"/>
     ///	instead, as it is optimized for direct-value access.
-    ///	
+    ///
     /// @param col The index of the column to get.
     /// @returns The column vector at index @c col.
     [[nodiscard]]
@@ -429,11 +429,11 @@ constexpr Matrix3 operator*(const Matrix3& m1, const Matrix3& m2) noexcept
         m1.m00 * m2.m00 + m1.m01 * m2.m10 + m1.m02 * m2.m20,
         m1.m00 * m2.m01 + m1.m01 * m2.m11 + m1.m02 * m2.m21,
         m1.m00 * m2.m02 + m1.m01 * m2.m12 + m1.m02 * m2.m22,
-        
+
         m1.m10 * m2.m00 + m1.m11 * m2.m10 + m1.m12 * m2.m20,
         m1.m10 * m2.m01 + m1.m11 * m2.m11 + m1.m12 * m2.m21,
         m1.m10 * m2.m02 + m1.m11 * m2.m12 + m1.m12 * m2.m22,
-        
+
         m1.m20 * m2.m00 + m1.m21 * m2.m10 + m1.m22 * m2.m20,
         m1.m20 * m2.m01 + m1.m21 * m2.m11 + m1.m22 * m2.m21,
         m1.m20 * m2.m02 + m1.m21 * m2.m12 + m1.m22 * m2.m22
@@ -668,7 +668,7 @@ constexpr Matrix3 Matrix3::Inverted() const
 constexpr void Matrix3::Inverted(Matrix3* result) const
 {
     const float_t determinant = Determinant();
-    
+
     if (determinant == 0.f) [[unlikely]]
         throw std::invalid_argument("Matrix3 isn't invertible");
 
@@ -691,7 +691,7 @@ constexpr float_t Matrix3::At(const size_t row, const size_t col) const
 {
     if (row < 3 && col < 3) [[likely]]
         return Data()[col * 3 + row];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix3 subscript out of range");
 }
@@ -700,7 +700,7 @@ constexpr float_t& Matrix3::At(const size_t row, const size_t col)
 {
     if (row < 3 && col < 3) [[likely]]
         return Data()[col * 3 + row];
-    
+
     [[unlikely]]
     throw std::out_of_range("Matrix3 subscript out of range");
 }
