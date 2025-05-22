@@ -2,7 +2,7 @@ export module Math:Vector2;
 
 import "Math/Core.hpp";
 
-export import std;
+import std;
 export import :Types;
 
 // ReSharper disable once CppInconsistentNaming

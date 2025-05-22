@@ -2,7 +2,7 @@ export module Math:Vector3;
 
 import "Math/Core.hpp";
 
-export import std;
+import std;
 export import :Types;
 export import :Vector2;
 

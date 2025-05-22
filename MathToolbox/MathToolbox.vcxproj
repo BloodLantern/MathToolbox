@@ -132,10 +132,10 @@
     <ClCompile Include="src\Math\Matrix2.ixx" />
     <ClCompile Include="src\Math\Matrix3.cpp" />
     <ClCompile Include="src\Math\Matrix3.ixx" />
-    <ClCompile Include="src\Math\Module.ixx" />
+    <ClCompile Include="src\Math\MathModule.ixx" />
     <ClCompile Include="src\Math\Quaternion.cpp" />
     <ClCompile Include="src\Math\Quaternion.ixx" />
-    <ClCompile Include="src\Math\Types.ixx" />
+    <ClCompile Include="src\Math\MathTypes.ixx" />
     <ClCompile Include="src\Math\Vector2.cpp" />
     <ClCompile Include="src\Math\Vector2.ixx" />
     <ClCompile Include="src\Math\Vector2i.cpp" />

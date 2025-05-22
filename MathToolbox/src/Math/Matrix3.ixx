@@ -2,7 +2,7 @@ export module Math:Matrix3;
 
 import "Math/Core.hpp";
 
-export import std;
+import std;
 export import :Types;
 export import :Vector3;
 export import :Quaternion;
