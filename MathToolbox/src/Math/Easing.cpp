@@ -1,4 +1,5 @@
 module Math:Easing;
+import :Easing;
 
 import std;
 import :Types;

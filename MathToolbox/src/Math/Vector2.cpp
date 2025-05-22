@@ -1,8 +1,8 @@
 module Math:Vector2;
+import :Vector2;
 
 import std;
 import :Types;
-import :Forward;
 import :Vector2i;
 import :Vector3;
 import :Vector4;

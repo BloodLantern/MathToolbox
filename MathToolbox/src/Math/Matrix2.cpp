@@ -1,4 +1,5 @@
 module Math:Matrix2;
+import :Matrix2;
 
 import std;
 import :Types;

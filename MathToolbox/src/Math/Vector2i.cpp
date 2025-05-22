@@ -1,4 +1,5 @@
 module Math:Vector2i;
+import :Vector2i;
 
 import std;
 import :Types;

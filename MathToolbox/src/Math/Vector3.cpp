@@ -1,4 +1,5 @@
 module Math:Vector3;
+import :Vector3;
 
 import std;
 import :Types;

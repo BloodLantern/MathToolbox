@@ -2,7 +2,7 @@ export module Math:Easing;
 
 import "Math/Core.hpp";
 
-import :Types;
+export import :Types;
 
 /// @file Easing.ixx
 /// @brief Defines the Easing namespace in which the common <a href="https://easings.net">easing functions</a> are defined.

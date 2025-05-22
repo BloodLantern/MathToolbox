@@ -1,4 +1,5 @@
 module Math:Matrix3;
+import :Matrix3;
 
 import "Math/Core.hpp";
 

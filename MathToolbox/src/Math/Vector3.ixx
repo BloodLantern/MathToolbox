@@ -2,10 +2,9 @@ export module Math:Vector3;
 
 import "Math/Core.hpp";
 
-import std;
-import :Types;
-import :Forward;
-import :Vector2;
+export import std;
+export import :Types;
+export import :Vector2;
 
 /// @file Vector3.ixx
 /// @brief Defines the Vector3 struct.

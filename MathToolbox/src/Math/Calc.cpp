@@ -1,4 +1,5 @@
 module Math:Calc;
+import :Calc;
 
 import std;
 import :Types;

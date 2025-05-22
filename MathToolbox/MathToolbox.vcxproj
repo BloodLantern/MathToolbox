@@ -126,7 +126,6 @@
     <ClCompile Include="src\Math\Calc.ixx" />
     <ClCompile Include="src\Math\Easing.cpp" />
     <ClCompile Include="src\Math\Easing.ixx" />
-    <ClCompile Include="src\Math\Forward.ixx" />
     <ClCompile Include="src\Math\Matrix.cpp" />
     <ClCompile Include="src\Math\Matrix.ixx" />
     <ClCompile Include="src\Math\Matrix2.cpp" />

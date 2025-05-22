@@ -1,4 +1,5 @@
 module Math:Quaternion;
+import :Quaternion;
 
 import std;
 import :Types;

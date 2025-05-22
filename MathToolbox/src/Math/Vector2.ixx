@@ -2,9 +2,13 @@ export module Math:Vector2;
 
 import "Math/Core.hpp";
 
-import std;
-import :Types;
-import :Forward;
+export import std;
+export import :Types;
+
+// ReSharper disable once CppInconsistentNaming
+export struct Vector2i;
+export struct Vector3;
+export struct Vector4;
 
 /// @file Vector2.ixx
 /// @brief Defines the Vector2 struct.
