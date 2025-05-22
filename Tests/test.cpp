@@ -9,27 +9,27 @@ import Math;
 
 namespace TestCalc
 {
-    TEST(calc, Sign)
+    TEST(Calc, Sign)
     {
         EXPECT_EQ(Calc::Sign(17.8f), 1.f);
         EXPECT_EQ(Calc::Sign(-86.1f), -1.f);
-        EXPECT_EQ(Calc::Sign(0.f), 1.f);
+        EXPECT_EQ(Calc::Sign(0.f), 0.f);
     }
 
-    TEST(calc, Abs)
+    TEST(Calc, Abs)
     {
         EXPECT_EQ(Calc::Abs(17.8f), 17.8f);
         EXPECT_EQ(Calc::Abs(-86.1f), 86.1f);
         EXPECT_EQ(Calc::Abs(0.f), 0.f);
     }
 
-    TEST(calc, IsZero)
+    TEST(Calc, IsZero)
     {
         EXPECT_TRUE(Calc::IsZero(Calc::Zero));
         EXPECT_TRUE(Calc::IsZero(0.000001f));
     }
 
-    TEST(calc, Equals)
+    TEST(Calc, Equals)
     {
         EXPECT_TRUE(Calc::Equals(1.f, 1.00000075f));
         EXPECT_FALSE(Calc::Equals(1.f, 1.0000075f));

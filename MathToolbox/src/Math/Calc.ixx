@@ -1,8 +1,6 @@
-module;
-
-#include "Math/Core.hpp"
-
 export module Math:Calc;
+
+import "Math/Core.hpp";
 
 import std;
 import :Types;

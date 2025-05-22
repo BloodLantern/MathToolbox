@@ -1,8 +1,6 @@
-module;
-
-#include "Math/Core.hpp"
-
 export module Math:Vector3;
+
+import "Math/Core.hpp";
 
 import std;
 import :Types;

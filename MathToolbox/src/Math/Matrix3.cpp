@@ -1,8 +1,6 @@
-module;
-
-#include "Math/Core.hpp"
-
 module Math:Matrix3;
+
+import "Math/Core.hpp";
 
 import std;
 import :Types;

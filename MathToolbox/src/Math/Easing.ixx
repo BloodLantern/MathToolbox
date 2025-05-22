@@ -1,8 +1,6 @@
-module;
-
-#include "Math/Core.hpp"
-
 export module Math:Easing;
+
+import "Math/Core.hpp";
 
 import :Types;
 
