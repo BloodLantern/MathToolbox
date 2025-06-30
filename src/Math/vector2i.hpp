@@ -14,7 +14,7 @@ class Vector3;
 class Vector4;
 
 /// @brief The Vector2i class represents either a two-dimensional vector or a point.
-class MATH_TOOLBOX Vector2i
+class PUBLIC_API Vector2i
 {
 public:
     /// @brief The @c x component of this Vector2i.
@@ -140,13 +140,13 @@ constexpr Vector2i::Vector2i(const int32_t* const data) noexcept : x(data[0]), y
 
 constexpr Vector2i::Vector2i(const int32_t x, const int32_t y): x(x), y(y) {}
 
-constexpr Vector2i Vector2i::Zero() noexcept { return Vector2i(); }
+constexpr Vector2i Vector2i::Zero() noexcept { return {}; }
 
-constexpr Vector2i Vector2i::UnitX() noexcept { return Vector2i(1, 0); }
+constexpr Vector2i Vector2i::UnitX() noexcept { return {1, 0}; }
 
-constexpr Vector2i Vector2i::UnitY() noexcept { return Vector2i(0, 1); }
+constexpr Vector2i Vector2i::UnitY() noexcept { return {0, 1}; }
 
-constexpr Vector2i Vector2i::One() noexcept { return Vector2i(1); }
+constexpr Vector2i Vector2i::One() noexcept { return Vector2i{1}; }
 
 constexpr float_t Vector2i::Dot(const Vector2i a, const Vector2i b) noexcept { return static_cast<float_t>(a.x * b.x + a.y * b.y); }
 
@@ -178,13 +178,13 @@ constexpr int32_t& Vector2i::operator[](const size_t i)
 
 /// @brief Adds two Vector2i together.
 [[nodiscard]]
-constexpr Vector2i operator+(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x + b.x, a.y + b.y); }
+constexpr Vector2i operator+(const Vector2i a, const Vector2i b) noexcept { return {a.x + b.x, a.y + b.y}; }
 
 /// @brief Returns the opposite of a Vector2i.
 ///
 /// This effectively means replacing all values of this Vector2i with their opposite.
 [[nodiscard]]
-constexpr Vector2i operator-(const Vector2i a) noexcept { return Vector2i(-a.x, -a.y); }
+constexpr Vector2i operator-(const Vector2i a) noexcept { return {-a.x, -a.y}; }
 
 /// @brief Subtracts a Vector2i from another one.
 [[nodiscard]]
@@ -192,11 +192,11 @@ constexpr Vector2i operator-(const Vector2i a, const Vector2i b) noexcept { retu
 
 /// @brief Multiplies two Vector2i component-wise.
 [[nodiscard]]
-constexpr Vector2i operator*(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x * b.x, a.y * b.y); }
+constexpr Vector2i operator*(const Vector2i a, const Vector2i b) noexcept { return {a.x * b.x, a.y * b.y}; }
 
 /// @brief Multiplies a Vector2i by a @p factor.
 [[nodiscard]]
-constexpr Vector2i operator*(const Vector2i v, const int32_t factor) noexcept { return Vector2i(v.x * factor, v.y * factor); }
+constexpr Vector2i operator*(const Vector2i v, const int32_t factor) noexcept { return {v.x * factor, v.y * factor}; }
 
 /// @brief Multiplies a Vector2i by a @p factor.
 [[nodiscard]]
@@ -215,19 +215,19 @@ constexpr Vector2 operator*(const float_t factor, const Vector2i v) noexcept { r
 
 /// @brief Divides a Vector2i by another one.
 [[nodiscard]]
-constexpr Vector2i operator/(const Vector2i a, const Vector2i b) noexcept { return Vector2i(a.x / b.x, a.y / b.y); }
+constexpr Vector2i operator/(const Vector2i a, const Vector2i b) noexcept { return {a.x / b.x, a.y / b.y}; }
 
 /// @brief Divides a Vector2i by a @p factor.
 [[nodiscard]]
-constexpr Vector2i operator/(const Vector2i v, const int32_t factor) noexcept { return Vector2i(v.x / factor, v.y / factor); }
+constexpr Vector2i operator/(const Vector2i v, const int32_t factor) noexcept { return {v.x / factor, v.y / factor}; }
 
 /// @brief Divides a Vector2i by another one.
 [[nodiscard]]
-constexpr Vector2 operator/(const Vector2i a, const Vector2 b) noexcept { return Vector2(static_cast<float_t>(a.x) / static_cast<float_t>(b.x), static_cast<float_t>(a.y) / static_cast<float_t>(b.y)); }
+constexpr Vector2 operator/(const Vector2i a, const Vector2 b) noexcept { return {static_cast<float_t>(a.x) / static_cast<float_t>(b.x), static_cast<float_t>(a.y) / static_cast<float_t>(b.y)}; }
 
 /// @brief Divides a Vector2i by a @p factor.
 [[nodiscard]]
-constexpr Vector2 operator/(const Vector2i v, const float_t factor) noexcept { return Vector2(static_cast<float_t>(v.x) / factor, static_cast<float_t>(v.y) / factor); }
+constexpr Vector2 operator/(const Vector2i v, const float_t factor) noexcept { return {static_cast<float_t>(v.x) / factor, static_cast<float_t>(v.y) / factor}; }
 
 /// @brief Adds two Vector2i according to @ref operator+(const Vector2i, const Vector2i), placing the result in @p a.
 constexpr Vector2i& operator+=(Vector2i& a, const Vector2i b) noexcept { return a = a + b; }
@@ -250,7 +250,7 @@ constexpr bool_t operator==(const Vector2i a, const Vector2i b) noexcept { retur
 constexpr bool_t operator!=(const Vector2i a, const Vector2i b) noexcept { return !(a == b); }
 
 /// @brief Streams a Vector2i into @p out, printing its values one by one on a single line.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
+PUBLIC_API std::ostream& operator<<(std::ostream& out, Vector2i v) noexcept;
 
 template <>
 struct std::formatter<Vector2i>

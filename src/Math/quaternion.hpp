@@ -13,7 +13,7 @@
 /// @brief Defines the Quaternion class.
 
 /// @brief The Quaternion class represents a 4-dimensional vector mainly used for mathematical calculations revolving around rotations.
-class MATH_TOOLBOX Quaternion
+class PUBLIC_API Quaternion
 {
 public:
     /// @brief The imaginary part of this Quaternion. Represents the @c x, @c y, and @c z components.
@@ -522,7 +522,7 @@ constexpr bool operator==(const Quaternion& a, const Quaternion& b)
 constexpr bool operator!=(const Quaternion& a, const Quaternion& b) { return !(a == b); }
 
 /// @brief Streams a Quaternion into @p out, printing its values one by one on a single line.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Quaternion& q);
+PUBLIC_API std::ostream& operator<<(std::ostream& out, const Quaternion& q);
 
 constexpr Quaternion Quaternion::Inverted() const noexcept
 {

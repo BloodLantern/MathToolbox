@@ -16,7 +16,7 @@
 /// @brief The Matrix2 class represents a 3x3 array mainly used for mathematical operations.
 ///
 /// Matrices are stored using the column-major convention.
-class MATH_TOOLBOX Matrix2
+class PUBLIC_API Matrix2
 {
 public:
     /// @brief The component at position [0, 0] of a Matrix2.
@@ -493,7 +493,7 @@ constexpr Vector3& Matrix2::operator[](const size_t col)
 /// @brief Streams a Matrix2 into @p out, printing its values one by one on a single line.
 ///
 /// If you instead want a multiline print, you can use Matrix::DebugPrint.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Matrix2& m);
+PUBLIC_API std::ostream& operator<<(std::ostream& out, const Matrix2& m);
 
 template <>
 struct std::formatter<Matrix2>

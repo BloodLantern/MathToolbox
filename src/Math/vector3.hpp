@@ -14,7 +14,7 @@ class Vector4;
 class Matrix;
 
 /// @brief The Vector3 class represents either a three-dimensional vector or a point.
-class MATH_TOOLBOX Vector3
+class PUBLIC_API Vector3
 {
 public:
     /// @brief The @c x component of this Vector3.
@@ -125,7 +125,7 @@ public:
     ///
     /// @see Length
     [[nodiscard]]
-    Vector3 Rescaled(float_t newLength) noexcept;
+    Vector3 Rescaled(float_t newLength) const noexcept;
 
 	/// @brief Returns the squared length of the vector.
 	[[nodiscard]]
@@ -185,31 +185,31 @@ constexpr Vector3::Vector3(const float_t* const data) noexcept : x(data[0]), y(d
 
 constexpr Vector3::Vector3(const float_t x, const float_t y, const float_t z) noexcept : x(x), y(y), z(z) {}
 
-constexpr Vector3 Vector3::Zero() noexcept { return Vector3(); }
+constexpr Vector3 Vector3::Zero() noexcept { return {}; }
 
-constexpr void Vector3::Zero(Vector3* result) noexcept { *result = Vector3(); }
+constexpr void Vector3::Zero(Vector3* result) noexcept { *result = {}; }
 
-constexpr Vector3 Vector3::UnitX() noexcept { return Vector3(1.f, 0.f, 0.f); }
+constexpr Vector3 Vector3::UnitX() noexcept { return {1.f, 0.f, 0.f}; }
 
-constexpr void Vector3::UnitX(Vector3* result) noexcept { *result = Vector3(1.f, 0.f, 0.f); }
+constexpr void Vector3::UnitX(Vector3* result) noexcept { *result = {1.f, 0.f, 0.f}; }
 
-constexpr Vector3 Vector3::UnitY() noexcept { return Vector3(0.f, 1.f, 0.f); }
+constexpr Vector3 Vector3::UnitY() noexcept { return {0.f, 1.f, 0.f}; }
 
-constexpr void Vector3::UnitY(Vector3* result) noexcept { *result = Vector3(0.f, 1.f, 0.f); }
+constexpr void Vector3::UnitY(Vector3* result) noexcept { *result = {0.f, 1.f, 0.f}; }
 
-constexpr Vector3 Vector3::UnitZ() noexcept { return Vector3(0.f, 0.f, 1.f); }
+constexpr Vector3 Vector3::UnitZ() noexcept { return {0.f, 0.f, 1.f}; }
 
-constexpr void Vector3::UnitZ(Vector3* result) noexcept { *result = Vector3(0.f, 0.f, 1.f); }
+constexpr void Vector3::UnitZ(Vector3* result) noexcept { *result = {0.f, 0.f, 1.f}; }
 
-constexpr Vector3 Vector3::One() noexcept { return Vector3(1); }
+constexpr Vector3 Vector3::One() noexcept { return Vector3{1}; }
 
-constexpr void Vector3::One(Vector3* result) noexcept { *result = Vector3(1); }
+constexpr void Vector3::One(Vector3* result) noexcept { *result = Vector3{1}; }
 
 constexpr float_t Vector3::Dot(const Vector3& a, const Vector3& b) noexcept { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
-constexpr Vector3 Vector3::Cross(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
+constexpr Vector3 Vector3::Cross(const Vector3& a, const Vector3& b) noexcept { return {a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x}; }
 
-constexpr void Vector3::Cross(const Vector3& a, const Vector3& b, Vector3* result) noexcept { *result = Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
+constexpr void Vector3::Cross(const Vector3& a, const Vector3& b, Vector3* result) noexcept { *result = {a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x}; }
 
 constexpr const float_t* Vector3::Data() const noexcept { return &x; }
 
@@ -235,13 +235,13 @@ constexpr float_t& Vector3::operator[](const size_t i)
 
 /// @brief Adds two Vector3 together.
 [[nodiscard]]
-constexpr Vector3 operator+(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x + b.x, a.y + b.y, a.z + b.z); }
+constexpr Vector3 operator+(const Vector3& a, const Vector3& b) noexcept { return {a.x + b.x, a.y + b.y, a.z + b.z}; }
 
 /// @brief Returns the opposite of a Vector3.
 ///
 /// This effectively means replacing all values of this Vector3 with their opposite.
 [[nodiscard]]
-constexpr Vector3 operator-(const Vector3& a) noexcept { return Vector3(-a.x, -a.y, -a.z); }
+constexpr Vector3 operator-(const Vector3& a) noexcept { return {-a.x, -a.y, -a.z}; }
 
 /// @brief Subtracts a Vector3 from another one.
 [[nodiscard]]
@@ -249,11 +249,11 @@ constexpr Vector3 operator-(const Vector3& a, const Vector3& b) noexcept { retur
 
 /// @brief Multiplies two Vector3 component-wise.
 [[nodiscard]]
-constexpr Vector3 operator*(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x * b.x, a.y * b.y, a.z * b.z); }
+constexpr Vector3 operator*(const Vector3& a, const Vector3& b) noexcept { return {a.x * b.x, a.y * b.y, a.z * b.z}; }
 
 /// @brief Multiplies a Vector3 by a @p factor.
 [[nodiscard]]
-constexpr Vector3 operator*(const Vector3& v, const float_t factor) noexcept { return Vector3(v.x * factor, v.y * factor, v.z * factor); }
+constexpr Vector3 operator*(const Vector3& v, const float_t factor) noexcept { return {v.x * factor, v.y * factor, v.z * factor}; }
 
 /// @brief Multiplies a Vector3 by a @p factor.
 [[nodiscard]]
@@ -261,11 +261,11 @@ constexpr Vector3 operator*(const float_t factor, const Vector3 v) noexcept { re
 
 /// @brief Divides a Vector3 by another one.
 [[nodiscard]]
-constexpr Vector3 operator/(const Vector3& a, const Vector3& b) noexcept { return Vector3(a.x / b.x, a.y / b.y, a.z / b.z); }
+constexpr Vector3 operator/(const Vector3& a, const Vector3& b) noexcept { return {a.x / b.x, a.y / b.y, a.z / b.z}; }
 
 /// @brief Divides a Vector3 by a @p factor.
 [[nodiscard]]
-constexpr Vector3 operator/(const Vector3& v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return Vector3(v.x * invFactor, v.y * invFactor, v.z * invFactor); }
+constexpr Vector3 operator/(const Vector3& v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return {v.x * invFactor, v.y * invFactor, v.z * invFactor}; }
 
 /// @brief Adds two Vector3 according to @ref operator+(const Vector3&, const Vector3&), placing the result in @p a.
 constexpr Vector3& operator+=(Vector3& a, const Vector3& b) noexcept { return a = a + b; }
@@ -299,7 +299,7 @@ constexpr bool_t operator==(const Vector3 a, const Vector3 b) noexcept
 constexpr bool_t operator!=(const Vector3 a, const Vector3 b) noexcept { return !(a == b); }
 
 /// @brief Streams a Vector3 into @p out, printing its values one by one on a single line.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
+PUBLIC_API std::ostream& operator<<(std::ostream& out, const Vector3& v) noexcept;
 
 constexpr Vector3 Vector3::Combine(const Vector3& a, const Vector3& b, const float_t aScale, const float_t bScale) noexcept { return (a * aScale) + (b * bScale); }
 

@@ -17,7 +17,7 @@
 /// @brief The Matrix class represents a 4x4 array mainly used for mathematical operations.
 ///
 /// Matrices are stored using the column-major convention.
-class MATH_TOOLBOX Matrix
+class PUBLIC_API Matrix
 {
 public:
     /// @brief The component at position [0, 0] of a Matrix.
@@ -962,7 +962,7 @@ constexpr Vector4& Matrix::operator[](const size_t col)
 /// @brief Streams a Matrix into @p out, printing its values one by one on a single line.
 ///
 /// If you instead want a multiline print, you can use Matrix::DebugPrint.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Matrix& m);
+PUBLIC_API std::ostream& operator<<(std::ostream& out, const Matrix& m);
 
 constexpr Matrix Matrix::Trs(const Vector3& translation, const Matrix& rotation, const Vector3& scale) noexcept
 {

@@ -16,7 +16,7 @@ class Vector3;
 class Vector4;
 
 /// @brief The Vector2 class represents either a two-dimensional vector or a point.
-class MATH_TOOLBOX Vector2
+class PUBLIC_API Vector2
 {
 public:
     /// @brief The @c x component of this Vector2.
@@ -162,13 +162,13 @@ constexpr Vector2::Vector2(const float_t* const data) noexcept : x(data[0]), y(d
 
 constexpr Vector2::Vector2(const float_t x, const float_t y) noexcept : x(x), y(y) {}
 
-constexpr Vector2 Vector2::Zero() noexcept { return Vector2(); }
+constexpr Vector2 Vector2::Zero() noexcept { return {}; }
 
-constexpr Vector2 Vector2::UnitX() noexcept { return Vector2(1.f, 0.f); }
+constexpr Vector2 Vector2::UnitX() noexcept { return {1.f, 0.f}; }
 
-constexpr Vector2 Vector2::UnitY() noexcept { return Vector2(0.f, 1.f); }
+constexpr Vector2 Vector2::UnitY() noexcept { return {0.f, 1.f}; }
 
-constexpr Vector2 Vector2::One() noexcept { return Vector2(1); }
+constexpr Vector2 Vector2::One() noexcept { return Vector2{1}; }
 
 constexpr float_t Vector2::Dot(const Vector2 a, const Vector2 b) noexcept { return a.x * b.x + a.y * b.y; }
 
@@ -200,13 +200,13 @@ constexpr float_t& Vector2::operator[](const size_t i)
 
 /// @brief Adds two Vector2 together.
 [[nodiscard]]
-constexpr Vector2 operator+(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x + b.x, a.y + b.y); }
+constexpr Vector2 operator+(const Vector2 a, const Vector2 b) noexcept { return {a.x + b.x, a.y + b.y}; }
 
 /// @brief Returns the opposite of a Vector2.
 ///
 /// This effectively means replacing all values of this Vector2 with their opposite.
 [[nodiscard]]
-constexpr Vector2 operator-(const Vector2 a) noexcept { return Vector2(-a.x, -a.y); }
+constexpr Vector2 operator-(const Vector2 a) noexcept { return {-a.x, -a.y}; }
 
 /// @brief Subtracts a Vector2 from another one.
 [[nodiscard]]
@@ -214,11 +214,11 @@ constexpr Vector2 operator-(const Vector2 a, const Vector2 b) noexcept { return 
 
 /// @brief Multiplies two Vector2 component-wise.
 [[nodiscard]]
-constexpr Vector2 operator*(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x * b.x, a.y * b.y); }
+constexpr Vector2 operator*(const Vector2 a, const Vector2 b) noexcept { return {a.x * b.x, a.y * b.y}; }
 
 /// @brief Multiplies a Vector2 by a @p factor.
 [[nodiscard]]
-constexpr Vector2 operator*(const Vector2 v, const float_t factor) noexcept { return Vector2(v.x * factor, v.y * factor); }
+constexpr Vector2 operator*(const Vector2 v, const float_t factor) noexcept { return {v.x * factor, v.y * factor}; }
 
 /// @brief Multiplies a Vector2 by a @p factor.
 [[nodiscard]]
@@ -226,11 +226,11 @@ constexpr Vector2 operator*(const float_t factor, const Vector2 v) noexcept { re
 
 /// @brief Divides a Vector2 by another one.
 [[nodiscard]]
-constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return Vector2(a.x / b.x, a.y / b.y); }
+constexpr Vector2 operator/(const Vector2 a, const Vector2 b) noexcept { return {a.x / b.x, a.y / b.y}; }
 
 /// @brief Divides a Vector2 by a @p factor.
 [[nodiscard]]
-constexpr Vector2 operator/(const Vector2 v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return Vector2(v.x * invFactor, v.y * invFactor); }
+constexpr Vector2 operator/(const Vector2 v, const float_t factor) noexcept { const float_t invFactor = 1.f / factor; return {v.x * invFactor, v.y * invFactor}; }
 
 /// @brief Adds two Vector2 according to @ref operator+(const Vector2, const Vector2), placing the result in @p a.
 constexpr Vector2& operator+=(Vector2& a, const Vector2 b) noexcept { return a = a + b; }
@@ -263,7 +263,7 @@ constexpr bool_t operator==(const Vector2 a, const Vector2 b) noexcept
 constexpr bool_t operator!=(const Vector2 a, const Vector2 b) noexcept { return !(a == b); }
 
 /// @brief Streams a Vector2 into @p out, printing its values one by one on a single line.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
+PUBLIC_API std::ostream& operator<<(std::ostream& out, Vector2 v) noexcept;
 
 template <>
 struct std::formatter<Vector2>

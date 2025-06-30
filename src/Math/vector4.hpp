@@ -14,7 +14,7 @@
 class Matrix;
 
 /// @brief The Vector4 class represents either a four-dimensional vector or a point.
-class MATH_TOOLBOX Vector4
+class PUBLIC_API Vector4
 {
 public:
     /// @brief The @c x component of this Vector4.
@@ -285,7 +285,7 @@ constexpr bool_t operator==(const Vector4 a, const Vector4 b) noexcept
 constexpr bool_t operator!=(const Vector4 a, const Vector4 b) noexcept { return !(a == b); }
 
 /// @brief Streams a Vector4 into @p out, printing its values one by one on a single line.
-MATH_TOOLBOX std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept;
+PUBLIC_API std::ostream& operator<<(std::ostream& out, const Vector4& v) noexcept;
 
 template <>
 struct std::formatter<Vector4>

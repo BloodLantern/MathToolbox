@@ -18,7 +18,7 @@ Vector4 Vector4::Normalized() const noexcept
 	if (Calc::IsZero(length))
 		return Zero();
 
-	__assume(length != 0.f);
+	ASSUME(length != 0.f);
 	const float invLength = 1.f / length;
 	return Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
 }
@@ -32,7 +32,7 @@ void Vector4::Normalized(Vector4* result) const noexcept
 		return;
 	}
 
-	__assume(length != 0.f);
+	ASSUME(length != 0.f);
 	const float invLength = 1.f / length;
 	*result = Vector4(x * invLength, y * invLength, z * invLength, w * invLength);
 }

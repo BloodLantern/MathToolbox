@@ -18,16 +18,16 @@ Vector2 Vector2::Normalized() const noexcept
 	if (Calc::IsZero(length))
 		return Zero();
 
-    __assume(length != 0.f);
+    ASSUME(length != 0.f);
 	const float_t invLength = 1.f / length;
-	return Vector2(x * invLength, y * invLength);
+	return {x * invLength, y * invLength};
 }
 
-Vector2 Vector2::Normal() const noexcept { return Vector2(y, -x).Normalized(); }
+Vector2 Vector2::Normal() const noexcept { return Vector2{y, -x}.Normalized(); }
 
 Vector2 Vector2::Rotated(const float_t angle) const noexcept { return Rotated(std::cos(angle), std::sin(angle)); }
 
-Vector2 Vector2::Rotated(const float_t c, const float_t s) const noexcept { return Vector2(x * c - y * s, x * s + y * c); }
+Vector2 Vector2::Rotated(const float_t c, const float_t s) const noexcept { return {x * c - y * s, x * s + y * c}; }
 
 bool Vector2::IsInfinity() const noexcept
 {
@@ -43,17 +43,17 @@ bool Vector2::IsNaN() const noexcept
 
 Vector2::operator Vector2i() const noexcept
 {
-	return Vector2i(static_cast<int32_t>(std::round(x)), static_cast<int32_t>(std::round(y)));
+	return {static_cast<int32_t>(std::round(x)), static_cast<int32_t>(std::round(y))};
 }
 
 Vector2::operator Vector3() const noexcept
 {
-	return Vector3(x, y, 0.f);
+	return {x, y, 0.f};
 }
 
 Vector2::operator Vector4() const noexcept
 {
-	return Vector4(x, y, 0.f, 1.f);
+	return {x, y, 0.f, 1.f};
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector2 v) noexcept
