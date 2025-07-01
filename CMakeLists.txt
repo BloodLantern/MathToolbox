@@ -12,8 +12,8 @@ if (MSVC)
     add_compile_options(/MP) # Manually add multi-core compilation on MSVC
 endif ()
 
-add_subdirectory(src) # TODO Fix subdirectories
+add_subdirectory(src)
 
-if (${BUILD_TESTS})
+if (BUILD_TESTS)
     add_subdirectory(tests)
 endif ()

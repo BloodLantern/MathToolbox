@@ -1,6 +1,6 @@
-﻿cmake_minimum_required(VERSION 3.14)
+﻿cmake_minimum_required(VERSION 3.12)
 
-project(UnitTests LANGUAGES C CXX)
+project(UnitTests)
 
 include_directories("../src")
 
@@ -23,6 +23,10 @@ add_executable(
 target_link_libraries(
     Tests
     GTest::gtest_main
+)
+target_link_libraries(
+    Tests
+    Math
 )
 
 include(GoogleTest)

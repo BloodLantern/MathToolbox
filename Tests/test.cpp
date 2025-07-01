@@ -4,9 +4,14 @@
 
 #include "Math/math.hpp"
 
+// Ignore MSVC warnings
 #pragma warning(push)
 #pragma warning(disable: 4834) // discarding return value of function with 'nodiscard' attribute
 #pragma warning(disable: 4723) // potential divide by 0
+
+// Ignore GCC warnings
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result" // ignoring return value of 'function_name', declared with attribute 'nodiscard'
 
 namespace TestCalc
 {
@@ -819,5 +824,7 @@ namespace TestMatrix
         EXPECT_EQ(std::format("{0:m06.3f}", Identity), "[ 01.000 ; 00.000 ; 00.000 ; 00.000 ]\n[ 00.000 ; 01.000 ; 00.000 ; 00.000 ]\n[ 00.000 ; 00.000 ; 01.000 ; 00.000 ]\n[ 00.000 ; 00.000 ; 00.000 ; 01.000 ]");
     }
 }
+
+#pragma GCC diagnostic pop
 
 #pragma warning(pop)
