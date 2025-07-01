@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.12)
 
-project(MathToolbox)
+project(MathLibrary)
 
 if (${BUILD_SHARED_LIBS})
     add_compile_definitions(MATH_EXPORT)
