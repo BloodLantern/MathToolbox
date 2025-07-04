@@ -2,8 +2,8 @@
 
 project(MathLibrary)
 
-if (${BUILD_SHARED_LIBS})
-    add_compile_definitions(MATH_EXPORT)
+if (BUILD_SHARED_LIBS)
+    add_compile_definitions(MATH_SHARED MATH_EXPORT)
 endif ()
 
 include_directories(".")

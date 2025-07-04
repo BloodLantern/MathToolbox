@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (MSVC)
-    add_compile_options(/MP) # Manually add multi-core compilation on MSVC
+    add_compile_options(/MP /Zc:__cplusplus) # Manually add some specific global macros on MSVC
 endif ()
 
 add_subdirectory(src)

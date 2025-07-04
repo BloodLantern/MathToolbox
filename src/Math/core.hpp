@@ -49,7 +49,7 @@
 /// @brief Macro preceding all declarations of this library. Used when integrating this library in a shared library.
 ///
 /// When building a shared library using this library, define @c MATH_SHARED.
-/// When building this project as a shared library, instead define @c MATH_EXPORT.
+/// When building this project as a shared library, also define @c MATH_EXPORT.
 #ifdef MATH_SHARED
     #ifdef ENVIRONMENT_WINDOWS
         #ifdef MATH_EXPORT

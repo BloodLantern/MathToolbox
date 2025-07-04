@@ -60,119 +60,119 @@ namespace Calc
     /// @param number The number to get the sign of.
     /// @returns -1 if the value is negative, 1 if it is positive. 0 Otherwise.
     [[nodiscard]]
-	PUBLIC_API constexpr float_t Sign(float_t number) noexcept;
+	constexpr float_t Sign(float_t number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::abs</c> function.
 	///
 	/// @param number The number to get the absolute value of.
 	/// @returns The absolute value of @p number.
 	[[nodiscard]]
-	PUBLIC_API constexpr float_t Abs(float_t number) noexcept;
+	constexpr float_t Abs(float_t number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::abs</c> function for Vector2.
 	///
 	/// @param vector The vector to get the absolute value of.
 	/// @returns A Vector2 whose components are the absolute values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector2 Abs(Vector2 vector) noexcept;
+	constexpr Vector2 Abs(Vector2 vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::abs</c> function for Vector3.
 	///
 	/// @param vector The vector to get the absolute value of.
 	/// @returns A Vector3 whose components are the absolute values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector3 Abs(const Vector3& vector) noexcept;
+	constexpr Vector3 Abs(const Vector3& vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::abs</c> function for Vector4.
 	///
 	/// @param vector The vector to get the absolute value of.
 	/// @returns A Vector4 whose components are the absolute values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector4 Abs(const Vector4& vector) noexcept;
+	constexpr Vector4 Abs(const Vector4& vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::round</c> function.
 	///
 	/// @param number The number to round to the nearest integer value.
 	/// @returns The rounded value of @p number.
 	[[nodiscard]]
-	PUBLIC_API constexpr float_t Round(float_t number) noexcept;
+	constexpr float_t Round(float_t number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::round</c> function for Vector2.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector2 whose components are the rounded values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector2 Round(Vector2 vector) noexcept;
+	constexpr Vector2 Round(Vector2 vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::round</c> function for Vector3.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector3 whose components are the rounded values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector3 Round(const Vector3& vector) noexcept;
+	constexpr Vector3 Round(const Vector3& vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::round</c> function for Vector4.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector4 whose components are the rounded values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector4 Round(const Vector4& vector) noexcept;
+	constexpr Vector4 Round(const Vector4& vector) noexcept;
 
     /// @brief	A constexpr version of the <c>std::floor</c> function.
     ///
     /// @param number The number to floor.
     /// @returns The floor value of @p number.
     [[nodiscard]]
-	PUBLIC_API constexpr float_t Floor(float_t number) noexcept;
+	constexpr float_t Floor(float_t number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::floor</c> function for Vector2.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector2 whose components are the floored values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector2 Floor(Vector2 vector) noexcept;
+	constexpr Vector2 Floor(Vector2 vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::floor</c> function for Vector3.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector3 whose components are the floored values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector3 Floor(const Vector3& vector) noexcept;
+	constexpr Vector3 Floor(const Vector3& vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::floor</c> function for Vector4.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector4 whose components are the floored values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector4 Floor(const Vector4& vector) noexcept;
+	constexpr Vector4 Floor(const Vector4& vector) noexcept;
 
     /// @brief	A constexpr version of the <c>std::ceil</c> function.
     ///
     /// @param number The number to ceil.
     /// @returns The ceil value of @p number.
     [[nodiscard]]
-	PUBLIC_API constexpr float_t Ceil(float_t number) noexcept;
+	constexpr float_t Ceil(float_t number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::ceil</c> function for Vector2.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector2 whose components are the ceiled values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector2 Ceil(Vector2 vector) noexcept;
+	constexpr Vector2 Ceil(Vector2 vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::ceil</c> function for Vector3.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector3 whose components are the ceiled values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector3 Ceil(const Vector3& vector) noexcept;
+	constexpr Vector3 Ceil(const Vector3& vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::ceil</c> function for Vector4.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector4 whose components are the ceiled values of @p vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector4 Ceil(const Vector4& vector) noexcept;
+	constexpr Vector4 Ceil(const Vector4& vector) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::clamp</c> function.
 	///
@@ -181,7 +181,7 @@ namespace Calc
 	/// @param max The maximum value.
 	/// @returns The clamped number.
 	[[nodiscard]]
-	PUBLIC_API constexpr float_t Clamp(float_t number, float_t min, float_t max) noexcept;
+	constexpr float_t Clamp(float_t number, float_t min, float_t max) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::clamp</c> function for Vector2.
 	///
@@ -190,7 +190,7 @@ namespace Calc
 	/// @param max The maximum position.
 	/// @returns The clamped vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector2 Clamp(Vector2 vector, Vector2 min, Vector2 max) noexcept;
+	constexpr Vector2 Clamp(Vector2 vector, Vector2 min, Vector2 max) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::clamp</c> function for Vector3.
 	///
@@ -199,7 +199,7 @@ namespace Calc
 	/// @param max The maximum position.
 	/// @returns The clamped vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector3 Clamp(const Vector3& vector, const Vector3& min, const Vector3& max) noexcept;
+	constexpr Vector3 Clamp(const Vector3& vector, const Vector3& min, const Vector3& max) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::clamp</c> function for Vector4.
 	///
@@ -208,7 +208,7 @@ namespace Calc
 	/// @param max The maximum position.
 	/// @returns The clamped vector.
 	[[nodiscard]]
-	PUBLIC_API constexpr Vector4 Clamp(const Vector4& vector, const Vector4& min, const Vector4& max) noexcept;
+	constexpr Vector4 Clamp(const Vector4& vector, const Vector4& min, const Vector4& max) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::fmodf</c> function.
 	///
@@ -216,21 +216,21 @@ namespace Calc
 	/// @param b The right-hand side of the modulo.
 	/// @returns The modulo of @p a by @p b.
 	[[nodiscard]]
-	PUBLIC_API constexpr float_t Modulo(float_t a, float_t b) noexcept;
+	constexpr float_t Modulo(float_t a, float_t b) noexcept;
 
 	/// @brief Approaches the target value by the given step size without ever exceeding it.
 	///
 	/// @param value The value to change.
 	/// @param target The target value.
 	/// @param step The step size.
-	PUBLIC_API constexpr void Approach(float_t& value, float_t target, float_t step) noexcept;
+	constexpr void Approach(float_t& value, float_t target, float_t step) noexcept;
 
 	/// @brief Given a value between 0 and 1, returns a value going from 0 to 1 and to 0 again.
 	///
 	/// @param value The YoYo value.
 	/// @returns A value between 0 and 1, closer to 1 if the input value is close to 0.5.
 	[[nodiscard]]
-	PUBLIC_API constexpr float_t YoYo(float_t value) noexcept;
+	constexpr float_t YoYo(float_t value) noexcept;
 
 	/// @brief Returns true on an interval.
 	///
@@ -238,11 +238,11 @@ namespace Calc
 	/// @param lastValue The last time value. (last call)
 	/// @param interval The interval.
 	[[nodiscard]]
-	PUBLIC_API constexpr bool_t OnInterval(float_t value, float_t lastValue, float_t interval);
+	constexpr bool_t OnInterval(float_t value, float_t lastValue, float_t interval);
 
 	/// @brief Clamps the given @p value between @p min and @p max and remaps the result between @p newMin and @p newMax
 	[[nodiscard]]
-	PUBLIC_API constexpr float_t ClampedMap(
+	constexpr float_t ClampedMap(
 		float_t value,
 		float_t min,
 		float_t max,
@@ -255,7 +255,7 @@ namespace Calc
     /// @param value The value to check.
     /// @returns Whether the value is considered to be zero.
     [[nodiscard]]
-    PUBLIC_API constexpr bool_t IsZero(float_t value) noexcept;
+    constexpr bool_t IsZero(float_t value) noexcept;
 
     /// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <paramref name="zero"/>.
     ///
@@ -263,14 +263,14 @@ namespace Calc
     /// @param zero The value under which a number is considered to be zero.
     /// @returns Whether the value is considered to be zero.
     [[nodiscard]]
-    PUBLIC_API constexpr bool_t IsZero(float_t value, float_t zero) noexcept;
+    constexpr bool_t IsZero(float_t value, float_t zero) noexcept;
 
     /// @brief If a value is considered zero using IsZero(float_t), returns 0. Otherwise, returns the given value.
     ///
     /// @param value The value to check.
     /// @returns Whether the value is considered to be zero.
     [[nodiscard]]
-    PUBLIC_API constexpr float_t MakeZero(float_t value) noexcept;
+    constexpr float_t MakeZero(float_t value) noexcept;
 
     /// @brief If a value is considered zero using IsZero(float_t, float_t), returns 0. Otherwise, returns the given value.
     ///
@@ -278,7 +278,7 @@ namespace Calc
     /// @param zero The value under which a number is considered to be zero.
     /// @returns Whether the value is considered to be zero.
     [[nodiscard]]
-	PUBLIC_API constexpr float_t MakeZero(float_t value, float_t zero) noexcept;
+	constexpr float_t MakeZero(float_t value, float_t zero) noexcept;
 
 	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
 	///
@@ -286,7 +286,7 @@ namespace Calc
 	/// @param b The second value.
 	/// @returns Whether the values are considered equal.
 	[[nodiscard]]
-	PUBLIC_API constexpr bool_t Equals(float_t a, float_t b) noexcept;
+	constexpr bool_t Equals(float_t a, float_t b) noexcept;
 
 	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
 	///
@@ -294,7 +294,7 @@ namespace Calc
 	/// @param b The second value.
 	/// @returns Whether the values are considered equal.
 	[[nodiscard]]
-	PUBLIC_API constexpr bool_t Equals(Vector2 a, Vector2 b) noexcept;
+	constexpr bool_t Equals(Vector2 a, Vector2 b) noexcept;
 
 	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
 	///
@@ -302,7 +302,7 @@ namespace Calc
 	/// @param b The second value.
 	/// @returns Whether the values are considered equal.
 	[[nodiscard]]
-	PUBLIC_API constexpr bool_t Equals(const Vector3& a, const Vector3& b) noexcept;
+	constexpr bool_t Equals(const Vector3& a, const Vector3& b) noexcept;
 
 	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
 	///
@@ -310,7 +310,7 @@ namespace Calc
 	/// @param b The second value.
 	/// @returns Whether the values are considered equal.
 	[[nodiscard]]
-	PUBLIC_API constexpr bool_t Equals(const Vector4& a, const Vector4& b) noexcept;
+	constexpr bool_t Equals(const Vector4& a, const Vector4& b) noexcept;
 
 	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
 	///

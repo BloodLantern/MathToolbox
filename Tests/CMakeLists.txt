@@ -21,6 +21,10 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+if (BUILD_SHARED_LIBS)
+    add_compile_definitions(MATH_SHARED)
+endif ()
+
 add_executable(
     Tests
     test.cpp
@@ -28,11 +32,24 @@ add_executable(
 target_link_libraries(
     Tests
     GTest::gtest_main
-)
-target_link_libraries( # TODO - Fix compilation error when linking against the shared library
-    Tests
     Math
 )
+
+if (WIN32)
+    add_custom_command(TARGET Tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:Math>
+        $<TARGET_FILE_DIR:Tests>
+        COMMENT "Copy Math shared library to tests output directory"
+    )
+
+    add_custom_command(
+        TARGET Tests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:Tests> $<TARGET_FILE_DIR:Tests>
+        COMMAND_EXPAND_LISTS
+        COMMENT "Copy GTest shared library to tests output directory"
+    )
+endif ()
 
 include(GoogleTest)
 gtest_discover_tests(Tests)
