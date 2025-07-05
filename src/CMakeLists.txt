@@ -2,7 +2,7 @@
 
 project(MathLibrary)
 
-if (BUILD_SHARED_LIBS)
+if (MATH_BUILD_SHARED_LIBS)
     add_compile_definitions(MATH_SHARED MATH_EXPORT)
 endif ()
 
@@ -10,4 +10,8 @@ include_directories(".")
 
 file(GLOB_RECURSE SOURCE_FILES "*.cpp")
 
-add_library(Math ${SOURCE_FILES})
+if (MATH_BUILD_SHARED_LIBS)
+    add_library(Math SHARED ${SOURCE_FILES})
+else ()
+    add_library(Math STATIC ${SOURCE_FILES})
+endif ()

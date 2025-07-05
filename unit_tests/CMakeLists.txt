@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.12)
 
-project(MathTests)
+project(MathUnitTests)
 
 # Avoid warning about DOWNLOAD_EXTRACT_TIMESTAMP in CMake 3.24
 if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
@@ -26,30 +26,32 @@ if (BUILD_SHARED_LIBS)
 endif ()
 
 add_executable(
-    Tests
+    MathUnitTests
     test.cpp
 )
 target_link_libraries(
-    Tests
+    MathUnitTests
     GTest::gtest_main
     Math
 )
 
 if (WIN32)
-    add_custom_command(TARGET Tests POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:Math>
-        $<TARGET_FILE_DIR:Tests>
-        COMMENT "Copy Math shared library to tests output directory"
-    )
+    if (MATH_BUILD_SHARED_LIBS)
+        add_custom_command(TARGET MathUnitTests POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:Math>
+            $<TARGET_FILE_DIR:MathUnitTests>
+            COMMENT "Copy Math shared library to MathUnitTests output directory"
+        )
+    endif ()
 
     add_custom_command(
-        TARGET Tests POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:Tests> $<TARGET_FILE_DIR:Tests>
+        TARGET MathUnitTests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:MathUnitTests> $<TARGET_FILE_DIR:MathUnitTests>
         COMMAND_EXPAND_LISTS
-        COMMENT "Copy GTest shared library to tests output directory"
+        COMMENT "Copy GTest shared library to MathUnitTests output directory"
     )
 endif ()
 
 include(GoogleTest)
-gtest_discover_tests(Tests)
+gtest_discover_tests(MathUnitTests)
