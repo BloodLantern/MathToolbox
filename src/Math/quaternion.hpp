@@ -10,12 +10,11 @@
 #include "Math/vector4.hpp"
 
 /// @file quaternion.hpp
-/// @brief Defines the Quaternion class.
+/// @brief Defines the Quaternion struct.
 
-/// @brief The Quaternion class represents a 4-dimensional vector mainly used for mathematical calculations revolving around rotations.
-class MATH_TOOLBOX Quaternion
+/// @brief The Quaternion struct represents a 4-dimensional vector mainly used for mathematical calculations revolving around rotations.
+struct MATH_TOOLBOX Quaternion
 {
-public:
     /// @brief The imaginary part of this Quaternion. Represents the @c x, @c y, and @c z components.
     Vector3 imaginary;
 

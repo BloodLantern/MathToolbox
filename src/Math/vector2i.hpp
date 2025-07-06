@@ -8,15 +8,14 @@
 #include "Math/vector2.hpp"
 
 /// @file vector2i.hpp
-/// @brief Defines the Vector2i class.
+/// @brief Defines the Vector2i struct.
 
-class Vector3;
-class Vector4;
+struct Vector3;
+struct Vector4;
 
-/// @brief The Vector2i class represents either a two-dimensional vector or a point.
-class MATH_TOOLBOX Vector2i
+/// @brief The Vector2i struct represents either a two-dimensional vector or a point.
+struct MATH_TOOLBOX Vector2i
 {
-public:
     /// @brief The @c x component of this Vector2i.
     int32_t x = 0;
 

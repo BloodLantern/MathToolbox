@@ -9,14 +9,13 @@
 #include "Math/vector3.hpp"
 
 /// @file vector4.hpp
-/// @brief Defines the Vector4 class.
+/// @brief Defines the Vector4 struct.
 
-class Matrix;
+struct Matrix;
 
-/// @brief The Vector4 class represents either a four-dimensional vector or a point.
-class MATH_TOOLBOX Vector4
+/// @brief The Vector4 struct represents either a four-dimensional vector or a point.
+struct MATH_TOOLBOX Vector4
 {
-public:
     /// @brief The @c x component of this Vector4.
     float_t x = 0.f;
     /// @brief The @c y component of this Vector4.

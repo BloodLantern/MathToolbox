@@ -11,14 +11,13 @@
 #include "Math/vector2.hpp"
 
 /// @file matrix3.hpp
-/// @brief Defines the Matrix2 class.
+/// @brief Defines the Matrix2 struct.
 
-/// @brief The Matrix2 class represents a 3x3 array mainly used for mathematical operations.
+/// @brief The Matrix2 struct represents a 3x3 array mainly used for mathematical operations.
 ///
 /// Matrices are stored using the column-major convention.
-class MATH_TOOLBOX Matrix2
+struct MATH_TOOLBOX Matrix2
 {
-public:
     /// @brief The component at position [0, 0] of a Matrix2.
     float_t m00 = 0.f;
 

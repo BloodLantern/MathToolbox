@@ -10,14 +10,13 @@
 #include "Math/vector3.hpp"
 
 /// @file matrix3.hpp
-/// @brief Defines the Matrix3 class.
+/// @brief Defines the Matrix3 struct.
 
-/// @brief The Matrix3 class represents a 3x3 array mainly used for mathematical operations.
+/// @brief The Matrix3 struct represents a 3x3 array mainly used for mathematical operations.
 ///
 /// Matrices are stored using the column-major convention.
-class MATH_TOOLBOX Matrix3
+struct MATH_TOOLBOX Matrix3
 {
-public:
     /// @brief The component at position [0, 0] of a Matrix3.
     float_t m00 = 0.f;
 

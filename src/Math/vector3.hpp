@@ -8,15 +8,14 @@
 #include "Math/vector2.hpp"
 
 /// @file vector3.hpp
-/// @brief Defines the Vector3 class.
+/// @brief Defines the Vector3 struct.
 
-class Vector4;
-class Matrix;
+struct Vector4;
+struct Matrix;
 
-/// @brief The Vector3 class represents either a three-dimensional vector or a point.
-class MATH_TOOLBOX Vector3
+/// @brief The Vector3 struct represents either a three-dimensional vector or a point.
+struct MATH_TOOLBOX Vector3
 {
-public:
     /// @brief The @c x component of this Vector3.
     float_t x = 0.f;
 

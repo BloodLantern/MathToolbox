@@ -6,20 +6,19 @@
 #include <ostream>
 
 #include "Math/calc.hpp"
+#include "Math/matrix3.hpp"
+#include "Math/quaternion.hpp"
 #include "Math/vector3.hpp"
 #include "Math/vector4.hpp"
-#include "Math/quaternion.hpp"
-#include "Math/matrix3.hpp"
 
 /// @file matrix.hpp
-/// @brief Defines the Matrix class.
+/// @brief Defines the Matrix struct.
 
-/// @brief The Matrix class represents a 4x4 array mainly used for mathematical operations.
+/// @brief The Matrix struct represents a 4x4 array mainly used for mathematical operations.
 ///
 /// Matrices are stored using the column-major convention.
-class MATH_TOOLBOX Matrix
+struct MATH_TOOLBOX Matrix
 {
-public:
     /// @brief The component at position [0, 0] of a Matrix.
     float_t m00 = 0.f;
 
