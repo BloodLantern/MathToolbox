@@ -12,6 +12,10 @@ namespace Easing
     /// @brief An Easer is a function that takes a value in the range [0, 1] and returns a new value in the same range.
     using Easer = float_t(*)(float_t);
 
+    /// @brief Returns the given value unchanged.
+    [[nodiscard]]
+    MATH_TOOLBOX constexpr float_t Linear(float_t t);
+
     /// @brief The <a href="https://easings.net/#easeInSine">SineIn</a> easing function.
     ///
     /// @param t The current time. Must be between 0 and 1 inclusive.
@@ -221,6 +225,11 @@ namespace Easing
     /// @return The transformed time.
     [[nodiscard]]
     MATH_TOOLBOX float_t BounceInOut(float_t t);
+}
+
+constexpr float_t Easing::Linear(const float_t t)
+{
+    return t;
 }
 
 constexpr float_t Easing::QuadIn(const float_t t)
