@@ -66,8 +66,9 @@ namespace Calc
 	///
 	/// @param number The number to get the absolute value of.
 	/// @returns The absolute value of @p number.
+	template <std::floating_point T>
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Abs(float_t number) noexcept;
+	MATH_TOOLBOX constexpr T Abs(T number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::abs</c> function for Vector2.
 	///
@@ -94,8 +95,9 @@ namespace Calc
 	///
 	/// @param number The number to round to the nearest integer value.
 	/// @returns The rounded value of @p number.
+	template <std::floating_point T>
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Round(float_t number) noexcept;
+	MATH_TOOLBOX constexpr T Round(T number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::round</c> function for Vector2.
 	///
@@ -122,8 +124,9 @@ namespace Calc
     ///
     /// @param number The number to floor.
     /// @returns The floor value of @p number.
+	template <std::floating_point T>
     [[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Floor(float_t number) noexcept;
+	MATH_TOOLBOX constexpr T Floor(T number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::floor</c> function for Vector2.
 	///
@@ -150,8 +153,9 @@ namespace Calc
     ///
     /// @param number The number to ceil.
     /// @returns The ceil value of @p number.
+	template <std::floating_point T>
     [[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Ceil(float_t number) noexcept;
+	MATH_TOOLBOX constexpr T Ceil(T number) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::ceil</c> function for Vector2.
 	///
@@ -180,8 +184,9 @@ namespace Calc
 	/// @param min The minimum value.
 	/// @param max The maximum value.
 	/// @returns The clamped number.
+	template <std::floating_point T>
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Clamp(float_t number, float_t min, float_t max) noexcept;
+	MATH_TOOLBOX constexpr T Clamp(T number, T min, T max) noexcept;
 
 	/// @brief	A constexpr version of the <c>std::clamp</c> function for Vector2.
 	///
@@ -215,8 +220,17 @@ namespace Calc
 	/// @param a The left-hand side of the modulo.
 	/// @param b The right-hand side of the modulo.
 	/// @returns The modulo of @p a by @p b.
+	template <std::floating_point T>
 	[[nodiscard]]
-	MATH_TOOLBOX constexpr float_t Modulo(float_t a, float_t b) noexcept;
+	MATH_TOOLBOX constexpr T Modulo(T a, T b) noexcept;
+
+	/// @brief	A constexpr version of the <c>std::isnan</c> function.
+	///
+	/// @param value The floating-point value to check.
+	/// @returns @c true if @p value is NaN, @c false otherwise.
+	template <std::floating_point T>
+	[[nodiscard]]
+	MATH_TOOLBOX constexpr bool_t IsNan(T value) noexcept;
 
 	/// @brief Approaches the target value by the given step size without ever exceeding it.
 	///
@@ -371,7 +385,8 @@ namespace Calc
 
 constexpr float_t Calc::Sign(const float_t number) noexcept { if (IsZero(number)) return 0.f; return number < 0.f ? -1.f : 1.f; }
 
-constexpr float_t Calc::Abs(const float_t number) noexcept { return number < 0.f ? -number : number; }
+template <std::floating_point T>
+constexpr T Calc::Abs(T number) noexcept { return number < 0.f ? -number : number; }
 
 constexpr Vector2 Calc::Abs(const Vector2 vector) noexcept { return { Abs(vector.x), Abs(vector.y) }; }
 
@@ -379,12 +394,13 @@ constexpr Vector3 Calc::Abs(const Vector3& vector) noexcept { return { Abs(vecto
 
 constexpr Vector4 Calc::Abs(const Vector4& vector) noexcept { return { Abs(vector.x), Abs(vector.y), Abs(vector.z), Abs(vector.w) }; }
 
-constexpr float_t Calc::Round(const float_t number) noexcept
+template <std::floating_point T>
+constexpr T Calc::Round(T number) noexcept
 {
-    const int32_t lower = static_cast<int32_t>(number);
-    const int32_t upper = static_cast<int32_t>(number + 0.5f);  // NOLINT(bugprone-incorrect-roundings)
+	const int32_t lower = static_cast<int32_t>(number);
+	const int32_t upper = static_cast<int32_t>(number + 0.5f);  // NOLINT(bugprone-incorrect-roundings)
 
-    return static_cast<float_t>(lower < upper ? upper : lower);
+	return static_cast<float_t>(lower < upper ? upper : lower);
 }
 
 constexpr Vector2 Calc::Round(const Vector2 vector) noexcept { return { Round(vector.x), Round(vector.y) }; }
@@ -393,7 +409,8 @@ constexpr Vector3 Calc::Round(const Vector3& vector) noexcept { return { Round(v
 
 constexpr Vector4 Calc::Round(const Vector4& vector) noexcept { return { Round(vector.x), Round(vector.y), Round(vector.z), Round(vector.w) }; }
 
-constexpr float_t Calc::Floor(const float_t number) noexcept { return Round(number - 0.5f); }
+template <std::floating_point T>
+constexpr T Calc::Floor(T number) noexcept { return Round(number - 0.5f); }
 
 constexpr Vector2 Calc::Floor(const Vector2 vector) noexcept { return { Floor(vector.x), Floor(vector.y) }; }
 
@@ -401,7 +418,8 @@ constexpr Vector3 Calc::Floor(const Vector3& vector) noexcept { return { Floor(v
 
 constexpr Vector4 Calc::Floor(const Vector4& vector) noexcept { return { Floor(vector.x), Floor(vector.y), Floor(vector.z), Floor(vector.w) }; }
 
-constexpr float_t Calc::Ceil(const float_t number) noexcept { return Round(number + 0.5f); }
+template <std::floating_point T>
+constexpr T Calc::Ceil(T number) noexcept { return Round(number + 0.5f); }
 
 constexpr Vector2 Calc::Ceil(const Vector2 vector) noexcept { return { Ceil(vector.x), Ceil(vector.y) }; }
 
@@ -409,7 +427,8 @@ constexpr Vector3 Calc::Ceil(const Vector3& vector) noexcept { return { Ceil(vec
 
 constexpr Vector4 Calc::Ceil(const Vector4& vector) noexcept { return { Ceil(vector.x), Ceil(vector.y), Ceil(vector.z), Ceil(vector.w) }; }
 
-constexpr float_t Calc::Clamp(const float_t number, const float_t min, const float_t max) noexcept
+template <std::floating_point T>
+constexpr T Calc::Clamp(T number, T min, T max) noexcept
 {
 	if (number < min)
 		return min;
@@ -433,7 +452,14 @@ constexpr Vector4 Calc::Clamp(const Vector4& vector, const Vector4& min, const V
 	return { Clamp(vector.x, min.x, max.x), Clamp(vector.y, min.y, max.y), Clamp(vector.z, min.z, max.z), Clamp(vector.w, min.w, max.w) };
 }
 
-constexpr float_t Calc::Modulo(const float_t a, const float_t b) noexcept { return a - static_cast<float_t>(static_cast<int64_t>(a / b)) * b; }
+template <std::floating_point T>
+constexpr T Calc::Modulo(T a, T b) noexcept { return a - static_cast<float_t>(static_cast<int64_t>(a / b)) * b; }
+
+template <std::floating_point T>
+constexpr bool_t Calc::IsNan(T value) noexcept
+{
+	return value == std::numeric_limits<T>::quiet_NaN() || value == std::numeric_limits<T>::signaling_NaN();
+}
 
 // Undef windows macro to be able to use std::min without conflicts
 #undef min
