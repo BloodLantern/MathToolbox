@@ -239,6 +239,27 @@ namespace Calc
 	/// @param step The step size.
 	MATH_TOOLBOX constexpr void Approach(float_t& value, float_t target, float_t step) noexcept;
 
+	/// @brief Approaches the target value by the given step size without ever exceeding it.
+	///
+	/// @param value The value to change.
+	/// @param target The target value.
+	/// @param step The step size.
+	MATH_TOOLBOX constexpr void Approach(Vector2& value, Vector2 target, Vector2 step) noexcept;
+
+	/// @brief Approaches the target value by the given step size without ever exceeding it.
+	///
+	/// @param value The value to change.
+	/// @param target The target value.
+	/// @param step The step size.
+	MATH_TOOLBOX constexpr void Approach(Vector3& value, Vector3 target, Vector3 step) noexcept;
+
+	/// @brief Approaches the target value by the given step size without ever exceeding it.
+	///
+	/// @param value The value to change.
+	/// @param target The target value.
+	/// @param step The step size.
+	MATH_TOOLBOX constexpr void Approach(Vector4& value, Vector4 target, Vector4 step) noexcept;
+
 	/// @brief Given a value between 0 and 1, returns a value going from 0 to 1 and to 0 again.
 	///
 	/// @param value The YoYo value.
@@ -472,6 +493,27 @@ constexpr void Calc::Approach(float_t &value, const float_t target, const float_
 		const float_t difference = target - value;
 		value += std::min(step, Abs(difference)) * Sign(difference);
 	}
+}
+
+constexpr void Calc::Approach(Vector2& value, const Vector2 target, const Vector2 step) noexcept
+{
+	Approach(value.x, target.x, step.x);
+	Approach(value.y, target.y, step.y);
+}
+
+constexpr void Calc::Approach(Vector3& value, const Vector3 target, const Vector3 step) noexcept
+{
+	Approach(value.x, target.x, step.x);
+	Approach(value.y, target.y, step.y);
+	Approach(value.z, target.z, step.z);
+}
+
+constexpr void Calc::Approach(Vector4& value, const Vector4 target, const Vector4 step) noexcept
+{
+	Approach(value.x, target.x, step.x);
+	Approach(value.y, target.y, step.y);
+	Approach(value.z, target.z, step.z);
+	Approach(value.w, target.w, step.w);
 }
 
 constexpr float_t Calc::YoYo(const float_t value) noexcept { return value <= 0.5f ? value * 2.f : 1.f - (value - 0.5f) * 2.f; }
