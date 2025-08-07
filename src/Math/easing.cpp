@@ -4,12 +4,12 @@
 
 float_t Easing::SineIn(const float_t t)
 {
-    return std::sin(Calc::PiOver2 * t);
+    return 1.f + std::sin(Calc::PiOver2 * (t - 1));
 }
 
 float_t Easing::SineOut(const float_t t)
 {
-    return 1.f + std::sin(Calc::PiOver2 * (t - 1));
+    return std::sin(Calc::PiOver2 * t);
 }
 
 float_t Easing::SineInOut(const float_t t)
