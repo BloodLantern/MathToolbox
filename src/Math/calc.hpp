@@ -37,16 +37,16 @@ namespace Calc
 	/// @brief The value under which a number is considered to be zero.
 	constexpr float_t Zero = ZERO;
 
-	/// @brief Shorthand for writing <c>std::numbers::pi_v<float_t></c>.
+	/// @brief Shorthand for writing @code std::numbers::pi_v<float_t>@endcode.
 	constexpr float_t Pi = std::numbers::pi_v<float_t>;
 
-	/// @brief Shorthand for writing <c>Calc::Pi * 2.f</c>.
+	/// @brief Shorthand for writing @code Calc::Pi * 2.f@endcode.
 	constexpr float_t TwoPi = Pi * 2.f;
 
-	/// @brief Shorthand for writing <c>Calc::Pi / 2.f</c>.
+	/// @brief Shorthand for writing @code Calc::Pi / 2.f@endcode.
 	constexpr float_t PiOver2 = Pi / 2.f;
 
-	/// @brief Shorthand for writing <c>Calc::Pi / 4.f</c>.
+	/// @brief Shorthand for writing @code Calc::Pi / 4.f@endcode.
 	constexpr float_t PiOver4 = Pi / 4.f;
 
 	/// @brief Value used to convert from degrees to radians.
@@ -54,6 +54,12 @@ namespace Calc
 
 	/// @brief Value used to convert from radians to degrees.
 	constexpr float_t Rad2Deg = 1.f / Deg2Rad;
+
+	/// @brief Shorthand for writing @code std::numbers::sqrt_2<float_t>@endcode.
+	constexpr float_t Sqrt2 = std::numbers::sqrt2_v<float_t>;
+
+	/// @brief Shorthand for writing @code Sqrt2 / 2.f@endcode.
+	constexpr float_t HalfSqrt2 = Sqrt2 / 2.f;
 
     /// @brief Returns -1 if x is less than 0, 1 if x is greater than 0 and 0 if x is equal to 0.
     ///
