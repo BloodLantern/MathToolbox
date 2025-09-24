@@ -29,6 +29,11 @@ Vector2 Vector2::Rotated(const float_t angle) const noexcept { return Rotated(st
 
 Vector2 Vector2::Rotated(const float_t c, const float_t s) const noexcept { return Vector2(x * c - y * s, x * s + y * c); }
 
+float_t Vector2::GetAngle() const noexcept
+{
+	return std::atan2(y, x);
+}
+
 bool Vector2::IsInfinity() const noexcept
 {
 	return std::isinf(x)

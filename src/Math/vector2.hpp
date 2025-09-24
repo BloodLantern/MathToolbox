@@ -115,6 +115,11 @@ struct MATH_TOOLBOX Vector2
     [[nodiscard]]
     Vector2 Rotated(float_t c, float_t s) const noexcept;
 
+    /// @brief Get the rotation angle represented by this vector.
+    /// @returns @code std::atan2(y, x)@endcode
+    [[nodiscard]]
+    float_t GetAngle() const noexcept;
+
     /// @brief 	Check whether all of this vector's components are infinite.
     [[nodiscard]]
     bool_t IsInfinity() const noexcept;
