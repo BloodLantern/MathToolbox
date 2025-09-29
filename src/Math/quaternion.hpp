@@ -224,6 +224,15 @@ struct MATH_TOOLBOX Quaternion
     /// @see Rotate(const Vector3&, const Quaternion&)
     static constexpr void Rotate(const Vector3& point, const Quaternion& rotation, Vector3* result) noexcept;
 
+    /// @brief Rotates an object positioned at @p sourcePosition to face @p targetPosition
+    [[nodiscard]]
+    static Quaternion LookAt(
+        const Vector3& sourcePosition,
+        const Vector3& targetPosition,
+        const Vector3& forward = -Vector3::UnitZ(),
+        const Vector3& up = Vector3::UnitY()
+    ) noexcept;
+
     /// @brief Construct a Quaternion with everything set to @c 0.
     constexpr Quaternion() = default;
 

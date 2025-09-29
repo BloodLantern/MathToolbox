@@ -68,7 +68,7 @@ namespace Calc
     [[nodiscard]]
 	MATH_TOOLBOX constexpr float_t Sign(float_t number) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::abs</c> function.
+	/// @brief	A constexpr version of the @c std::abs function.
 	///
 	/// @param number The number to get the absolute value of.
 	/// @returns The absolute value of @p number.
@@ -76,28 +76,28 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr T Abs(T number) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::abs</c> function for Vector2.
+	/// @brief	A constexpr version of the @c std::abs function for @c Vector2.
 	///
 	/// @param vector The vector to get the absolute value of.
 	/// @returns A Vector2 whose components are the absolute values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector2 Abs(Vector2 vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::abs</c> function for Vector3.
+	/// @brief	A constexpr version of the @c std::abs function for @c Vector3.
 	///
 	/// @param vector The vector to get the absolute value of.
 	/// @returns A Vector3 whose components are the absolute values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector3 Abs(const Vector3& vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::abs</c> function for Vector4.
+	/// @brief	A constexpr version of the @c std::abs function for @c Vector4.
 	///
 	/// @param vector The vector to get the absolute value of.
 	/// @returns A Vector4 whose components are the absolute values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector4 Abs(const Vector4& vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::round</c> function.
+	/// @brief	A constexpr version of the @c std::round function.
 	///
 	/// @param number The number to round to the nearest integer value.
 	/// @returns The rounded value of @p number.
@@ -105,28 +105,28 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr T Round(T number) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::round</c> function for Vector2.
+	/// @brief	A constexpr version of the @c std::round function for @c Vector2.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector2 whose components are the rounded values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector2 Round(Vector2 vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::round</c> function for Vector3.
+	/// @brief	A constexpr version of the @c std::round function for @c Vector3.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector3 whose components are the rounded values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector3 Round(const Vector3& vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::round</c> function for Vector4.
+	/// @brief	A constexpr version of the @c std::round function for @c Vector4.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector4 whose components are the rounded values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector4 Round(const Vector4& vector) noexcept;
 
-    /// @brief	A constexpr version of the <c>std::floor</c> function.
+    /// @brief	A constexpr version of the @c std::floor function.
     ///
     /// @param number The number to floor.
     /// @returns The floor value of @p number.
@@ -134,28 +134,28 @@ namespace Calc
     [[nodiscard]]
 	MATH_TOOLBOX constexpr T Floor(T number) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::floor</c> function for Vector2.
+	/// @brief	A constexpr version of the @c std::floor function for @c Vector2.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector2 whose components are the floored values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector2 Floor(Vector2 vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::floor</c> function for Vector3.
+	/// @brief	A constexpr version of the @c std::floor function for @c Vector3.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector3 whose components are the floored values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector3 Floor(const Vector3& vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::floor</c> function for Vector4.
+	/// @brief	A constexpr version of the @c std::floor function for @c Vector4.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector4 whose components are the floored values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector4 Floor(const Vector4& vector) noexcept;
 
-    /// @brief	A constexpr version of the <c>std::ceil</c> function.
+    /// @brief	A constexpr version of the @c std::ceil function.
     ///
     /// @param number The number to ceil.
     /// @returns The ceil value of @p number.
@@ -163,28 +163,28 @@ namespace Calc
     [[nodiscard]]
 	MATH_TOOLBOX constexpr T Ceil(T number) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::ceil</c> function for Vector2.
+	/// @brief	A constexpr version of the @c std::ceil function for @c Vector2.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector2 whose components are the ceiled values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector2 Ceil(Vector2 vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::ceil</c> function for Vector3.
+	/// @brief	A constexpr version of the @c std::ceil function for @c Vector3.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector3 whose components are the ceiled values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector3 Ceil(const Vector3& vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::ceil</c> function for Vector4.
+	/// @brief	A constexpr version of the @c std::ceil function for @c Vector4.
 	///
 	/// @param vector The vector to round to the nearest integer value.
 	/// @returns A Vector4 whose components are the ceiled values of @p vector.
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector4 Ceil(const Vector4& vector) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::clamp</c> function.
+	/// @brief	A constexpr version of the @c std::clamp function.
 	///
 	/// @param number The number to clamp between two values.
 	/// @param min The minimum value.
@@ -194,7 +194,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr T Clamp(T number, T min, T max) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::clamp</c> function for Vector2.
+	/// @brief	A constexpr version of the @c std::clamp function for @c Vector2.
 	///
 	/// @param vector The vector to clamp between two positions.
 	/// @param min The minimum position.
@@ -203,7 +203,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector2 Clamp(Vector2 vector, Vector2 min, Vector2 max) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::clamp</c> function for Vector3.
+	/// @brief	A constexpr version of the @c std::clamp function for @c Vector3.
 	///
 	/// @param vector The vector to clamp between two positions.
 	/// @param min The minimum position.
@@ -212,7 +212,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector3 Clamp(const Vector3& vector, const Vector3& min, const Vector3& max) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::clamp</c> function for Vector4.
+	/// @brief	A constexpr version of the @c std::clamp function for @c Vector4.
 	///
 	/// @param vector The vector to clamp between two positions.
 	/// @param min The minimum position.
@@ -221,7 +221,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr Vector4 Clamp(const Vector4& vector, const Vector4& min, const Vector4& max) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::fmodf</c> function.
+	/// @brief	A constexpr version of the @c std::fmodf function.
 	///
 	/// @param a The left-hand side of the modulo.
 	/// @param b The right-hand side of the modulo.
@@ -230,7 +230,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr T Modulo(T a, T b) noexcept;
 
-	/// @brief	A constexpr version of the <c>std::isnan</c> function.
+	/// @brief	A constexpr version of the @c std::isnan function.
 	///
 	/// @param value The floating-point value to check.
 	/// @returns @c true if @p value is NaN, @c false otherwise.
@@ -291,14 +291,14 @@ namespace Calc
 		float_t newMax = 1.f
 	);
 
-    /// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <see cref="Calc::Zero"/>.
+    /// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than @c Calc::Zero.
     ///
     /// @param value The value to check.
     /// @returns Whether the value is considered to be zero.
     [[nodiscard]]
     MATH_TOOLBOX constexpr bool_t IsZero(float_t value) noexcept;
 
-    /// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than <paramref name="zero"/>.
+    /// @brief Checks if a value is less than what is considered to be zero, e.g. if its absolute value is smaller than @p zero.
     ///
     /// @param value The value to check.
     /// @param zero The value under which a number is considered to be zero.
@@ -306,14 +306,14 @@ namespace Calc
     [[nodiscard]]
     MATH_TOOLBOX constexpr bool_t IsZero(float_t value, float_t zero) noexcept;
 
-    /// @brief If a value is considered zero using IsZero(float_t), returns 0. Otherwise, returns the given value.
+    /// @brief If a value is considered zero using @c IsZero(), returns 0. Otherwise, returns the given value.
     ///
     /// @param value The value to check.
     /// @returns Whether the value is considered to be zero.
     [[nodiscard]]
     MATH_TOOLBOX constexpr float_t MakeZero(float_t value) noexcept;
 
-    /// @brief If a value is considered zero using IsZero(float_t, float_t), returns 0. Otherwise, returns the given value.
+    /// @brief If a value is considered zero using @c IsZero(), returns 0. Otherwise, returns the given value.
     ///
     /// @param value The value to check.
     /// @param zero The value under which a number is considered to be zero.
@@ -329,7 +329,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr bool_t Equals(float_t a, float_t b) noexcept;
 
-	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// @brief Checks if two values are considered equal using @c IsZero().
 	///
 	/// @param a The first value.
 	/// @param b The second value.
@@ -337,7 +337,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr bool_t Equals(Vector2 a, Vector2 b) noexcept;
 
-	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// @brief Checks if two values are considered equal using @c IsZero().
 	///
 	/// @param a The first value.
 	/// @param b The second value.
@@ -345,7 +345,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr bool_t Equals(const Vector3& a, const Vector3& b) noexcept;
 
-	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// @brief Checks if two values are considered equal using @c IsZero().
 	///
 	/// @param a The first value.
 	/// @param b The second value.
@@ -353,7 +353,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX constexpr bool_t Equals(const Vector4& a, const Vector4& b) noexcept;
 
-	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// @brief Checks if two values are considered equal using @c IsZero().
 	///
 	/// @param a The first value.
 	/// @param b The second value.
@@ -361,7 +361,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX bool_t Equals(const Matrix2& a, const Matrix2& b) noexcept;
 
-	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// @brief Checks if two values are considered equal using @c IsZero().
 	///
 	/// @param a The first value.
 	/// @param b The second value.
@@ -369,7 +369,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX bool_t Equals(const Matrix3& a, const Matrix3& b) noexcept;
 
-	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// @brief Checks if two values are considered equal using @c IsZero().
 	///
 	/// @param a The first value.
 	/// @param b The second value.
@@ -377,7 +377,7 @@ namespace Calc
 	[[nodiscard]]
 	MATH_TOOLBOX bool_t Equals(const Matrix& a, const Matrix& b) noexcept;
 
-	/// @brief Checks if two values are considered equal using @ref IsZero(float_t).
+	/// @brief Checks if two values are considered equal using @c IsZero().
 	///
 	/// @param a The first value.
 	/// @param b The second value.

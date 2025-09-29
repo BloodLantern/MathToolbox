@@ -217,6 +217,22 @@ void Quaternion::Slerp(const Quaternion& value, const Quaternion& target, const 
 	result->W() = s1 * value.W() + s2 * target.W();
 }
 
+Quaternion Quaternion::LookAt(const Vector3& sourcePosition, const Vector3& targetPosition, const Vector3& forward, const Vector3& up) noexcept
+{
+	const Vector3 targetForward = (targetPosition - sourcePosition).Normalized();
+
+	const float_t dot = Vector3::Dot(forward, targetForward);
+
+	if (Calc::IsZero(dot + 1.f))
+		return Quaternion{up.x, up.y, up.z, Calc::Pi};
+	if (Calc::IsZero(dot - 1.f))
+		return Identity();
+
+	const float_t angle = std::acos(dot);
+	const Vector3 axis = Vector3::Cross(forward, targetForward);
+	return FromAxisAngle(axis.Normalized(), angle);
+}
+
 Quaternion Quaternion::Normalized() const noexcept
 {
 	const float_t length = Length();
