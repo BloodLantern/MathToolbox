@@ -91,6 +91,14 @@ struct MATH_TOOLBOX Vector2
     [[nodiscard]]
     float_t Length() const noexcept;
 
+    /// @brief Creates a rescaled version of this Vector2.
+    ///
+    /// @param newLength The new length to give to the Vector2.
+    ///
+    /// @see Length
+    [[nodiscard]]
+    Vector2 Rescaled(float_t newLength) const noexcept;
+
     /// @brief Returns the squared length of the vector.
     [[nodiscard]]
     constexpr float_t SquaredLength() const noexcept;

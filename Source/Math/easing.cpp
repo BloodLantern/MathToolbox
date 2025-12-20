@@ -24,11 +24,19 @@ float_t Easing::ExpoIn(const float_t t)
 
 float_t Easing::ExpoOut(const float_t t)
 {
-    return 1.f - std::pow(2.f, -8.f * t);
+    if (t <= 0.f)
+        return 0.f;
+
+    return t >= 1.f ? 1.f : 1.f - std::pow(2.f, -8.f * t);
 }
 
 float_t Easing::ExpoInOut(const float_t t)
 {
+    if (t == 0.f)
+        return 0.f;
+    if (t == 1.f)
+        return 1.f;
+
     if (t < 0.5f)
         return (std::pow(2.f, 16.f * t) - 1.f) / 510.f;
 

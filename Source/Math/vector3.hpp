@@ -124,7 +124,7 @@ struct MATH_TOOLBOX Vector3
     ///
     /// @see Length
     [[nodiscard]]
-    Vector3 Rescaled(float_t newLength) noexcept;
+    Vector3 Rescaled(float_t newLength) const noexcept;
 
 	/// @brief Returns the squared length of the vector.
 	[[nodiscard]]

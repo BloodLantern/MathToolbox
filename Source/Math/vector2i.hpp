@@ -240,6 +240,9 @@ constexpr Vector2i& operator*=(Vector2i& a, const Vector2i b) noexcept { return 
 /// @brief Multiplies a Vector2i by a @p factor according to @ref operator*(const Vector2i, const int32_t), placing the result in @p v.
 constexpr Vector2i& operator*=(Vector2i& v, const int32_t factor) noexcept { return v = v * factor; }
 
+/// @brief Divides a Vector2i by a @p factor according to @ref operator/(const Vector2i, const int32_t), placing the result in @p v.
+constexpr Vector2i& operator/=(Vector2i& v, const int32_t factor) noexcept { return v = v / factor; }
+
 /// @brief Checks if two Vector2i are considered equal using @c Calc::Equals.
 [[nodiscard]]
 constexpr bool_t operator==(const Vector2i a, const Vector2i b) noexcept { return a.x == b.x && a.y == b.y; }

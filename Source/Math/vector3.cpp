@@ -62,7 +62,7 @@ Vector3::operator Vector2() const noexcept
 	return Vector2(x, y);
 }
 
-Vector3 Vector3::Rescaled(float_t newLength) noexcept
+Vector3 Vector3::Rescaled(const float_t newLength) const noexcept
 {
     return *this * newLength / Length();
 }

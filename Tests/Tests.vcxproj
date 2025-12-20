@@ -32,7 +32,6 @@
       <PreprocessorDefinitions>X64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);MATH_NO_DLL</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>..\Source</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -47,7 +46,6 @@
       <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
       <PreprocessorDefinitions>X64;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);MATH_NO_DLL</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\Source</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -61,7 +59,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="test.cpp" />
+    <ClCompile Include="TestCalc.cpp" />
+    <ClCompile Include="TestEasing.cpp" />
+    <ClCompile Include="TestMatrix.cpp" />
+    <ClCompile Include="TestMatrix2.cpp" />
+    <ClCompile Include="TestMatrix3.cpp" />
+    <ClCompile Include="TestQuaternion.cpp" />
+    <ClCompile Include="TestVector2.cpp" />
+    <ClCompile Include="TestVector2i.cpp" />
+    <ClCompile Include="TestVector3.cpp" />
+    <ClCompile Include="TestVector4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

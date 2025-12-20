@@ -260,9 +260,13 @@ constexpr float_t Easing::CubicOut(float_t t)
 
 constexpr float_t Easing::CubicInOut(const float_t t)
 {
-    const float_t t2 = t - 1;
-    const float_t t3 = t2 - 1;
-    return t < 0.5f ? 4.f * t * t * t : 1.f + t2 * (2.f * t3) * (2.f * t3);
+    if (t < 0.5f)
+    {
+        return 4.f * t * t * t;
+    }
+
+    const float_t t2 = t - 1.f;
+    return 1.f + 4.f * t2 * t2 * t2;
 }
 
 constexpr float_t Easing::QuartIn(float_t t)

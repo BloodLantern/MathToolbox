@@ -12,6 +12,11 @@ float_t Vector2::Length() const noexcept
 	return std::sqrt(SquaredLength());
 }
 
+Vector2 Vector2::Rescaled(const float_t newLength) const noexcept
+{
+    return *this * newLength / Length();
+}
+
 Vector2 Vector2::Normalized() const noexcept
 {
 	const float_t length = Length();
