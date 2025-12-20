@@ -485,7 +485,7 @@ constexpr T Calc::Modulo(T a, T b) noexcept { return a - static_cast<float_t>(st
 template <std::floating_point T>
 constexpr bool_t Calc::IsNan(T value) noexcept
 {
-	return value == std::numeric_limits<T>::quiet_NaN() || value == std::numeric_limits<T>::signaling_NaN();
+	return std::isnan(value);
 }
 
 // Undef windows macro to be able to use std::min without conflicts
