@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Static", "Static\Static.vcx
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Math", "Math", "{4F003A30-9427-4336-B7EE-D373AB370A13}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Source", "Source\Source.vcxitems", "{A9351A4B-2C27-402C-9697-4BA98B624BB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -26,23 +28,31 @@ Global
 		{C5C03599-2A6C-4A2D-BA9F-A644A49294CB}.Release|x64.Build.0 = Release|x64
 		{E75E8403-3980-4AF2-B3BE-549F6D0DF3BE}.Debug|x64.ActiveCfg = Debug|x64
 		{E75E8403-3980-4AF2-B3BE-549F6D0DF3BE}.Debug|x64.Build.0 = Debug|x64
+		{E75E8403-3980-4AF2-B3BE-549F6D0DF3BE}.Generate Assembly|x64.ActiveCfg = Release|x64
+		{E75E8403-3980-4AF2-B3BE-549F6D0DF3BE}.Generate Assembly|x64.Build.0 = Release|x64
 		{E75E8403-3980-4AF2-B3BE-549F6D0DF3BE}.Release|x64.ActiveCfg = Release|x64
 		{E75E8403-3980-4AF2-B3BE-549F6D0DF3BE}.Release|x64.Build.0 = Release|x64
+		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Debug|x64.ActiveCfg = Debug|x64
+		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Debug|x64.Build.0 = Debug|x64
 		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Generate Assembly|x64.ActiveCfg = Debug|x64
 		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Generate Assembly|x64.Build.0 = Debug|x64
 		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Release|x64.ActiveCfg = Release|x64
 		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Release|x64.Build.0 = Release|x64
-		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Debug|x64.ActiveCfg = Debug|x64
-		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C5C03599-2A6C-4A2D-BA9F-A644A49294CB} = {4F003A30-9427-4336-B7EE-D373AB370A13}
+		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE} = {4F003A30-9427-4336-B7EE-D373AB370A13}
+		{A9351A4B-2C27-402C-9697-4BA98B624BB0} = {4F003A30-9427-4336-B7EE-D373AB370A13}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0636A7FE-47F5-4902-8441-77FA552DE382}
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{44DFCBFA-95A8-49DB-9329-8BB3759E46BE} = {4F003A30-9427-4336-B7EE-D373AB370A13}
-		{C5C03599-2A6C-4A2D-BA9F-A644A49294CB} = {4F003A30-9427-4336-B7EE-D373AB370A13}
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\Source.vcxitems*{44dfcbfa-95a8-49db-9329-8bb3759e46be}*SharedItemsImports = 4
+		Source\Source.vcxitems*{a9351a4b-2c27-402c-9697-4ba98b624bb0}*SharedItemsImports = 9
+		Source\Source.vcxitems*{c5c03599-2a6c-4a2d-ba9f-a644a49294cb}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

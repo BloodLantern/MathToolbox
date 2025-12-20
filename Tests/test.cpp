@@ -2,7 +2,7 @@
 
 // ReSharper disable CppNoDiscardExpression
 
-#include "Math/math.hpp"
+#include <Math/math.hpp>
 
 #pragma warning(push)
 #pragma warning(disable: 4834) // discarding return value of function with 'nodiscard' attribute

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{a9351a4b-2c27-402c-9697-4ba98b624bb0}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\calc.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\easing.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\matrix.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\matrix2.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\matrix3.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\quaternion.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\vector2.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\vector2i.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\vector3.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Math\vector4.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\calc.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\core.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\easing.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\math.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\matrix.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\matrix2.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\matrix3.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\quaternion.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\vector2.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\vector2i.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\vector3.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\vector4.hpp" />
+  </ItemGroup>
+</Project>
